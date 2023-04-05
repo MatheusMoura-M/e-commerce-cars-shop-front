@@ -3,7 +3,6 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyle = createGlobalStyle`
 
     :root{
-
         --brand-1: #4529E6;
         --brand-2: #5126EA;
         --brand-3: #B0A6F0;
@@ -34,6 +33,7 @@ const GlobalStyle = createGlobalStyle`
         --random-12: #30007D;
 
         --font: 'Lexend', sans-serif;
+        --fontInter: 'Inter', sans-serif;
 
     }
 
