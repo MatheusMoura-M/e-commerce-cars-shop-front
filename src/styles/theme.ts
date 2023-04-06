@@ -76,7 +76,7 @@ const custonTheme = extendTheme({
     none: "0",
     sm: "0.125rem",
     base: "0.25rem",
-    md: "0.375rem",
+    md: "0.575rem",
     lg: "0.5rem",
     xl: "0.75rem",
     "2xl": "1rem",
@@ -97,30 +97,44 @@ const custonTheme = extendTheme({
           color: "#FFFFFF",
         },
         grey0: {
+          w: "120px",
+          h: "48px",
           bg: "#0B0D0D",
           color: "#FFFFFF",
           _hover: {
             bg: "#212529",
             color: "#FFFFFF",
+            transition: "0.5s",
           },
+          transition: "0.5s",
         },
-        grey2: {
+        grey1: {
+          w: "120px",
+          h: "48px",
           bg: "#DEE2E6",
           color: "#212529",
           _hover: {
             bg: "#CED4DA",
             color: "#212529",
+            transition: "0.5s",
           },
+          transition: "0.5s",
         },
-        grey4: {
+        grey2: {
+          w: "120px",
+          h: "48px",
           bg: "#CED4DA",
           color: "#FFFFFF",
         },
-        grey5: {
+        grey3: {
+          w: "120px",
+          h: "48px",
           bg: "#FDFDFD",
           color: "#212529",
         },
-        grey6: {
+        grey4: {
+          w: "120px",
+          h: "48px",
           bg: "transparent",
           border: "2px solid",
           borderColor: "#0B0D0D",
@@ -128,9 +142,13 @@ const custonTheme = extendTheme({
           _hover: {
             bg: "#212529",
             color: "#FDFDFD",
+            transition: "0.5s",
           },
+          transition: "0.5s",
         },
-        grey7: {
+        grey5: {
+          w: "120px",
+          h: "48px",
           bg: "transparent",
           border: "2px solid",
           borderColor: "#ADB5BD",
@@ -138,17 +156,24 @@ const custonTheme = extendTheme({
           _hover: {
             bg: "#212529",
             color: "#FDFDFD",
+            transition: "0.8s",
           },
+          transition: "0.8s",
         },
-        grey8: {
+        grey6: {
+          w: "120px",
+          h: "48px",
           bg: "transparent",
           color: "#0B0D0D",
           _hover: {
-            bg: "#212529",
-            color: "#0B0D0D",
+            bg: "#F1F3F5",
+            transition: "0.5s",
           },
+          transition: "0.5s",
         },
         invisible: {
+          w: "120px",
+          h: "48px",
           bg: "transparent",
           color: "#FDFDFD",
           border: "2px solid",
@@ -156,37 +181,55 @@ const custonTheme = extendTheme({
           _hover: {
             bg: "#FDFDFD",
             color: "#212529",
+            transition: "0.5s",
           },
+          transition: "0.5s",
         },
         alert1: {
+          w: "120px",
+          h: "48px",
           bg: "#FFE5E5",
           color: "#CD2B31",
           _hover: {
             bg: "#FDD8D8",
             color: "#CD2B31",
+            transition: "0.5s",
           },
+          transition: "0.5s",
         },
         sucess1: {
+          w: "120px",
+          h: "48px",
           bg: "#DDF3E4",
           color: "#18794E",
           _hover: {
             bg: "#DDF3E4",
             color: "#18794E",
+            transition: "0.5s",
           },
+          transition: "0.5s",
         },
         brand1: {
+          w: "120px",
+          h: "48px",
           bg: "#4529E6",
           color: "#FFFFFF",
           _hover: {
             bg: "#5126EA",
             color: "#FFFFFF",
+            transition: "0.5s",
           },
+          transition: "0.5s",
         },
         brand2: {
+          w: "120px",
+          h: "48px",
           bg: "#EDEAFD",
           color: "#4529E6",
         },
         brand3: {
+          w: "120px",
+          h: "48px",
           bg: "transparent",
           border: "2px solid",
           borderColor: "#4529E6",
@@ -196,9 +239,13 @@ const custonTheme = extendTheme({
             border: "2px solid",
             borderColor: "#4529E6",
             color: "#4529E6",
+            transition: "0.5s",
           },
+          transition: "0.5s",
         },
         brand6: {
+          w: "120px",
+          h: "48px",
           bg: "#B0A6F0",
           color: "#EDEAFD",
         },

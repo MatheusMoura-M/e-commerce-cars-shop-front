@@ -6,9 +6,6 @@ export const Home = () => {
   return (
     <Box>
       <Header />
-      <FormControl as={"form"}>
-        <Button variant={"grey6"}>asd</Button>
-      </FormControl>
     </Box>
   );
 };
