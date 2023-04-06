@@ -72,12 +72,11 @@ const custonTheme = extendTheme({
     extrabold: 800,
     black: 900,
   },
-
   radii: {
     none: "0",
     sm: "0.125rem",
     base: "0.25rem",
-    md: "0.375rem",
+    md: "0.575rem",
     lg: "0.5rem",
     xl: "0.75rem",
     "2xl": "1rem",
@@ -98,102 +97,155 @@ const custonTheme = extendTheme({
           color: "#FFFFFF",
         },
         grey0: {
+          w: "120px",
+          h: "48px",
           bg: "#0B0D0D",
           color: "#FFFFFF",
+          _hover: {
+            bg: "#212529",
+            color: "#FFFFFF",
+            transition: "0.5s",
+          },
+          transition: "0.5s",
         },
         grey1: {
-          bg: "#212529",
-          color: "#FFFFFF",
-        },
-        grey2: {
+          w: "120px",
+          h: "48px",
           bg: "#DEE2E6",
           color: "#212529",
+          _hover: {
+            bg: "#CED4DA",
+            color: "#212529",
+            transition: "0.5s",
+          },
+          transition: "0.5s",
         },
-        grey3: {
-          bg: "#CED4DA",
-          color: "#212529",
-        },
-        grey4: {
+        grey2: {
+          w: "120px",
+          h: "48px",
           bg: "#CED4DA",
           color: "#FFFFFF",
         },
-        grey5: {
+        grey3: {
+          w: "120px",
+          h: "48px",
           bg: "#FDFDFD",
           color: "#212529",
         },
-        grey6: {
-          bg: "transparent",
-          color: "#FDFDFD",
-        },
-        grey7: {
+        grey4: {
+          w: "120px",
+          h: "48px",
           bg: "transparent",
           border: "2px solid",
           borderColor: "#0B0D0D",
           color: "#0B0D0D",
+          _hover: {
+            bg: "#212529",
+            color: "#FDFDFD",
+            transition: "0.5s",
+          },
+          transition: "0.5s",
         },
-        grey8: {
-          bg: "#212529",
-          color: "#FDFDFD",
-        },
-        grey9: {
+        grey5: {
+          w: "120px",
+          h: "48px",
           bg: "transparent",
           border: "2px solid",
           borderColor: "#ADB5BD",
           color: "#0B0D0D",
+          _hover: {
+            bg: "#212529",
+            color: "#FDFDFD",
+            transition: "0.8s",
+          },
+          transition: "0.8s",
         },
-        grey10: {
-          bg: "#212529",
-          color: "#FDFDFD",
-        },
-        grey11: {
+        grey6: {
+          w: "120px",
+          h: "48px",
           bg: "transparent",
           color: "#0B0D0D",
+          _hover: {
+            bg: "#F1F3F5",
+            transition: "0.5s",
+          },
+          transition: "0.5s",
         },
-        grey12: {
-          bg: "#212529",
-          color: "#0B0D0D",
+        invisible: {
+          w: "120px",
+          h: "48px",
+          bg: "transparent",
+          color: "#FDFDFD",
+          border: "2px solid",
+          borderColor: "#FDFDFD",
+          _hover: {
+            bg: "#FDFDFD",
+            color: "#212529",
+            transition: "0.5s",
+          },
+          transition: "0.5s",
         },
         alert1: {
+          w: "120px",
+          h: "48px",
           bg: "#FFE5E5",
           color: "#CD2B31",
-        },
-        alert2: {
-          bg: "#FDD8D8",
-          color: "#CD2B31",
+          _hover: {
+            bg: "#FDD8D8",
+            color: "#CD2B31",
+            transition: "0.5s",
+          },
+          transition: "0.5s",
         },
         sucess1: {
+          w: "120px",
+          h: "48px",
           bg: "#DDF3E4",
           color: "#18794E",
-        },
-        sucess2: {
-          bg: "#DDF3E4",
-          color: "#18794E",
+          _hover: {
+            bg: "#DDF3E4",
+            color: "#18794E",
+            transition: "0.5s",
+          },
+          transition: "0.5s",
         },
         brand1: {
+          w: "120px",
+          h: "48px",
           bg: "#4529E6",
           color: "#FFFFFF",
+          _hover: {
+            bg: "#5126EA",
+            color: "#FFFFFF",
+            transition: "0.5s",
+          },
+          transition: "0.5s",
         },
         brand2: {
-          bg: "#5126EA",
-          color: "#FFFFFF",
-        },
-        brand3: {
+          w: "120px",
+          h: "48px",
           bg: "#EDEAFD",
           color: "#4529E6",
         },
-        brand4: {
+        brand3: {
+          w: "120px",
+          h: "48px",
           bg: "transparent",
           border: "2px solid",
           borderColor: "#4529E6",
           color: "#4529E6",
-        },
-        brand5: {
-          bg: "#EDEAFD",
-          border: "2px solid",
-          borderColor: "#4529E6",
-          color: "#4529E6",
+          _hover: {
+            bg: "#EDEAFD",
+            border: "2px solid",
+            borderColor: "#4529E6",
+            color: "#4529E6",
+            transition: "0.5s",
+          },
+          transition: "0.5s",
         },
         brand6: {
+          w: "120px",
+          h: "48px",
           bg: "#B0A6F0",
           color: "#EDEAFD",
         },

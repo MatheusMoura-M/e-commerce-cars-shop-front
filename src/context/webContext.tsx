@@ -14,9 +14,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       justifyContent={"center"}
       color={"gray.200"}
       border={"1px solid"}
-      // onClick={
-      //   children === "Sair" ? () => logout("") : () => onGetClient("Client")
-      // }
       _hover={{
         color: "gray.800",
         transition: "0.2s",

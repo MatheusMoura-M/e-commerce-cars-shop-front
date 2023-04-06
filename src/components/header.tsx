@@ -41,7 +41,12 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
             h={"100%"}
           >
             {isLogged ? (
-              <HStack pl={"44px"} alignItems={"center"} gap={"0.5rem"}>
+              <HStack
+                display={{ base: "none", md: "flex" }}
+                pl={"44px"}
+                alignItems={"center"}
+                gap={"0.5rem"}
+              >
                 <Image width={45} src={imgPerfil} alt="Logo Header" />
                 <Text>Samuel Leão</Text>
               </HStack>
@@ -52,12 +57,10 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
                 justifyContent={"space-around"}
                 gap={"0.5rem"}
               >
-                <Button w={120} h={"48px"} variant={"grey11"} color={"grey.2"}>
+                <Button variant={"grey6"} color={"grey.2"}>
                   Login
                 </Button>
-                <Button w={120} h={"48px"} variant={"grey9"}>
-                  Register
-                </Button>
+                <Button variant={"grey5"}>Register</Button>
               </HStack>
             )}
             {/* <Menu>
