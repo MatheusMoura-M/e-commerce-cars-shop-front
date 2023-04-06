@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Image,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { Button, Container, Flex, Image, Stack, Text } from "@chakra-ui/react";
 import LogoFooter from "../assets/LogoFooter.svg";
 import { ChevronUpIcon } from "@chakra-ui/icons";
 
