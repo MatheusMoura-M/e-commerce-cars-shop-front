@@ -72,7 +72,6 @@ const custonTheme = extendTheme({
     extrabold: 800,
     black: 900,
   },
-
   radii: {
     none: "0",
     sm: "0.125rem",
@@ -100,18 +99,18 @@ const custonTheme = extendTheme({
         grey0: {
           bg: "#0B0D0D",
           color: "#FFFFFF",
-        },
-        grey1: {
-          bg: "#212529",
-          color: "#FFFFFF",
+          _hover: {
+            bg: "#212529",
+            color: "#FFFFFF",
+          },
         },
         grey2: {
           bg: "#DEE2E6",
           color: "#212529",
-        },
-        grey3: {
-          bg: "#CED4DA",
-          color: "#212529",
+          _hover: {
+            bg: "#CED4DA",
+            color: "#212529",
+          },
         },
         grey4: {
           bg: "#CED4DA",
@@ -123,75 +122,81 @@ const custonTheme = extendTheme({
         },
         grey6: {
           bg: "transparent",
-          color: "#FDFDFD",
+          border: "2px solid",
+          borderColor: "#0B0D0D",
+          color: "#0B0D0D",
+          _hover: {
+            bg: "#212529",
+            color: "#FDFDFD",
+          },
         },
         grey7: {
           bg: "transparent",
           border: "2px solid",
-          borderColor: "#0B0D0D",
-          color: "#0B0D0D",
-        },
-        grey8: {
-          bg: "#212529",
-          color: "#FDFDFD",
-        },
-        grey9: {
-          bg: "transparent",
-          border: "2px solid",
           borderColor: "#ADB5BD",
           color: "#0B0D0D",
+          _hover: {
+            bg: "#212529",
+            color: "#FDFDFD",
+          },
         },
-        grey10: {
-          bg: "#212529",
-          color: "#FDFDFD",
-        },
-        grey11: {
+        grey8: {
           bg: "transparent",
           color: "#0B0D0D",
+          _hover: {
+            bg: "#212529",
+            color: "#0B0D0D",
+          },
         },
-        grey12: {
-          bg: "#212529",
-          color: "#0B0D0D",
+        invisible: {
+          bg: "transparent",
+          color: "#FDFDFD",
+          border: "2px solid",
+          borderColor: "#FDFDFD",
+          _hover: {
+            bg: "#FDFDFD",
+            color: "#212529",
+          },
         },
         alert1: {
           bg: "#FFE5E5",
           color: "#CD2B31",
-        },
-        alert2: {
-          bg: "#FDD8D8",
-          color: "#CD2B31",
+          _hover: {
+            bg: "#FDD8D8",
+            color: "#CD2B31",
+          },
         },
         sucess1: {
           bg: "#DDF3E4",
           color: "#18794E",
-        },
-        sucess2: {
-          bg: "#DDF3E4",
-          color: "#18794E",
+          _hover: {
+            bg: "#DDF3E4",
+            color: "#18794E",
+          },
         },
         brand1: {
           bg: "#4529E6",
           color: "#FFFFFF",
+          _hover: {
+            bg: "#5126EA",
+            color: "#FFFFFF",
+          },
         },
         brand2: {
-          bg: "#5126EA",
-          color: "#FFFFFF",
-        },
-        brand3: {
           bg: "#EDEAFD",
           color: "#4529E6",
         },
-        brand4: {
+        brand3: {
           bg: "transparent",
           border: "2px solid",
           borderColor: "#4529E6",
           color: "#4529E6",
-        },
-        brand5: {
-          bg: "#EDEAFD",
-          border: "2px solid",
-          borderColor: "#4529E6",
-          color: "#4529E6",
+          _hover: {
+            bg: "#EDEAFD",
+            border: "2px solid",
+            borderColor: "#4529E6",
+            color: "#4529E6",
+          },
         },
         brand6: {
           bg: "#B0A6F0",

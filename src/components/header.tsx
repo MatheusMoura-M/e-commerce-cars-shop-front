@@ -41,7 +41,12 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
             h={"100%"}
           >
             {isLogged ? (
-              <HStack pl={"44px"} alignItems={"center"} gap={"0.5rem"}>
+              <HStack
+                display={{ base: "none", md: "flex" }}
+                pl={"44px"}
+                alignItems={"center"}
+                gap={"0.5rem"}
+              >
                 <Image width={45} src={imgPerfil} alt="Logo Header" />
                 <Text>Samuel Leão</Text>
               </HStack>
