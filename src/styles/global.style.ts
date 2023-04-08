@@ -79,6 +79,7 @@ const GlobalStyle = createGlobalStyle`
         font: inherit;
         vertical-align: baseline;
         font-family: var(--font);
+        list-style: none;
     }
 
     article, aside, details, figcaption, figure, 
