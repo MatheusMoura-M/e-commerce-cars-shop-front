@@ -36,17 +36,42 @@ const CarCard = ({}) => {
               <span>Usuário</span>
             </div>
 
-            <div className="aboutKmYear-container">
-              <span>0 KM</span>
-              <span>2019</span>
-            </div>
-          </div>
-        </div>
+            <section className="container-information">
 
-        <span className="priceCar">R$ 00.000,00</span>
-      </section>
-    </LiCar>
-  );
+                <h3>Product title stays here - max 1 lineeeeeeeeee</h3>
+
+                <p>
+                   Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eaque itaque consequuntur sint libero molestiae in voluptates velit explicabo. Vel consequatur est exercitationem tempora deserunt possimus voluptatibus quidem! Illo, voluptas debitis.
+                </p>
+
+            </section>
+
+            <section className="container-plusInfromation">
+
+                <div className="plusInformation-containerUser">
+
+                    <div>
+                        <div className="user-container">
+                            <img src="src\assets\imgCardCar\user.svg" alt="imagem do usuário" />
+                            <span>Usuário</span>
+                        </div>
+
+                        <div className="aboutKmYear-container">
+                            <span>0 KM</span>
+                            <span>2019</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                    <span className="priceCar">R$ 00.000,00</span>
+
+            </section>
+
+        </LiCar>
+
+    )
+
 };
 
 export default CarCard;
