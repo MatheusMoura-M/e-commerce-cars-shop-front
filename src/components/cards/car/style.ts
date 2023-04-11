@@ -100,9 +100,9 @@ const LiCar = styled.li`
             text-overflow: ellipsis;
             overflow: hidden;
             width: 95%;
-        }
+          }
 
-        p{
+          p {
             margin-top: 16px;
             color: var(--grey-2);
 
@@ -117,7 +117,6 @@ const LiCar = styled.li`
         }
       }
     }
-
-`
-
-export default LiCar
+  }
+`;
+export default LiCar;

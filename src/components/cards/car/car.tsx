@@ -67,11 +67,12 @@ const CarCard = ({}) => {
                     <span className="priceCar">R$ 00.000,00</span>
 
             </section>
+        </div>
+      </section>
 
-        </LiCar>
+    </LiCar>
 
-    )
-
+  )
 };
 
 export default CarCard;
