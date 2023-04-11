@@ -18,8 +18,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         mb={"1.2rem"}
         pt={"1.2rem"}
         pb={"1rem"}
-        borderTop={"2px solid"}
-        borderTopColor={"grey.6"}
         _hover={{
           bg: "grey.8",
         }}
@@ -28,10 +26,26 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         {children}
       </MenuItem>
     ) : children === "Register" ? (
-      <MenuItem bg={"#FDFDFD"} mb={".5rem"}>
-        <Button variant={"grey5"} w={"100%"} py={"1rem"}>
-          {children}
-        </Button>
+      <MenuItem
+        alignSelf={"center"}
+        justifyContent={"center"}
+        bg={"transparent"}
+        color={"#0B0D0D"}
+        border={"2px solid"}
+        borderColor={"#ADB5BD"}
+        borderRadius={".3rem"}
+        mb={".5rem"}
+        py={"1rem"}
+        w={"90%"}
+        h={"48px"}
+        _hover={{
+          bg: "#212529",
+          color: "#FDFDFD",
+          transition: "0.8s",
+        }}
+        transition={"0.8s"}
+      >
+        {children}
       </MenuItem>
     ) : (
       <MenuItem
