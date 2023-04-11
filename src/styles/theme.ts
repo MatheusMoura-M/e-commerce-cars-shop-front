@@ -85,7 +85,7 @@ const custonTheme = extendTheme({
   styles: {
     global: {
       body: {
-        bg: "white",
+        bg: "#F7F7F7",
       },
     },
   },
@@ -95,6 +95,10 @@ const custonTheme = extendTheme({
         default: {
           bg: "#0B0D0D",
           color: "#FFFFFF",
+        },
+        hamburguer: {
+          bg: "transparent",
+          color: "#2C2C2C",
         },
         grey0: {
           w: "120px",

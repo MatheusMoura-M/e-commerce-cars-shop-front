@@ -14,6 +14,8 @@ export const Input = ({
   error = null,
   icon: Icon,
   label,
+  variant,
+  height,
   ...rest
 }: InputProps) => {
   return (
@@ -28,14 +30,18 @@ export const Input = ({
         )}
         <ChakraInput
           name={name}
-          bg={"gray.50"}
-          variant={"outline"}
+          bg={"transparent"}
+          border={"1px solid"}
+          borderColor={"grey.7"}
+          variant={variant}
           _hover={{
-            bgColor: "gray.100",
+            bg: "grey.8",
+            borderColor: "transparent",
           }}
-          _placeholder={{ color: "gray.300" }}
+          _placeholder={{ color: "grey.3" }}
           size={"lg"}
-          h={"60px"}
+          h={height}
+          focusBorderColor={"brand.2"}
           {...rest}
         ></ChakraInput>
 
