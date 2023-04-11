@@ -118,4 +118,6 @@ const LiCar = styled.li`
       }
     }
 
-export default LiCar;
+`
+
+export default LiCar
