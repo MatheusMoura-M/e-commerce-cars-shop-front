@@ -1,7 +1,6 @@
 import {
   Box,
   Flex,
-  Avatar,
   HStack,
   Button,
   Menu,
@@ -14,8 +13,9 @@ import imgLogo from "../assets/LogoHeader.svg";
 import imgPerfil from "../assets/ImgPerfil.svg";
 import { IHeaderProps } from "../@types";
 import { useAuth } from "../context/webContext";
+import { HamburgerIcon } from "@chakra-ui/icons";
 
-const BtnDefault = ["Perfil", "Sair"];
+const BtnDefault = ["Carros", "Motos", "Leilão", "Login", "Register"];
 
 const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
   const { MenuHamburguer } = useAuth();
@@ -23,7 +23,7 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
   return (
     <>
       <Box
-        bg={"grey.10"}
+        bg={"#FDFDFD"}
         px={"60px"}
         h={"80px"}
         borderBottom={"2px solid"}
@@ -35,7 +35,7 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
           </Box>
           <Flex
             borderLeft={"2px solid"}
-            borderColor={"grey.6"}
+            borderColor={{ base: "transparent", md: "grey.6" }}
             alignItems={"center"}
             gap={"1rem"}
             h={"100%"}
@@ -52,6 +52,7 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
               </HStack>
             ) : (
               <HStack
+                display={{ base: "none", md: "flex" }}
                 w={270}
                 alignItems={"center"}
                 justifyContent={"space-around"}
@@ -63,31 +64,34 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
                 <Button variant={"grey5"}>Register</Button>
               </HStack>
             )}
-            {/* <Menu>
-                <MenuButton
-                  as={Button}
-                  rounded={"full"}
-                  variant={"link"}
-                  cursor={"pointer"}
-                  minW={0}
-                >
-                  <Avatar size={"sm"} />
-                </MenuButton>
-                <MenuList
-                  display={{ base: "none", md: "flex" }}
-                  flexDirection={"column"}
-                  maxH={"max-content"}
-                  _hover={{
-                    color: "white",
-                  }}
-                  transition="0.2s"
-                  minW={"100px"}
-                >
-                  {BtnDefault.map((link) => (
-                    <MenuHamburguer key={link}>{link}</MenuHamburguer>
-                  ))}
-                </MenuList>
-              </Menu> */}
+            <Menu>
+              <MenuButton
+                display={{ base: "flex", md: "none" }}
+                as={Button}
+                rounded={"full"}
+                variant={"hamburguer"}
+                cursor={"pointer"}
+                minW={0}
+              >
+                <HamburgerIcon />
+              </MenuButton>
+              <MenuList
+                // display={{ base: "none", md: "flex" }}
+                flexDirection={"column"}
+                alignItems={"flex-start"}
+                justifyContent={"flex-start"}
+                borderTopRadius={"0rem"}
+                borderBottomRadius={".5rem"}
+                maxH={"max-content"}
+                minW={"335px"}
+                bg={"#FDFDFD"}
+                mt={".8rem"}
+              >
+                {BtnDefault.map((link) => (
+                  <MenuHamburguer key={link}>{link}</MenuHamburguer>
+                ))}
+              </MenuList>
+            </Menu>
           </Flex>
         </Flex>
       </Box>
