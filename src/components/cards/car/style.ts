@@ -95,6 +95,17 @@ const LiCar = styled.li`
             color: var(--brand-1);
             background-color: var(--brand-4);
             font-weight: 600;
+            padding-top: 20px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            width: 95%;
+        }
+
+        p{
+            margin-top: 16px;
+            color: var(--grey-2);
+
             font-size: 14px;
             padding: 5px 7px;
             border-radius: 2px;
@@ -107,12 +118,6 @@ const LiCar = styled.li`
       }
     }
 
-    .priceCar {
-      display: block;
-      font-weight: 600;
-      color: var(--grey-1);
-    }
-  }
-`;
+`
 
-export default LiCar;
+export default LiCar

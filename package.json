@@ -19,7 +19,7 @@
     "@hookform/resolvers": "^3.0.1",
     "@types/yup": "^0.32.0",
     "axios": "^1.3.4",
-    "framer-motion": "^10.10.0",
+    "framer-motion": "^10.11.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
