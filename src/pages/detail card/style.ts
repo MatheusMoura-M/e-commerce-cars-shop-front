@@ -8,9 +8,10 @@ const ContainerDetailCard = styled.section`
     #f1f3f5 31.26%,
     #f1f3f5 100%
   );
-  height: 100vh;
+  height: 100%;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 
   .aboutKmYear-container {
     span {

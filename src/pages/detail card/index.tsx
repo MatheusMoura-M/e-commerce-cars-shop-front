@@ -21,6 +21,7 @@ export const DetailCard = () => {
           minW={"100%"}
           justifyContent={"center"}
           gap={"46px"}
+          mb={"16px"}
         >
           <Flex
             as={"section"}
@@ -216,7 +217,7 @@ export const DetailCard = () => {
             <Flex
               bg={"grey.10"}
               h={"426px"}
-              w={"426px"}
+              w={"440px"}
               borderRadius={"4px"}
               alignItems={"center"}
               justifyContent={"center"}
@@ -258,6 +259,197 @@ export const DetailCard = () => {
             </Flex>
           </Flex>
         </Container>
+        <Flex
+          as={"section"}
+          w={"90%"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          mb={"33px"}
+        >
+          <Container
+            minW={"1240px"}
+            borderRadius={"4px"}
+            p={0}
+            m={0}
+            display={"flex"}
+          >
+            <Flex
+              bg={"grey.10"}
+              w={"752px"}
+              p={"36px 44px"}
+              flexDirection={"column"}
+              borderRadius={"4px"}
+            >
+              <Text
+                fontFamily={"lexend"}
+                color={"grey.1"}
+                fontWeight={600}
+                fontSize={"20px"}
+                mb={"24px"}
+              >
+                Comentários
+              </Text>
+              <Flex flexDirection={"column"} gap={"44px"}>
+                <Flex>
+                  <Flex flexDirection={"column"} gap={"12px"}>
+                    <Flex gap={"10px"} alignItems={"center"}>
+                      <Image
+                        src={imgPerfil2}
+                        alt="Imagem de perfil do usuário"
+                      />
+                      <Text
+                        as={"h3"}
+                        color={"grey.1"}
+                        fontFamily={"inter"}
+                        fontWeight={"500"}
+                        fontSize={"14px"}
+                      >
+                        Júlia Lima
+                      </Text>
+                      <Text
+                        as={"span"}
+                        fontSize={"12px"}
+                        fontFamily={"inter"}
+                        fontWeight={400}
+                        color={"grey.3"}
+                        mt={"3px"}
+                      >
+                        •
+                      </Text>
+                      <Text
+                        as={"span"}
+                        fontSize={"12px"}
+                        fontFamily={"inter"}
+                        fontWeight={400}
+                        color={"grey.3"}
+                        mt={"3px"}
+                      >
+                        há 3 dias
+                      </Text>
+                    </Flex>
+                    <Text
+                      as={"p"}
+                      fontFamily={"inter"}
+                      fontWeight={400}
+                      fontSize={"14px"}
+                      color={"grey.2"}
+                    >
+                      Lorem Ipsum is simply dummy text of the printing and
+                      typesetting industry. Lorem Ipsum has been the industry's
+                      standard dummy text ever since the 1500s, when an unknown
+                      printer took a galley of type and scrambled it to make a
+                      type specimen book.
+                    </Text>
+                  </Flex>
+                </Flex>
+                <Flex>
+                  <Flex flexDirection={"column"} gap={"12px"}>
+                    <Flex gap={"10px"} alignItems={"center"}>
+                      <Image
+                        src={imgPerfil1}
+                        alt="Imagem de perfil do usuário"
+                      />
+                      <Text
+                        as={"h3"}
+                        color={"grey.1"}
+                        fontFamily={"inter"}
+                        fontWeight={"500"}
+                        fontSize={"14px"}
+                      >
+                        Marcos Antônio
+                      </Text>
+                      <Text
+                        as={"span"}
+                        fontSize={"12px"}
+                        fontFamily={"inter"}
+                        fontWeight={400}
+                        color={"grey.3"}
+                        mt={"3px"}
+                      >
+                        •
+                      </Text>
+                      <Text
+                        as={"span"}
+                        fontSize={"12px"}
+                        fontFamily={"inter"}
+                        fontWeight={400}
+                        color={"grey.3"}
+                        mt={"3px"}
+                      >
+                        há 7 dias
+                      </Text>
+                    </Flex>
+                    <Text
+                      as={"p"}
+                      fontFamily={"inter"}
+                      fontWeight={400}
+                      fontSize={"14px"}
+                      color={"grey.2"}
+                    >
+                      Lorem Ipsum is simply dummy text of the printing and
+                      typesetting industry. Lorem Ipsum has been the industry's
+                      standard dummy text ever since the 1500s, when an unknown
+                      printer took a galley of type and scrambled it to make a
+                      type specimen book.
+                    </Text>
+                  </Flex>
+                </Flex>
+                <Flex>
+                  <Flex flexDirection={"column"} gap={"12px"}>
+                    <Flex gap={"10px"} alignItems={"center"}>
+                      <Image
+                        src={imgPerfil3}
+                        alt="Imagem de perfil do usuário"
+                      />
+                      <Text
+                        as={"h3"}
+                        color={"grey.1"}
+                        fontFamily={"inter"}
+                        fontWeight={"500"}
+                        fontSize={"14px"}
+                      >
+                        Camila Silva
+                      </Text>
+                      <Text
+                        as={"span"}
+                        fontSize={"12px"}
+                        fontFamily={"inter"}
+                        fontWeight={400}
+                        color={"grey.3"}
+                        mt={"3px"}
+                      >
+                        •
+                      </Text>
+                      <Text
+                        as={"span"}
+                        fontSize={"12px"}
+                        fontFamily={"inter"}
+                        fontWeight={400}
+                        color={"grey.3"}
+                        mt={"3px"}
+                      >
+                        há 1 mês
+                      </Text>
+                    </Flex>
+                    <Text
+                      as={"p"}
+                      fontFamily={"inter"}
+                      fontWeight={400}
+                      fontSize={"14px"}
+                      color={"grey.2"}
+                    >
+                      Lorem Ipsum is simply dummy text of the printing and
+                      typesetting industry. Lorem Ipsum has been the industry's
+                      standard dummy text ever since the 1500s, when an unknown
+                      printer took a galley of type and scrambled it to make a
+                      type specimen book.
+                    </Text>
+                  </Flex>
+                </Flex>
+              </Flex>
+            </Flex>
+          </Container>
+        </Flex>
       </ContainerDetailCard>
     </>
   );
