@@ -43,19 +43,6 @@ const GlobalStyle = createGlobalStyle`
         --random-12: #30007D;
 
         --font: 'Lexend', sans-serif;
-
-        --font-heading-1-700: 700;
-        --font-heading-2-600: 600;
-        --font-heading-3-600: 600;
-        --font-heading-3-500: 500;
-        --font-heading-4-600: 600;
-        --font-heading-4-500: 500;
-        --font-heading-5-600: 600;
-        --font-heading-5-500: 500;
-        --font-heading-6-600: 600;
-        --font-heading-6-500: 500;
-        --font-heading-7-600: 600;
-        --font-heading-7-500: 500;
         
     }
 

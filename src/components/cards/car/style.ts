@@ -48,6 +48,10 @@ const LiCar = styled.li`
     h3 {
       font-weight: 600;
       padding-top: 20px;
+      width: 97%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     p {
@@ -95,11 +99,13 @@ const LiCar = styled.li`
             color: var(--brand-1);
             background-color: var(--brand-4);
             font-weight: 600;
-            padding-top: 20px;
+            padding: 5px 10px;
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
             width: 95%;
+            border-radius: 5px;
+            font-size: 14px;
         }
 
         p{
@@ -117,7 +123,6 @@ const LiCar = styled.li`
         }
       }
     }
-
+  }
 `
-
-export default LiCar
+export default LiCar;

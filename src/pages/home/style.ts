@@ -3,12 +3,11 @@ import styled from "styled-components";
 export const ContainerHomePage = styled.div`
 
     @media (min-width: 1450px){
-        width: 100vw;
+        width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
     }
-
 
 `
 
