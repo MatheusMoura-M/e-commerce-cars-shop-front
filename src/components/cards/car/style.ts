@@ -3,11 +3,9 @@ import styled from "styled-components";
 const LiCar = styled.li`
   background-color: var(--grey-10);
   max-width: 300px;
-
   .container-image {
     background-color: var(--grey-7);
     position: relative;
-
     span:nth-child(2) {
       background-color: red;
       display: block;
@@ -20,7 +18,6 @@ const LiCar = styled.li`
       font-weight: 500;
       padding: 4px 8px 4px 8px;
     }
-
     span:nth-child(3) {
       background-color: aqua;
       position: absolute;
@@ -33,7 +30,6 @@ const LiCar = styled.li`
       height: 27px;
       width: 17px;
       border-radius: 3px;
-
       .money-icon {
         font-weight: 600;
         color: var(--whiteFixed);
@@ -41,10 +37,8 @@ const LiCar = styled.li`
       }
     }
   }
-
   .container-information {
     min-width: 0;
-
     h3 {
       font-weight: 600;
       padding-top: 20px;
@@ -53,7 +47,6 @@ const LiCar = styled.li`
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-
     p {
       margin-top: 16px;
       color: var(--grey-2);
@@ -70,20 +63,17 @@ const LiCar = styled.li`
       word-wrap: break-word;
     }
   }
-
   .container-plusInfromation {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     margin-bottom: 20px;
-
     .plusInformation-containerUser {
       div {
         .user-container {
           display: flex;
           align-items: center;
           padding-top: 16px;
-
           span {
             font-size: 14px;
             font-weight: 500;
@@ -91,10 +81,8 @@ const LiCar = styled.li`
             margin-left: 10px;
           }
         }
-
         .aboutKmYear-container {
           margin-top: 19px;
-
           span {
             color: var(--brand-1);
             background-color: var(--brand-4);
@@ -106,17 +94,14 @@ const LiCar = styled.li`
             width: 95%;
             border-radius: 5px;
             font-size: 14px;
-        }
-
-        p{
+          }
+          p {
             margin-top: 16px;
             color: var(--grey-2);
-
             font-size: 14px;
             padding: 5px 7px;
             border-radius: 2px;
           }
-
           span:nth-child(2) {
             margin-left: 10px;
           }
@@ -124,5 +109,5 @@ const LiCar = styled.li`
       }
     }
   }
-`
+`;
 export default LiCar;
