@@ -1,11 +1,18 @@
 import styled from "styled-components";
 
 const ContainerHeader = styled.div`
-  background-color: #fdfdfd;
-  padding-left: 10px;
-  height: 80px;
-  border-bottom: 2px solid;
-  border-color: var(--grey-6);
-  //   pl={["10px", null, "40px", "60px"]}
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+
+  .menu-list_logged {
+    transform: translate(0px, -7px) !important;
+
+    @media (min-width: 1722px) {
+      transform: translate(-127px, -7px) !important;
+    }
+  }
 `;
+
 export default ContainerHeader;

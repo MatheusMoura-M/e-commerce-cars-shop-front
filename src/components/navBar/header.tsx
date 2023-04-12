@@ -29,16 +29,15 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
   const { MenuHamburguer } = useAuth();
 
   return (
-    // <Box
-    //   id="header"
-    //   bg={"#FDFDFD"}
-    //   pl={["10px", null, "40px", "60px"]}
-    //   h={"80px"}
-    //   borderBottom={"2px solid"}
-    //   borderColor={"grey.6"}
-    // >
-    <ContainerHeader id="header">
-      <Flex alignItems={"center"} justifyContent={"space-between"} h={"100%"}>
+    <Box
+      id="header"
+      bg={"#FDFDFD"}
+      pl={["10px", null, "40px", "60px"]}
+      h={"80px"}
+      borderBottom={"2px solid"}
+      borderColor={"grey.6"}
+    >
+      <ContainerHeader>
         <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
           <Image
             w={[130, null, 140, 153.02]}
@@ -85,6 +84,7 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
                 </HStack>
               </MenuButton>
               <MenuList
+                className="menu-list_logged"
                 display={"flex"}
                 flexDirection={"column"}
                 alignItems={"flex-start"}
@@ -156,8 +156,8 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
             </Menu>
           </Flex>
         )}
-      </Flex>
-    </ContainerHeader>
+      </ContainerHeader>
+    </Box>
   );
 };
 

@@ -8,7 +8,8 @@ const breakpoints = {
   md: "48em", // 768px
   md2: "55em", // 880px
   lg: "62em", // 992px
-  lg2: "70em", // 1120px
+  lg2: "64.37em", // 1030px
+  lg3: "72em", // 1152px
   xl: "80em", // 1280px
   xl2: "88em", // 1408px
   "2xl": "96em", // 1536px

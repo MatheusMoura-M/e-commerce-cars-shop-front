@@ -1,10 +1,10 @@
 import { Box, Button, useDisclosure, Show, Hide } from "@chakra-ui/react";
-import { Footer } from "../../components/footer";
 import { ContainerHomePage, HomePanel, NumberPage, UlCardCars } from "./style";
 import CarCard from "../../components/cards/car/car";
 import ModalFilterMobile from "../../components/modals/home/filterCarsMobile.modal";
 import FilterCars from "../../components/modals/home/filterCars.modal";
 import Header from "../../components/navBar/header";
+import { Footer } from "../../components/footer";
 
 export const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
