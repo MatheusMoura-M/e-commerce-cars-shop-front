@@ -451,6 +451,7 @@ export const DetailCard = () => {
           </Container>
         </Flex>
       </ContainerDetailCard>
+      <Footer />
     </>
   );
 };
