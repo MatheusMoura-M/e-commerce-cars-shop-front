@@ -1,6 +1,6 @@
 import LiCar from "./style";
 import { MdAttachMoney } from "react-icons/md";
-import {Box, Image, Text, Heading} from "@chakra-ui/react"
+import { Box, Image, Text, Heading } from "@chakra-ui/react";
 
 const CarCard = ({}) => {
   return (
@@ -33,7 +33,9 @@ const CarCard = ({}) => {
                 src="src\assets\imgCardCar\user.svg"
                 alt="imagem do usuário"
               />
-              <Text as="span" color="grey.1" fontWeight="500">Usuário</Text>
+              <Text as="span" color="grey.1" fontWeight="500">
+                Usuário
+              </Text>
             </Box>
             <Box as="div" className="aboutKmYear-container">
               <Text as="span">0 KM</Text>
@@ -42,14 +44,12 @@ const CarCard = ({}) => {
           </Box>
         </Box>
 
-        <Text as="span" className="priceCar" fontWeight="600" color="grey.2">R$ 00.000,00</Text>
-
+        <Text as="span" className="priceCar" fontWeight="600" color="grey.2">
+          R$ 00.000,00
+        </Text>
       </Box>
-
     </LiCar>
-
-  )
-
+  );
 };
 
 export default CarCard;

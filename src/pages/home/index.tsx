@@ -1,26 +1,23 @@
-import { 
-  Box, 
-  Button, 
-  useDisclosure,
-  Show,
-  Hide,
-} from "@chakra-ui/react";
-import Header from "../../components/header";
-import { Footer } from "../../components/footer";
+import { Box, Button, useDisclosure, Show, Hide } from "@chakra-ui/react";
 import { ContainerHomePage, HomePanel, NumberPage, UlCardCars } from "./style";
 import CarCard from "../../components/cards/car/car";
 import ModalFilterMobile from "../../components/modals/home/filterCarsMobile.modal";
 import FilterCars from "../../components/modals/home/filterCars.modal";
+import Header from "../../components/navBar/header";
+import { Footer } from "../../components/footer";
 
 export const Home = () => {
-
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <ContainerHomePage>
-
-      <Box display="flex" justifyContent="center" flexDirection="column" bgColor="grey.10" maxWidth="1450px" >
-
+      <Box
+        display="flex"
+        justifyContent="center"
+        flexDirection="column"
+        bgColor="grey.10"
+        maxWidth="1450px"
+      >
         <Header />
 
         <HomePanel>
@@ -41,29 +38,33 @@ export const Home = () => {
           </UlCardCars>
         </Box>
 
-        <Box 
-          w = {"100%"} 
-          mt = "60px" 
-          mb="30px" 
-          display="flex" 
-          alignItems="center" 
+        <Box
+          w={"100%"}
+          mt="60px"
+          mb="30px"
+          display="flex"
+          alignItems="center"
           justifyContent="center"
         >
-
-        <Hide breakpoint="(min-width: 1030px)">
-          <Button 
-            bg={"brand.1"} 
-            color={"grey.10"} 
-            w={{base: "250px", sm: "60%", md: "350px", lg: "400px", xl: "350px"}} 
-            borderRadius="5px" 
-            fontWeight="500"
-            _hover={{background:"brand.2"}}
-            onClick={onOpen}
-          >
-            Filtros
-          </Button>
-        </Hide>
-
+          <Hide breakpoint="(min-width: 1030px)">
+            <Button
+              bg={"brand.1"}
+              color={"grey.10"}
+              w={{
+                base: "250px",
+                sm: "60%",
+                md: "350px",
+                lg: "400px",
+                xl: "350px",
+              }}
+              borderRadius="5px"
+              fontWeight="500"
+              _hover={{ background: "brand.2" }}
+              onClick={onOpen}
+            >
+              Filtros
+            </Button>
+          </Hide>
         </Box>
         <Box>
           <NumberPage>
@@ -71,8 +72,8 @@ export const Home = () => {
             <span>de 2</span>
           </NumberPage>
           <Box display="flex" justifyContent="center">
-            <Button 
-              bg={"grey.10"} 
+            <Button
+              bg={"grey.10"}
               color={"brand.2"}
               fontWeight="600"
               fontSize="1.10rem"
@@ -84,9 +85,8 @@ export const Home = () => {
         </Box>
 
         <ModalFilterMobile isOpen={isOpen} onClose={onClose} />
-
+        <Footer />
       </Box>
-
     </ContainerHomePage>
   );
 };
