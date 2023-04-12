@@ -15,6 +15,7 @@ import imgPerfil from "../../assets/ImgPerfil.svg";
 import { IHeaderProps } from "../../@types";
 import { useAuth } from "../../context/webContext";
 import { HamburgerIcon } from "@chakra-ui/icons";
+import ContainerHeader from "./style";
 
 const BtnsDefault = ["Login", "Register"];
 const BtnsIsLogged = [
@@ -28,13 +29,15 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
   const { MenuHamburguer } = useAuth();
 
   return (
-    <Box
-      bg={"#FDFDFD"}
-      pl={["10px", null, "40px", "60px"]}
-      h={"80px"}
-      borderBottom={"2px solid"}
-      borderColor={"grey.6"}
-    >
+    // <Box
+    //   id="header"
+    //   bg={"#FDFDFD"}
+    //   pl={["10px", null, "40px", "60px"]}
+    //   h={"80px"}
+    //   borderBottom={"2px solid"}
+    //   borderColor={"grey.6"}
+    // >
+    <ContainerHeader id="header">
       <Flex alignItems={"center"} justifyContent={"space-between"} h={"100%"}>
         <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
           <Image
@@ -154,7 +157,7 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
           </Flex>
         )}
       </Flex>
-    </Box>
+    </ContainerHeader>
   );
 };
 

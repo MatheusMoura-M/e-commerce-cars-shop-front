@@ -85,6 +85,7 @@ export const Home = () => {
         </Box>
 
         <ModalFilterMobile isOpen={isOpen} onClose={onClose} />
+        <Footer />
       </Box>
     </ContainerHomePage>
   );

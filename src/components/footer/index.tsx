@@ -1,5 +1,13 @@
-import { Button, Container, Flex, Image, Stack, Text } from "@chakra-ui/react";
-import LogoFooter from "../assets/LogoFooter.svg";
+import {
+  Button,
+  Container,
+  Flex,
+  Image,
+  Link,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import LogoFooter from "../../assets/LogoFooter.svg";
 import { ChevronUpIcon } from "@chakra-ui/icons";
 
 export const Footer = () => {
@@ -27,16 +35,18 @@ export const Footer = () => {
             © {new Date().getFullYear()} - Todos os direitos reservados.
           </Text>
         </Flex>
-        <Button
-          variant={"grey1"}
-          h={50}
-          w={53}
-          alignItems={"center"}
-          justifyContent={"center"}
-          bg={"grey.1"}
-        >
-          <ChevronUpIcon w={"2rem"} h={18} color={"white"} />
-        </Button>
+        <Link href="#header">
+          <Button
+            variant={"grey1"}
+            h={50}
+            w={53}
+            alignItems={"center"}
+            justifyContent={"center"}
+            bg={"grey.1"}
+          >
+            <ChevronUpIcon w={"2rem"} h={18} color={"white"} />
+          </Button>
+        </Link>
       </Stack>
     </Container>
   );
