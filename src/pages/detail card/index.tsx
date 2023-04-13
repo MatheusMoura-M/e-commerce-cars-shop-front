@@ -1,4 +1,4 @@
-import Header from "../../components/header";
+import Header from "../../components/navBar";
 import { Footer } from "../../components/footer";
 import { Box, Button, Container, Flex, Image, Text } from "@chakra-ui/react";
 import CoverImgCar from "../../assets/CoverImgCar.svg";
@@ -7,7 +7,8 @@ import imgPerfil1 from "../../assets/ImgPerfil1.svg";
 import imgPerfil2 from "../../assets/ImgPerfil2.svg";
 import imgPerfil3 from "../../assets/ImgPerfil3.svg";
 import ContainerDetailCard from "./style";
-
+import { BoxComment } from "../../components/boxComment";
+// • &ensp;há 3 dias
 export const DetailCard = () => {
   return (
     <>
@@ -20,7 +21,7 @@ export const DetailCard = () => {
           p={0}
           minW={"100%"}
           justifyContent={"center"}
-          gap={"46px"}
+          gap={46}
           mb={"16px"}
         >
           <Flex
@@ -31,24 +32,24 @@ export const DetailCard = () => {
           >
             <Flex
               bg={"grey.10"}
-              h={"355px"}
-              w={"752px"}
-              borderRadius={"4px"}
+              h={355}
+              w={752}
+              borderRadius={4}
               alignItems={"center"}
               justifyContent={"center"}
             >
               <Image
                 src={CoverImgCar}
                 alt="Imagem de um carro branco"
-                w={"441px"}
-                h={"253px"}
+                w={441}
+                h={253}
               />
             </Flex>
             <Flex
               bg={"grey.10"}
-              h={"240px"}
-              w={"752px"}
-              borderRadius={"4px"}
+              h={240}
+              w={752}
+              borderRadius={4}
               alignItems={"center"}
               justifyContent={"center"}
             >
@@ -92,9 +93,9 @@ export const DetailCard = () => {
                 <Button
                   variant={"brand1"}
                   p={0}
-                  w={"100px"}
+                  w={100}
                   h={"38px"}
-                  borderRadius={"4px"}
+                  borderRadius={4}
                   fontSize={"14px"}
                   fontFamily={"inter"}
                 >
@@ -104,9 +105,9 @@ export const DetailCard = () => {
             </Flex>
             <Flex
               bg={"grey.10"}
-              h={"213px"}
-              w={"752px"}
-              borderRadius={"4px"}
+              h={213}
+              w={752}
+              borderRadius={4}
               flexDirection={"column"}
               alignItems={"flex-start"}
               justifyContent={"center"}
@@ -139,9 +140,9 @@ export const DetailCard = () => {
           <Flex flexDirection={"column"} gap={"34px"}>
             <Flex
               bg={"grey.10"}
-              h={"377px"}
-              w={"440px"}
-              borderRadius={"4px"}
+              h={377}
+              w={440}
+              borderRadius={4}
               alignItems={"flex-start"}
               justifyContent={"center"}
               mt={"40px"}
@@ -154,61 +155,61 @@ export const DetailCard = () => {
               <Flex wrap={"wrap"} gap={"32px 14px"}>
                 <Flex
                   alignItems={"center"}
-                  w={"108px"}
-                  h={"108px"}
+                  w={108}
+                  h={108}
                   p={"27px 7px"}
                   bg={"grey.7"}
-                  borderRadius={"4px"}
+                  borderRadius={4}
                 >
                   <Image src={CoverImgCar} alt="Imagem de um carro Branco" />
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={"108px"}
-                  h={"108px"}
+                  w={108}
+                  h={108}
                   p={"27px 7px"}
                   bg={"grey.7"}
-                  borderRadius={"4px"}
+                  borderRadius={4}
                 >
                   <Image src={CoverImgCar} alt="Imagem de um carro Branco" />
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={"108px"}
-                  h={"108px"}
+                  w={108}
+                  h={108}
                   p={"27px 7px"}
                   bg={"grey.7"}
-                  borderRadius={"4px"}
+                  borderRadius={4}
                 >
                   <Image src={CoverImgCar} alt="Imagem de um carro Branco" />
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={"108px"}
-                  h={"108px"}
+                  w={108}
+                  h={108}
                   p={"27px 7px"}
                   bg={"grey.7"}
-                  borderRadius={"4px"}
+                  borderRadius={4}
                 >
                   <Image src={CoverImgCar} alt="Imagem de um carro Branco" />
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={"108px"}
-                  h={"108px"}
+                  w={108}
+                  h={108}
                   p={"27px 7px"}
                   bg={"grey.7"}
-                  borderRadius={"4px"}
+                  borderRadius={4}
                 >
                   <Image src={CoverImgCar} alt="Imagem de um carro Branco" />
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={"108px"}
-                  h={"108px"}
+                  w={108}
+                  h={108}
                   p={"27px 7px"}
                   bg={"grey.7"}
-                  borderRadius={"4px"}
+                  borderRadius={4}
                 >
                   <Image src={CoverImgCar} alt="Imagem de um carro Branco" />
                 </Flex>
@@ -216,9 +217,9 @@ export const DetailCard = () => {
             </Flex>
             <Flex
               bg={"grey.10"}
-              h={"426px"}
-              w={"440px"}
-              borderRadius={"4px"}
+              h={426}
+              w={440}
+              borderRadius={4}
               alignItems={"center"}
               justifyContent={"center"}
               flexDirection={"column"}
@@ -250,8 +251,8 @@ export const DetailCard = () => {
               </Text>
               <Button
                 variant={"grey0"}
-                w={"206px"}
-                borderRadius={"4px"}
+                w={206}
+                borderRadius={4}
                 fontFamily={"inter"}
               >
                 Ver todos anúncios
@@ -266,19 +267,13 @@ export const DetailCard = () => {
           justifyContent={"center"}
           mb={"33px"}
         >
-          <Container
-            minW={"1240px"}
-            borderRadius={"4px"}
-            p={0}
-            m={0}
-            display={"flex"}
-          >
+          <Container minW={1240} borderRadius={4} p={0} m={0} display={"flex"}>
             <Flex
               bg={"grey.10"}
-              w={"752px"}
+              w={752}
               p={"36px 44px"}
               flexDirection={"column"}
-              borderRadius={"4px"}
+              borderRadius={4}
             >
               <Text
                 fontFamily={"lexend"}

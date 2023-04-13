@@ -192,6 +192,21 @@ const custonTheme = extendTheme({
           },
           transition: "0.5s",
         },
+        greyComments: {
+          w: "max-content",
+          h: "24px",
+          bg: "#E9ECEF",
+          color: "#868E96",
+          fontSize: "12px",
+          borderRadius: "24px",
+          fontFamily: "inter",
+          _hover: {
+            bg: "#868E96",
+            color: "#E9ECEF",
+            transition: "0.5s",
+          },
+          transition: "0.5s",
+        },
         invisible: {
           w: "120px",
           h: "48px",
