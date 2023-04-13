@@ -3,7 +3,7 @@ import { ContainerHomePage, HomePanel, NumberPage, UlCardCars } from "./style";
 import CarCard from "../../components/cards/car/car";
 import ModalFilterMobile from "../../components/modals/home/filterCarsMobile.modal";
 import FilterCars from "../../components/modals/home/filterCars.modal";
-import Header from "../../components/navBar/header";
+import Header from "../../components/navBar";
 import { Footer } from "../../components/footer";
 
 export const Home = () => {

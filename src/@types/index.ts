@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { FieldError } from "react-hook-form";
+import { FieldError, Path, UseFormRegister } from "react-hook-form";
 import { InputProps as ChakraInputProps } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 
@@ -12,11 +12,18 @@ export interface IHeaderProps {
   isLogged?: boolean;
 }
 
+export interface iComment {
+  comment: string;
+}
+
 export interface InputProps extends ChakraInputProps {
-  name: string;
   label?: string;
   error?: FieldError | null;
   icon?: IconType;
   variant?: string;
   height?: string;
+  type: string;
+  id: Path<any>;
+  register: UseFormRegister<any>;
+  showPass?: any;
 }

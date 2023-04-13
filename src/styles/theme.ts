@@ -63,7 +63,8 @@ const custonTheme = extendTheme({
     },
   },
   fonts: {
-    inter: "Inter, sans-serif",
+    inter: `'Inter', sans-serif`,
+    lexend: `'Lexend', sans-serif`,
   },
   fontSises: {
     xs: "0.75rem",
@@ -187,6 +188,21 @@ const custonTheme = extendTheme({
           color: "#0B0D0D",
           _hover: {
             bg: "#F1F3F5",
+            transition: "0.5s",
+          },
+          transition: "0.5s",
+        },
+        greyComments: {
+          w: "max-content",
+          h: "24px",
+          bg: "#E9ECEF",
+          color: "#868E96",
+          fontSize: "12px",
+          borderRadius: "24px",
+          fontFamily: "inter",
+          _hover: {
+            bg: "#868E96",
+            color: "#E9ECEF",
             transition: "0.5s",
           },
           transition: "0.5s",
