@@ -115,10 +115,10 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
               justifyContent={"space-around"}
               gap={"0.5rem"}
             >
-              <Button variant={"grey6"} color={"grey.2"}>
+              <Button variant={"grey5"} color={"grey.2"}>
                 Login
               </Button>
-              <Button variant={"grey5"}>Register</Button>
+              <Button variant={"grey4"}>Register</Button>
             </HStack>
             <Menu>
               <MenuButton

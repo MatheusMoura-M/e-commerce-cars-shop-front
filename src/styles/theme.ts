@@ -146,14 +146,13 @@ const custonTheme = extendTheme({
           h: "48px",
           bg: "#CED4DA",
           color: "#FFFFFF",
+          _hover: {
+            color: "#212529",
+            transition: "0.5s",
+          },
+          transition: "0.5s",
         },
         grey3: {
-          w: "120px",
-          h: "48px",
-          bg: "#FDFDFD",
-          color: "#212529",
-        },
-        grey4: {
           w: "120px",
           h: "48px",
           bg: "transparent",
@@ -167,7 +166,7 @@ const custonTheme = extendTheme({
           },
           transition: "0.5s",
         },
-        grey5: {
+        grey4: {
           w: "120px",
           h: "48px",
           bg: "transparent",
@@ -181,7 +180,7 @@ const custonTheme = extendTheme({
           },
           transition: "0.8s",
         },
-        grey6: {
+        grey5: {
           w: "120px",
           h: "48px",
           bg: "transparent",
