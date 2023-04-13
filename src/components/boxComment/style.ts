@@ -12,5 +12,24 @@ const ContainerComment = styled.section`
   .username {
     margin: 0px;
   }
+  .boxInput {
+    border: 1px solid;
+    border-color: var(--grey-7);
+  }
+
+  .boxInput:focus-within {
+    border-color: var(--brand-1);
+  }
+
+  textarea {
+    height: 77px;
+    width: 100%;
+    resize: unset;
+    padding: 0 0 45px 10px;
+  }
+
+  textarea:focus {
+    outline: 0;
+  }
 `;
 export default ContainerComment;

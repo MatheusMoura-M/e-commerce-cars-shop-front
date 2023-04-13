@@ -1,14 +1,24 @@
 import { createContext, useContext } from "react";
 import { iProviderProps } from "../@types";
 import { Button, MenuItem } from "@chakra-ui/react";
+import { useState, Dispatch, SetStateAction } from "react";
 
 export interface iAuthProviderData {
   MenuHamburguer: ({ children }: iProviderProps) => JSX.Element;
+  value: string;
+  setValue: Dispatch<SetStateAction<string>>;
+  show: boolean;
+  setShow: Dispatch<SetStateAction<boolean>>;
+  passType: string;
+  setPassType: Dispatch<SetStateAction<string>>;
 }
 
 const AuthContext = createContext<iAuthProviderData>({} as iAuthProviderData);
 
 export const AuthProvider = ({ children }: iProviderProps) => {
+  const [value, setValue] = useState("");
+  const [show, setShow] = useState(false);
+  const [passType, setPassType] = useState("password");
   const MenuHamburguer = ({ children }: iProviderProps) =>
     children === "Login" ? (
       <MenuItem
@@ -65,6 +75,12 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     <AuthContext.Provider
       value={{
         MenuHamburguer,
+        value,
+        setValue,
+        passType,
+        setPassType,
+        show,
+        setShow,
       }}
     >
       {children}

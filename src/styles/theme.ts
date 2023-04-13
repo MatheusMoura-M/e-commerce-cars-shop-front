@@ -63,8 +63,8 @@ const custonTheme = extendTheme({
     },
   },
   fonts: {
-    inter: "Inter, sans-serif",
-    lexend: "Lexend",
+    inter: `'Inter', sans-serif`,
+    lexend: `'Lexend', sans-serif`,
   },
   fontSises: {
     xs: "0.75rem",
