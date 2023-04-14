@@ -8,7 +8,7 @@ import imgPerfil2 from "../../assets/ImgPerfil2.svg";
 import imgPerfil3 from "../../assets/ImgPerfil3.svg";
 import ContainerDetailCard from "./style";
 import { BoxComment } from "../../components/boxComment";
-// • &ensp;há 3 dias
+
 export const DetailCard = () => {
   return (
     <>
@@ -17,7 +17,8 @@ export const DetailCard = () => {
         <Container
           as={"section"}
           display={"flex"}
-          flexDirection={"row"}
+          flexDirection={{ base: "column", xl: "row" }}
+          alignItems={{ base: "center", xl: "unset" }}
           p={0}
           minW={"100%"}
           justifyContent={"center"}
@@ -28,12 +29,14 @@ export const DetailCard = () => {
             as={"section"}
             mt={"40px"}
             flexDirection={"column"}
+            alignItems={{ base: "center", xl: "unset" }}
             gap={"1rem"}
+            width={{ base: "90%", xl: "unset" }}
           >
             <Flex
               bg={"grey.10"}
               h={355}
-              w={752}
+              w={{ base: "100%", sm3: 700, md: 752 }}
               borderRadius={4}
               alignItems={"center"}
               justifyContent={"center"}
@@ -47,8 +50,8 @@ export const DetailCard = () => {
             </Flex>
             <Flex
               bg={"grey.10"}
-              h={240}
-              w={752}
+              h={{ base: 326, sm1: 240 }}
+              w={{ base: "100%", sm3: 700, md: 752 }}
               borderRadius={4}
               alignItems={"center"}
               justifyContent={"center"}
@@ -56,7 +59,7 @@ export const DetailCard = () => {
               <Flex
                 alignItems={"flex-start"}
                 flexDirection={"column"}
-                p={"44px 49px 28px 44px"}
+                p={{ base: "28px 20px 28px 28px", xl: "44px 49px 28px 44px" }}
               >
                 <Box mb={"41px"}>
                   <Text
@@ -68,11 +71,17 @@ export const DetailCard = () => {
                     Mercedes Benz A 200 CGI ADVANCE SEDAN Mercedes Benz A 200
                   </Text>
                 </Box>
-                <Flex justifyContent={"space-between"} w={"100%"} mb={"24px"}>
+                <Flex
+                  justifyContent={"space-between"}
+                  w={"100%"}
+                  mb={"24px"}
+                  flexDirection={{ base: "column", sm: "row" }}
+                  gap={{ base: "32px", sm: "unset" }}
+                >
                   <Flex
                     gap={"12px"}
                     className="aboutKmYear-container"
-                    justifyContent={"center"}
+                    justifyContent={{ base: "flex-start", sm: "center" }}
                     alignItems={"center"}
                     mt={0}
                   >
@@ -105,7 +114,7 @@ export const DetailCard = () => {
             <Flex
               bg={"grey.10"}
               h={213}
-              w={752}
+              w={{ base: "100%", sm3: 700, md: 752 }}
               borderRadius={4}
               flexDirection={"column"}
               alignItems={"flex-start"}
@@ -135,11 +144,15 @@ export const DetailCard = () => {
               </Text>
             </Flex>
           </Flex>
-          <Flex flexDirection={"column"} gap={"34px"}>
+          <Flex
+            flexDirection={"column"}
+            gap={"34px"}
+            w={{ base: "90%", xl: "unset" }}
+          >
             <Flex
               bg={"grey.10"}
               h={377}
-              w={440}
+              w={{ base: "100%", xl: 440 }}
               borderRadius={4}
               alignItems={"flex-start"}
               justifyContent={"center"}
@@ -216,7 +229,7 @@ export const DetailCard = () => {
             <Flex
               bg={"grey.10"}
               h={426}
-              w={440}
+              w={{ base: "100%", xl: 440 }}
               borderRadius={4}
               alignItems={"center"}
               justifyContent={"center"}
@@ -255,19 +268,27 @@ export const DetailCard = () => {
         </Container>
         <Flex
           as={"section"}
-          w={"90%"}
-          alignItems={"center"}
+          w={{ base: "100%", xl: "59.3%" }}
+          alignItems={{ base: "center", xl: "flex-end" }}
           justifyContent={"center"}
           flexDirection={"column"}
           gap={33}
         >
-          <Container minW={1240} borderRadius={4} p={0} m={0} display={"flex"}>
+          <Container
+            minW={"100%"}
+            borderRadius={4}
+            p={0}
+            m={0}
+            display={"flex"}
+            justifyContent={{ base: "center", xl: "flex-end" }}
+          >
             <Flex
               bg={"grey.10"}
-              w={752}
+              w={{ base: "90%", xl: 752 }}
               p={"36px 44px"}
               flexDirection={"column"}
               borderRadius={4}
+              alignItems={"center"}
             >
               <Text
                 color={"grey.1"}

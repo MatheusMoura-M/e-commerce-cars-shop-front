@@ -10,10 +10,9 @@ const ContainerDetailCard = styled.section`
   );
   height: 100%;
   display: flex;
+  margin: 0 auto;
   flex-direction: column;
   max-width: 1450px;
-  margin: 0 auto;
-
   .aboutKmYear-container {
     span {
       color: var(--brand-1);
@@ -21,7 +20,7 @@ const ContainerDetailCard = styled.section`
       font-weight: 500;
       padding: 5px 10px;
       white-space: nowrap;
-      width: 95%;
+      width: max-content;
       border-radius: 5px;
       font-size: 14px;
     }

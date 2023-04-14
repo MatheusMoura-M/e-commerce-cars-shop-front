@@ -41,7 +41,7 @@ export const BoxComment = ({ isLogged }: IHeaderProps) => {
       <Flex
         bg={"grey.10"}
         h={289}
-        w={752}
+        w={"100%"}
         p={isLogged ? "36px 35px 39px 44px" : "57px 35px 39px 44px"}
         flexDirection={"column"}
         gap={15}
