@@ -48,8 +48,8 @@ export const BoxComment = ({ isLogged }: IHeaderProps) => {
             : "57px 35px 39px 44px"
         }
         flexDirection={"column"}
-        justifyContent={"space-around"}
-        gap={15}
+        justifyContent={{ base: "unset", xsm2: "space-around" }}
+        gap={{ base: "24px", xsm2: 15 }}
         borderRadius={"4px"}
       >
         {isLogged && (
@@ -71,10 +71,10 @@ export const BoxComment = ({ isLogged }: IHeaderProps) => {
           className="boxInput"
           borderColor={"grey.7"}
           borderRadius={"4px"}
-          position={"relative"}
           flexDirection={"column"}
           h={128}
-          gap={"5px"}
+          gap={{ base: "24px", xsm2: "5px" }}
+          mb={{ base: "60px", xsm2: "unset" }}
         >
           <Input
             id="comment"
@@ -89,7 +89,10 @@ export const BoxComment = ({ isLogged }: IHeaderProps) => {
             }}
             // focusBorderColor="transparent"
           />
-          <Flex justifyContent={"flex-end"} p={"0 11px 13px 0"}>
+          <Flex
+            justifyContent={{ base: "flex-start", xsm2: "flex-end" }}
+            p={{ base: "unset", xsm2: "0 11px 13px 0" }}
+          >
             {isLogged ? (
               <Button
                 variant={"brand1"}
@@ -115,10 +118,14 @@ export const BoxComment = ({ isLogged }: IHeaderProps) => {
             )}
           </Flex>
         </Flex>
-        <HStack h={{ base: "72px" }} wrap={"wrap"}>
+        <HStack
+          h={{ base: "72px" }}
+          className="boxButtonsRecommends"
+          spacing={"8px"}
+        >
           <Button variant={"greyComments"}>Gostei muito!</Button>
           <Button variant={"greyComments"}>Incrível</Button>
-          <Button variant={"greyComments"} className="buttonRecommend">
+          <Button variant={"greyComments"} className="buttonRecommend3">
             Recomendarei para meus amigos!
           </Button>
         </HStack>

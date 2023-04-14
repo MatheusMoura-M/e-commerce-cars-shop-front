@@ -12,6 +12,7 @@ const ContainerComment = styled.section`
   .username {
     margin: 0px;
   }
+
   .boxInput {
     border: 1px solid;
     border-color: var(--grey-7);
@@ -32,9 +33,14 @@ const ContainerComment = styled.section`
     outline: 0;
   }
 
-  .buttonRecommend {
+  .boxButtonsRecommends {
     @media (max-width: 540px) {
-      margin-left: 0;
+      flex-wrap: wrap;
+
+      button:nth-child(3) {
+        margin-top: 24px;
+        margin-left: 0;
+      }
     }
   }
 
