@@ -10,8 +10,9 @@ const ContainerDetailCard = styled.section`
   );
   height: 100%;
   display: flex;
-  align-items: center;
   flex-direction: column;
+  max-width: 1450px;
+  margin: 0 auto;
 
   .aboutKmYear-container {
     span {

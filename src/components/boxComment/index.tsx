@@ -4,19 +4,22 @@ import {
   Flex,
   HStack,
   Image,
+  Link,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import ImgPerfil from "../../assets/ImgPerfil.svg";
 import ContainerComment from "./style";
-import { Input } from "../form/input";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import formSchema from "../../schemas/comments";
 import { IHeaderProps, iComment } from "../../@types";
+import { useNavigate } from "react-router-dom";
+import { Input } from "../form/input";
 
 export const BoxComment = ({ isLogged }: IHeaderProps) => {
+  const Navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -26,8 +29,11 @@ export const BoxComment = ({ isLogged }: IHeaderProps) => {
   });
 
   const onFormSubmit = (formData: object) => {
-    console.log("FORM");
     console.log(formData);
+  };
+
+  const returnHome = () => {
+    Navigate("/");
   };
 
   return (
@@ -64,11 +70,10 @@ export const BoxComment = ({ isLogged }: IHeaderProps) => {
           flexDirection={"column"}
           h={128}
         >
-          <textarea />
-          {/* <Input
+          <Input
             id="comment"
             register={register}
-            type="password"
+            type="text"
             placeholder="Digitar comentário"
             height="128px"
             variant="outline"
@@ -77,19 +82,31 @@ export const BoxComment = ({ isLogged }: IHeaderProps) => {
               bg: "grey.8",
             }}
             // focusBorderColor="transparent"
-            showPass
-          /> */}
+          />
           <Flex justifyContent={"flex-end"} p={"0 11px 13px 0"}>
-            <Button
-              variant={isLogged ? "brand1" : "grey2"}
-              w={108}
-              h={38}
-              fontSize={"14px"}
-              fontFamily={"inter"}
-              onClick={handleSubmit(onFormSubmit)}
-            >
-              Comentar
-            </Button>
+            {isLogged ? (
+              <Button
+                variant={"brand1"}
+                w={108}
+                h={38}
+                fontSize={"14px"}
+                fontFamily={"inter"}
+                onClick={handleSubmit(onFormSubmit)}
+              >
+                Comentar
+              </Button>
+            ) : (
+              <Button
+                variant={"grey2"}
+                w={108}
+                h={38}
+                fontSize={"14px"}
+                fontFamily={"inter"}
+                onClick={() => returnHome()}
+              >
+                Comentar
+              </Button>
+            )}
           </Flex>
         </Flex>
         <HStack>

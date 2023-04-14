@@ -12,8 +12,8 @@ import { BoxComment } from "../../components/boxComment";
 export const DetailCard = () => {
   return (
     <>
-      <Header />
       <ContainerDetailCard>
+        <Header />
         <Container
           as={"section"}
           display={"flex"}
@@ -392,7 +392,7 @@ export const DetailCard = () => {
               </Flex>
             </Flex>
           </Container>
-          <BoxComment />
+          <BoxComment isLogged />
         </Flex>
       </ContainerDetailCard>
       <Footer />
