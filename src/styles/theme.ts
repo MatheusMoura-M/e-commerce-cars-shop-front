@@ -2,15 +2,21 @@ import { extendTheme } from "@chakra-ui/react";
 
 const breakpoints = {
   xs: "21.3em", // 340px
+  xs1: "23.43em", // 375px
   xs2: "25em", // 400px
+  xs3: "27.37em", // 438px
   sm: "30em", // 480px
+  sm1: "31.87em", // 510px
   sm2: "40em", // 640px
+  sm3: "43.55em", // 697px
+  sm4: "45em", // 720px
   md: "48em", // 768px
   md2: "55em", // 880px
   lg: "62em", // 992px
   lg2: "64.37em", // 1030px
   lg3: "72em", // 1152px
   xl: "80em", // 1280px
+  xl1: "84.37em", // 1350px
   xl2: "88em", // 1408px
   "2xl": "96em", // 1536px
 };
@@ -146,14 +152,13 @@ const custonTheme = extendTheme({
           h: "48px",
           bg: "#CED4DA",
           color: "#FFFFFF",
+          _hover: {
+            color: "#212529",
+            transition: "0.5s",
+          },
+          transition: "0.5s",
         },
         grey3: {
-          w: "120px",
-          h: "48px",
-          bg: "#FDFDFD",
-          color: "#212529",
-        },
-        grey4: {
           w: "120px",
           h: "48px",
           bg: "transparent",
@@ -167,7 +172,7 @@ const custonTheme = extendTheme({
           },
           transition: "0.5s",
         },
-        grey5: {
+        grey4: {
           w: "120px",
           h: "48px",
           bg: "transparent",
@@ -181,7 +186,7 @@ const custonTheme = extendTheme({
           },
           transition: "0.8s",
         },
-        grey6: {
+        grey5: {
           w: "120px",
           h: "48px",
           bg: "transparent",

@@ -5,7 +5,7 @@ const ContainerComment = styled.section`
   align-items: center;
   border-radius: 4px;
   align-items: "center";
-  min-width: 1240px;
+  min-width: 752px;
   justify-content: "flex-start";
   margin-bottom: 73px;
 
@@ -30,6 +30,17 @@ const ContainerComment = styled.section`
 
   textarea:focus {
     outline: 0;
+  }
+
+  .buttonRecommend {
+    @media (max-width: 540px) {
+      margin-left: 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    min-width: 100%;
   }
 `;
 export default ContainerComment;

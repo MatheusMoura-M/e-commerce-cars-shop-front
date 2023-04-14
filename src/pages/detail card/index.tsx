@@ -8,16 +8,17 @@ import imgPerfil2 from "../../assets/ImgPerfil2.svg";
 import imgPerfil3 from "../../assets/ImgPerfil3.svg";
 import ContainerDetailCard from "./style";
 import { BoxComment } from "../../components/boxComment";
-// • &ensp;há 3 dias
+
 export const DetailCard = () => {
   return (
     <>
-      <Header />
       <ContainerDetailCard>
+        <Header />
         <Container
           as={"section"}
           display={"flex"}
-          flexDirection={"row"}
+          flexDirection={{ base: "column", xl: "row" }}
+          alignItems={{ base: "center", xl: "unset" }}
           p={0}
           minW={"100%"}
           justifyContent={"center"}
@@ -28,12 +29,14 @@ export const DetailCard = () => {
             as={"section"}
             mt={"40px"}
             flexDirection={"column"}
+            alignItems={{ base: "center", xl: "unset" }}
             gap={"1rem"}
+            width={{ base: "90%", xl: "unset" }}
           >
             <Flex
               bg={"grey.10"}
               h={355}
-              w={752}
+              w={{ base: "100%", sm4: 700, md: 752 }}
               borderRadius={4}
               alignItems={"center"}
               justifyContent={"center"}
@@ -47,8 +50,8 @@ export const DetailCard = () => {
             </Flex>
             <Flex
               bg={"grey.10"}
-              h={240}
-              w={752}
+              h={{ base: 326, sm1: 240 }}
+              w={{ base: "100%", sm4: 700, md: 752 }}
               borderRadius={4}
               alignItems={"center"}
               justifyContent={"center"}
@@ -56,7 +59,7 @@ export const DetailCard = () => {
               <Flex
                 alignItems={"flex-start"}
                 flexDirection={"column"}
-                p={"44px 49px 28px 44px"}
+                p={{ base: "28px 20px 28px 28px", xl: "44px 49px 28px 44px" }}
               >
                 <Box mb={"41px"}>
                   <Text
@@ -68,11 +71,17 @@ export const DetailCard = () => {
                     Mercedes Benz A 200 CGI ADVANCE SEDAN Mercedes Benz A 200
                   </Text>
                 </Box>
-                <Flex justifyContent={"space-between"} w={"100%"} mb={"24px"}>
+                <Flex
+                  justifyContent={"space-between"}
+                  w={"100%"}
+                  mb={"24px"}
+                  flexDirection={{ base: "column", sm: "row" }}
+                  gap={{ base: "32px", sm: "unset" }}
+                >
                   <Flex
                     gap={"12px"}
                     className="aboutKmYear-container"
-                    justifyContent={"center"}
+                    justifyContent={{ base: "flex-start", sm: "center" }}
                     alignItems={"center"}
                     mt={0}
                   >
@@ -104,8 +113,8 @@ export const DetailCard = () => {
             </Flex>
             <Flex
               bg={"grey.10"}
-              h={213}
-              w={752}
+              h={{ base: 325, sm1: 216 }}
+              w={{ base: "100%", sm4: 700, md: 752 }}
               borderRadius={4}
               flexDirection={"column"}
               alignItems={"flex-start"}
@@ -135,26 +144,45 @@ export const DetailCard = () => {
               </Text>
             </Flex>
           </Flex>
-          <Flex flexDirection={"column"} gap={"34px"}>
+          <Flex
+            flexDirection={"column"}
+            gap={"34px"}
+            w={{ base: "90%", sm4: 700, md: "unset" }}
+            maxW={{ md: 752 }}
+          >
             <Flex
               bg={"grey.10"}
-              h={377}
-              w={440}
+              maxW={{ base: "100%", xl: 440 }}
               borderRadius={4}
               alignItems={"flex-start"}
               justifyContent={"center"}
-              mt={"40px"}
+              mt={{ base: 0, xl: "40px" }}
               flexDirection={"column"}
-              p={"36px 44px"}
+              p={{ base: "20px 10px", sm1: "36px 44px" }}
+              gap={"32px"}
             >
-              <Text fontWeight={600} fontSize={"20px"} mb={"32px"}>
+              <Text fontWeight={600} fontSize={"20px"}>
                 Fotos
               </Text>
-              <Flex wrap={"wrap"} gap={"32px 14px"}>
+              <Flex
+                wrap={"wrap"}
+                w={"100%"}
+                gap={{
+                  base: "50px 30px ",
+                  xs1: "50px 10%",
+                  sm3: "50px 5px",
+                  xl: "32px 14px",
+                }}
+                justifyContent={{
+                  base: "center",
+                  sm3: "flex-start",
+                  sm4: "center",
+                }}
+              >
                 <Flex
                   alignItems={"center"}
-                  w={108}
-                  h={108}
+                  w={{ base: 90, sm1: 95, xl: 108 }}
+                  h={{ base: 90, sm1: 95, xl: 108 }}
                   p={"27px 7px"}
                   bg={"grey.7"}
                   borderRadius={4}
@@ -163,8 +191,8 @@ export const DetailCard = () => {
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={108}
-                  h={108}
+                  w={{ base: 90, sm1: 95, xl: 108 }}
+                  h={{ base: 90, sm1: 95, xl: 108 }}
                   p={"27px 7px"}
                   bg={"grey.7"}
                   borderRadius={4}
@@ -173,8 +201,8 @@ export const DetailCard = () => {
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={108}
-                  h={108}
+                  w={{ base: 90, sm1: 95, xl: 108 }}
+                  h={{ base: 90, sm1: 95, xl: 108 }}
                   p={"27px 7px"}
                   bg={"grey.7"}
                   borderRadius={4}
@@ -183,8 +211,8 @@ export const DetailCard = () => {
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={108}
-                  h={108}
+                  w={{ base: 90, sm1: 95, xl: 108 }}
+                  h={{ base: 90, sm1: 95, xl: 108 }}
                   p={"27px 7px"}
                   bg={"grey.7"}
                   borderRadius={4}
@@ -193,8 +221,8 @@ export const DetailCard = () => {
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={108}
-                  h={108}
+                  w={{ base: 90, sm1: 95, xl: 108 }}
+                  h={{ base: 90, sm1: 95, xl: 108 }}
                   p={"27px 7px"}
                   bg={"grey.7"}
                   borderRadius={4}
@@ -203,8 +231,8 @@ export const DetailCard = () => {
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={108}
-                  h={108}
+                  w={{ base: 90, sm1: 95, xl: 108 }}
+                  h={{ base: 90, sm1: 95, xl: 108 }}
                   p={"27px 7px"}
                   bg={"grey.7"}
                   borderRadius={4}
@@ -216,13 +244,13 @@ export const DetailCard = () => {
             <Flex
               bg={"grey.10"}
               h={426}
-              w={440}
+              w={{ base: "100%", xl: 440 }}
               borderRadius={4}
               alignItems={"center"}
               justifyContent={"center"}
               flexDirection={"column"}
-              p={"37px 44px"}
-              gap={"30px"}
+              p={{ base: "30px 28px", xl: "37px 44px" }}
+              gap={{ base: "25px", xl: "30px" }}
             >
               <Flex flexDirection={"column"} w={"104px"} h={"104px"}>
                 <Image src={imgPerfil} alt="Foto de perfil do usuário" />
@@ -255,19 +283,27 @@ export const DetailCard = () => {
         </Container>
         <Flex
           as={"section"}
-          w={"90%"}
-          alignItems={"center"}
+          w={{ base: "100%", xl: "60.3%", xl1: "59.8%", xl2: "59.3%" }}
+          alignItems={{ base: "center", xl: "flex-end" }}
           justifyContent={"center"}
           flexDirection={"column"}
           gap={33}
         >
-          <Container minW={1240} borderRadius={4} p={0} m={0} display={"flex"}>
+          <Container
+            minW={{ base: "100%", sm3: "90%", sm4: 752 }}
+            borderRadius={4}
+            p={0}
+            m={0}
+            display={"flex"}
+            justifyContent={{ base: "center", xl: "flex-end" }}
+          >
             <Flex
               bg={"grey.10"}
-              w={752}
-              p={"36px 44px"}
+              p={{ base: "36px 40px 36px 20px", xl: "36px 44px" }}
               flexDirection={"column"}
+              w={{ base: "90%", sm3: "100%", sm4: 700, md: 752 }}
               borderRadius={4}
+              alignItems={"center"}
             >
               <Text
                 color={"grey.1"}
@@ -392,7 +428,7 @@ export const DetailCard = () => {
               </Flex>
             </Flex>
           </Container>
-          <BoxComment />
+          <BoxComment isLogged />
         </Flex>
       </ContainerDetailCard>
       <Footer />

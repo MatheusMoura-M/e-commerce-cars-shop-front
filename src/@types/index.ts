@@ -16,6 +16,10 @@ export interface iComment {
   comment: string;
 }
 
+export interface iShowPass {
+  showPass: boolean;
+}
+
 export interface InputProps extends ChakraInputProps {
   label?: string;
   error?: FieldError | null;
@@ -25,5 +29,5 @@ export interface InputProps extends ChakraInputProps {
   type: string;
   id: Path<any>;
   register: UseFormRegister<any>;
-  showPass?: any;
+  showPass?: boolean;
 }
