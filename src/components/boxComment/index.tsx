@@ -40,10 +40,15 @@ export const BoxComment = ({ isLogged }: IHeaderProps) => {
     <ContainerComment>
       <Flex
         bg={"grey.10"}
-        h={289}
-        w={"100%"}
-        p={isLogged ? "36px 35px 39px 44px" : "57px 35px 39px 44px"}
+        h={{ base: 414, xl: 289 }}
+        w={{ base: "90%", sm4: 700, md: 752 }}
+        p={
+          isLogged
+            ? { base: "36px 41px 36px 26px", xl: "36px 35px 39px 44px" }
+            : "57px 35px 39px 44px"
+        }
         flexDirection={"column"}
+        justifyContent={"space-around"}
         gap={15}
         borderRadius={"4px"}
       >
@@ -69,6 +74,7 @@ export const BoxComment = ({ isLogged }: IHeaderProps) => {
           position={"relative"}
           flexDirection={"column"}
           h={128}
+          gap={"5px"}
         >
           <Input
             id="comment"
@@ -109,10 +115,10 @@ export const BoxComment = ({ isLogged }: IHeaderProps) => {
             )}
           </Flex>
         </Flex>
-        <HStack>
+        <HStack h={{ base: "72px" }} wrap={"wrap"}>
           <Button variant={"greyComments"}>Gostei muito!</Button>
           <Button variant={"greyComments"}>Incrível</Button>
-          <Button variant={"greyComments"}>
+          <Button variant={"greyComments"} className="buttonRecommend">
             Recomendarei para meus amigos!
           </Button>
         </HStack>

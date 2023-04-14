@@ -32,9 +32,15 @@ const ContainerComment = styled.section`
     outline: 0;
   }
 
-  @media (max-width: 1280px) {
-    width: 90%;
-    min-width: unset;
+  .buttonRecommend {
+    @media (max-width: 540px) {
+      margin-left: 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    min-width: 100%;
   }
 `;
 export default ContainerComment;

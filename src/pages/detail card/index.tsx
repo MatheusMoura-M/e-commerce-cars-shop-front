@@ -36,7 +36,7 @@ export const DetailCard = () => {
             <Flex
               bg={"grey.10"}
               h={355}
-              w={{ base: "100%", sm3: 700, md: 752 }}
+              w={{ base: "100%", sm4: 700, md: 752 }}
               borderRadius={4}
               alignItems={"center"}
               justifyContent={"center"}
@@ -51,7 +51,7 @@ export const DetailCard = () => {
             <Flex
               bg={"grey.10"}
               h={{ base: 326, sm1: 240 }}
-              w={{ base: "100%", sm3: 700, md: 752 }}
+              w={{ base: "100%", sm4: 700, md: 752 }}
               borderRadius={4}
               alignItems={"center"}
               justifyContent={"center"}
@@ -113,8 +113,8 @@ export const DetailCard = () => {
             </Flex>
             <Flex
               bg={"grey.10"}
-              h={213}
-              w={{ base: "100%", sm3: 700, md: 752 }}
+              h={{ base: 325, sm1: 216 }}
+              w={{ base: "100%", sm4: 700, md: 752 }}
               borderRadius={4}
               flexDirection={"column"}
               alignItems={"flex-start"}
@@ -147,27 +147,42 @@ export const DetailCard = () => {
           <Flex
             flexDirection={"column"}
             gap={"34px"}
-            w={{ base: "90%", xl: "unset" }}
+            w={{ base: "90%", sm4: 700, md: "unset" }}
+            maxW={{ md: 752 }}
           >
             <Flex
               bg={"grey.10"}
-              h={377}
-              w={{ base: "100%", xl: 440 }}
+              maxW={{ base: "100%", xl: 440 }}
               borderRadius={4}
               alignItems={"flex-start"}
               justifyContent={"center"}
-              mt={"40px"}
+              mt={{ base: 0, xl: "40px" }}
               flexDirection={"column"}
-              p={"36px 44px"}
+              p={{ base: "20px 10px", sm1: "36px 44px" }}
+              gap={"32px"}
             >
-              <Text fontWeight={600} fontSize={"20px"} mb={"32px"}>
+              <Text fontWeight={600} fontSize={"20px"}>
                 Fotos
               </Text>
-              <Flex wrap={"wrap"} gap={"32px 14px"}>
+              <Flex
+                wrap={"wrap"}
+                w={"100%"}
+                gap={{
+                  base: "50px 30px ",
+                  xs1: "50px 10%",
+                  sm3: "50px 5px",
+                  xl: "32px 14px",
+                }}
+                justifyContent={{
+                  base: "center",
+                  sm3: "flex-start",
+                  sm4: "center",
+                }}
+              >
                 <Flex
                   alignItems={"center"}
-                  w={108}
-                  h={108}
+                  w={{ base: 90, sm1: 95, xl: 108 }}
+                  h={{ base: 90, sm1: 95, xl: 108 }}
                   p={"27px 7px"}
                   bg={"grey.7"}
                   borderRadius={4}
@@ -176,8 +191,8 @@ export const DetailCard = () => {
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={108}
-                  h={108}
+                  w={{ base: 90, sm1: 95, xl: 108 }}
+                  h={{ base: 90, sm1: 95, xl: 108 }}
                   p={"27px 7px"}
                   bg={"grey.7"}
                   borderRadius={4}
@@ -186,8 +201,8 @@ export const DetailCard = () => {
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={108}
-                  h={108}
+                  w={{ base: 90, sm1: 95, xl: 108 }}
+                  h={{ base: 90, sm1: 95, xl: 108 }}
                   p={"27px 7px"}
                   bg={"grey.7"}
                   borderRadius={4}
@@ -196,8 +211,8 @@ export const DetailCard = () => {
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={108}
-                  h={108}
+                  w={{ base: 90, sm1: 95, xl: 108 }}
+                  h={{ base: 90, sm1: 95, xl: 108 }}
                   p={"27px 7px"}
                   bg={"grey.7"}
                   borderRadius={4}
@@ -206,8 +221,8 @@ export const DetailCard = () => {
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={108}
-                  h={108}
+                  w={{ base: 90, sm1: 95, xl: 108 }}
+                  h={{ base: 90, sm1: 95, xl: 108 }}
                   p={"27px 7px"}
                   bg={"grey.7"}
                   borderRadius={4}
@@ -216,8 +231,8 @@ export const DetailCard = () => {
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={108}
-                  h={108}
+                  w={{ base: 90, sm1: 95, xl: 108 }}
+                  h={{ base: 90, sm1: 95, xl: 108 }}
                   p={"27px 7px"}
                   bg={"grey.7"}
                   borderRadius={4}
@@ -234,8 +249,8 @@ export const DetailCard = () => {
               alignItems={"center"}
               justifyContent={"center"}
               flexDirection={"column"}
-              p={"37px 44px"}
-              gap={"30px"}
+              p={{ base: "30px 28px", xl: "37px 44px" }}
+              gap={{ base: "25px", xl: "30px" }}
             >
               <Flex flexDirection={"column"} w={"104px"} h={"104px"}>
                 <Image src={imgPerfil} alt="Foto de perfil do usuário" />
@@ -268,14 +283,14 @@ export const DetailCard = () => {
         </Container>
         <Flex
           as={"section"}
-          w={{ base: "100%", xl: "59.3%" }}
+          w={{ base: "100%", xl: "60.3%", xl1: "59.8%", xl2: "59.3%" }}
           alignItems={{ base: "center", xl: "flex-end" }}
           justifyContent={"center"}
           flexDirection={"column"}
           gap={33}
         >
           <Container
-            minW={"100%"}
+            minW={{ base: "100%", sm3: "90%", sm4: 752 }}
             borderRadius={4}
             p={0}
             m={0}
@@ -284,9 +299,9 @@ export const DetailCard = () => {
           >
             <Flex
               bg={"grey.10"}
-              w={{ base: "90%", xl: 752 }}
-              p={"36px 44px"}
+              p={{ base: "36px 40px 36px 20px", xl: "36px 44px" }}
               flexDirection={"column"}
+              w={{ base: "90%", sm3: "100%", sm4: 700, md: 752 }}
               borderRadius={4}
               alignItems={"center"}
             >
