@@ -255,19 +255,27 @@ export const DetailCard = () => {
         </Container>
         <Flex
           as={"section"}
-          w={"90%"}
-          alignItems={"center"}
+          w={"59.3%"}
+          alignItems={"flex-end"}
           justifyContent={"center"}
           flexDirection={"column"}
           gap={33}
         >
-          <Container minW={1240} borderRadius={4} p={0} m={0} display={"flex"}>
+          <Container
+            minW={"100%"}
+            borderRadius={4}
+            p={0}
+            m={0}
+            display={"flex"}
+            justifyContent={"flex-end"}
+          >
             <Flex
               bg={"grey.10"}
               w={752}
               p={"36px 44px"}
               flexDirection={"column"}
               borderRadius={4}
+              alignItems={"center"}
             >
               <Text
                 color={"grey.1"}
