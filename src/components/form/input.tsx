@@ -9,7 +9,6 @@ import {
 } from "@chakra-ui/react";
 import { InputProps } from "../../@types";
 import { useAuth } from "../../context/webContext";
-import showPassword from "../../utils/input";
 
 export const Input = ({
   error = null,
@@ -23,7 +22,7 @@ export const Input = ({
   showPass,
   ...rest
 }: InputProps) => {
-  const { value, setValue, show, setShow, passType, setPassType } = useAuth();
+  const { value, setValue, passType, showPassword } = useAuth();
 
   const { onChange, onBlur, name, ref } = register(id);
 
@@ -52,8 +51,9 @@ export const Input = ({
             onChange(e);
           }}
           bg={"transparent"}
+          paddingBottom={{ base: "80px", xsm2: "25px" }}
           border={"1px solid"}
-          borderColor={"grey.7"}
+          borderColor={{ base: "grey.7", xsm2: "transparent" }}
           variant={variant}
           _hover={{
             bg: "grey.8",
@@ -62,7 +62,11 @@ export const Input = ({
           _placeholder={{ color: "grey.3" }}
           size={"lg"}
           h={height}
-          focusBorderColor={"brand.2"}
+          maxH={{ base: 128, xsm2: 75 }}
+          _focus={{ borderColor: { base: "brand.2", xsm2: "transparent" } }}
+          _focusVisible={{
+            borderColor: { base: "brand.2", xsm2: "transparent" },
+          }}
           {...rest}
         ></ChakraInput>
         {showPass === true && (

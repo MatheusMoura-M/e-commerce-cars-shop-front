@@ -15,7 +15,6 @@ import imgPerfil from "../../assets/ImgPerfil.svg";
 import { IHeaderProps } from "../../@types";
 import { useAuth } from "../../context/webContext";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import ContainerHeader from "./style";
 
 const BtnsDefault = ["Login", "Register"];
 const BtnsIsLogged = [
@@ -26,8 +25,7 @@ const BtnsIsLogged = [
 ];
 
 const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
-  const { MenuHamburguer } = useAuth();
-
+  const { MenuHamburguer, returnHome } = useAuth();
   return (
     <Box
       id="header"
@@ -37,9 +35,10 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
       borderBottom={"2px solid"}
       borderColor={"grey.6"}
     >
-      <ContainerHeader>
+      <Flex h={"100%"} justifyContent={"space-between"}>
         <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
           <Image
+            onClick={returnHome}
             w={[130, null, 140, 153.02]}
             h={[20.1, null, 23, 26.34]}
             src={imgLogo}
@@ -84,7 +83,10 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
                 </HStack>
               </MenuButton>
               <MenuList
-                className="menu-list_logged"
+                transform={{
+                  base: "translate(0px, -7px) !important",
+                  xl4: "translate(-127px, -7px) !important",
+                }}
                 display={"flex"}
                 flexDirection={"column"}
                 alignItems={"flex-start"}
@@ -156,7 +158,7 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
             </Menu>
           </Flex>
         )}
-      </ContainerHeader>
+      </Flex>
     </Box>
   );
 };

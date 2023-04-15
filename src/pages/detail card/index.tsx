@@ -8,12 +8,16 @@ import imgPerfil2 from "../../assets/ImgPerfil2.svg";
 import imgPerfil3 from "../../assets/ImgPerfil3.svg";
 import ContainerDetailCard from "./style";
 import { BoxComment } from "../../components/boxComment";
+import { IHeaderProps } from "../../@types";
+import { useAuth } from "../../context/webContext";
 
-export const DetailCard = () => {
+export const DetailCard = ({ isLogged }: IHeaderProps) => {
+  const { returnHome } = useAuth();
+
   return (
     <>
       <ContainerDetailCard>
-        <Header />
+        <Header isLogged />
         <Container
           as={"section"}
           display={"flex"}
@@ -22,7 +26,7 @@ export const DetailCard = () => {
           p={0}
           minW={"100%"}
           justifyContent={"center"}
-          gap={46}
+          gap={{ base: 15, xl: 46 }}
           mb={"16px"}
         >
           <Flex
@@ -52,6 +56,7 @@ export const DetailCard = () => {
               bg={"grey.10"}
               h={{ base: 326, sm1: 240 }}
               w={{ base: "100%", sm4: 700, md: 752 }}
+              mb={{ base: "8px", xl: "unset" }}
               borderRadius={4}
               alignItems={"center"}
               justifyContent={"center"}
@@ -98,17 +103,30 @@ export const DetailCard = () => {
                     </Text>
                   </Flex>
                 </Flex>
-                <Button
-                  variant={"brand1"}
-                  p={0}
-                  w={100}
-                  h={"38px"}
-                  borderRadius={4}
-                  fontSize={"14px"}
-                  fontFamily={"inter"}
-                >
-                  Comprar
-                </Button>
+                {isLogged ? (
+                  <Button
+                    variant={"brand1"}
+                    w={100}
+                    h={38}
+                    borderRadius={4}
+                    fontSize={"14px"}
+                    fontFamily={"inter"}
+                  >
+                    Comprar
+                  </Button>
+                ) : (
+                  <Button
+                    variant={"grey2"}
+                    w={100}
+                    h={38}
+                    borderRadius={4}
+                    fontSize={"14px"}
+                    fontFamily={"inter"}
+                    onClick={returnHome}
+                  >
+                    Comprar
+                  </Button>
+                )}
               </Flex>
             </Flex>
             <Flex
@@ -146,7 +164,7 @@ export const DetailCard = () => {
           </Flex>
           <Flex
             flexDirection={"column"}
-            gap={"34px"}
+            gap={{ base: "52px", xl: "34px" }}
             w={{ base: "90%", sm4: 700, md: "unset" }}
             maxW={{ md: 752 }}
           >
@@ -161,28 +179,27 @@ export const DetailCard = () => {
               p={{ base: "20px 10px", sm1: "36px 44px" }}
               gap={"32px"}
             >
-              <Text fontWeight={600} fontSize={"20px"}>
+              <Text fontWeight={600} fontSize={"20px"} w={"100%"}>
                 Fotos
               </Text>
               <Flex
                 wrap={"wrap"}
-                w={"100%"}
+                w={{ base: "100%", xsm2: "95%", sm3: "91%", sm4: "100%" }}
                 gap={{
                   base: "50px 30px ",
                   xs1: "50px 10%",
-                  sm3: "50px 5px",
+                  sm4: "50px 5px",
                   xl: "32px 14px",
                 }}
                 justifyContent={{
                   base: "center",
-                  sm3: "flex-start",
-                  sm4: "center",
                 }}
+                ml={{ sm2: "1rem", sm4: 0 }}
               >
                 <Flex
                   alignItems={"center"}
-                  w={{ base: 90, sm1: 95, xl: 108 }}
-                  h={{ base: 90, sm1: 95, xl: 108 }}
+                  w={{ base: 90, sm4: 95, xl: 108 }}
+                  h={{ base: 90, sm4: 95, xl: 108 }}
                   p={"27px 7px"}
                   bg={"grey.7"}
                   borderRadius={4}
@@ -191,8 +208,8 @@ export const DetailCard = () => {
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={{ base: 90, sm1: 95, xl: 108 }}
-                  h={{ base: 90, sm1: 95, xl: 108 }}
+                  w={{ base: 90, sm4: 95, xl: 108 }}
+                  h={{ base: 90, sm4: 95, xl: 108 }}
                   p={"27px 7px"}
                   bg={"grey.7"}
                   borderRadius={4}
@@ -201,8 +218,8 @@ export const DetailCard = () => {
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={{ base: 90, sm1: 95, xl: 108 }}
-                  h={{ base: 90, sm1: 95, xl: 108 }}
+                  w={{ base: 90, sm4: 95, xl: 108 }}
+                  h={{ base: 90, sm4: 95, xl: 108 }}
                   p={"27px 7px"}
                   bg={"grey.7"}
                   borderRadius={4}
@@ -211,8 +228,8 @@ export const DetailCard = () => {
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={{ base: 90, sm1: 95, xl: 108 }}
-                  h={{ base: 90, sm1: 95, xl: 108 }}
+                  w={{ base: 90, sm4: 95, xl: 108 }}
+                  h={{ base: 90, sm4: 95, xl: 108 }}
                   p={"27px 7px"}
                   bg={"grey.7"}
                   borderRadius={4}
@@ -221,8 +238,8 @@ export const DetailCard = () => {
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={{ base: 90, sm1: 95, xl: 108 }}
-                  h={{ base: 90, sm1: 95, xl: 108 }}
+                  w={{ base: 90, sm4: 95, xl: 108 }}
+                  h={{ base: 90, sm4: 95, xl: 108 }}
                   p={"27px 7px"}
                   bg={"grey.7"}
                   borderRadius={4}
@@ -231,8 +248,8 @@ export const DetailCard = () => {
                 </Flex>
                 <Flex
                   alignItems={"center"}
-                  w={{ base: 90, sm1: 95, xl: 108 }}
-                  h={{ base: 90, sm1: 95, xl: 108 }}
+                  w={{ base: 90, sm4: 95, xl: 108 }}
+                  h={{ base: 90, sm4: 95, xl: 108 }}
                   p={"27px 7px"}
                   bg={"grey.7"}
                   borderRadius={4}

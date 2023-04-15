@@ -7,6 +7,7 @@ const breakpoints = {
   xs3: "27.37em", // 438px
   sm: "30em", // 480px
   sm1: "31.87em", // 510px
+  xsm2: "33.76em", // 540px
   sm2: "40em", // 640px
   sm3: "43.55em", // 697px
   sm4: "45em", // 720px
@@ -18,7 +19,8 @@ const breakpoints = {
   xl: "80em", // 1280px
   xl1: "84.37em", // 1350px
   xl2: "88em", // 1408px
-  "2xl": "96em", // 1536px
+  xl3: "96em", // 1536px
+  xl4: "107.5625em", // 1721px
 };
 
 const custonTheme = extendTheme({

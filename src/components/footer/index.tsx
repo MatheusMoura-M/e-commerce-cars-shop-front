@@ -12,19 +12,25 @@ import { ChevronUpIcon } from "@chakra-ui/icons";
 
 export const Footer = () => {
   return (
-    <Container as="footer" m={0} minW={"100%"} p={0} bg={"grey.0"}>
+    <Container
+      as="footer"
+      m={0}
+      minW={"100%"}
+      h={{ base: 310, md: 140 }}
+      p={0}
+      bg={"grey.0"}
+    >
       <Stack
-        justifyContent={"space-between"}
+        justifyContent={{ base: "center", md: "space-between" }}
         align={"center"}
-        minW={"100%"}
-        h={140}
-        flexDirection={"row"}
-        pr={59}
+        flexDirection={{ base: "column", md: "row" }}
+        p={{ base: "45px 55.5px", md: "45px 59px" }}
+        gap={{ base: "60px", md: "unset" }}
       >
-        <Flex pl={59} alignItems={"center"}>
+        <Flex alignItems={"center"}>
           <Image w={153.02} h={26.34} src={LogoFooter} alt="Logo footer" />
         </Flex>
-        <Flex alignItems={"center"} mt={0} pr={50}>
+        <Flex alignItems={"center"} mt={"0px !important"}>
           <Text
             color={"white"}
             fontWeight={"normal"}
@@ -35,7 +41,7 @@ export const Footer = () => {
             © {new Date().getFullYear()} - Todos os direitos reservados.
           </Text>
         </Flex>
-        <Link href="#header">
+        <Link href="#header" mt={"0px !important"}>
           <Button
             variant={"grey1"}
             h={50}
