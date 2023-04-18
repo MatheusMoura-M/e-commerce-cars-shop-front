@@ -1,5 +1,10 @@
 import { ReactNode } from "react";
-import { FieldError, Path, UseFormRegister } from "react-hook-form";
+import {
+  FieldError,
+  Path,
+  UseFormRegister,
+  UseFormGetValues,
+} from "react-hook-form";
 import { InputProps as ChakraInputProps } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 
@@ -30,4 +35,5 @@ export interface InputProps extends ChakraInputProps {
   id: Path<any>;
   register: UseFormRegister<any>;
   showPass?: boolean;
+  // getValues: UseFormGetValues<any>;
 }

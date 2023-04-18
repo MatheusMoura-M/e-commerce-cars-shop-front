@@ -14,6 +14,7 @@ export const BoxComment = ({ isLogged }: IHeaderProps) => {
   const {
     register,
     handleSubmit,
+    // getValues,
     formState: { errors },
   } = useForm<iComment>({
     resolver: yupResolver(formSchema),

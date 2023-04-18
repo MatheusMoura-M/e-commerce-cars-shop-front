@@ -6,9 +6,12 @@ import {
   InputLeftElement,
   InputGroup,
   InputRightElement,
+  Box,
 } from "@chakra-ui/react";
-import { InputProps } from "../../@types";
+import { InputProps, iShowPass } from "../../@types";
 import { useAuth } from "../../context/webContext";
+import { useState, ReactNode } from "react";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 export const Input = ({
   error = null,
@@ -22,12 +25,39 @@ export const Input = ({
   showPass,
   ...rest
 }: InputProps) => {
-  const { value, setValue, passType, showPassword } = useAuth();
+  const { passType, setPassType, show, setShow } = useAuth();
+
+  const [value, setValue] = useState("");
 
   const { onChange, onBlur, name, ref } = register(id);
 
   // Validations
   const inputType = showPass ? passType : type;
+
+  const showPassword = ({ showPass }: iShowPass): ReactNode => {
+    if (value !== "" && showPass) {
+      const whichEye =
+        show === false ? (
+          <AiFillEyeInvisible size={22} color="#030303" />
+        ) : (
+          <AiFillEye size={22} color="#030303" />
+        );
+      const passType = show === false ? "text" : "password";
+
+      return (
+        <Box
+          className="showPass"
+          onClick={() => {
+            setShow(!show);
+            setPassType(passType);
+          }}
+          role="button"
+        >
+          {whichEye}
+        </Box>
+      );
+    }
+  };
 
   return (
     <FormControl>
