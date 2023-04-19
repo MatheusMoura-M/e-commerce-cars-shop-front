@@ -31,7 +31,8 @@ export interface InputProps extends ChakraInputProps {
   icon?: IconType;
   variant?: string;
   height?: string;
-  type: string;
+  formWidth?: string
+  type?: string;
   id: Path<any>;
   register: UseFormRegister<any>;
   showPass?: boolean;

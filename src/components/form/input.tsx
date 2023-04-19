@@ -22,6 +22,7 @@ export const Input = ({
   register,
   id,
   type,
+  formWidth,
   showPass,
   ...rest
 }: InputProps) => {
@@ -29,7 +30,7 @@ export const Input = ({
 
   const [value, setValue] = useState("");
 
-  const { onChange, onBlur, name, ref } = register(id);
+  const { onChange, onBlur, name, ref } = register!(id);
 
   // Validations
   const inputType = showPass ? passType : type;
@@ -60,8 +61,8 @@ export const Input = ({
   };
 
   return (
-    <FormControl>
-      {!!label && <FormLabel>{label}</FormLabel>}
+    <FormControl mt={5} width={formWidth}>
+      {!!label && <FormLabel fontSize="0.875rem">{label}</FormLabel>}
 
       <InputGroup flexDirection={"column"}>
         {Icon && (
@@ -93,7 +94,7 @@ export const Input = ({
           size={"lg"}
           h={height}
           maxH={{ base: 128, xsm2: 75 }}
-          _focus={{ borderColor: { base: "brand.2", xsm2: "transparent" } }}
+          _focus={{ borderColor: { base: "brand.2", xsm2: "transparent", }, backgroundColor: "grey.10" }}
           _focusVisible={{
             borderColor: { base: "brand.2", xsm2: "transparent" },
           }}
