@@ -1,6 +1,14 @@
 import Header from "../../components/navBar";
 import { Footer } from "../../components/footer";
-import { Box, Button, Container, Flex, Image, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  Image,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import CoverImgCar from "../../assets/CoverImgCar.svg";
 import imgPerfil from "../../assets/ImgPerfil.svg";
 import imgPerfil1 from "../../assets/ImgPerfil1.svg";
@@ -10,13 +18,16 @@ import ContainerDetailCard from "./style";
 import { BoxComment } from "../../components/boxComment";
 import { IHeaderProps } from "../../@types";
 import { useAuth } from "../../context/webContext";
+import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/createCarsAd.modal";
 
 export const DetailCard = ({ isLogged }: IHeaderProps) => {
   const { returnHome } = useAuth();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <ContainerDetailCard>
+      <Button onClick={onOpen}>Open Modal</Button>
+      {/* <ContainerDetailCard>
         <Header isLogged />
         <Container
           as={"section"}
@@ -447,7 +458,8 @@ export const DetailCard = ({ isLogged }: IHeaderProps) => {
           </Container>
           <BoxComment isLogged />
         </Flex>
-      </ContainerDetailCard>
+      </ContainerDetailCard> */}
+      <ModalCreateCarAd isOpen={isOpen} onClose={onClose} />
       <Footer />
     </>
   );
