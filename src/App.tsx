@@ -10,12 +10,15 @@ import { AuthProvider } from "./context/webContext";
 
 import RoutesMain from "./routes";
 import custonTheme from "./styles/theme";
+import HomePageContext from "./context/homePage.context";
 
 function App() {
   return (
     <ChakraProvider theme={custonTheme}>
       <AuthProvider>
-        <RoutesMain />
+        <HomePageContext>
+          <RoutesMain />
+        </HomePageContext>
       </AuthProvider>
     </ChakraProvider>
   );

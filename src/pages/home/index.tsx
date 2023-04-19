@@ -5,9 +5,33 @@ import ModalFilterMobile from "../../components/modals/home/filterCarsMobile.mod
 import FilterCars from "../../components/modals/home/filterCars.modal";
 import Header from "../../components/navBar";
 import { Footer } from "../../components/footer";
+import { useState, useContext, useEffect } from "react";
+import { contextHomeProvider } from "../../context/homePage.context";
 
 export const Home = () => {
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [currentPage, setCurrentPage] = useState(1)
+  const [cadsPage, setCardPage] = useState([])
+  
+  const {carAd, GetCardsAd} = useContext(contextHomeProvider)
+  
+  const pageLimit = 12
+  const pages = Math.ceil(carAd.length / pageLimit) - 1
+  const startPageAt = currentPage * pageLimit
+  const endPageAt = startPageAt + pageLimit
+
+  useEffect(() => {
+    GetCardsAd()
+  }, [])
+
+  const pageCard = () => {
+
+    const cards = carAd.slice(startPageAt, endPageAt)
+
+    return cards
+
+  }
 
   return (
     <ContainerHomePage>
@@ -31,10 +55,23 @@ export const Home = () => {
             <FilterCars />
           </Show>
           <UlCardCars>
-            <CarCard />
-            <CarCard />
-            <CarCard />
-            <CarCard />
+            {
+              pageCard().map(card => {
+                return (
+                  <CarCard 
+                    description={card.description} 
+                    image={card.cover_image} 
+                    km={card.km}
+                    price={card.price} 
+                    nameCar={card.model}
+                    brandCar={card.brand}
+                    year={card.year} 
+                    key={card.id}
+                    userName="usuário"  
+                  />
+                )
+              })
+            }
           </UlCardCars>
         </Box>
 
@@ -68,8 +105,8 @@ export const Home = () => {
         </Box>
         <Box>
           <NumberPage>
-            <span>1</span>
-            <span>de 2</span>
+            <span>{currentPage}</span>
+            <span>de {pages}</span>
           </NumberPage>
           <Box display="flex" justifyContent="center">
             <Button
@@ -78,6 +115,21 @@ export const Home = () => {
               fontWeight="600"
               fontSize="1.10rem"
               mb="30px"
+              hidden={currentPage == 1 ? true : false}
+              onClick={() => currentPage > 0 ? setCurrentPage(currentPage - 1) : setCurrentPage(0)}
+            >
+              &lt; Anterior
+            </Button>
+            <Button
+              bg={"grey.10"}
+              color={"brand.2"}
+              fontWeight="600"
+              fontSize="1.10rem"
+              mb="30px"
+              hidden={pages ==  currentPage? true : false}
+              onClick={() => 
+                {currentPage < pages ?  setCurrentPage(currentPage + 1) : setCurrentPage(pages)}
+              }
             >
               Seguinte &gt;
             </Button>
