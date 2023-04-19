@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import { iCar } from "../interface/car.interface";
-import instance from "../services/api";
+import { instance } from "../services/api";
 
 interface iChildren {
   children: React.ReactNode;

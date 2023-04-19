@@ -19,6 +19,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import formSchemaCarAd from "../../../schemas/annoucements";
 import { iCreateCarAd } from "../../../interface/car.interface";
+import "./style.css";
 
 interface iStatusModalCar {
   isOpen: boolean;
@@ -75,7 +76,15 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                 placeholder="Mercedes Benz"
                 register={register}
                 variant="outline"
+                list="listBrand"
               />
+              <datalist id="listBrand">
+                {}
+                <option value="">faixa etária:</option>
+                <option value="-18">menor de idade</option>
+                <option value="+18">maior de idade</option>
+                <option value="+60">idoso</option>
+              </datalist>
               <Input
                 errorMessage={errors.model?.message}
                 placeholder="A 200 CGI ADVANCE SEDAN"
