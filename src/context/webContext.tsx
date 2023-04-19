@@ -4,6 +4,8 @@ import { Box, MenuItem } from "@chakra-ui/react";
 import { useState, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { api } from "../services/api";
+import { toast } from "react-toastify";
 
 export interface iAuthProviderData {
   returnHome: () => void;
@@ -15,9 +17,21 @@ export interface iAuthProviderData {
   passType: string;
   setPassType: Dispatch<SetStateAction<string>>;
   showPassword: ({ showPass }: iShowPass) => ReactNode;
+  Login: (user: iLoginProps) => void;
 }
 
-const AuthContext = createContext<iAuthProviderData>({} as iAuthProviderData);
+export interface iLoginProps {
+  username: string;
+  password: string;
+}
+
+interface iUser {
+  token: string;
+}
+
+export const AuthContext = createContext<iAuthProviderData>(
+  {} as iAuthProviderData
+);
 
 export const AuthProvider = ({ children }: iProviderProps): ReactNode => {
   const Navigate = useNavigate();
@@ -27,6 +41,20 @@ export const AuthProvider = ({ children }: iProviderProps): ReactNode => {
 
   const returnHome = () => {
     Navigate("/");
+  };
+
+  const Login = async (user: iLoginProps): Promise<void> => {
+    try {
+      const { data } = await api.post<iUser>("login", user);
+
+      window.localStorage.setItem("?", data.token);
+      toast.success("Logado com sucesso");
+    } catch (error) {
+      console.log(error);
+      toast.error("Algo deu errado");
+    } finally {
+      Navigate("/home");
+    }
   };
 
   const showPassword = ({ showPass }: iShowPass): ReactNode => {
@@ -118,6 +146,7 @@ export const AuthProvider = ({ children }: iProviderProps): ReactNode => {
         setShow,
         returnHome,
         showPassword,
+        Login,
       }}
     >
       {children}
