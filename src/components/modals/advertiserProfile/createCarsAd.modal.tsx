@@ -9,12 +9,16 @@ import {
   Button,
   FormControl,
   FormLabel,
-  Input,
   Flex,
   Textarea,
-  Box,
 } from "@chakra-ui/react";
+import { Input } from "../../form/input";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import formSchemaCarAd from "../../../schemas/annoucements";
+import { iCreateCarAd } from "../../../interface/car.interface";
 
 interface iStatusModalCar {
   isOpen: boolean;
@@ -22,10 +26,27 @@ interface iStatusModalCar {
 }
 
 export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<string[]>(["", ""]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<iCreateCarAd>({
+    resolver: yupResolver(formSchemaCarAd),
+  });
 
   const AddInputImage = () => {
     setImages([...images, ""]);
+  };
+
+  const handleChangeImage = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    images[index] = e.target.value;
+    console.log(images);
+    setImages([...images]);
   };
 
   return (
@@ -46,217 +67,100 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
             </ModalHeader>
             <ModalCloseButton />
             <ModalBody display={"flex"} gap={"24px"} flexDirection={"column"}>
-              <FormControl>
-                <FormLabel
-                  fontFamily={"inter"}
-                  fontSize={"14px"}
-                  color={"grey.1"}
-                >
-                  Marca
-                </FormLabel>
-                <Input
-                  placeholder="Mercedes Benz"
-                  color={"grey.3"}
-                  fontFamily={"inter"}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel
-                  fontFamily={"inter"}
-                  fontSize={"14px"}
-                  color={"grey.1"}
-                >
-                  Modelo
-                </FormLabel>
-                <Input
-                  placeholder="A 200 CGI ADVANCE SEDAN"
-                  color={"grey.3"}
-                  fontFamily={"inter"}
-                  fontSize={"16px"}
-                />
-              </FormControl>
+              <Input
+                label="Marca"
+                type="text"
+                id="brand"
+                placeholder="Mercedes Benz"
+                register={register}
+                variant="outline"
+              />
+              <Input
+                placeholder="A 200 CGI ADVANCE SEDAN"
+                label="Modelo"
+                type="text"
+                id="model"
+                register={register}
+              />
               <Flex gap={"14px"}>
-                <FormControl>
-                  <FormLabel
-                    fontFamily={"inter"}
-                    fontSize={"14px"}
-                    color={"grey.1"}
-                  >
-                    Ano
-                  </FormLabel>
-                  <Input
-                    placeholder="2018"
-                    color={"grey.3"}
-                    fontFamily={"inter"}
-                    fontSize={"16px"}
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel
-                    fontFamily={"inter"}
-                    fontSize={"14px"}
-                    color={"grey.1"}
-                  >
-                    Combustível
-                  </FormLabel>
-                  <Input
-                    placeholder="Gasolina / Etanol"
-                    color={"grey.3"}
-                    fontFamily={"inter"}
-                    fontSize={"16px"}
-                  />
-                </FormControl>
+                <Input
+                  placeholder="2018"
+                  label="Ano"
+                  type="text"
+                  id="year"
+                  register={register}
+                />
+                <Input
+                  placeholder="Gasolina / Etanol"
+                  label="Combustível"
+                  type="text"
+                  id="fuel"
+                  register={register}
+                />
               </Flex>
               <Flex gap={"14px"}>
-                <FormControl>
-                  <FormLabel
-                    fontFamily={"inter"}
-                    fontSize={"14px"}
-                    color={"grey.1"}
-                  >
-                    Quilometragem
-                  </FormLabel>
-                  <Input
-                    placeholder="30.000"
-                    color={"grey.3"}
-                    fontFamily={"inter"}
-                    fontSize={"16px"}
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel
-                    fontFamily={"inter"}
-                    fontSize={"14px"}
-                    color={"grey.1"}
-                  >
-                    Cor
-                  </FormLabel>
-                  <Input
-                    placeholder="Branco"
-                    color={"grey.3"}
-                    fontFamily={"inter"}
-                    fontSize={"16px"}
-                  />
-                </FormControl>
+                <Input
+                  placeholder="30.000"
+                  label="Quilometragem"
+                  type="text"
+                  id="km"
+                  register={register}
+                />
+                <Input
+                  placeholder="Branco"
+                  label="Cor"
+                  type="text"
+                  id="color"
+                  register={register}
+                />
               </Flex>
               <Flex gap={"14px"}>
-                <FormControl>
-                  <FormLabel
-                    fontFamily={"inter"}
-                    fontSize={"14px"}
-                    color={"grey.1"}
-                  >
-                    Preço tabela FIPE
-                  </FormLabel>
-                  <Input
-                    placeholder="R$ 48.000,00"
-                    color={"grey.3"}
-                    fontFamily={"inter"}
-                    fontSize={"16px"}
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel
-                    fontFamily={"inter"}
-                    fontSize={"14px"}
-                    color={"grey.1"}
-                  >
-                    Preço
-                  </FormLabel>
-                  <Input
-                    placeholder="R$ 50.000,00"
-                    color={"grey.3"}
-                    fontFamily={"inter"}
-                    fontSize={"16px"}
-                  />
-                </FormControl>
+                <Input
+                  placeholder="R$ 48.000,00"
+                  label="Preço Tabela FIPE"
+                  type="text"
+                  id="fipe"
+                  register={register}
+                />
+                <Input
+                  placeholder="R$ 50.000,00"
+                  label="Preço"
+                  type="text"
+                  id="price"
+                  register={register}
+                />
               </Flex>
-              <FormControl>
-                <FormLabel
-                  fontFamily={"inter"}
-                  fontSize={"14px"}
-                  color={"grey.1"}
-                >
-                  Descrição
-                </FormLabel>
-                <Textarea
-                  placeholder="Descreva detalhes do carro aqui..."
-                  color={"grey.3"}
-                  fontFamily={"inter"}
-                  h={"80px"}
-                  wrap="hard"
-                  resize={"none"}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel
-                  fontFamily={"inter"}
-                  fontSize={"14px"}
-                  color={"grey.1"}
-                >
-                  Imagem da Capa
-                </FormLabel>
-                <Input
-                  placeholder="https://image.com"
-                  color={"grey.3"}
-                  fontFamily={"inter"}
-                  fontSize={"16px"}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel
-                  fontFamily={"inter"}
-                  fontSize={"14px"}
-                  color={"grey.1"}
-                >
-                  1° Imagem da galeria
-                </FormLabel>
-                <Input
-                  placeholder="https://image.com"
-                  color={"grey.3"}
-                  fontFamily={"inter"}
-                  fontSize={"16px"}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel
-                  fontFamily={"inter"}
-                  fontSize={"14px"}
-                  color={"grey.1"}
-                >
-                  2° Imagem da galeria
-                </FormLabel>
-                <Input
-                  placeholder="https://image.com"
-                  color={"grey.3"}
-                  fontFamily={"inter"}
-                  fontSize={"16px"}
-                />
-              </FormControl>
+              <Input
+                placeholder="Descreva detalhes do carro aqui..."
+                h={"80px"}
+                label="Descrição"
+                type="text"
+                id="description"
+                register={register}
+              />
+              <Input
+                placeholder="https://image.com"
+                label="Imagem da Capa"
+                type="text"
+                id="cover_image"
+                register={register}
+              />
               <Flex flexDirection={"column"} gap={"14px"}>
                 {images.map((image, index) => (
-                  <FormControl key={index}>
-                    <FormLabel
-                      fontFamily={"inter"}
-                      fontSize={"14px"}
-                      color={"grey.1"}
-                    >
-                      {`${index + 3}° Imagem da galeria`}
-                    </FormLabel>
-                    <Input
-                      placeholder="https://image.com"
-                      color={"grey.3"}
-                      fontFamily={"inter"}
-                      fontSize={"16px"}
-                      value={image}
-                      id={`image-${index + 3}`}
-                    />
-                  </FormControl>
+                  <Input
+                    key={index + 1}
+                    placeholder="https://image.com"
+                    label={`${index + 1}° Imagem da galeria`}
+                    type="text"
+                    id={`images_${index + 1}`}
+                    value={image}
+                    register={register}
+                    onChange={(e) => handleChangeImage(e, index)}
+                  />
                 ))}
               </Flex>
             </ModalBody>
           </Flex>
-
           <ModalFooter display={"flex"} flexDirection={"column"} gap={"42px"}>
             <Flex w={"100%"} pl={"15px"}>
               <Button
