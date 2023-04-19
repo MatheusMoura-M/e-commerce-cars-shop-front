@@ -41,6 +41,7 @@ const FormRegisterUser = () => {
         </Box>
         <Box width="100%%" margin="0 auto">
           <Input
+            marginTopForm={"5px"}
             id="name"
             placeholder="Ex: Samuel Leão"
             color="grey.3"
@@ -56,6 +57,7 @@ const FormRegisterUser = () => {
           />
 
           <Input
+            marginTopForm={"5px"}
             id="email"
             placeholder="Ex: samuel@kenzie.com.br"
             color="grey.3"
@@ -71,6 +73,7 @@ const FormRegisterUser = () => {
           />
 
           <Input
+            marginTopForm={"5px"}
             id="cpf"
             placeholder="000.000.000-00"
             color="grey.3"
@@ -86,6 +89,7 @@ const FormRegisterUser = () => {
           />
 
           <Input
+            marginTopForm={"5px"}
             id="telephone"
             placeholder="(DDD) 90000-0000"
             color="grey.3"
@@ -101,6 +105,7 @@ const FormRegisterUser = () => {
           />
 
           <Input
+            marginTopForm={"5px"}
             id="birthdate"
             placeholder="00/00/00"
             color="grey.3"
@@ -144,6 +149,7 @@ const FormRegisterUser = () => {
           </Box>
 
           <Input
+            marginTopForm={"5px"}
             id="zipcode"
             placeholder="00000.000"
             color="grey.3"
@@ -160,6 +166,7 @@ const FormRegisterUser = () => {
 
           <Box display="flex" justifyContent="space-between">
             <Input
+              marginTopForm={"5px"}
               id="state"
               placeholder="Digitar Estado"
               color="grey.3"
@@ -176,6 +183,7 @@ const FormRegisterUser = () => {
             />
 
             <Input
+              marginTopForm={"5px"}
               id="city"
               placeholder="Digitar cidade"
               color="grey.3"
@@ -193,6 +201,7 @@ const FormRegisterUser = () => {
           </Box>
 
           <Input
+            marginTopForm={"5px"}
             id="street"
             placeholder="Digitar o nome da rua"
             color="grey.3"
@@ -209,6 +218,7 @@ const FormRegisterUser = () => {
 
           <Box display="flex" justifyContent="space-between">
             <Input
+              marginTopForm={"5px"}
               id="number"
               placeholder="Digitar número"
               color="grey.3"
@@ -224,6 +234,7 @@ const FormRegisterUser = () => {
             />
 
             <Input
+              marginTopForm={"5px"}
               border="1px"
               register={register}
               id="complement"
@@ -273,6 +284,7 @@ const FormRegisterUser = () => {
           </Box>
 
           <Input
+            marginTopForm={"5px"}
             id="password"
             placeholder="Digitar senha"
             color="grey.3"
@@ -287,6 +299,7 @@ const FormRegisterUser = () => {
           />
 
           <Input
+            marginTopForm={"5px"}
             id="confir_password"
             placeholder="Digitar senha"
             color="grey.3"

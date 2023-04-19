@@ -23,6 +23,7 @@ export const Input = ({
   id,
   type,
   formWidth,
+  marginTopForm,
   showPass,
   ...rest
 }: InputProps) => {
@@ -61,7 +62,7 @@ export const Input = ({
   };
 
   return (
-    <FormControl mt={5} width={formWidth}>
+    <FormControl mt={marginTopForm} width={formWidth}>
       {!!label && <FormLabel fontSize="0.875rem">{label}</FormLabel>}
 
       <InputGroup flexDirection={"column"}>
@@ -83,7 +84,7 @@ export const Input = ({
           }}
           bg={"transparent"}
           border={"1px solid"}
-          borderColor={{ base: "grey.7", xsm2: "transparent" }}
+          borderColor={"grey.7"}
           borderRadius={"4px"}
           variant={variant}
           _hover={{
@@ -97,9 +98,6 @@ export const Input = ({
           _focus={{
             borderColor: "brand.2",
             backgroundColor: "grey.10",
-          }}
-          _focusVisible={{
-            borderColor: { base: "brand.2", xsm2: "transparent" },
           }}
           {...rest}
         ></ChakraInput>

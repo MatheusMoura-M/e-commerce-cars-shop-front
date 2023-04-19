@@ -24,7 +24,7 @@ export const Footer = () => {
         justifyContent={{ base: "center", md: "space-between" }}
         align={"center"}
         flexDirection={{ base: "column", md: "row" }}
-        p={{ base: "45px 55.5px", md: "45px 59px" }}
+        p={{ base: "33px 55.5px", xs1: "45px 55.5px", md: "45px 59px" }}
         gap={{ base: "60px", md: "unset" }}
       >
         <Flex alignItems={"center"}>
@@ -37,6 +37,7 @@ export const Footer = () => {
             fontSize={"14px"}
             lineHeight={"24px"}
             fontFamily={"inter"}
+            textAlign={"center"}
           >
             © {new Date().getFullYear()} - Todos os direitos reservados.
           </Text>
