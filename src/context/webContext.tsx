@@ -1,22 +1,18 @@
 import { ReactNode, createContext, useContext } from "react";
-import { iProviderProps, iShowPass } from "../@types";
-import { Box, MenuItem } from "@chakra-ui/react";
+import { iProviderProps } from "../@types";
+import { MenuItem } from "@chakra-ui/react";
 import { useState, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { api } from "../services/api";
 import { toast } from "react-toastify";
 
 export interface iAuthProviderData {
   returnHome: () => void;
   MenuHamburguer: ({ children }: iProviderProps) => JSX.Element;
-  value: string;
-  setValue: Dispatch<SetStateAction<string>>;
   show: boolean;
   setShow: Dispatch<SetStateAction<boolean>>;
   passType: string;
   setPassType: Dispatch<SetStateAction<string>>;
-  showPassword: ({ showPass }: iShowPass) => ReactNode;
   Login: (user: iLoginProps) => void;
 }
 
@@ -35,7 +31,7 @@ export const AuthContext = createContext<iAuthProviderData>(
 
 export const AuthProvider = ({ children }: iProviderProps): ReactNode => {
   const Navigate = useNavigate();
-  const [value, setValue] = useState("");
+
   const [show, setShow] = useState(false);
   const [passType, setPassType] = useState("password");
 
@@ -54,31 +50,6 @@ export const AuthProvider = ({ children }: iProviderProps): ReactNode => {
       toast.error("Algo deu errado");
     } finally {
       Navigate("/home");
-    }
-  };
-
-  const showPassword = ({ showPass }: iShowPass): ReactNode => {
-    if (value !== "" && showPass) {
-      const whichEye =
-        show === false ? (
-          <AiFillEyeInvisible size={22} color="#030303" />
-        ) : (
-          <AiFillEye size={22} color="#030303" />
-        );
-      const passType = show === false ? "text" : "password";
-
-      return (
-        <Box
-          className="showPass"
-          onClick={() => {
-            setShow(!show);
-            setPassType(passType);
-          }}
-          role="button"
-        >
-          {whichEye}
-        </Box>
-      );
     }
   };
 
@@ -138,14 +109,11 @@ export const AuthProvider = ({ children }: iProviderProps): ReactNode => {
     <AuthContext.Provider
       value={{
         MenuHamburguer,
-        value,
-        setValue,
         passType,
         setPassType,
         show,
         setShow,
         returnHome,
-        showPassword,
         Login,
       }}
     >

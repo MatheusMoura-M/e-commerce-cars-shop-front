@@ -12,6 +12,7 @@ import RoutesMain from "./routes";
 import custonTheme from "./styles/theme";
 
 import { ToastContainer } from "react-toastify";
+import HomePageContext from "./context/homePage.context";
 
 function App() {
   return (
@@ -29,7 +30,9 @@ function App() {
       />
       <ChakraProvider theme={custonTheme}>
         <AuthProvider>
-          <RoutesMain />
+          <HomePageContext>
+            <RoutesMain />
+          </HomePageContext>
         </AuthProvider>
       </ChakraProvider>
     </>
