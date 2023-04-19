@@ -23,6 +23,7 @@ export const Input = ({
   id,
   type,
   formWidth,
+  marginTopForm,
   showPass,
   ...rest
 }: InputProps) => {
@@ -61,7 +62,7 @@ export const Input = ({
   };
 
   return (
-    <FormControl mt={5} width={formWidth}>
+    <FormControl mt={marginTopForm} width={formWidth}>
       {!!label && <FormLabel fontSize="0.875rem">{label}</FormLabel>}
 
       <InputGroup flexDirection={"column"}>
