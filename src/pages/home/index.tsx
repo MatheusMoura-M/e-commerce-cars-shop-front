@@ -1,4 +1,4 @@
-import { Box, Button, useDisclosure, Show, Hide } from "@chakra-ui/react";
+import { Box, Button, useDisclosure, Show, Hide, Flex } from "@chakra-ui/react";
 import { ContainerHomePage, HomePanel, NumberPage, UlCardCars } from "./style";
 import CarCard from "../../components/cards/car/car";
 import ModalFilterMobile from "../../components/modals/home/filterCarsMobile.modal";
@@ -9,29 +9,26 @@ import { useState, useContext, useEffect } from "react";
 import { contextHomeProvider } from "../../context/homePage.context";
 
 export const Home = () => {
-
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [currentPage, setCurrentPage] = useState(1)
-  const [cadsPage, setCardPage] = useState([])
-  
-  const {carAd, GetCardsAd} = useContext(contextHomeProvider)
-  
-  const pageLimit = 12
-  const pages = Math.ceil(carAd.length / pageLimit) - 1
-  const startPageAt = currentPage * pageLimit
-  const endPageAt = startPageAt + pageLimit
+  const [currentPage, setCurrentPage] = useState(1);
+  const [cadsPage, setCardPage] = useState([]);
+
+  const { carAd, GetCardsAd } = useContext(contextHomeProvider);
+
+  const pageLimit = 12;
+  const pages = Math.ceil(carAd.length / pageLimit) - 1;
+  const startPageAt = currentPage * pageLimit;
+  const endPageAt = startPageAt + pageLimit;
 
   useEffect(() => {
-    GetCardsAd()
-  }, [])
+    GetCardsAd();
+  }, []);
 
   const pageCard = () => {
+    const cards = carAd.slice(startPageAt, endPageAt);
 
-    const cards = carAd.slice(startPageAt, endPageAt)
-
-    return cards
-
-  }
+    return cards;
+  };
 
   return (
     <ContainerHomePage>
@@ -55,23 +52,21 @@ export const Home = () => {
             <FilterCars />
           </Show>
           <UlCardCars>
-            {
-              pageCard().map(card => {
-                return (
-                  <CarCard 
-                    description={card.description} 
-                    image={card.cover_image} 
-                    km={card.km}
-                    price={card.price} 
-                    nameCar={card.model}
-                    brandCar={card.brand}
-                    year={card.year} 
-                    key={card.id}
-                    userName="usuário"  
-                  />
-                )
-              })
-            }
+            {pageCard().map((card) => {
+              return (
+                <CarCard
+                  description={card.description}
+                  image={card.cover_image}
+                  km={card.km}
+                  price={card.price}
+                  nameCar={card.model}
+                  brandCar={card.brand}
+                  year={card.year}
+                  key={card.id}
+                  userName="usuário"
+                />
+              );
+            })}
           </UlCardCars>
         </Box>
 
@@ -116,7 +111,11 @@ export const Home = () => {
               fontSize="1.10rem"
               mb="30px"
               hidden={currentPage == 1 ? true : false}
-              onClick={() => currentPage > 0 ? setCurrentPage(currentPage - 1) : setCurrentPage(0)}
+              onClick={() =>
+                currentPage > 0
+                  ? setCurrentPage(currentPage - 1)
+                  : setCurrentPage(0)
+              }
             >
               &lt; Anterior
             </Button>
@@ -126,10 +125,12 @@ export const Home = () => {
               fontWeight="600"
               fontSize="1.10rem"
               mb="30px"
-              hidden={pages ==  currentPage? true : false}
-              onClick={() => 
-                {currentPage < pages ?  setCurrentPage(currentPage + 1) : setCurrentPage(pages)}
-              }
+              hidden={pages == currentPage ? true : false}
+              onClick={() => {
+                currentPage < pages
+                  ? setCurrentPage(currentPage + 1)
+                  : setCurrentPage(pages);
+              }}
             >
               Seguinte &gt;
             </Button>
