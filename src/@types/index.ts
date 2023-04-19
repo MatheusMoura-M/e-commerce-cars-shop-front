@@ -33,6 +33,7 @@ export interface InputProps extends ChakraInputProps {
   icon?: IconType;
   variant?: string;
   height?: string;
+  formWidth?: string;
   type?: string;
   showPass?: boolean;
   // error?: FieldErrors<iComment> | null;
