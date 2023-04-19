@@ -28,7 +28,7 @@ export interface iShowPass {
 export interface InputProps extends ChakraInputProps {
   id: Path<any>;
   register: UseFormRegister<any>;
-  errorMessage: string | undefined;
+  errorMessage?: string;
   label?: string;
   icon?: IconType;
   variant?: string;

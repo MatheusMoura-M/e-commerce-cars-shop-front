@@ -68,6 +68,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
             <ModalCloseButton />
             <ModalBody display={"flex"} gap={"24px"} flexDirection={"column"}>
               <Input
+                errorMessage={errors.brand?.message}
                 label="Marca"
                 type="text"
                 id="brand"
@@ -76,6 +77,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                 variant="outline"
               />
               <Input
+                errorMessage={errors.model?.message}
                 placeholder="A 200 CGI ADVANCE SEDAN"
                 label="Modelo"
                 type="text"
@@ -84,6 +86,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
               />
               <Flex gap={"14px"}>
                 <Input
+                  errorMessage={errors.year?.message}
                   placeholder="2018"
                   label="Ano"
                   type="text"
@@ -91,6 +94,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                   register={register}
                 />
                 <Input
+                  errorMessage={errors.fuel?.message}
                   placeholder="Gasolina / Etanol"
                   label="Combustível"
                   type="text"
@@ -100,6 +104,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
               </Flex>
               <Flex gap={"14px"}>
                 <Input
+                  errorMessage={errors.km?.message}
                   placeholder="30.000"
                   label="Quilometragem"
                   type="text"
@@ -107,6 +112,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                   register={register}
                 />
                 <Input
+                  errorMessage={errors.color?.message}
                   placeholder="Branco"
                   label="Cor"
                   type="text"
@@ -114,15 +120,18 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                   register={register}
                 />
               </Flex>
-              <Flex gap={"14px"}>
+              <Flex gap={"14px"} alignItems={"flex-end"}>
                 <Input
+                  errorMessage={errors.fipe?.message}
                   placeholder="R$ 48.000,00"
                   label="Preço Tabela FIPE"
                   type="text"
                   id="fipe"
                   register={register}
+                  isDisabled={true}
                 />
                 <Input
+                  errorMessage={errors.price?.message}
                   placeholder="R$ 50.000,00"
                   label="Preço"
                   type="text"
@@ -131,6 +140,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                 />
               </Flex>
               <Input
+                errorMessage={errors.description?.message}
                 placeholder="Descreva detalhes do carro aqui..."
                 h={"80px"}
                 label="Descrição"
@@ -139,6 +149,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                 register={register}
               />
               <Input
+                errorMessage={errors.cover_image?.message}
                 placeholder="https://image.com"
                 label="Imagem da Capa"
                 type="text"
