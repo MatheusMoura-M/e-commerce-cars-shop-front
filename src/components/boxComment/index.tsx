@@ -92,32 +92,6 @@ export const BoxComment = ({ isLogged }: IHeaderProps) => {
               bg: "grey.8",
             }}
           />
-          <Input
-            id="username"
-            register={register}
-            type="text"
-            placeholder="Digitar username"
-            height="80px"
-            bg={"grey.3"}
-            variant="outline"
-            borderRadius={"4px"}
-            _hover={{
-              bg: "grey.8",
-            }}
-          />
-          <Input
-            id="email"
-            register={register}
-            type="text"
-            placeholder="Digitar email"
-            height="80px"
-            bg={"grey.3"}
-            variant="outline"
-            borderRadius={"4px"}
-            _hover={{
-              bg: "grey.8",
-            }}
-          />
           <Flex
             justifyContent={{ base: "flex-start", xsm2: "flex-end" }}
             p={{ base: "unset", xsm2: "0 11px 8px 0" }}
