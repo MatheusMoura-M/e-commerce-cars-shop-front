@@ -14,7 +14,6 @@ export const BoxComment = ({ isLogged }: IHeaderProps) => {
   const {
     register,
     handleSubmit,
-    // getValues,
     formState: { errors },
   } = useForm<iComment>({
     resolver: yupResolver(formSchema),
@@ -37,7 +36,7 @@ export const BoxComment = ({ isLogged }: IHeaderProps) => {
     >
       <Flex
         bg={"grey.10"}
-        h={{ base: 550, xl: 289 }}
+        h={{ base: 414, sm3: 289 }}
         w={{ base: "90%", sm4: 700, md: 752 }}
         p={
           isLogged
@@ -69,54 +68,25 @@ export const BoxComment = ({ isLogged }: IHeaderProps) => {
           borderColor={{ base: "transparent", xsm2: "grey.7" }}
           borderRadius={"4px"}
           flexDirection={"column"}
-          h={{ base: 200, xsm2: 400 }}
-          gap={{ base: "unset", xsm2: "50px" }}
+          h={{ base: 200, xsm2: 128 }}
+          gap={{ base: "unset", xsm2: "5px" }}
           _hover={{
             bg: { base: "transparent", xsm2: "grey.8" },
             borderColor: { base: "transparent", xsm2: "grey.7" },
           }}
           _focusWithin={{
             borderColor: { base: "transparent", xsm2: "brand.2" },
+            backgroundColor: "grey.10",
           }}
         >
           <Input
             id="comment"
             register={register}
-            type="text"
+            errorMessage={errors.comment?.message}
             placeholder="Digitar comentário"
             height="128px"
-            bg={"grey.3"}
             variant="outline"
-            borderRadius={"4px"}
-            _hover={{
-              bg: "grey.8",
-            }}
-          />
-          <Input
-            id="username"
-            register={register}
-            type="text"
-            placeholder="Digitar username"
-            height="80px"
-            bg={"grey.3"}
-            variant="outline"
-            borderRadius={"4px"}
-            _hover={{
-              bg: "grey.8",
-            }}
-          />
-          <Input
-            id="email"
-            register={register}
-            type="text"
-            placeholder="Digitar email"
-            height="80px"
-            bg={"grey.3"}
-            variant="outline"
-            borderRadius={"4px"}
-            _hover={{
-              bg: "grey.8",
-            }}
+            pb={{ base: "80px", xsm2: "25px" }}
           />
           <Flex
             justifyContent={{ base: "flex-start", xsm2: "flex-end" }}

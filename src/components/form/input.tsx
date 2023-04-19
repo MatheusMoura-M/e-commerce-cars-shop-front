@@ -14,7 +14,7 @@ import { useState, ReactNode } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 export const Input = ({
-  error = null,
+  errorMessage,
   icon: Icon,
   label,
   variant,
@@ -22,6 +22,7 @@ export const Input = ({
   register,
   id,
   type,
+  formWidth,
   showPass,
   ...rest
 }: InputProps) => {
@@ -29,7 +30,7 @@ export const Input = ({
 
   const [value, setValue] = useState("");
 
-  const { onChange, onBlur, name, ref } = register(id);
+  const { onChange, onBlur, name, ref } = register!(id);
 
   // Validations
   const inputType = showPass ? passType : type;
@@ -60,8 +61,8 @@ export const Input = ({
   };
 
   return (
-    <FormControl>
-      {!!label && <FormLabel>{label}</FormLabel>}
+    <FormControl mt={5} width={formWidth}>
+      {!!label && <FormLabel fontSize="0.875rem">{label}</FormLabel>}
 
       <InputGroup flexDirection={"column"}>
         {Icon && (
@@ -81,19 +82,22 @@ export const Input = ({
             onChange(e);
           }}
           bg={"transparent"}
-          paddingBottom={{ base: "80px", xsm2: "25px" }}
           border={"1px solid"}
           borderColor={{ base: "grey.7", xsm2: "transparent" }}
+          borderRadius={"4px"}
           variant={variant}
           _hover={{
             bg: "grey.8",
             borderColor: "transparent",
           }}
           _placeholder={{ color: "grey.3" }}
-          size={"lg"}
+          size={"md"}
           h={height}
           maxH={{ base: 128, xsm2: 75 }}
-          _focus={{ borderColor: { base: "brand.2", xsm2: "transparent" } }}
+          _focus={{
+            borderColor: "brand.2",
+            backgroundColor: "grey.10",
+          }}
           _focusVisible={{
             borderColor: { base: "brand.2", xsm2: "transparent" },
           }}
@@ -102,7 +106,7 @@ export const Input = ({
         {showPass === true && (
           <InputRightElement>{showPassword({ showPass })}</InputRightElement>
         )}
-        {!!error && <FormErrorMessage>{error.message}</FormErrorMessage>}
+        {!!errorMessage && <FormErrorMessage>{errorMessage}</FormErrorMessage>}
       </InputGroup>
     </FormControl>
   );
