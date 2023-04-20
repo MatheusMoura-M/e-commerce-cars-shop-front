@@ -7,7 +7,7 @@ const formSchemaCarAd = yup.object().shape({
   fuel: yup.string().required("Campo obrigatório"),
   km: yup.number().required("Campo obrigatório"),
   color: yup.string().required("Campo obrigatório"),
-  price: yup.number().required("Campo obrigatório"),
+  price: yup.string().required("Campo obrigatório"),
   fipe: yup.number().required("Campo obrigatório"),
   description: yup.string().required("Campo obrigatório"),
   is_good_price: yup.boolean().required("Campo obrigatório"),
