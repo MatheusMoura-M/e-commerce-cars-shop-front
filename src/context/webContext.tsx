@@ -5,6 +5,9 @@ import { useState, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { toast } from "react-toastify";
+import instance from "../services/api";
+import axios from "axios";
+import { iRegister } from "../interface/user.interface";
 
 export interface iAuthProviderData {
   returnHome: () => void;
@@ -34,6 +37,42 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const [show, setShow] = useState(false);
   const [passType, setPassType] = useState("password");
+
+  const onRegisterSubmit = (dataRegister: iRegister) => {
+    try {
+      
+        instance.post("/user", dataRegister)
+
+        toast.success('Usuário registrado com sucesso', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+
+    } catch (error) {
+      
+      if(axios.isAxiosError(error)){
+
+        toast.error(error.response?.data, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light"
+        });
+
+      }
+
+    }
+  }
 
   const returnHome = () => {
     Navigate("/");

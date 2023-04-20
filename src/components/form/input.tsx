@@ -102,7 +102,7 @@ export const Input = ({
           {...rest}
         ></ChakraInput>
         {showPass === true && (
-          <InputRightElement>{showPassword({ showPass })}</InputRightElement>
+          <InputRightElement height="100%">{showPassword({ showPass })}</InputRightElement>
         )}
         {!!errorMessage && <FormErrorMessage>{errorMessage}</FormErrorMessage>}
       </InputGroup>

@@ -8,8 +8,8 @@ import RegisterUserPage from "../pages/registerUser/register.page";
 const RoutesMain = () => {
   return (
     <Routes>
-      {/* <Home /> */}
-      <Route path="/" element={<RegisterUserPage />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/register" element={<RegisterUserPage />} />
       <Route path="/detail-card" element={<DetailCard />} />
       <Route path="/login" element={<LoginPage />} />
     </Routes>

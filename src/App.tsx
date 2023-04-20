@@ -13,30 +13,19 @@ import custonTheme from "./styles/theme";
 
 import { ToastContainer } from "react-toastify";
 import HomePageContext from "./context/homePage.context";
-import "react-toastify/dist/ReactToastify.css";
+import RegexInputs from "./context/regexInputs.context";
 
 function App() {
   return (
-    <>
-      <ToastContainer
-        position="top-center"
-        autoClose={600}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <ChakraProvider theme={custonTheme}>
-        <AuthProvider>
-          <HomePageContext>
+    <ChakraProvider theme={custonTheme}>
+      <AuthProvider>
+        <HomePageContext>
+          <RegexInputs>
             <RoutesMain />
-          </HomePageContext>
-        </AuthProvider>
-      </ChakraProvider>
-    </>
+          </RegexInputs>
+        </HomePageContext>
+      </AuthProvider>
+    </ChakraProvider>
   );
 }
 
