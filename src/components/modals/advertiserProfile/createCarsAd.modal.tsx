@@ -13,13 +13,14 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { Input } from "../../form/input";
-import { useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import formSchemaCarAd from "../../../schemas/annoucements";
 import { iCreateCarAd } from "../../../interface/car.interface";
 import "./style.css";
+import { useAuth } from "../../../context/webContext";
 
 interface iStatusModalCar {
   isOpen: boolean;
@@ -28,6 +29,11 @@ interface iStatusModalCar {
 
 export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
   const [images, setImages] = useState<string[]>(["", ""]);
+  const [brandSelect, setBrandSelect] = useState<string>("");
+  const [currentBrand, setCurrentBrand] = useState<[]>([]);
+  const [modelSelect, setModelSelect] = useState<string>("");
+
+  const { getCarsBrands, brands, brandsAndModels } = useAuth();
 
   const {
     register,
@@ -48,6 +54,20 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
     images[index] = e.target.value;
     console.log(images);
     setImages([...images]);
+  };
+
+  const inputCONSOLE = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBrandSelect(e.target.value);
+    console.log(e.target.value);
+  };
+
+  const modelsSelected = () => {
+    for (let elem in brandsAndModels) {
+      if (elem == brandSelect) {
+        const newElem = brandsAndModels[elem];
+        setCurrentBrand(newElem);
+      }
+    }
   };
 
   return (
@@ -77,13 +97,16 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                 register={register}
                 variant="outline"
                 list="listBrand"
+                onClick={getCarsBrands}
+                onChange={(e) => inputCONSOLE(e)}
+                value={brandSelect}
               />
               <datalist id="listBrand">
-                {}
-                <option value="">faixa etária:</option>
-                <option value="-18">menor de idade</option>
-                <option value="+18">maior de idade</option>
-                <option value="+60">idoso</option>
+                {brands.map((element, index) => (
+                  <option value={element} key={index}>
+                    {element}
+                  </option>
+                ))}
               </datalist>
               <Input
                 errorMessage={errors.model?.message}
@@ -92,7 +115,25 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                 type="text"
                 id="model"
                 register={register}
+                list="listModels"
+                onChange={(e) => {
+                  modelsSelected();
+                  setModelSelect(e.target.value);
+                }}
+                onClick={(e) => {
+                  modelsSelected;
+                  setModelSelect((e.target as HTMLInputElement).value);
+                }}
+                value={modelSelect}
               />
+              <datalist id="listModels">
+                {currentBrand.map((element: any, index) => (
+                  <option value={element.name} key={index}>
+                    {element.name}
+                  </option>
+                ))}
+                //{" "}
+              </datalist>
               <Flex gap={"14px"}>
                 <Input
                   errorMessage={errors.year?.message}

@@ -3,6 +3,7 @@ import { iProviderProps } from "../@types";
 import { MenuItem } from "@chakra-ui/react";
 import { useState, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
+import { instanceKenzieCars } from "../services/api";
 
 export interface iAuthProviderData {
   returnHome: () => void;
@@ -11,6 +12,9 @@ export interface iAuthProviderData {
   setShow: Dispatch<SetStateAction<boolean>>;
   passType: string;
   setPassType: Dispatch<SetStateAction<string>>;
+  getCarsBrands: () => Promise<void>;
+  brands: string[];
+  brandsAndModels: [];
 }
 
 const AuthContext = createContext<iAuthProviderData>({} as iAuthProviderData);
@@ -21,8 +25,20 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const [show, setShow] = useState(false);
   const [passType, setPassType] = useState("password");
 
+  const [brandsAndModels, setBrandsAndModels] = useState<[]>([]);
+  const [brands, setBrands] = useState<string[]>([]);
+
   const returnHome = () => {
     Navigate("/");
+  };
+
+  const getCarsBrands = async () => {
+    try {
+      const response = await instanceKenzieCars.get("/cars");
+      setBrandsAndModels(response.data);
+      const brandsCars = Object.keys(response.data);
+      setBrands(brandsCars);
+    } catch (error) {}
   };
 
   const MenuHamburguer = ({ children }: iProviderProps) =>
@@ -86,6 +102,9 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         show,
         setShow,
         returnHome,
+        getCarsBrands,
+        brands,
+        brandsAndModels,
       }}
     >
       {children}
