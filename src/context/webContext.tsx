@@ -15,6 +15,13 @@ export interface iAuthProviderData {
   getCarsBrands: () => Promise<void>;
   brands: string[];
   brandsAndModels: [];
+  brandSelect: string;
+  setBrandSelect: Dispatch<SetStateAction<string>>;
+  currentBrand: [];
+  setCurrentBrand: Dispatch<SetStateAction<[]>>;
+  modelSelect: string;
+  setModelSelect: Dispatch<SetStateAction<string>>;
+  getCarModels: () => Promise<void>;
 }
 
 const AuthContext = createContext<iAuthProviderData>({} as iAuthProviderData);
@@ -27,9 +34,25 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const [brandsAndModels, setBrandsAndModels] = useState<[]>([]);
   const [brands, setBrands] = useState<string[]>([]);
+  const [brandSelect, setBrandSelect] = useState<string>("");
+  const [currentBrand, setCurrentBrand] = useState<[]>([]);
+  const [modelSelect, setModelSelect] = useState<string>("");
 
   const returnHome = () => {
     Navigate("/");
+  };
+
+  const getCarModels = async () => {
+    if (brandSelect) {
+      try {
+        const response = await instanceKenzieCars.get(
+          `/cars?brand=${brandSelect}`
+        );
+        setCurrentBrand(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   const getCarsBrands = async () => {
@@ -38,7 +61,9 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       setBrandsAndModels(response.data);
       const brandsCars = Object.keys(response.data);
       setBrands(brandsCars);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const MenuHamburguer = ({ children }: iProviderProps) =>
@@ -105,6 +130,13 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         getCarsBrands,
         brands,
         brandsAndModels,
+        brandSelect,
+        setBrandSelect,
+        currentBrand,
+        setCurrentBrand,
+        modelSelect,
+        setModelSelect,
+        getCarModels,
       }}
     >
       {children}

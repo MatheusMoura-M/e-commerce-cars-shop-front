@@ -29,11 +29,23 @@ interface iStatusModalCar {
 
 export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
   const [images, setImages] = useState<string[]>(["", ""]);
-  const [brandSelect, setBrandSelect] = useState<string>("");
-  const [currentBrand, setCurrentBrand] = useState<[]>([]);
-  const [modelSelect, setModelSelect] = useState<string>("");
+  const [modelInfoSelect, setModelInfoSelect] = useState<any>([]);
+  const [year, setYear] = useState("");
+  const [fuel, setFuel] = useState("");
+  const [fipe, setFipe] = useState("");
 
-  const { getCarsBrands, brands, brandsAndModels } = useAuth();
+  const {
+    getCarsBrands,
+    brands,
+    brandsAndModels,
+    brandSelect,
+    currentBrand,
+    modelSelect,
+    setBrandSelect,
+    setCurrentBrand,
+    setModelSelect,
+    getCarModels,
+  } = useAuth();
 
   const {
     register,
@@ -52,23 +64,26 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
     index: number
   ) => {
     images[index] = e.target.value;
-    console.log(images);
     setImages([...images]);
   };
 
   const inputCONSOLE = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBrandSelect(e.target.value);
-    console.log(e.target.value);
   };
 
-  const modelsSelected = () => {
-    for (let elem in brandsAndModels) {
-      if (elem == brandSelect) {
-        const newElem = brandsAndModels[elem];
-        setCurrentBrand(newElem);
-      }
+  useEffect(() => {
+    const modelInfo: any = currentBrand.filter(
+      (element: any) => element.name == modelSelect
+    );
+    setModelInfoSelect(modelInfo);
+    if (modelInfo[0]?.fuel == 1) {
+      setFuel("Flex");
+    } else if (modelInfo[0]?.fuel == 2) {
+      setFuel("Híbrido");
+    } else {
+      setFuel("Elétrico");
     }
-  };
+  }, [modelSelect]);
 
   return (
     <>
@@ -117,11 +132,11 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                 register={register}
                 list="listModels"
                 onChange={(e) => {
-                  modelsSelected();
+                  getCarModels();
                   setModelSelect(e.target.value);
                 }}
                 onClick={(e) => {
-                  modelsSelected;
+                  getCarModels();
                   setModelSelect((e.target as HTMLInputElement).value);
                 }}
                 value={modelSelect}
@@ -132,7 +147,6 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                     {element.name}
                   </option>
                 ))}
-                //{" "}
               </datalist>
               <Flex gap={"14px"}>
                 <Input
@@ -142,6 +156,9 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                   type="text"
                   id="year"
                   register={register}
+                  value={
+                    modelInfoSelect[0]?.year ? modelInfoSelect[0].year : ""
+                  }
                 />
                 <Input
                   errorMessage={errors.fuel?.message}
@@ -150,6 +167,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                   type="text"
                   id="fuel"
                   register={register}
+                  value={fuel ? fuel : ""}
                 />
               </Flex>
               <Flex gap={"14px"}>
@@ -179,6 +197,9 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                   id="fipe"
                   register={register}
                   isDisabled={true}
+                  value={
+                    modelInfoSelect[0]?.value ? modelInfoSelect[0].value : ""
+                  }
                 />
                 <Input
                   errorMessage={errors.price?.message}
