@@ -13,6 +13,7 @@ import custonTheme from "./styles/theme";
 
 import { ToastContainer } from "react-toastify";
 import HomePageContext from "./context/homePage.context";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (

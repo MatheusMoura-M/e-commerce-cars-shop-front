@@ -1,8 +1,8 @@
 import axios from "axios";
-const token = localStorage.getItem("?");
+const token = localStorage.getItem("@token");
 
-export const api = axios.create({
-  baseURL: "localhost:3000/",
+const api = axios.create({
+  baseURL: "http://localhost:3000/",
   timeout: 5000,
   headers: {
     "Content-Type": "application/json",
@@ -10,4 +10,4 @@ export const api = axios.create({
   },
 });
 
-export default instance;
+export default api;

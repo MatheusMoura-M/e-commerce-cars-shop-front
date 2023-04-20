@@ -3,7 +3,7 @@ import { iProviderProps } from "../@types";
 import { MenuItem } from "@chakra-ui/react";
 import { useState, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
-import { api } from "../services/api";
+import api from "../services/api";
 import { toast } from "react-toastify";
 
 export interface iAuthProviderData {
@@ -17,7 +17,7 @@ export interface iAuthProviderData {
 }
 
 export interface iLoginProps {
-  username: string;
+  email: string;
   password: string;
 }
 
@@ -43,13 +43,12 @@ export const AuthProvider = ({ children }: iProviderProps): ReactNode => {
     try {
       const { data } = await api.post<iUser>("login", user);
 
-      window.localStorage.setItem("?", data.token);
+      window.localStorage.setItem("@token", data.token);
       toast.success("Logado com sucesso");
+      Navigate("/");
     } catch (error) {
       console.log(error);
       toast.error("Algo deu errado");
-    } finally {
-      Navigate("/home");
     }
   };
 

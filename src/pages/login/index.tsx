@@ -13,7 +13,10 @@ export const LoginPage = () => {
   const { Login } = useContext(AuthContext);
 
   const formSchema = yup.object().shape({
-    username: yup.string().required("Usuario obrigatório"),
+    email: yup
+      .string()
+      .required("Usuario obrigatório")
+      .email("Email obrigatório"),
     password: yup.string().required("Senha obrigatória"),
   });
   const {
@@ -29,19 +32,19 @@ export const LoginPage = () => {
       <ContainerFormLogin>
         <h1>Login</h1>
         <Form onSubmit={handleSubmit(Login)}>
-          <label htmlFor="username">Usuario</label>
+          <label htmlFor="email">Email</label>
           <Input
-            id="username"
+            id="email"
             register={register}
             type="text"
-            placeholder="Digitar Usuario"
+            placeholder="Digitar Email"
             variant="outline"
             _hover={{
               bg: "grey.8",
             }}
             p="1rem"
           />
-          {errors.username && <span>{errors.username.message}</span>}
+          {errors.email && <span>{errors.email.message}</span>}
           <label htmlFor="password-">Senha</label>
           <Input
             id="password"
@@ -53,6 +56,7 @@ export const LoginPage = () => {
               bg: "grey.8",
             }}
             p="1rem"
+            showPass
           />
           {errors.password && <span>{errors.password.message}</span>}
           <p>Esqueci minha senha</p>
