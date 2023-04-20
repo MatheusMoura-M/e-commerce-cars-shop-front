@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 import {
   FieldError,
+  FieldErrors,
   Path,
   UseFormRegister,
-  UseFormGetValues,
 } from "react-hook-form";
 import { InputProps as ChakraInputProps } from "@chakra-ui/react";
 import { IconType } from "react-icons";
@@ -26,14 +26,16 @@ export interface iShowPass {
 }
 
 export interface InputProps extends ChakraInputProps {
+  id: Path<any>;
+  register: UseFormRegister<any>;
+  errorMessage: string | undefined;
   label?: string;
-  error?: FieldError | null;
   icon?: IconType;
   variant?: string;
   height?: string;
-  type: string;
-  id: Path<any>;
-  register: UseFormRegister<any>;
+  formWidth?: string;
+  type?: string;
   showPass?: boolean;
-  // getValues: UseFormGetValues<any>;
+  marginTopForm?: string;
+  // error?: FieldErrors<iComment> | null;
 }

@@ -29,7 +29,7 @@ export const AuthContext = createContext<iAuthProviderData>(
   {} as iAuthProviderData
 );
 
-export const AuthProvider = ({ children }: iProviderProps): ReactNode => {
+export const AuthProvider = ({ children }: iProviderProps) => {
   const Navigate = useNavigate();
 
   const [show, setShow] = useState(false);
