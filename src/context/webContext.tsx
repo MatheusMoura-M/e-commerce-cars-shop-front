@@ -1,9 +1,10 @@
-import { ReactNode, createContext, useContext } from "react";
+import { createContext, useContext } from "react";
 import { iProviderProps } from "../@types";
 import { MenuItem } from "@chakra-ui/react";
 import { useState, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
-import { instanceKenzieCars } from "../services/api";
+import { instance, instanceKenzieCars } from "../services/api";
+import { iCreateCarAd } from "../interface/car.interface";
 
 export interface iAuthProviderData {
   returnHome: () => void;
@@ -22,6 +23,7 @@ export interface iAuthProviderData {
   modelSelect: string;
   setModelSelect: Dispatch<SetStateAction<string>>;
   getCarModels: () => Promise<void>;
+  onCreateCarAd: (data: iCreateCarAd) => Promise<void>;
 }
 
 const AuthContext = createContext<iAuthProviderData>({} as iAuthProviderData);
@@ -61,6 +63,15 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       setBrandsAndModels(response.data);
       const brandsCars = Object.keys(response.data);
       setBrands(brandsCars);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onCreateCarAd = async (data: iCreateCarAd) => {
+    try {
+      const response = await instance.post("/car", data);
+      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -137,6 +148,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         modelSelect,
         setModelSelect,
         getCarModels,
+        onCreateCarAd,
       }}
     >
       {children}

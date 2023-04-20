@@ -45,6 +45,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
     setCurrentBrand,
     setModelSelect,
     getCarModels,
+    onCreateCarAd,
   } = useAuth();
 
   const {
@@ -52,7 +53,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
     handleSubmit,
     formState: { errors },
   } = useForm<iCreateCarAd>({
-    resolver: yupResolver(formSchemaCarAd),
+    // resolver: yupResolver(formSchemaCarAd),
   });
 
   const AddInputImage = () => {
@@ -80,16 +81,23 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
       setFuel("Flex");
     } else if (modelInfo[0]?.fuel == 2) {
       setFuel("Híbrido");
-    } else {
+    } else if (modelInfo[0]?.fuel == 3) {
       setFuel("Elétrico");
     }
+
     setFipe(modelInfo[0]?.value);
     setYear(modelInfo[0]?.year);
   }, [modelSelect]);
 
   const onSubmitCreateAd = (data: iCreateCarAd) => {
-    console.log("oi");
-    console.log(data);
+    const newData = {
+      ...data,
+      fuel: fuel,
+      year: year,
+      fipe: fipe,
+    };
+
+    onCreateCarAd(newData);
   };
 
   return (
@@ -110,7 +118,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
             </ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <form onSubmit={handleSubmit(onSubmitCreateAd)}>
+              <Flex as={"form"} onSubmit={handleSubmit(onSubmitCreateAd)}>
                 <Flex display={"flex"} gap={"24px"} flexDirection={"column"}>
                   <Input
                     errorMessage={errors.brand?.message}
@@ -157,7 +165,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       </option>
                     ))}
                   </datalist>
-                  <span>{errors.model?.message}</span>
+                  {/* <span>{errors.model?.message}</span> */}
                   <Flex gap={"14px"}>
                     <Input
                       errorMessage={errors.year?.message}
@@ -166,9 +174,9 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       type="text"
                       id="year"
                       register={register}
-                      value={year ? year : ""}
+                      value={year ? year : "a"}
                     />
-                    <span>{errors.year?.message}</span>
+                    {/* <span>{errors.year?.message}</span> */}
                     <Input
                       errorMessage={errors.fuel?.message}
                       placeholder="Gasolina / Etanol"
@@ -283,14 +291,13 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                         fontSize={"16px"}
                         borderRadius={"4px"}
                         type="submit"
-                        onClick={handleSubmit(onSubmitCreateAd)}
                       >
                         Criar anúncio
                       </Button>
                     </Flex>
                   </ModalFooter>
                 </Flex>
-              </form>
+              </Flex>
             </ModalBody>
           </Flex>
         </ModalContent>
