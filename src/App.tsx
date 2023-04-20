@@ -15,9 +15,23 @@ import { ToastContainer } from "react-toastify";
 import HomePageContext from "./context/homePage.context";
 import RegexInputs from "./context/regexInputs.context";
 
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   return (
     <ChakraProvider theme={custonTheme}>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <AuthProvider>
         <HomePageContext>
           <RegexInputs>
@@ -25,6 +39,7 @@ function App() {
           </RegexInputs>
         </HomePageContext>
       </AuthProvider>
+      <ToastContainer />
     </ChakraProvider>
   );
 }
