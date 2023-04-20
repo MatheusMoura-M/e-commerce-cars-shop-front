@@ -76,6 +76,8 @@ const GlobalStyle = createGlobalStyle`
 
     body {
 	    line-height: 1;
+        height: 100vh;
+        width: 100vw;
     }
 
     ol, ul {

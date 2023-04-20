@@ -10,17 +10,33 @@ import { AuthProvider } from "./context/webContext";
 
 import RoutesMain from "./routes";
 import custonTheme from "./styles/theme";
+
+import { ToastContainer } from "react-toastify";
 import HomePageContext from "./context/homePage.context";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
-    <ChakraProvider theme={custonTheme}>
-      <AuthProvider>
-        <HomePageContext>
-          <RoutesMain />
-        </HomePageContext>
-      </AuthProvider>
-    </ChakraProvider>
+    <>
+      <ToastContainer
+        position="top-center"
+        autoClose={600}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <ChakraProvider theme={custonTheme}>
+        <AuthProvider>
+          <HomePageContext>
+            <RoutesMain />
+          </HomePageContext>
+        </AuthProvider>
+      </ChakraProvider>
+    </>
   );
 }
 
