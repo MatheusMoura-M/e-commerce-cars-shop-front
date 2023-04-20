@@ -17,6 +17,17 @@ export interface iAuthProviderData {
   passType: string;
   setPassType: Dispatch<SetStateAction<string>>;
   Login: (user: iLoginProps) => void;
+  getCarsBrands: () => Promise<void>;
+  getCarModels: () => Promise<void>;
+  onCreateCarAd: (data: iCreateCarAd) => Promise<void>;
+  brands: string[];
+  brandsAndModels: [];
+  brandSelect: string;
+  setBrandSelect: Dispatch<SetStateAction<string>>;
+  currentBrand: [];
+  setCurrentBrand: Dispatch<SetStateAction<[]>>;
+  modelSelect: string;
+  setModelSelect: Dispatch<SetStateAction<string>>;
 }
 
 export interface iLoginProps {
@@ -26,17 +37,6 @@ export interface iLoginProps {
 
 interface iUser {
   token: string;
-  getCarsBrands: () => Promise<void>;
-  brands: string[];
-  brandsAndModels: [];
-  brandSelect: string;
-  setBrandSelect: Dispatch<SetStateAction<string>>;
-  currentBrand: [];
-  setCurrentBrand: Dispatch<SetStateAction<[]>>;
-  modelSelect: string;
-  setModelSelect: Dispatch<SetStateAction<string>>;
-  getCarModels: () => Promise<void>;
-  onCreateCarAd: (data: iCreateCarAd) => Promise<void>;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -49,35 +49,35 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const [show, setShow] = useState(false);
   const [passType, setPassType] = useState("password");
 
-  // const onRegisterSubmit = (dataRegister: iRegister) => {
-  //   try {
-  //     instance.post("/user", dataRegister);
+  const onRegisterSubmit = (dataRegister: iRegister) => {
+    try {
+      instance.post("/user", dataRegister);
 
-  //     toast.success("Usuário registrado com sucesso", {
-  //       position: "top-right",
-  //       autoClose: 5000,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //       theme: "light",
-  //     });
-  //   } catch (error) {
-  //     if (axios.isAxiosError(error)) {
-  //       toast.error(error.response?.data, {
-  //         position: "top-right",
-  //         autoClose: 1000,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         progress: undefined,
-  //         theme: "light",
-  //       });
-  //     }
-  //   }
-  // };
+      toast.success("Usuário registrado com sucesso", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }
+  };
 
   const [brandsAndModels, setBrandsAndModels] = useState<[]>([]);
   const [brands, setBrands] = useState<string[]>([]);
@@ -89,18 +89,18 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     Navigate("/");
   };
 
-  // const Login = async (user: iLoginProps): Promise<void> => {
-  //   try {
-  //     const { data } = await instance.post<iUser>("login", user);
+  const Login = async (user: iLoginProps): Promise<void> => {
+    try {
+      const { data } = await instance.post<iUser>("login", user);
 
-  //     window.localStorage.setItem("@token", data.token);
-  //     toast.success("Logado com sucesso");
-  //     Navigate("/");
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error("Algo deu errado");
-  //   }
-  // };
+      window.localStorage.setItem("@token", data.token);
+      toast.success("Logado com sucesso");
+      Navigate("/");
+    } catch (error) {
+      console.log(error);
+      toast.error("Algo deu errado");
+    }
+  };
 
   const getCarModels = async () => {
     if (brandSelect) {
@@ -128,10 +128,35 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const onCreateCarAd = async (data: iCreateCarAd) => {
     try {
+      instance.defaults.headers.authorization =
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldG9AbWFpbC5jb20iLCJpZCI6ImU5NGNhMzY2LTg3ZDgtNDY3Yi04NTdiLTM3ZDMxNTE4MTRmNiIsImlhdCI6MTY4MjAxOTE2OCwiZXhwIjoxNjgyMTA1NTY4LCJzdWIiOiJlOTRjYTM2Ni04N2Q4LTQ2N2ItODU3Yi0zN2QzMTUxODE0ZjYifQ.2U1BtwlC6B88EeJ6QrubkyHngLaqY0hqdPu03ooSLGg";
       const response = await instance.post("/car", data);
       console.log(response.data);
+      toast.success("Carro registrado com sucesso", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } catch (error) {
       console.log(error);
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        toast.error(error.response?.data.error.errors[0], {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
     }
   };
 
@@ -196,7 +221,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         show,
         setShow,
         returnHome,
-        // Login,
+        Login,
         getCarsBrands,
         brands,
         brandsAndModels,

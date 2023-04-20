@@ -95,6 +95,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
       fuel: fuel,
       year: year,
       fipe: fipe,
+      published: true,
     };
 
     onCreateCarAd(newData);
