@@ -10,14 +10,19 @@ import { AuthProvider } from "./context/webContext";
 
 import RoutesMain from "./routes";
 import custonTheme from "./styles/theme";
+
+import { ToastContainer } from "react-toastify";
 import HomePageContext from "./context/homePage.context";
+import RegexInputs from "./context/regexInputs.context";
 
 function App() {
   return (
     <ChakraProvider theme={custonTheme}>
       <AuthProvider>
         <HomePageContext>
-          <RoutesMain />
+          <RegexInputs>
+            <RoutesMain />
+          </RegexInputs>
         </HomePageContext>
       </AuthProvider>
     </ChakraProvider>

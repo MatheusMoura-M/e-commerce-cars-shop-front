@@ -3,6 +3,9 @@ import { iProviderProps } from "../@types";
 import { MenuItem } from "@chakra-ui/react";
 import { useState, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { iRegister } from "../interface/user.interface";
 import { instance, instanceKenzieCars } from "../services/api";
 import { iCreateCarAd } from "../interface/car.interface";
 
@@ -13,6 +16,16 @@ export interface iAuthProviderData {
   setShow: Dispatch<SetStateAction<boolean>>;
   passType: string;
   setPassType: Dispatch<SetStateAction<string>>;
+  Login: (user: iLoginProps) => void;
+}
+
+export interface iLoginProps {
+  email: string;
+  password: string;
+}
+
+interface iUser {
+  token: string;
   getCarsBrands: () => Promise<void>;
   brands: string[];
   brandsAndModels: [];
@@ -26,13 +39,45 @@ export interface iAuthProviderData {
   onCreateCarAd: (data: iCreateCarAd) => Promise<void>;
 }
 
-const AuthContext = createContext<iAuthProviderData>({} as iAuthProviderData);
+export const AuthContext = createContext<iAuthProviderData>(
+  {} as iAuthProviderData
+);
 
 export const AuthProvider = ({ children }: iProviderProps) => {
   const Navigate = useNavigate();
 
   const [show, setShow] = useState(false);
   const [passType, setPassType] = useState("password");
+
+  // const onRegisterSubmit = (dataRegister: iRegister) => {
+  //   try {
+  //     instance.post("/user", dataRegister);
+
+  //     toast.success("Usuário registrado com sucesso", {
+  //       position: "top-right",
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: "light",
+  //     });
+  //   } catch (error) {
+  //     if (axios.isAxiosError(error)) {
+  //       toast.error(error.response?.data, {
+  //         position: "top-right",
+  //         autoClose: 1000,
+  //         hideProgressBar: false,
+  //         closeOnClick: true,
+  //         pauseOnHover: true,
+  //         draggable: true,
+  //         progress: undefined,
+  //         theme: "light",
+  //       });
+  //     }
+  //   }
+  // };
 
   const [brandsAndModels, setBrandsAndModels] = useState<[]>([]);
   const [brands, setBrands] = useState<string[]>([]);
@@ -43,6 +88,19 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const returnHome = () => {
     Navigate("/");
   };
+
+  // const Login = async (user: iLoginProps): Promise<void> => {
+  //   try {
+  //     const { data } = await instance.post<iUser>("login", user);
+
+  //     window.localStorage.setItem("@token", data.token);
+  //     toast.success("Logado com sucesso");
+  //     Navigate("/");
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast.error("Algo deu errado");
+  //   }
+  // };
 
   const getCarModels = async () => {
     if (brandSelect) {
@@ -138,6 +196,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         show,
         setShow,
         returnHome,
+        // Login,
         getCarsBrands,
         brands,
         brandsAndModels,

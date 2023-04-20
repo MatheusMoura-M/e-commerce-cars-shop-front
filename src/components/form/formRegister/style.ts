@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Form = styled.form`
+export const FormRegister = styled.form`
 
     background-color: var(--grey-10);
     border-radius: 4px;

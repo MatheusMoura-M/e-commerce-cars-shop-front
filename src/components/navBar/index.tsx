@@ -19,6 +19,7 @@ import { Input } from "../form/input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import formSchema from "../../schemas/comments";
+import { useNavigate } from "react-router-dom";
 
 const BtnsDefault = ["Login", "Register"];
 const BtnsIsLogged = [
@@ -36,6 +37,8 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
   } = useForm<iComment>({
     resolver: yupResolver(formSchema),
   });
+
+  const navigate = useNavigate()
 
   const onFormSubmit = (formData: object) => {
     console.log(formData);
@@ -58,6 +61,7 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
             h={[20.1, null, 23, 26.34]}
             src={imgLogo}
             alt="Logo Header"
+            cursor="pointer"
           />
         </Box>
         {isLogged ? (
@@ -135,7 +139,7 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
               <Button variant={"grey5"} color={"grey.2"}>
                 Login
               </Button>
-              <Button variant={"grey4"}>Register</Button>
+              <Button variant={"grey4"} onClick={() => navigate("/register")}>Register</Button>
             </HStack>
             <Menu>
               <MenuButton

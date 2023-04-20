@@ -1,6 +1,5 @@
 import { Button, Container, Flex, HStack, Image, Text } from "@chakra-ui/react";
 import ImgPerfil from "../../assets/ImgPerfil.svg";
-
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import formSchema from "../../schemas/comments";
@@ -86,6 +85,10 @@ export const BoxComment = ({ isLogged }: IHeaderProps) => {
             placeholder="Digitar comentário"
             height="128px"
             variant="outline"
+            borderRadius={"4px"}
+            _hover={{
+              bg: "grey.8"
+            }}
             mt={"0 !important"}
             pb={{ base: "80px", xsm2: "25px" }}
             borderColor={{ base: "grey.7", xsm2: "transparent" }}

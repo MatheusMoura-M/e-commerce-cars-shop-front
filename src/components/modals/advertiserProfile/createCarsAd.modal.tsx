@@ -134,7 +134,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                     value={brandSelect}
                   />
                   <datalist id="listBrand">
-                    {brands.map((element, index) => (
+                    {brands.map((element: any, index: any) => (
                       <option value={element} key={index}>
                         {element}
                       </option>
@@ -159,7 +159,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                     value={modelSelect}
                   />
                   <datalist id="listModels">
-                    {currentBrand.map((element: any, index) => (
+                    {currentBrand.map((element: any, index: any) => (
                       <option value={element.name} key={index}>
                         {element.name}
                       </option>
