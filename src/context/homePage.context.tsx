@@ -10,19 +10,25 @@ interface iHomeContext {
   carAd: iCar[];
   setCarAd: React.Dispatch<React.SetStateAction<iCar[]>>;
   GetCardsAd(): void;
+  isLoading: boolean
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const contextHomeProvider = createContext({} as iHomeContext);
 
 const HomePageContext = ({ children }: iChildren) => {
   const [carAd, setCarAd] = useState<iCar[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const GetCardsAd = async () => {
     try {
+      setIsLoading(true)
       const response = await instance.get("/car");
       setCarAd(response.data);
     } catch (error) {
       console.log(error);
+    }finally{
+      setIsLoading(false)
     }
   };
 
@@ -32,6 +38,8 @@ const HomePageContext = ({ children }: iChildren) => {
         carAd,
         setCarAd,
         GetCardsAd,
+        isLoading,
+        setIsLoading
       }}
     >
       {children}

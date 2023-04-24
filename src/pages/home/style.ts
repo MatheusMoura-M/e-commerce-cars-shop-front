@@ -1,6 +1,14 @@
 import styled from "styled-components";
 
 export const ContainerHomePage = styled.div`
+
+    width: 100%;
+
+    @media (min-width: 1110px){
+        width: 1110px;
+        margin: 0 auto;
+    }
+
     @media (min-width: 1450px){
         width: 100%;
         display: flex;
@@ -85,19 +93,24 @@ export const UlCardCars = styled.ul`
         margin-left: 10px;
     }
     
-    @media (min-width: 1030px){
+    @media (min-width: 1077px){
         
         overflow: hidden;
         flex-wrap: wrap;
         flex-direction: row;
         justify-content: flex-start;
         align-content: flex-start;
-       
+        margin-left: 130px;
+        
         li{
             height: 120px;
             min-height: 370px;
             margin: 0px 30px 40px 0px;
         }
+    }
+
+    @media (min-width: 1450px){
+        width: 1190px;
     }
 `
 
@@ -106,7 +119,8 @@ export const NumberPage = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: row;
-    margin-top: 40px;
+    margin-top: 20px;
+    margin-bottom: 10px;
     span{
         display: block;
         font-weight: 600;

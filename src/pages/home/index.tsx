@@ -1,4 +1,4 @@
-import { Box, Button, useDisclosure, Show, Hide, Flex } from "@chakra-ui/react";
+import { Box, Button, useDisclosure, Show, Hide, Text } from "@chakra-ui/react";
 import { ContainerHomePage, HomePanel, NumberPage, UlCardCars } from "./style";
 import CarCard from "../../components/cards/car/car";
 import ModalFilterMobile from "../../components/modals/home/filterCarsMobile.modal";
@@ -7,25 +7,27 @@ import Header from "../../components/navBar";
 import { Footer } from "../../components/footer";
 import { useState, useContext, useEffect } from "react";
 import { contextHomeProvider } from "../../context/homePage.context";
+import CardSkeleton from "../../utils/skeletons/cardCar.skeleton";
 
 export const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [cadsPage, setCardPage] = useState([]);
-
-  const { carAd, GetCardsAd } = useContext(contextHomeProvider);
-
-  const pageLimit = 12;
-  const pages = Math.ceil(carAd.length / pageLimit) - 1;
-  const startPageAt = currentPage * pageLimit;
-  const endPageAt = startPageAt + pageLimit;
+  const [currentPage, setCurrentPage] = useState(0);
+  const arraySkelotons = new Array(12).fill("cards")
+  
+  const { carAd, GetCardsAd, isLoading } = useContext(contextHomeProvider);
+  
+  const pageLimit = window.innerWidth == 1450 ||  window.innerWidth > 1450 ? 12 : 8 ;
+  const pages = Math.ceil(carAd.length / pageLimit)
+  const startSliceAt = currentPage * pageLimit;
+  const endSliceAt = startSliceAt + pageLimit;
 
   useEffect(() => {
     GetCardsAd();
   }, []);
 
   const pageCard = () => {
-    const cards = carAd.slice(startPageAt, endPageAt);
+
+    const cards = carAd.slice(startSliceAt, endSliceAt);
 
     return cards;
   };
@@ -51,22 +53,36 @@ export const Home = () => {
           <Show breakpoint="(min-width: 1030px)">
             <FilterCars />
           </Show>
-          <UlCardCars>
-            {pageCard().map((card) => {
-              return (
-                <CarCard
-                  description={card.description}
-                  image={card.cover_image}
-                  km={card.km}
-                  price={card.price}
-                  nameCar={card.model}
-                  brandCar={card.brand}
-                  year={card.year}
-                  key={card.id}
-                  userName="usuário"
-                />
-              );
-            })}
+          <UlCardCars >
+            {
+              isLoading ? 
+              arraySkelotons.map((card: any, i:number) => {
+                return (
+                  <CardSkeleton key={i}/>
+                )
+              })
+            :
+              pageCard().length != 0 ? 
+                pageCard().map((card) => {
+                  return (
+                    <CarCard
+                      description={card.description}
+                      image={card.cover_image}
+                      km={card.km}
+                      price={card.price}
+                      nameCar={card.model}
+                      brandCar={card.brand}
+                      year={card.year}
+                      key={card.id}
+                      userName="usuário"
+                    />
+                  );
+                })
+              :
+               <Box mt="50px">
+                <Text as="h2" fontSize="1.3rem">Nenhum carro cadastrado &#128533;</Text>
+               </Box>
+            }
           </UlCardCars>
         </Box>
 
@@ -93,6 +109,7 @@ export const Home = () => {
               fontWeight="500"
               _hover={{ background: "brand.2" }}
               onClick={onOpen}
+              mb="0px"
             >
               Filtros
             </Button>
@@ -100,8 +117,8 @@ export const Home = () => {
         </Box>
         <Box>
           <NumberPage>
-            <span>{currentPage}</span>
-            <span>de {pages}</span>
+            <span>{currentPage + 1}</span>
+            <span>de {!carAd.length ? 1 : pages}</span>
           </NumberPage>
           <Box display="flex" justifyContent="center">
             <Button
@@ -110,7 +127,7 @@ export const Home = () => {
               fontWeight="600"
               fontSize="1.10rem"
               mb="30px"
-              hidden={currentPage == 1 ? true : false}
+              hidden={currentPage < 1 ? true : false}
               onClick={() =>
                 currentPage > 0
                   ? setCurrentPage(currentPage - 1)
@@ -125,9 +142,9 @@ export const Home = () => {
               fontWeight="600"
               fontSize="1.10rem"
               mb="30px"
-              hidden={pages == currentPage ? true : false}
+              hidden={pages == currentPage + 1 || !carAd.length ? true : false}
               onClick={() => {
-                currentPage < pages
+                currentPage + 1 < pages
                   ? setCurrentPage(currentPage + 1)
                   : setCurrentPage(pages);
               }}
