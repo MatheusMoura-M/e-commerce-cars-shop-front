@@ -128,10 +128,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const onCreateCarAd = async (data: iCreateCarAd) => {
     try {
-      instance.defaults.headers.authorization =
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldG9AbWFpbC5jb20iLCJpZCI6ImU5NGNhMzY2LTg3ZDgtNDY3Yi04NTdiLTM3ZDMxNTE4MTRmNiIsImlhdCI6MTY4MjAxOTE2OCwiZXhwIjoxNjgyMTA1NTY4LCJzdWIiOiJlOTRjYTM2Ni04N2Q4LTQ2N2ItODU3Yi0zN2QzMTUxODE0ZjYifQ.2U1BtwlC6B88EeJ6QrubkyHngLaqY0hqdPu03ooSLGg";
       const response = await instance.post("/car", data);
-      console.log(response.data);
+      
       toast.success("Carro registrado com sucesso", {
         position: "top-right",
         autoClose: 5000,

@@ -10,6 +10,8 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
+import { useContext } from "react";
+import { contextHomeProvider } from "../../../context/homePage.context";
 
 interface iStatusModal {
   isOpen: boolean;
@@ -17,6 +19,9 @@ interface iStatusModal {
 }
 
 const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
+
+  const {brands, colors, fuels, models, years} = useContext(contextHomeProvider)
+
   return (
     <Drawer onClose={onClose} isOpen={isOpen} size="full">
       <DrawerOverlay />
@@ -35,24 +40,15 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
             <DrawerHeader>Marca</DrawerHeader>
 
             <Box marginLeft="30px">
-              <Text fontWeight="600" color="grey.3">
-                General Motors
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Fiat Ford
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Honda
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Toyota
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Toyota
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Volswagen
-              </Text>
+              {/* {
+                brands.map(brand => {
+                  return (
+                    <Text fontWeight="600" color="grey.3" key={brand.id}>
+                      {brand.name}
+                    </Text>
+                  )
+                })
+              } */}
             </Box>
           </Box>
           <Box marginLeft="-25px">

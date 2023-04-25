@@ -11,18 +11,20 @@ import CardSkeleton from "../../utils/skeletons/cardCar.skeleton";
 
 export const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [currentPage, setCurrentPage] = useState(0);
-  const arraySkelotons = new Array(12).fill("cards")
-  
-  const { carAd, GetCardsAd, isLoading } = useContext(contextHomeProvider);
-  
-  const pageLimit = window.innerWidth == 1450 ||  window.innerWidth > 1450 ? 12 : 8 ;
-  const pages = Math.ceil(carAd.length / pageLimit)
-  const startSliceAt = currentPage * pageLimit;
-  const endSliceAt = startSliceAt + pageLimit;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [cadsPage, setCardPage] = useState([]);
+
+  const { carAd, GetCardsAd, GetBrandsCars, GetCarDetail } = useContext(contextHomeProvider);
+
+  const pageLimit = 12;
+  const pages = Math.ceil(carAd.length / pageLimit) - 1;
+  const startPageAt = currentPage * pageLimit;
+  const endPageAt = startPageAt + pageLimit;
 
   useEffect(() => {
     GetCardsAd();
+    GetBrandsCars()
+    GetCarDetail()
   }, []);
 
   const pageCard = () => {
