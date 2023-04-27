@@ -7,6 +7,7 @@ import {
 } from "react-hook-form";
 import { InputProps as ChakraInputProps } from "@chakra-ui/react";
 import { IconType } from "react-icons";
+import { iCreateCarAd } from "../interface/car.interface";
 
 export interface iProviderProps {
   children: ReactNode;
@@ -14,7 +15,6 @@ export interface iProviderProps {
 
 export interface IHeaderProps {
   isLogin?: boolean;
-  isLogged?: boolean;
 }
 
 export interface iComment {
@@ -28,6 +28,7 @@ export interface iShowPass {
 export interface InputProps extends ChakraInputProps {
   id: Path<any>;
   register: UseFormRegister<any>;
+  // errorMessage?: FieldErrors<iCreateCarAd>;
   errorMessage?: string;
   label?: string;
   icon?: IconType;

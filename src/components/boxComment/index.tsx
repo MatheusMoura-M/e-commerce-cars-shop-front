@@ -7,8 +7,8 @@ import { IHeaderProps, iComment } from "../../@types";
 import { Input } from "../form/input";
 import { useAuth } from "../../context/webContext";
 
-export const BoxComment = ({ isLogged }: IHeaderProps) => {
-  const { returnHome } = useAuth();
+export const BoxComment = () => {
+  const { returnHome, isLogged } = useAuth();
 
   const {
     register,
@@ -87,7 +87,7 @@ export const BoxComment = ({ isLogged }: IHeaderProps) => {
             variant="outline"
             borderRadius={"4px"}
             _hover={{
-              bg: "grey.8"
+              bg: "grey.8",
             }}
             mt={"0 !important"}
             pb={{ base: "80px", xsm2: "25px" }}
