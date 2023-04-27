@@ -61,6 +61,13 @@ export const Input = ({
     }
   };
 
+  // const newError = {
+  //   error: errorMessage !== undefined && errorMessage,
+  // };
+
+  // console.log("BBBB", newError);
+  // console.log("AAAA", errorMessage);
+
   return (
     <FormControl mt={marginTopForm} width={formWidth}>
       {!!label && <FormLabel fontSize="0.875rem">{label}</FormLabel>}
@@ -102,9 +109,12 @@ export const Input = ({
           {...rest}
         ></ChakraInput>
         {showPass === true && (
-          <InputRightElement height="100%">{showPassword({ showPass })}</InputRightElement>
+          <InputRightElement h="100%">
+            {showPassword({ showPass })}
+          </InputRightElement>
         )}
         {!!errorMessage && <FormErrorMessage>{errorMessage}</FormErrorMessage>}
+        {/* {newError && <FormErrorMessage>{newError.error}</FormErrorMessage>} */}
       </InputGroup>
     </FormControl>
   );

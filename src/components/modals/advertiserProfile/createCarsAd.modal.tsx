@@ -53,7 +53,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
     handleSubmit,
     formState: { errors },
   } = useForm<iCreateCarAd>({
-    // resolver: yupResolver(formSchemaCarAd),
+    resolver: yupResolver(formSchemaCarAd),
   });
 
   const AddInputImage = () => {
@@ -77,14 +77,15 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
       (element: any) => element.name == modelSelect
     );
     setModelInfoSelect(modelInfo);
-    if (modelInfo[0]?.fuel == 1) {
-      setFuel("Flex");
-    } else if (modelInfo[0]?.fuel == 2) {
-      setFuel("Híbrido");
-    } else if (modelInfo[0]?.fuel == 3) {
-      setFuel("Elétrico");
-    }
-
+    setFuel(
+      modelInfo[0]?.fuel == 1
+        ? "Flex"
+        : modelInfo[0]?.fuel == 2
+        ? "Híbrido"
+        : modelInfo[0]?.fuel == 3
+        ? "Elétrico"
+        : ""
+    );
     setFipe(modelInfo[0]?.value);
     setYear(modelInfo[0]?.year);
   }, [modelSelect]);
@@ -100,7 +101,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
 
     onCreateCarAd(newData);
   };
-
+  // console.log(errors.description?.message);
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -166,7 +167,6 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       </option>
                     ))}
                   </datalist>
-                  {/* <span>{errors.model?.message}</span> */}
                   <Flex gap={"14px"}>
                     <Input
                       errorMessage={errors.year?.message}
@@ -175,9 +175,8 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       type="text"
                       id="year"
                       register={register}
-                      value={year ? year : "a"}
+                      value={year ? year : ""}
                     />
-                    {/* <span>{errors.year?.message}</span> */}
                     <Input
                       errorMessage={errors.fuel?.message}
                       placeholder="Gasolina / Etanol"
@@ -190,7 +189,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                   </Flex>
                   <Flex gap={"14px"}>
                     <Input
-                      errorMessage={errors.km?.message}
+                      // errorMessage={errors.km?.message}
                       placeholder="30.000"
                       label="Quilometragem"
                       type="text"
@@ -208,7 +207,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                   </Flex>
                   <Flex gap={"14px"} alignItems={"flex-end"}>
                     <Input
-                      errorMessage={errors.fipe?.message}
+                      // errorMessage={errors.fipe?.message}
                       placeholder="R$ 48.000,00"
                       label="Preço Tabela FIPE"
                       type="number"
@@ -235,6 +234,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                     id="description"
                     register={register}
                   />
+                  <span>{errors.description?.message}</span>
                   <Input
                     errorMessage={errors.cover_image?.message}
                     placeholder="https://image.com"

@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import { iProviderProps } from "../@types";
-import { MenuItem } from "@chakra-ui/react";
+import { MenuItem, useDisclosure } from "@chakra-ui/react";
 import { useState, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -28,6 +28,11 @@ export interface iAuthProviderData {
   setCurrentBrand: Dispatch<SetStateAction<[]>>;
   modelSelect: string;
   setModelSelect: Dispatch<SetStateAction<string>>;
+  isOpenAddress: boolean;
+  onOpenAddress: () => void;
+  onCloseAddress: () => void;
+  isLogged: boolean;
+  setIsLogged: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface iLoginProps {
@@ -45,7 +50,13 @@ export const AuthContext = createContext<iAuthProviderData>(
 
 export const AuthProvider = ({ children }: iProviderProps) => {
   const Navigate = useNavigate();
+  const {
+    isOpen: isOpenAddress,
+    onOpen: onOpenAddress,
+    onClose: onCloseAddress,
+  } = useDisclosure();
 
+  const [isLogged, setIsLogged] = useState(false);
   const [show, setShow] = useState(false);
   const [passType, setPassType] = useState("password");
 
@@ -208,6 +219,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
           bg: "grey.8",
         }}
         transition="0.2s"
+        onClick={children === "Editar Endereço" ? onOpenAddress : undefined}
       >
         {children}
       </MenuItem>
@@ -233,6 +245,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         setModelSelect,
         getCarModels,
         onCreateCarAd,
+        isOpenAddress,
+        onOpenAddress,
+        onCloseAddress,
+        isLogged,
+        setIsLogged,
       }}
     >
       {children}
