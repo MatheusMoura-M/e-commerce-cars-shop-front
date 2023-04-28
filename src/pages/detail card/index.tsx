@@ -1,7 +1,7 @@
 import Header from "../../components/navBar";
 import { Footer } from "../../components/footer";
 import { Box, Button, Container, Flex, Image, Text } from "@chakra-ui/react";
-import CoverImgCar from "../../assets/CoverImgCar.svg";
+import CoverImgCar from "../../assets/coverImgCar.svg";
 import imgPerfil from "../../assets/ImgPerfil.svg";
 import imgPerfil1 from "../../assets/ImgPerfil1.svg";
 import imgPerfil2 from "../../assets/ImgPerfil2.svg";

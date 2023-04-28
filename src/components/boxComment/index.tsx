@@ -87,15 +87,15 @@ export const BoxComment = ({ isLogged }: IHeaderProps) => {
             height="128px"
             variant="outline"
             borderRadius={"4px"}
-            _hover={{
-              bg: "grey.8",
-            mt={"0 !important"}
-            pb={{ base: "80px", xsm2: "25px" }}
-            borderColor={{ base: "grey.7", xsm2: "transparent" }}
-            _focusVisible={{
-              borderColor: { base: "brand.2", xsm2: "transparent" },
+            // _hover={{
+            //   bg: "grey.8",
+            // mt={"0 !important"}
+            // pb={{ base: "80px", xsm2: "25px" }}
+            // borderColor={{ base: "grey.7", xsm2: "transparent" }}
+            // _focusVisible={{
+            //   borderColor: { base: "brand.2", xsm2: "transparent" },
 
-            }}
+            // }}
           />
           <Flex
             justifyContent={{ base: "flex-start", xsm2: "flex-end" }}
