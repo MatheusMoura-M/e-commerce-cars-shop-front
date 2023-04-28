@@ -1,7 +1,15 @@
 import Header from "../../components/navBar";
 import { Footer } from "../../components/footer";
-import { Box, Button, Container, Flex, Image, Text } from "@chakra-ui/react";
-import CoverImgCar from "../../assets/coverImgCar.svg";
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  Image,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
+import CoverImgCar from "../../assets/CoverImgCar.svg";
 import imgPerfil from "../../assets/ImgPerfil.svg";
 import imgPerfil1 from "../../assets/ImgPerfil1.svg";
 import imgPerfil2 from "../../assets/ImgPerfil2.svg";
@@ -10,14 +18,18 @@ import ContainerDetailCard from "./style";
 import { BoxComment } from "../../components/boxComment";
 import { IHeaderProps } from "../../@types";
 import { useAuth } from "../../context/webContext";
+import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/createCarsAd.modal";
+import { ModalUpdateAddress } from "../../components/modals/updateAddress/updateAddress.modal";
 
-export const DetailCard = ({ isLogged }: IHeaderProps) => {
-  const { returnHome } = useAuth();
+export const DetailCard = () => {
+  const { returnHome, isOpenAddress, onCloseAddress, isLogged } = useAuth();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <ContainerDetailCard>
-        <Header isLogged />
+      <Button onClick={onOpen}>Open Modal</Button>
+      <Header />
+      {/* <ContainerDetailCard>
         <Container
           as={"section"}
           display={"flex"}
@@ -345,7 +357,8 @@ export const DetailCard = ({ isLogged }: IHeaderProps) => {
                     </Text>
                     <Text
                       as={"span"}
-                      fontSize={"12px"}
+                      fontSize={"12px"}hakra-ui/react";
+import CoverImgCar from "../../ass
                       fontFamily={"inter"}
                       fontWeight={400}
                       color={"grey.3"}
@@ -436,7 +449,8 @@ export const DetailCard = ({ isLogged }: IHeaderProps) => {
                     color={"grey.2"}
                   >
                     Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
+                    typesetting industry. Lorem Ipsum has been the industry'shakra-ui/react";
+import CoverImgCar from "../../ass
                     standard dummy text ever since the 1500s, when an unknown
                     printer took a galley of type and scrambled it to make a
                     type specimen book.
@@ -445,10 +459,14 @@ export const DetailCard = ({ isLogged }: IHeaderProps) => {
               </Flex>
             </Flex>
           </Container>
-          <BoxComment isLogged />
+          <BoxComment />
         </Flex>
-      </ContainerDetailCard>
+      </ContainerDetailCard> */}
+      <ModalCreateCarAd isOpen={isOpen} onClose={onClose} />
+      <ModalUpdateAddress isOpen={isOpenAddress} onClose={onCloseAddress} />
       <Footer />
     </>
   );
 };
+hakra-ui/react";
+import CoverImgCar from "../../ass

@@ -19,6 +19,7 @@ import { Input } from "../form/input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import formSchema from "../../schemas/comments";
+import { useNavigate } from "react-router-dom";
 
 const BtnsDefault = ["Login", "Register"];
 const BtnsIsLogged = [
@@ -28,7 +29,9 @@ const BtnsIsLogged = [
   "Sair",
 ];
 
-const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
+const Header = ({ isLogin = false }: IHeaderProps) => {
+  const { MenuHamburguer, returnHome, isLogged, setIsLogged } = useAuth();
+
   const {
     register,
     handleSubmit,
@@ -37,10 +40,14 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
     resolver: yupResolver(formSchema),
   });
 
+  const navigate = useNavigate();
+
   const onFormSubmit = (formData: object) => {
     console.log(formData);
   };
-  const { MenuHamburguer, returnHome } = useAuth();
+
+  // setIsLogged(true);
+
   return (
     <Box
       id="header"
@@ -58,6 +65,7 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
             h={[20.1, null, 23, 26.34]}
             src={imgLogo}
             alt="Logo Header"
+            cursor="pointer"
           />
         </Box>
         {isLogged ? (
@@ -135,7 +143,9 @@ const Header = ({ isLogin = false, isLogged = false }: IHeaderProps) => {
               <Button variant={"grey5"} color={"grey.2"}>
                 Login
               </Button>
-              <Button variant={"grey4"}>Register</Button>
+              <Button variant={"grey4"} onClick={() => navigate("/register")}>
+                Register
+              </Button>
             </HStack>
             <Menu>
               <MenuButton
