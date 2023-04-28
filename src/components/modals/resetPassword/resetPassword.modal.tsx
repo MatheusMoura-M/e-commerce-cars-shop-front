@@ -24,12 +24,11 @@ const ResetPassword = ({ isOpen, onClose }: any) => {
   }
 
   const formSchema = yup.object().shape({
-    password: yup.string().required("Senha obrigatória"),
-    confirm_password: yup.string().required("Confirmar senha obrigatória"),
+    email: yup.string().email().required("Email Obrigatório"),
   });
   const {
     register,
-    handleSubmit,
+    handleSubmit: handleresetpass,
     formState: { errors },
   } = useForm<IresetProps>({
     resolver: yupResolver(formSchema),
@@ -63,22 +62,27 @@ const ResetPassword = ({ isOpen, onClose }: any) => {
             flexDirection="column"
             gap="2rem"
             alignItems="center"
-            onSubmit={handleSubmit(ResetPassRequest)}
+            onSubmit={handleresetpass(ResetPassRequest)}
           >
             <h1>Reset Password</h1>
             <Input
               id="email"
-              register={register}
               type="email"
               placeholder="Digite seu email"
+              variant="outline"
+              _hover={{
+                bg: "grey.8",
+              }}
+              p="1rem"
+              register={register}
             />
             <Button
               variant={"brand1"}
+              type="submit"
               fontSize={"1rem"}
               fontWeight={"600"}
               p={"1rem"}
               w={"70%"}
-              type="submit"
             >
               Send Reset
             </Button>
