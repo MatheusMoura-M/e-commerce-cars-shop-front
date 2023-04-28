@@ -22,6 +22,7 @@ import { useForm } from "react-hook-form";
 import { iUpdateUser } from "../../../interface/user.interface";
 import { Input } from "../../form/input";
 import schemaUpdateUser from "../../../schemas/updateUser";
+import { useAuth } from "../../../context/webContext";
 
 interface iStatusModalUpdateUser {
   isOpen: boolean;
@@ -30,6 +31,7 @@ interface iStatusModalUpdateUser {
 
 const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
   const [isSeller, setIsSeller] = useState<boolean>(false);
+  const { onUpdateUser } = useAuth();
 
   const {
     formattedBirthdate,
@@ -60,7 +62,7 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
       isSeller: isSeller,
     };
 
-    console.log(objUser);
+    onUpdateUser(objUser);
   };
 
   return (

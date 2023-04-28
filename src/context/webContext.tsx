@@ -5,7 +5,11 @@ import { useState, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { iRegister } from "../interface/user.interface";
+import {
+  iRegister,
+  iUpdateAddress,
+  iUpdateUser,
+} from "../interface/user.interface";
 import { instance, instanceKenzieCars } from "../services/api";
 import { iCreateCarAd } from "../interface/car.interface";
 
@@ -36,6 +40,8 @@ export interface iAuthProviderData {
   isOpenUpdateUser: boolean;
   onOpenUpdateUser: () => void;
   onCloseUpdateUser: () => void;
+  onUpdateAddress: (data: iUpdateAddress) => Promise<void>;
+  onUpdateUser: (data: iUpdateUser) => Promise<void>;
 }
 
 export interface iLoginProps {
@@ -68,6 +74,15 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const [isLogged, setIsLogged] = useState(false);
   const [show, setShow] = useState(false);
   const [passType, setPassType] = useState("password");
+  const [brandsAndModels, setBrandsAndModels] = useState<[]>([]);
+  const [brands, setBrands] = useState<string[]>([]);
+  const [brandSelect, setBrandSelect] = useState<string>("");
+  const [currentBrand, setCurrentBrand] = useState<[]>([]);
+  const [modelSelect, setModelSelect] = useState<string>("");
+
+  const returnHome = () => {
+    Navigate("/");
+  };
 
   const onRegisterSubmit = (dataRegister: iRegister) => {
     try {
@@ -97,16 +112,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         });
       }
     }
-  };
-
-  const [brandsAndModels, setBrandsAndModels] = useState<[]>([]);
-  const [brands, setBrands] = useState<string[]>([]);
-  const [brandSelect, setBrandSelect] = useState<string>("");
-  const [currentBrand, setCurrentBrand] = useState<[]>([]);
-  const [modelSelect, setModelSelect] = useState<string>("");
-
-  const returnHome = () => {
-    Navigate("/");
   };
 
   const Login = async (user: iLoginProps): Promise<void> => {
@@ -153,6 +158,80 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       const response = await instance.post("/car", data);
       console.log(response.data);
       toast.success("Carro registrado com sucesso", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } catch (error) {
+      console.log(error);
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        toast.error(error.response?.data.error.errors[0], {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }
+  };
+
+  const onUpdateAddress = async (data: iUpdateAddress) => {
+    try {
+      instance.defaults.headers.authorization =
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldG8yMUBtYWlsLmNvbSIsImlkIjoiYjZkM2Y5ODMtNTRmOC00ZWY4LTgyMDctMjkwMTQyNDI5YzhjIiwiaWF0IjoxNjgyNjE5OTMwLCJleHAiOjE2ODI3MDYzMzAsInN1YiI6ImI2ZDNmOTgzLTU0ZjgtNGVmOC04MjA3LTI5MDE0MjQyOWM4YyJ9.9FeeSRxDOBE2iCyfShB3xIxJjQi067m5uMqQmw4nNrs";
+
+      const response = await instance.patch("/address", data);
+      console.log(response.data);
+
+      toast.success("Address atualizado com sucesso", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } catch (error) {
+      console.log(error);
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        toast.error(error.response?.data.error.errors[0], {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }
+  };
+
+  const onUpdateUser = async (data: iUpdateUser) => {
+    try {
+      const token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pbGZvbnRzMkBnbWFpbC5jb20iLCJpZCI6IjY2MThhN2FmLTU0YzYtNGM4OS1iOWM1LTgzMzA3Yzg4ZTE3YSIsImlhdCI6MTY4MjY5NjcwNCwiZXhwIjoxNjgyNzgzMTA0LCJzdWIiOiI2NjE4YTdhZi01NGM2LTRjODktYjljNS04MzMwN2M4OGUxN2EifQ.P2veCzSL7bqLl6CuG0yFyyStS_u0uGqytqNCH9JzpEg";
+
+      const response = await instance.patch("/user", data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log(response.data);
+
+      toast.success("Usuário atualizado com sucesso", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -239,6 +318,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         {children}
       </MenuItem>
     );
+
   return (
     <AuthContext.Provider
       value={{
@@ -268,6 +348,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         isOpenUpdateUser,
         onOpenUpdateUser,
         onCloseUpdateUser,
+        onUpdateAddress,
+        onUpdateUser,
       }}
     >
       {children}
