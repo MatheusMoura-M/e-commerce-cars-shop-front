@@ -30,7 +30,8 @@ const BtnsIsLogged = [
 ];
 
 const Header = ({ isLogin = false }: IHeaderProps) => {
-  const { isLogged } = useAuth();
+  const { MenuHamburguer, returnHome, isLogged, setIsLogged } = useAuth();
+
   const {
     register,
     handleSubmit,
@@ -44,7 +45,9 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
   const onFormSubmit = (formData: object) => {
     console.log(formData);
   };
-  const { MenuHamburguer, returnHome } = useAuth();
+
+  // setIsLogged(true);
+
   return (
     <Box
       id="header"
