@@ -357,8 +357,7 @@ export const DetailCard = () => {
                     </Text>
                     <Text
                       as={"span"}
-                      fontSize={"12px"}hakra-ui/react";
-import CoverImgCar from "../../ass
+                      fontSize={"12px"}
                       fontFamily={"inter"}
                       fontWeight={400}
                       color={"grey.3"}
@@ -370,7 +369,9 @@ import CoverImgCar from "../../ass
                   <Text
                     as={"p"}
                     fontFamily={"inter"}
-                    fontWeight={400}
+                    fontWeight={400}      <ModalCreateCarAd isOpen={isOpen} onClose={onClose} />
+      <ModalUpdateAddress isOpen={isOpenAddress} onClose={onCloseAddress} />      <ModalCreateCarAd isOpen={isOpen} onClose={onClose} />
+      <ModalUpdateAddress isOpen={isOpenAddress} onClose={onCloseAddress} />
                     fontSize={"14px"}
                     color={"grey.2"}
                   >
@@ -449,8 +450,7 @@ import CoverImgCar from "../../ass
                     color={"grey.2"}
                   >
                     Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry'shakra-ui/react";
-import CoverImgCar from "../../ass
+                    typesetting industry. Lorem Ipsum has been the industry
                     standard dummy text ever since the 1500s, when an unknown
                     printer took a galley of type and scrambled it to make a
                     type specimen book.
@@ -468,5 +468,3 @@ import CoverImgCar from "../../ass
     </>
   );
 };
-hakra-ui/react";
-import CoverImgCar from "../../ass

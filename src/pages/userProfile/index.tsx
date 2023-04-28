@@ -1,6 +1,13 @@
 import Header from "../../components/navBar";
 import { Footer } from "../../components/footer";
-import { Box, Button, Flex, Image, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Image,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { ContainerProfile, UlCardCars } from "./style";
 import { IHeaderProps } from "../../@types";
 import CarCard from "../../components/cards/car/car";
@@ -8,8 +15,11 @@ import { useContext, useEffect, useState } from "react";
 import { contextHomeProvider } from "../../context/homePage.context";
 import imgPerfil from "../../assets/ImgPerfil.svg";
 import { NumberPage } from "./style";
+import { useAuth } from "../../context/webContext";
+import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/createCarsAd.modal";
+import { ModalUpdateAddress } from "../../components/modals/updateAddress/updateAddress.modal";
 
-export const ProfileCard = ({ isLogged }: IHeaderProps) => {
+export const ProfileCard = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { carAd, GetCardsAd } = useContext(contextHomeProvider);
@@ -96,6 +106,9 @@ export const ProfileCard = ({ isLogged }: IHeaderProps) => {
     },
   ];
 
+  const { returnHome, isOpenAddress, onCloseAddress, isLogged } = useAuth();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <ContainerProfile>
       <Box
@@ -104,7 +117,7 @@ export const ProfileCard = ({ isLogged }: IHeaderProps) => {
         flexDirection="column"
         maxWidth="1450px"
       >
-        <Header isLogged />
+        <Header />
         <Box
           display="flex"
           flexDirection={"column"}
@@ -173,6 +186,7 @@ export const ProfileCard = ({ isLogged }: IHeaderProps) => {
                       borderColor="gray.0"
                       borderRadius="4px"
                       fontSize="0.875rem"
+                      onClick={onOpen}
                     >
                       Editar
                     </Button>
@@ -232,6 +246,8 @@ export const ProfileCard = ({ isLogged }: IHeaderProps) => {
           </Box>
         </Box>
       </Box>
+      <ModalCreateCarAd isOpen={isOpen} onClose={onClose} />
+      <ModalUpdateAddress isOpen={isOpenAddress} onClose={onCloseAddress} />
       <Footer />
     </ContainerProfile>
   );
