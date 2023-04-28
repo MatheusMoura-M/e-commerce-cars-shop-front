@@ -28,7 +28,6 @@ export interface iShowPass {
 export interface InputProps extends ChakraInputProps {
   id: Path<any>;
   register: UseFormRegister<any>;
-  // errorMessage?: FieldErrors<iCreateCarAd>;
   errorMessage?: string;
   label?: string;
   icon?: IconType;
@@ -38,5 +37,6 @@ export interface InputProps extends ChakraInputProps {
   type?: string;
   showPass?: boolean;
   marginTopForm?: string;
+  value: string | number;
   // error?: FieldErrors<iComment> | null;
 }

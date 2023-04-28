@@ -13,10 +13,14 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { instance } from "../../services/api";
+import { useState } from "react";
 
 const ResetPasswordPage = () => {
   const { token } = useParams();
   const navigate = useNavigate();
+
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
 
   interface IresetRequestProps {
     password: string;
@@ -75,6 +79,8 @@ const ResetPasswordPage = () => {
             }}
             p="1rem"
             showPass
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
           />
           {errors.password && <span>{errors.password.message}</span>}
 
@@ -90,6 +96,8 @@ const ResetPasswordPage = () => {
             }}
             p="1rem"
             showPass
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={confirmPassword}
           />
           {errors.confirm_password && (
             <span>{errors.confirm_password.message}</span>

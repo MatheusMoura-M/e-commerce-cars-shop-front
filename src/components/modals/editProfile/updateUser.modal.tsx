@@ -30,8 +30,14 @@ interface iStatusModalUpdateUser {
 }
 
 const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
-  const [isSeller, setIsSeller] = useState<boolean>(false);
   const { onUpdateUser, onDeleteUser } = useAuth();
+  const [isSeller, setIsSeller] = useState<boolean>(false);
+
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
 
   const {
     formattedBirthdate,
@@ -114,6 +120,8 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                     label="Nome"
                     type="text"
                     marginTopForm="20px"
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
                   />
 
                   <Text as="span" fontSize="0.7rem" color="alert.1">
@@ -129,6 +137,8 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                     register={register}
                     label="Email"
                     marginTopForm="20px"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
                   />
 
                   <Text as="span" fontSize="0.7rem" color="alert.1">
@@ -142,10 +152,10 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                     fontWeight="400"
                     fontSize="0.875rem"
                     register={register}
-                    value={cpf}
                     onChange={(event) => {
                       formattedCpf(event.target.value);
                     }}
+                    value={cpf}
                     label="CPF"
                     marginTopForm="20px"
                   />
@@ -161,10 +171,10 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                     fontWeight="400"
                     fontSize="0.875rem"
                     register={register}
-                    value={cellphoneNumber}
                     onChange={(event) => {
                       formattedMobileNumber(event.target.value);
                     }}
+                    value={cellphoneNumber}
                     label="Telefone"
                     marginTopForm="20px"
                   />
@@ -182,8 +192,8 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                     register={register}
                     label="Data de nascimento"
                     type="text"
-                    value={birthdate}
                     onChange={(event) => formattedBirthdate(event.target.value)}
+                    value={birthdate}
                     marginTopForm="20px"
                   />
 
@@ -198,6 +208,8 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                     id="image_url"
                     register={register}
                     marginTopForm="20px"
+                    onChange={(e) => setImageUrl(e.target.value)}
+                    value={imageUrl}
                   />
 
                   <Text as="span" fontSize="0.7rem" color="alert.1">
@@ -274,6 +286,8 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                     type="password"
                     showPass
                     marginTopForm="20px"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
                   />
 
                   <Text as="span" fontSize="0.7rem" color="alert.1">
@@ -292,6 +306,8 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                     type="password"
                     showPass
                     marginTopForm="20px"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    value={confirmPassword}
                   />
 
                   <Text as="span" fontSize="0.7rem" color="alert.1">
