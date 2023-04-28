@@ -8,10 +8,11 @@ import { useForm } from "react-hook-form"
 import { error } from "console"
 import { iRegister } from "../../../interface/user.interface"
 import {Input} from "../input"
+import { AuthContext } from "../../../context/webContext"
 
 const FormRegisterUser = () => {
 
-    const [isSaler, setIsSaler] = useState<boolean>(false)
+    const [isSeller, setIsSeller] = useState<boolean>(false)
 
     const {
         formattedBirthdate, 
@@ -23,6 +24,8 @@ const FormRegisterUser = () => {
         cellphoneNumber,
         cep
     } = useContext(contextRegexInputs)
+
+    const {onRegisterSubmit} = useContext(AuthContext)
 
     const {
         register,
@@ -48,10 +51,11 @@ const FormRegisterUser = () => {
             city: data.city,
             number: data.number,
             complement: data.complement,
-            isSaler: isSaler
+            description: data.description,
+            isSeller: isSeller
         }
 
-        console.log(objUser)
+        onRegisterSubmit(objUser)
 
     } 
 
@@ -137,7 +141,7 @@ const FormRegisterUser = () => {
                         onChange={(event) => {formattedMobileNumber(event.target.value)}}
                         pt="15px"
                         pb="15px"
-                        label="CPF"
+                        label="Telefone"
                         marginTopForm="20px"
                     />
 
@@ -176,6 +180,7 @@ const FormRegisterUser = () => {
                             pt="15px"
                             pb="15px"
                             resize="none"
+                            {...register("description")}
                             _hover={{background: "grey.8", borderColor: "grey.8"}}
                             _focus={{background: "grey.10", border: "2px", borderColor: "brand.2"}}
                             _focusVisible={{boxShadow: "none"}} 
@@ -313,28 +318,28 @@ const FormRegisterUser = () => {
                     </Box>
                     <Box display="flex" justifyContent="space-between" mt={4} as="div">
                         <Button
-                            color={isSaler ? "grey.0" : "grey.10"}
+                            color={isSeller ? "grey.0" : "grey.10"}
                             border="2px"
-                            borderColor={isSaler ? "grey.4" : "brand.1"}
-                            bg={isSaler ? "grey.10" : "brand.1"}
+                            borderColor={isSeller ? "grey.4" : "brand.1"}
+                            bg={isSeller ? "grey.10" : "brand.1"}
                             width="48%"
                             borderRadius="4px"
                             fontSize="0.875rem"
                             _focus={{backgroundColor: "brand.1"}}
-                            onClick={() => setIsSaler(false)}
+                            onClick={() => setIsSeller(false)}
                         >
                             Comprador
                         </Button>
                         <Button
-                            color={!isSaler ? "grey.0" : "grey.10"}
+                            color={!isSeller ? "grey.0" : "grey.10"}
                             border="2px"
-                            borderColor={!isSaler ? "grey.4" : "brand.1"}
-                            bg={!isSaler ? "grey.10" : "brand.1"}
+                            borderColor={!isSeller ? "grey.4" : "brand.1"}
+                            bg={!isSeller ? "grey.10" : "brand.1"}
                             width="48%"
                             borderRadius="4px"
                             fontSize="0.875rem"
                             _focus={{backgroundColor: "brand.1"}}
-                            onClick={() => setIsSaler(true)}
+                            onClick={() => setIsSeller(true)}
                         >
                             Anuciante
                         </Button>

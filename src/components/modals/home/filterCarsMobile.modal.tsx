@@ -9,8 +9,9 @@ import {
   DrawerOverlay,
   Input,
   Text,
+  filter,
 } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { contextHomeProvider } from "../../../context/homePage.context";
 
 interface iStatusModal {
@@ -18,12 +19,115 @@ interface iStatusModal {
   onClose(): void;
 }
 
-const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
 
-  const {brands, colors, fuels, models, years} = useContext(contextHomeProvider)
+const ModalFilterMobile = ({ isOpen, onClose}: iStatusModal) => {
+  
+  const {
+    brands, 
+    colors, 
+    fuels, 
+    models, 
+    years, 
+    carAd, 
+    setColors, 
+    setFuels, 
+    setModels, 
+    setYears,
+    setFuelSelected,
+    setModelSelected,
+    setYearSelected,
+    setColorSelected,
+    setBrandSelected,
+    brandSelected,
+    modelSelected,
+    yearSelected,
+    colorSelected,
+    fuelSelected,
+    filterCarList,
+    filterCar
+    
+  } = useContext(contextHomeProvider)
+
+  useEffect(() => {
+
+    const filter = () => {
+  
+      const colorArr: string[] = []
+      const modelArr: string[] = []
+      let yaersArr: string[] = []
+      const fuelArr:  string[] = []
+
+      if(filterCar.length > 0){
+
+        filterCar.forEach(car => {
+
+          if(!colorArr.includes(car.color)){
+            colorArr.push(car.color)
+          }
+
+          if(!modelArr.includes(car.model)){
+            modelArr.push(car.model)
+          }
+
+          if(!yaersArr.includes(car.year)){
+            yaersArr.push(car.year)
+          }
+
+          if(!fuelArr.includes(car.fuel)){
+            fuelArr.push(car.fuel)
+          }
+        })
+
+      }else{
+
+        carAd.forEach(car => {
+    
+          if(!colorArr.includes(car.color)){
+            colorArr.push(car.color)
+          }
+    
+          if(!modelArr.includes(car.model)){
+            modelArr.push(car.model)
+          }
+    
+          if(!yaersArr.includes(car.year)){
+            yaersArr.push(car.year)
+          }
+    
+          if(!fuelArr.includes(car.fuel)){
+            fuelArr.push(car.fuel)
+          }
+    
+        })
+
+      }
+  
+      
+      const arrOrdered = yaersArr.sort((a,b) => +a - +b)
+      yaersArr = arrOrdered
+    
+      setColors(colorArr)
+      setFuels(fuelArr)
+      setModels(modelArr)
+      setYears(yaersArr)
+
+      filterCarList()
+
+    }
+
+    filter()
+
+  }, [
+    isOpen, 
+    colorSelected,
+    yearSelected,
+    brandSelected,
+    modelSelected,
+    fuelSelected
+  ])
 
   return (
-    <Drawer onClose={onClose} isOpen={isOpen} size="full">
+    <Drawer onClose={onClose}  isOpen={isOpen} size="full">
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton marginTop="6px" />
@@ -38,115 +142,164 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
         <DrawerBody>
           <Box marginLeft="-25px">
             <DrawerHeader>Marca</DrawerHeader>
+            {
+              brandSelected ?
+                (
+                  <Box marginLeft="30px">
 
-            <Box marginLeft="30px">
-              {/* {
-                brands.map(brand => {
-                  return (
-                    <Text fontWeight="600" color="grey.3" key={brand.id}>
-                      {brand.name}
-                    </Text>
-                  )
-                })
-              } */}
-            </Box>
+                    <Text 
+                      fontWeight="600" 
+                      color="grey.3" 
+                      key={brandSelected} 
+                      onClick={() => {
+                        setBrandSelected(brandSelected)
+                        filterCarList()
+                      }}
+                    >
+                      {brandSelected}
+                    </Text>  
+
+                  </Box>
+                )
+              :
+                (
+                  <Box marginLeft="30px">
+                    {
+                      brands.map((brand) => {
+   
+                        return(
+                          <Text 
+                            fontWeight="600" 
+                            color="grey.3" 
+                            key={brand.id} 
+                            onClick={() => {
+                              setBrandSelected(brand.name)
+                              filterCarList()
+                            }}
+                          >
+                            {brand.name}
+                          </Text>
+                        )
+
+                      })
+                    }
+                  </Box>
+                )
+            }
+
           </Box>
           <Box marginLeft="-25px">
             <DrawerHeader>Modelo</DrawerHeader>
-
-            <Box marginLeft="30px">
-              <Text fontWeight="600" color="grey.3">
-                Civic
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Corolla
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Cruze
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Fit
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Gol
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Ka
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Onix
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Porsche 718
-              </Text>
-            </Box>
+            {
+              modelSelected ? 
+                (
+                  <Box marginLeft="30px">
+                    <Text fontWeight="600" color="grey.3" key={modelSelected} onClick={() => {
+                      setModelSelected(modelSelected)
+                      filterCarList()
+                    }}>
+                      {modelSelected}
+                    </Text>
+                  </Box>
+                )
+              :
+                
+                (
+                  <Box marginLeft="30px">
+                    {
+                      models.map((model, i) => {
+                        return (
+                          <Text fontWeight="600" color="grey.3" key={i} onClick={() => {setModelSelected(model)}}>
+                            {model}
+                          </Text>
+                        )
+                      })
+                    }
+                  </Box>
+                )
+            }
           </Box>
           <Box marginLeft="-25px">
             <DrawerHeader>Cor</DrawerHeader>
-
-            <Box marginLeft="30px">
-              <Text fontWeight="600" color="grey.3">
-                Azul
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Branca
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Cinza
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Prata
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Preta
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Verde
-              </Text>
-            </Box>
+              {
+                colorSelected ? 
+                  (
+                    <Box marginLeft="30px">
+                      <Text fontWeight="600" color="grey.3" key={colorSelected} onClick={() => {setColorSelected(colorSelected)}}>
+                        {colorSelected}
+                      </Text>
+                    </Box>
+                  )
+                :
+                  (
+                    <Box marginLeft="30px">
+                      {
+                        colors.map((color, i) => {
+                             return (
+                              <Text fontWeight="600" color="grey.3" key={i} onClick={() => {setColorSelected(color)}}>
+                                {color}
+                              </Text>
+                            )
+                        })
+                      }
+                    </Box>
+                  )
+              }
           </Box>
           <Box marginLeft="-25px">
             <DrawerHeader>Ano</DrawerHeader>
-            <Box marginLeft="30px">
-              <Text fontWeight="600" color="grey.3">
-                2022
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                2021
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                2018
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                2015
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                2013
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                2012
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                2010
-              </Text>
-            </Box>
+            {
+              yearSelected ?
+                <Box marginLeft="30px">
+                  <Text 
+                    fontWeight="600" 
+                    color="grey.3" 
+                    onClick={() => {setYearSelected(yearSelected)}}>
+                    {yearSelected}
+                  </Text>
+                </Box>
+              :
+                (
+                  <Box marginLeft="30px">
+                    {
+                      years.map((year, i) => {
+                        return (
+                          <Text fontWeight="600" color="grey.3" key={i} onClick={() => {setYearSelected(year)}}>
+                            {year}
+                          </Text>
+                        )
+                      })
+                    }
+                  </Box>
+                )
+            }
           </Box>
           <Box marginLeft="-25px">
             <DrawerHeader>Combustível</DrawerHeader>
-            <Box marginLeft="30px">
-              <Text fontWeight="600" color="grey.3">
-                Diesel
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Etanol
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Gasolina
-              </Text>
-              <Text fontWeight="600" color="grey.3">
-                Flex
-              </Text>
-            </Box>
+            {
+              fuelSelected ?
+                (
+                  <Box marginLeft="30px">
+                    <Text fontWeight="600" color="grey.3" onClick={() => {setFuelSelected(fuelSelected)}}>
+                      {fuelSelected}
+                    </Text>
+                  </Box>
+                )
+              :
+                (
+                  <Box marginLeft="30px">
+                    {
+                      fuels.map((fuel, i) => {
+                        return (
+                          <Text fontWeight="600" color="grey.3" key={i} onClick={() => {setFuelSelected(fuel)}}>
+                            {fuel}
+                          </Text>
+                        )
+                      })
+                    }
+                  </Box>
+                )
+            }
           </Box>
           <Box marginLeft="-25px" marginTop="35px">
             <DrawerHeader>KM</DrawerHeader>

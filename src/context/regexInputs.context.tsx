@@ -64,8 +64,6 @@ const RegexInputs = ({children}: iChildren) => {
 
     const formattedZipcode = (zipCode: string) => {
 
-        console.log(zipCode, "=================")
-
         let zip = zipCode.replace(/\D/g, "")
 
         if(zip.length > 5){

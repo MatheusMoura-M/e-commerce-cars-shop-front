@@ -11,27 +11,37 @@ import CardSkeleton from "../../utils/skeletons/cardCar.skeleton";
 
 export const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [cadsPage, setCardPage] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const arraySkelotons = new Array(12).fill("cards")
 
-  const { carAd, GetCardsAd, GetBrandsCars, GetCarDetail } = useContext(contextHomeProvider);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
 
-  const pageLimit = 12;
-  const pages = Math.ceil(carAd.length / pageLimit) - 1;
-  const startPageAt = currentPage * pageLimit;
-  const endPageAt = startPageAt + pageLimit;
+  const { 
+    carAd, 
+    GetCardsAd, 
+    GetBrandsCars, 
+    isLoading,
+    colors,
+    filterCarList
+  } = useContext(contextHomeProvider);
+
+  const pageLimit = window.innerWidth == 1450 ||  window.innerWidth > 1450 ? 12 : 8 ;
+  const pages = Math.ceil(carAd.length / pageLimit)
+  const startSliceAt = currentPage * pageLimit;
+  const endSliceAt = startSliceAt + pageLimit;
+
 
   useEffect(() => {
     GetCardsAd();
     GetBrandsCars()
-    GetCarDetail()
   }, []);
 
   const pageCard = () => {
 
     const cards = carAd.slice(startSliceAt, endSliceAt);
-
+ 
     return cards;
+
   };
 
   return (
@@ -110,7 +120,10 @@ export const Home = () => {
               borderRadius="5px"
               fontWeight="500"
               _hover={{ background: "brand.2" }}
-              onClick={onOpen}
+              onClick={() => {
+                setModalIsOpen(true)
+                onOpen()
+              }}
               mb="0px"
             >
               Filtros
@@ -129,7 +142,7 @@ export const Home = () => {
               fontWeight="600"
               fontSize="1.10rem"
               mb="30px"
-              hidden={currentPage < 1 ? true : false}
+              hidden={(currentPage + 1) == 1 ? true : false}
               onClick={() =>
                 currentPage > 0
                   ? setCurrentPage(currentPage - 1)

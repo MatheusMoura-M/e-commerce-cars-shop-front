@@ -33,6 +33,7 @@ export interface iAuthProviderData {
   onCloseAddress: () => void;
   isLogged: boolean;
   setIsLogged: Dispatch<SetStateAction<boolean>>;
+  onRegisterSubmit(dataRegister: iRegister): void
 }
 
 export interface iLoginProps {
@@ -60,9 +61,15 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const [show, setShow] = useState(false);
   const [passType, setPassType] = useState("password");
 
-  const onRegisterSubmit = (dataRegister: iRegister) => {
+  const onRegisterSubmit = async (dataRegister: iRegister) => {
+
+    console.log(dataRegister)
+
     try {
-      instance.post("/user", dataRegister);
+
+      const r = await instance.post("/user", dataRegister);
+
+      console.log(r)
 
       toast.success("Usuário registrado com sucesso", {
         position: "top-right",
@@ -74,6 +81,9 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         progress: undefined,
         theme: "light",
       });
+
+      Navigate("/login", {replace: true})
+
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data, {
@@ -152,7 +162,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         theme: "light",
       });
     } catch (error) {
-      console.log(error);
+  
       if (axios.isAxiosError(error)) {
         console.log(error);
         toast.error(error.response?.data.error.errors[0], {
@@ -248,6 +258,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         onCloseAddress,
         isLogged,
         setIsLogged,
+        onRegisterSubmit
       }}
     >
       {children}
