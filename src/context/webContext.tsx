@@ -5,7 +5,11 @@ import { useState, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { iRegister, iUpdateAddress } from "../interface/user.interface";
+import {
+  iRegister,
+  iUpdateAddress,
+  iUpdateUser,
+} from "../interface/user.interface";
 import { instance, instanceKenzieCars } from "../services/api";
 import { iCreateCarAd } from "../interface/car.interface";
 
@@ -33,7 +37,12 @@ export interface iAuthProviderData {
   onCloseAddress: () => void;
   isLogged: boolean;
   setIsLogged: Dispatch<SetStateAction<boolean>>;
+  isOpenUpdateUser: boolean;
+  onOpenUpdateUser: () => void;
+  onCloseUpdateUser: () => void;
   onUpdateAddress: (data: iUpdateAddress) => Promise<void>;
+  onUpdateUser: (data: iUpdateUser) => Promise<void>;
+  onDeleteUser: () => Promise<void>;
 }
 
 export interface iLoginProps {
@@ -55,6 +64,12 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     isOpen: isOpenAddress,
     onOpen: onOpenAddress,
     onClose: onCloseAddress,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenUpdateUser,
+    onOpen: onOpenUpdateUser,
+    onClose: onCloseUpdateUser,
   } = useDisclosure();
 
   const [isLogged, setIsLogged] = useState(false);
@@ -207,6 +222,81 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     }
   };
 
+  const onUpdateUser = async (data: iUpdateUser) => {
+    try {
+      const token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pbGZvbnRzMkBnbWFpbC5jb20iLCJpZCI6IjY2MThhN2FmLTU0YzYtNGM4OS1iOWM1LTgzMzA3Yzg4ZTE3YSIsImlhdCI6MTY4MjY5NjcwNCwiZXhwIjoxNjgyNzgzMTA0LCJzdWIiOiI2NjE4YTdhZi01NGM2LTRjODktYjljNS04MzMwN2M4OGUxN2EifQ.P2veCzSL7bqLl6CuG0yFyyStS_u0uGqytqNCH9JzpEg";
+
+      const response = await instance.patch("/user", data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log(response.data);
+
+      toast.success("Usuário atualizado com sucesso", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } catch (error) {
+      console.log(error);
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        toast.error(error.response?.data.error.errors[0], {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }
+  };
+
+  const onDeleteUser = async () => {
+    try {
+      const token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pbGZvbnRzMkBnbWFpbC5jb20iLCJpZCI6IjY2MThhN2FmLTU0YzYtNGM4OS1iOWM1LTgzMzA3Yzg4ZTE3YSIsImlhdCI6MTY4MjY5ODk0NCwiZXhwIjoxNjgyNzg1MzQ0LCJzdWIiOiI2NjE4YTdhZi01NGM2LTRjODktYjljNS04MzMwN2M4OGUxN2EifQ.7MHGh3iV4RTsiry5W3eehyKKHlO_nDLpSEJ9ruZnkZU";
+
+      const response = await instance.delete("/user", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      toast.success("Usuário deletado com sucesso", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } catch (error) {
+      console.log(error);
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        toast.error(error.response?.data.error.errors[0], {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }
+  };
+
   const MenuHamburguer = ({ children }: iProviderProps) =>
     children === "Login" ? (
       <MenuItem
@@ -255,7 +345,13 @@ export const AuthProvider = ({ children }: iProviderProps) => {
           bg: "grey.8",
         }}
         transition="0.2s"
-        onClick={children === "Editar Endereço" ? onOpenAddress : undefined}
+        onClick={
+          children === "Editar Endereço"
+            ? onOpenAddress
+            : children === "Editar Perfil"
+            ? onOpenUpdateUser
+            : undefined
+        }
       >
         {children}
       </MenuItem>
@@ -287,7 +383,12 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         onCloseAddress,
         isLogged,
         setIsLogged,
+        isOpenUpdateUser,
+        onOpenUpdateUser,
+        onCloseUpdateUser,
         onUpdateAddress,
+        onUpdateUser,
+        onDeleteUser,
       }}
     >
       {children}

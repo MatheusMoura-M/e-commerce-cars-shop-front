@@ -24,3 +24,15 @@ export interface iUpdateAddress {
   number?: string;
   complement?: string;
 }
+
+export interface iUpdateUser {
+  name?: string;
+  email?: string;
+  telephone?: string;
+  password?: string;
+  confir_password?: string;
+  cpf?: string;
+  image_url?: string;
+  birthdate?: string;
+  isSeller?: boolean;
+}

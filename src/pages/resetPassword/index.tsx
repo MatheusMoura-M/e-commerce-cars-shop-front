@@ -10,12 +10,13 @@ import {
   ContainerResetPassPage,
   FormResetPass,
 } from "./style";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { instance } from "../../services/api";
 
 const ResetPasswordPage = () => {
   const { token } = useParams();
+  const navigate = useNavigate();
 
   interface IresetRequestProps {
     password: string;
@@ -43,12 +44,13 @@ const ResetPasswordPage = () => {
         throw new Error("As senhas não coincidem");
       }
 
-      const { data } = await instance.post<IresetRequestPropsResponse>(
+      const { data } = await instance.patch<IresetRequestPropsResponse>(
         `user/reset-password/${token}`,
         password
       );
 
       toast.success(data.message);
+      navigate("/login");
     } catch (error) {
       console.log(error);
       toast.error("Algo deu errado");
