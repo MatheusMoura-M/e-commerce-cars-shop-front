@@ -31,7 +31,7 @@ interface iStatusModalUpdateUser {
 
 const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
   const [isSeller, setIsSeller] = useState<boolean>(false);
-  const { onUpdateUser } = useAuth();
+  const { onUpdateUser, onDeleteUser } = useAuth();
 
   const {
     formattedBirthdate,
@@ -327,6 +327,7 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                       fontSize={"14px"}
                       w={"150px"}
                       maxW={{ base: 120, xs1: 150, xs3: "110px" }}
+                      onClick={() => onDeleteUser()}
                     >
                       Excluir Perfil
                     </Button>

@@ -42,6 +42,7 @@ export interface iAuthProviderData {
   onCloseUpdateUser: () => void;
   onUpdateAddress: (data: iUpdateAddress) => Promise<void>;
   onUpdateUser: (data: iUpdateUser) => Promise<void>;
+  onDeleteUser: () => Promise<void>;
 }
 
 export interface iLoginProps {
@@ -259,6 +260,43 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     }
   };
 
+  const onDeleteUser = async () => {
+    try {
+      const token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pbGZvbnRzMkBnbWFpbC5jb20iLCJpZCI6IjY2MThhN2FmLTU0YzYtNGM4OS1iOWM1LTgzMzA3Yzg4ZTE3YSIsImlhdCI6MTY4MjY5ODk0NCwiZXhwIjoxNjgyNzg1MzQ0LCJzdWIiOiI2NjE4YTdhZi01NGM2LTRjODktYjljNS04MzMwN2M4OGUxN2EifQ.7MHGh3iV4RTsiry5W3eehyKKHlO_nDLpSEJ9ruZnkZU";
+
+      const response = await instance.delete("/user", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      toast.success("Usuário deletado com sucesso", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } catch (error) {
+      console.log(error);
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        toast.error(error.response?.data.error.errors[0], {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }
+  };
+
   const MenuHamburguer = ({ children }: iProviderProps) =>
     children === "Login" ? (
       <MenuItem
@@ -350,6 +388,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         onCloseUpdateUser,
         onUpdateAddress,
         onUpdateUser,
+        onDeleteUser,
       }}
     >
       {children}
