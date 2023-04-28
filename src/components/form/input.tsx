@@ -1,16 +1,18 @@
 import {
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Input as ChakraInput,
   InputLeftElement,
   InputGroup,
   InputRightElement,
   Box,
+  FormErrorMessage,
+  FormHelperText,
+  Text,
 } from "@chakra-ui/react";
 import { InputProps, iShowPass } from "../../@types";
 import { useAuth } from "../../context/webContext";
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 export const Input = ({
@@ -25,14 +27,11 @@ export const Input = ({
   formWidth,
   marginTopForm,
   showPass,
+  value,
   ...rest
 }: InputProps) => {
   const { passType, setPassType, show, setShow } = useAuth();
-
-  const [value, setValue] = useState("");
-
   const { onChange, onBlur, name, ref } = register!(id);
-
   // Validations
   const inputType = showPass ? passType : type;
 
@@ -61,12 +60,7 @@ export const Input = ({
     }
   };
 
-  // const newError = {
-  //   error: errorMessage !== undefined && errorMessage,
-  // };
-
-  // console.log("BBBB", newError);
-  // console.log("AAAA", errorMessage);
+  const isError = value === "";
 
   return (
     <FormControl mt={marginTopForm} width={formWidth}>
@@ -85,10 +79,6 @@ export const Input = ({
           ref={ref}
           value={value}
           type={inputType}
-          onChange={(e) => {
-            setValue(e.target.value);
-            onChange(e);
-          }}
           bg={"transparent"}
           border={"1px solid"}
           borderColor={"grey.7"}
@@ -107,14 +97,17 @@ export const Input = ({
             backgroundColor: "grey.10",
           }}
           {...rest}
-        ></ChakraInput>
+        />
         {showPass === true && (
           <InputRightElement h="100%">
             {showPassword({ showPass })}
           </InputRightElement>
         )}
-        {!!errorMessage && <FormErrorMessage>{errorMessage}</FormErrorMessage>}
-        {/* {newError && <FormErrorMessage>{newError.error}</FormErrorMessage>} */}
+        {isError && (
+          <Text color={"alert.1"} mt={"5px"} fontSize={"12px"}>
+            {errorMessage}
+          </Text>
+        )}
       </InputGroup>
     </FormControl>
   );

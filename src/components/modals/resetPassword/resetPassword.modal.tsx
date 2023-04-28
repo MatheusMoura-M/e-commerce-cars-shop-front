@@ -8,6 +8,7 @@ import {
   ModalCloseButton,
   ModalBody,
 } from "@chakra-ui/react";
+import { useState } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -16,6 +17,8 @@ import { toast } from "react-toastify";
 import { instance } from "../../../services/api";
 
 const ResetPassword = ({ isOpen, onClose }: any) => {
+  const [email, setEmail] = useState<string>("");
+
   interface IresetProps {
     email: string;
   }
@@ -75,6 +78,8 @@ const ResetPassword = ({ isOpen, onClose }: any) => {
               }}
               p="1rem"
               register={register}
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
             />
             <Button
               variant={"brand1"}

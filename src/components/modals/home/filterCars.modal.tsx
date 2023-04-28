@@ -2,20 +2,15 @@ import { Box, Button, Heading, Input, Text } from "@chakra-ui/react";
 
 const FilterCars = () => {
   return (
-    <Box 
-      as="section" 
-      marginTop="80px" 
-      marginLeft="20px" 
-      w="370px"
-    >
-     <Box>
-          <Heading fontSize="1.7rem">Marca</Heading>
+    <Box as="section" marginTop="80px" marginLeft="20px" w="370px">
+      <Box>
+        <Heading fontSize="1.7rem">Marca</Heading>
 
         <Box margin="15px 0px 15px 10px">
-          <Text fontWeight="600" color="grey.3" >
+          <Text fontWeight="600" color="grey.3">
             General Motors
           </Text>
-           <Text fontWeight="600" color="grey.3">
+          <Text fontWeight="600" color="grey.3">
             Fiat Ford
           </Text>
           <Text fontWeight="600" color="grey.3">
@@ -31,7 +26,7 @@ const FilterCars = () => {
             Volswagen
           </Text>
         </Box>
-      </Box> 
+      </Box>
       <Box>
         <Heading fontSize="1.7rem">Modelo</Heading>
 

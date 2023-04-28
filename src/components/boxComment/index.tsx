@@ -6,9 +6,11 @@ import formSchema from "../../schemas/comments";
 import { IHeaderProps, iComment } from "../../@types";
 import { Input } from "../form/input";
 import { useAuth } from "../../context/webContext";
+import { useState } from "react";
 
 export const BoxComment = () => {
   const { returnHome, isLogged } = useAuth();
+  const [comment, setComment] = useState("");
 
   const {
     register,
@@ -85,7 +87,6 @@ export const BoxComment = () => {
             placeholder="Digitar comentário"
             height="128px"
             variant="outline"
-            borderRadius={"4px"}
             _hover={{
               bg: "grey.8",
             }}
@@ -95,6 +96,8 @@ export const BoxComment = () => {
             _focusVisible={{
               borderColor: { base: "brand.2", xsm2: "transparent" },
             }}
+            onChange={(e) => setComment(e.target.value)}
+            value={comment}
           />
           <Flex
             justifyContent={{ base: "flex-start", xsm2: "flex-end" }}

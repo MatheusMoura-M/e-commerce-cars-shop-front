@@ -33,6 +33,11 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
   const [year, setYear] = useState("");
   const [fuel, setFuel] = useState("");
   const [fipe, setFipe] = useState("");
+  const [coverImage, setCoverImage] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [color, setColor] = useState("");
+  const [km, setKm] = useState("");
 
   const {
     getCarsBrands,
@@ -98,10 +103,9 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
       fipe: fipe,
       published: true,
     };
-
     onCreateCarAd(newData);
   };
-  // console.log(errors.description?.message);
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -132,7 +136,9 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                     variant="outline"
                     list="listBrand"
                     onClick={getCarsBrands}
-                    onChange={(e) => inputValue(e)}
+                    onChange={(e) => {
+                      inputValue(e);
+                    }}
                     value={brandSelect}
                   />
                   <datalist id="listBrand">
@@ -175,6 +181,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       type="text"
                       id="year"
                       register={register}
+                      // isDisabled={true}
                       value={year ? year : ""}
                     />
                     <Input
@@ -184,17 +191,20 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       type="text"
                       id="fuel"
                       register={register}
+                      // isDisabled={true}
                       value={fuel ? fuel : ""}
                     />
                   </Flex>
                   <Flex gap={"14px"}>
                     <Input
-                      // errorMessage={errors.km?.message}
+                      errorMessage={errors.km?.message}
                       placeholder="30.000"
                       label="Quilometragem"
-                      type="text"
+                      type="number"
                       id="km"
                       register={register}
+                      onChange={(e) => setKm(e.target.value)}
+                      value={km}
                     />
                     <Input
                       errorMessage={errors.color?.message}
@@ -203,18 +213,20 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       type="text"
                       id="color"
                       register={register}
+                      onChange={(e) => setColor(e.target.value)}
+                      value={color}
                     />
                   </Flex>
                   <Flex gap={"14px"} alignItems={"flex-end"}>
                     <Input
-                      // errorMessage={errors.fipe?.message}
+                      errorMessage={errors.fipe?.message}
                       placeholder="R$ 48.000,00"
                       label="Preço Tabela FIPE"
                       type="number"
                       id="fipe"
                       register={register}
-                      // isDisabled={true}
-                      value={fipe ? fipe : ""}
+                      isDisabled={true}
+                      value={fipe ? fipe : 0}
                     />
                     <Input
                       errorMessage={errors.price?.message}
@@ -223,6 +235,8 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       type="number"
                       id="price"
                       register={register}
+                      onChange={(e) => setPrice(e.target.value)}
+                      value={price}
                     />
                   </Flex>
                   <Input
@@ -233,8 +247,9 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                     type="text"
                     id="description"
                     register={register}
+                    onChange={(e) => setDescription(e.target.value)}
+                    value={description}
                   />
-                  <span>{errors.description?.message}</span>
                   <Input
                     errorMessage={errors.cover_image?.message}
                     placeholder="https://image.com"
@@ -242,6 +257,8 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                     type="text"
                     id="cover_image"
                     register={register}
+                    onChange={(e) => setCoverImage(e.target.value)}
+                    value={coverImage}
                   />
                   <Flex flexDirection={"column"} gap={"14px"}>
                     {images.map((image, index) => (
