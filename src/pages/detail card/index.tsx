@@ -19,16 +19,17 @@ import { BoxComment } from "../../components/boxComment";
 import { IHeaderProps } from "../../@types";
 import { useAuth } from "../../context/webContext";
 import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/createCarsAd.modal";
+import { ModalUpdateAddress } from "../../components/modals/updateAddress/updateAddress.modal";
 
-export const DetailCard = ({ isLogged }: IHeaderProps) => {
-  const { returnHome } = useAuth();
+export const DetailCard = () => {
+  const { returnHome, isOpenAddress, onCloseAddress, isLogged } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
       <Button onClick={onOpen}>Open Modal</Button>
+      <Header />
       {/* <ContainerDetailCard>
-        <Header isLogged />
         <Container
           as={"section"}
           display={"flex"}
@@ -456,10 +457,11 @@ export const DetailCard = ({ isLogged }: IHeaderProps) => {
               </Flex>
             </Flex>
           </Container>
-          <BoxComment isLogged />
+          <BoxComment />
         </Flex>
       </ContainerDetailCard> */}
       <ModalCreateCarAd isOpen={isOpen} onClose={onClose} />
+      <ModalUpdateAddress isOpen={isOpenAddress} onClose={onCloseAddress} />
       <Footer />
     </>
   );
