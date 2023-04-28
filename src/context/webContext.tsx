@@ -33,6 +33,9 @@ export interface iAuthProviderData {
   onCloseAddress: () => void;
   isLogged: boolean;
   setIsLogged: Dispatch<SetStateAction<boolean>>;
+  isOpenUpdateUser: boolean;
+  onOpenUpdateUser: () => void;
+  onCloseUpdateUser: () => void;
 }
 
 export interface iLoginProps {
@@ -54,6 +57,12 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     isOpen: isOpenAddress,
     onOpen: onOpenAddress,
     onClose: onCloseAddress,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenUpdateUser,
+    onOpen: onOpenUpdateUser,
+    onClose: onCloseUpdateUser,
   } = useDisclosure();
 
   const [isLogged, setIsLogged] = useState(false);
@@ -219,7 +228,13 @@ export const AuthProvider = ({ children }: iProviderProps) => {
           bg: "grey.8",
         }}
         transition="0.2s"
-        onClick={children === "Editar Endereço" ? onOpenAddress : undefined}
+        onClick={
+          children === "Editar Endereço"
+            ? onOpenAddress
+            : children === "Editar Perfil"
+            ? onOpenUpdateUser
+            : undefined
+        }
       >
         {children}
       </MenuItem>
@@ -250,6 +265,9 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         onCloseAddress,
         isLogged,
         setIsLogged,
+        isOpenUpdateUser,
+        onOpenUpdateUser,
+        onCloseUpdateUser,
       }}
     >
       {children}
