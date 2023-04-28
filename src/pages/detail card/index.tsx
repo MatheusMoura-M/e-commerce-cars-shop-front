@@ -20,9 +20,17 @@ import { IHeaderProps } from "../../@types";
 import { useAuth } from "../../context/webContext";
 import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/createCarsAd.modal";
 import { ModalUpdateAddress } from "../../components/modals/updateAddress/updateAddress.modal";
+import ModalEditUser from "../../components/modals/editProfile/updateUser.modal";
 
 export const DetailCard = () => {
-  const { returnHome, isOpenAddress, onCloseAddress, isLogged } = useAuth();
+  const {
+    returnHome,
+    isOpenAddress,
+    onCloseAddress,
+    isLogged,
+    isOpenUpdateUser,
+    onCloseUpdateUser,
+  } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -464,6 +472,7 @@ export const DetailCard = () => {
       </ContainerDetailCard> */}
       <ModalCreateCarAd isOpen={isOpen} onClose={onClose} />
       <ModalUpdateAddress isOpen={isOpenAddress} onClose={onCloseAddress} />
+      <ModalEditUser isOpen={isOpenUpdateUser} onClose={onCloseUpdateUser} />
       <Footer />
     </>
   );

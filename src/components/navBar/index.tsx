@@ -46,7 +46,7 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
     console.log(formData);
   };
 
-  // setIsLogged(true);
+  setIsLogged(true);
 
   return (
     <Box
