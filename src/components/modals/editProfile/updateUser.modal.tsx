@@ -20,7 +20,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { contextRegexInputs } from "../../../context/regexInputs.context";
 import schemaRegister from "../../../schemas/register.schema";
 import { useForm } from "react-hook-form";
-import { iRegister } from "../../../interface/user.interface";
+import { iRegister, iUpdateUser } from "../../../interface/user.interface";
 import { Input } from "../../form/input";
 
 interface iStatusModalUpdateUser {
@@ -44,11 +44,11 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<iRegister>({
+  } = useForm<iUpdateUser>({
     resolver: yupResolver(schemaRegister),
   });
 
-  const onSubmitRegister = (data: iRegister) => {
+  const onSubmitRegister = (data: iUpdateUser) => {
     const objUser = {
       name: data.name,
       email: data.email,
