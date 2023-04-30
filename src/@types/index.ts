@@ -17,10 +17,6 @@ export interface IHeaderProps {
   isLogin?: boolean;
 }
 
-export interface iComment {
-  comment: string;
-}
-
 export interface iShowPass {
   showPass: boolean;
 }

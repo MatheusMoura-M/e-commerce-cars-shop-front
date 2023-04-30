@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
-const formSchema = yup.object().shape({
-  name: yup.string().required("Campo obrigatório"),
+const commentSchema = yup.object().shape({
+  comment: yup.string().required("Comentário obrigatório"),
 });
 
-export default formSchema;
+export default commentSchema;

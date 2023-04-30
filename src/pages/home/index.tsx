@@ -12,12 +12,13 @@ import CardSkeleton from "../../utils/skeletons/cardCar.skeleton";
 export const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentPage, setCurrentPage] = useState(0);
-  const arraySkelotons = new Array(12).fill("cards")
-  
+  const arraySkelotons = new Array(12).fill("cards");
+
   const { carAd, GetCardsAd, isLoading } = useContext(contextHomeProvider);
-  
-  const pageLimit = window.innerWidth == 1450 ||  window.innerWidth > 1450 ? 12 : 8 ;
-  const pages = Math.ceil(carAd.length / pageLimit)
+
+  const pageLimit =
+    window.innerWidth == 1450 || window.innerWidth > 1450 ? 12 : 8;
+  const pages = Math.ceil(carAd.length / pageLimit);
   const startSliceAt = currentPage * pageLimit;
   const endSliceAt = startSliceAt + pageLimit;
 
@@ -26,7 +27,6 @@ export const Home = () => {
   }, []);
 
   const pageCard = () => {
-
     const cards = carAd.slice(startSliceAt, endSliceAt);
 
     return cards;
@@ -53,36 +53,34 @@ export const Home = () => {
           <Show breakpoint="(min-width: 1030px)">
             <FilterCars />
           </Show>
-          <UlCardCars >
-            {
-              isLoading ? 
-              arraySkelotons.map((card: any, i:number) => {
-                return (
-                  <CardSkeleton key={i}/>
-                )
+          <UlCardCars>
+            {isLoading ? (
+              arraySkelotons.map((card: any, i: number) => {
+                return <CardSkeleton key={i} />;
               })
-            :
-              pageCard().length != 0 ? 
-                pageCard().map((card) => {
-                  return (
-                    <CarCard
-                      description={card.description}
-                      image={card.cover_image}
-                      km={card.km}
-                      price={card.price}
-                      nameCar={card.model}
-                      brandCar={card.brand}
-                      year={card.year}
-                      key={card.id}
-                      userName="usuário"
-                    />
-                  );
-                })
-              :
-               <Box mt="50px">
-                <Text as="h2" fontSize="1.3rem">Nenhum carro cadastrado &#128533;</Text>
-               </Box>
-            }
+            ) : pageCard().length != 0 ? (
+              pageCard().map((card) => {
+                return (
+                  <CarCard
+                    description={card.description}
+                    image={card.cover_image}
+                    km={card.km}
+                    price={card.price}
+                    nameCar={card.model}
+                    brandCar={card.brand}
+                    year={card.year}
+                    key={card.id}
+                    userName="usuário"
+                  />
+                );
+              })
+            ) : (
+              <Box mt="50px">
+                <Text as="h2" fontSize="1.3rem">
+                  Nenhum carro cadastrado &#128533;
+                </Text>
+              </Box>
+            )}
           </UlCardCars>
         </Box>
 
