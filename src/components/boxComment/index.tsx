@@ -108,7 +108,6 @@ export const BoxComment = () => {
             onChange={(e) => setCommentInput(e.target.value)}
             value={commentInput}
           />
-
           <Flex
             justifyContent={{ base: "flex-start", xsm2: "flex-end" }}
             alignItems={"center"}
@@ -116,12 +115,6 @@ export const BoxComment = () => {
             mt={{ base: "20px", xsm2: "0px" }}
             h={45}
           >
-            {/* {errors.comment?.message && (
-              <Text color={"alert.1"} fontSize={"12px"} ml={"10px"}>
-                {errors.comment?.message}
-              </Text>
-            )} */}
-
             {isLogged ? (
               <Button
                 variant={"brand1"}
@@ -152,10 +145,27 @@ export const BoxComment = () => {
           wrap={{ base: "wrap", xsm2: "unset" }}
           spacing={"8px"}
         >
-          <Button variant={"greyComments"}>Gostei muito!</Button>
-          <Button variant={"greyComments"}>Incrível</Button>
           <Button
             variant={"greyComments"}
+            onClick={(e) =>
+              setCommentInput((e.target as HTMLButtonElement).innerText)
+            }
+          >
+            Gostei muito!
+          </Button>
+          <Button
+            variant={"greyComments"}
+            onClick={(e) =>
+              setCommentInput((e.target as HTMLButtonElement).innerText)
+            }
+          >
+            Incrível
+          </Button>
+          <Button
+            variant={"greyComments"}
+            onClick={(e) =>
+              setCommentInput((e.target as HTMLButtonElement).innerText)
+            }
             mt={{ base: "24px", xsm2: "unset" }}
             ml={{ base: "0px !important", xsm2: "8px !important" }}
           >
