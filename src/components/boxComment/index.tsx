@@ -2,27 +2,30 @@ import { Button, Container, Flex, HStack, Image, Text } from "@chakra-ui/react";
 import ImgPerfil from "../../assets/ImgPerfil.svg";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import formSchema from "../../schemas/comments";
-import { IHeaderProps, iComment } from "../../@types";
 import { Input } from "../form/input";
 import { useAuth } from "../../context/webContext";
 import { useState } from "react";
+import { iComment } from "../../interface/comment.interface";
+import commentSchema from "../../schemas/comments";
 
 export const BoxComment = () => {
-  const { returnHome, isLogged } = useAuth();
-  const [comment, setComment] = useState("");
+  const { returnHome, isLogged, setIsLogged } = useAuth();
+  const [commentInput, setCommentInput] = useState("");
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<iComment>({
-    resolver: yupResolver(formSchema),
+    resolver: yupResolver(commentSchema),
   });
 
-  const onFormSubmit = (formData: object) => {
+  const onFormSubmit = (formData: iComment) => {
+    console.log(commentInput);
     console.log(formData);
   };
+
+  setIsLogged(true);
 
   return (
     <Container
@@ -65,11 +68,17 @@ export const BoxComment = () => {
           </HStack>
         )}
         <Flex
+          as="form"
+          onSubmit={handleSubmit(onFormSubmit)}
           border={"1px solid"}
           borderColor={{ base: "transparent", xsm2: "grey.7" }}
           borderRadius={"4px"}
           flexDirection={"column"}
-          h={{ base: 200, xsm2: 128 }}
+          h={
+            errors.comment?.message
+              ? { base: 200, xsm2: 150 }
+              : { base: 200, xsm2: 128 }
+          }
           gap={{ base: "unset", xsm2: "5px" }}
           _hover={{
             bg: { base: "transparent", xsm2: "grey.8" },
@@ -96,11 +105,12 @@ export const BoxComment = () => {
             _focusVisible={{
               borderColor: { base: "brand.2", xsm2: "transparent" },
             }}
-            onChange={(e) => setComment(e.target.value)}
-            value={comment}
+            onChange={(e) => setCommentInput(e.target.value)}
+            value={commentInput}
           />
           <Flex
             justifyContent={{ base: "flex-start", xsm2: "flex-end" }}
+            alignItems={"center"}
             p={{ base: "unset", xsm2: "0 11px 8px 0" }}
             mt={{ base: "20px", xsm2: "0px" }}
             h={45}
@@ -108,11 +118,11 @@ export const BoxComment = () => {
             {isLogged ? (
               <Button
                 variant={"brand1"}
+                type="submit"
                 w={108}
                 h={38}
                 fontSize={"14px"}
                 fontFamily={"inter"}
-                onClick={handleSubmit(onFormSubmit)}
               >
                 Comentar
               </Button>
@@ -135,10 +145,27 @@ export const BoxComment = () => {
           wrap={{ base: "wrap", xsm2: "unset" }}
           spacing={"8px"}
         >
-          <Button variant={"greyComments"}>Gostei muito!</Button>
-          <Button variant={"greyComments"}>Incrível</Button>
           <Button
             variant={"greyComments"}
+            onClick={(e) =>
+              setCommentInput((e.target as HTMLButtonElement).innerText)
+            }
+          >
+            Gostei muito!
+          </Button>
+          <Button
+            variant={"greyComments"}
+            onClick={(e) =>
+              setCommentInput((e.target as HTMLButtonElement).innerText)
+            }
+          >
+            Incrível
+          </Button>
+          <Button
+            variant={"greyComments"}
+            onClick={(e) =>
+              setCommentInput((e.target as HTMLButtonElement).innerText)
+            }
             mt={{ base: "24px", xsm2: "unset" }}
             ml={{ base: "0px !important", xsm2: "8px !important" }}
           >

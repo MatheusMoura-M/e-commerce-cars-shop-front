@@ -104,7 +104,16 @@ export const Input = ({
           </InputRightElement>
         )}
         {isError && (
-          <Text color={"alert.1"} mt={"5px"} fontSize={"12px"}>
+          <Text
+            color={"alert.1"}
+            mt={"5px"}
+            fontSize={"12px"}
+            ml={
+              errorMessage === "Comentário obrigatório"
+                ? { base: "unset", xsm2: "10px" }
+                : "unset"
+            }
+          >
             {errorMessage}
           </Text>
         )}

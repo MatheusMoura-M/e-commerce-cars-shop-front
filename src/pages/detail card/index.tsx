@@ -35,9 +35,9 @@ export const DetailCard = () => {
 
   return (
     <>
-      <Button onClick={onOpen}>Open Modal</Button>
+      {/* <Button onClick={onOpen}>Open Modal</Button> */}
       <Header />
-      {/* <ContainerDetailCard>
+      <ContainerDetailCard>
         <Container
           as={"section"}
           display={"flex"}
@@ -467,7 +467,7 @@ export const DetailCard = () => {
           </Container>
           <BoxComment />
         </Flex>
-      </ContainerDetailCard> */}
+      </ContainerDetailCard>
       <ModalCreateCarAd isOpen={isOpen} onClose={onClose} />
       <ModalUpdateAddress isOpen={isOpenAddress} onClose={onCloseAddress} />
       <ModalEditUser isOpen={isOpenUpdateUser} onClose={onCloseUpdateUser} />
