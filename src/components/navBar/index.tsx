@@ -20,7 +20,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import formSchema from "../../schemas/comments";
 import { useNavigate } from "react-router-dom";
-import { iComment } from "../../interface/comment.interface";
+import { iCommentRequest } from "../../interface/comment.interface";
 
 const BtnsDefault = ["Login", "Register"];
 const BtnsIsLogged = [
@@ -37,7 +37,7 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<iComment>({
+  } = useForm<iCommentRequest>({
     resolver: yupResolver(formSchema),
   });
 

@@ -17,6 +17,8 @@ import { instance, instanceKenzieCars } from "../services/api";
 import { iCarResponse, iCreateCarAd } from "../interface/car.interface";
 import { getCarSpecificResponse } from "../services/getCarSpecificResponse";
 import { getUserSpecificReponse } from "../services/getUserSpecificResponse";
+import { iCommentRequest } from "../interface/comment.interface";
+import { createCommentResponse } from "../services/createCommentResponse";
 
 export interface iAuthProviderData {
   returnHome: () => void;
@@ -55,6 +57,7 @@ export interface iAuthProviderData {
   ownerOfAdSelected: iUser;
   setOwnerOfAdSelected: Dispatch<SetStateAction<iUser>>;
   navigate: NavigateFunction;
+  onCreateComment: (data: iCommentRequest, id: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -365,7 +368,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const GetCarSpecific = async (id: string) => {
     try {
       instance.defaults.headers.authorization =
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldG8yMUBtYWlsLmNvbSIsImlkIjoiOTFjZTkzMmItOTUyYS00YmZlLTgwMDAtZGQxMjE5OWNhYjlkIiwiaWF0IjoxNjgzMDM2NDM2LCJleHAiOjE2ODMxMjI4MzYsInN1YiI6IjkxY2U5MzJiLTk1MmEtNGJmZS04MDAwLWRkMTIxOTljYWI5ZCJ9.qOldFRFq64cmTUGk9GmzJPe5tkP9iGHMhhWQU9-R6jU";
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGhldXNAZ21haWwuY29tIiwiaWQiOiIzNjZiNDA2NS1mMjVkLTQ1M2QtYmZjZS1kNzNmMDQ2MjYzM2MiLCJpYXQiOjE2ODMwNTM3MjAsImV4cCI6MTY4MzE0MDEyMCwic3ViIjoiMzY2YjQwNjUtZjI1ZC00NTNkLWJmY2UtZDczZjA0NjI2MzNjIn0.j56CadovJ-cqUZCqag2eLxSaRyQhH7S5R18SE8OcbjQ";
       const data = await getCarSpecificResponse(id);
 
       GetUserSpecific(data.user.id);
@@ -378,10 +381,21 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const GetUserSpecific = async (id: string) => {
     try {
       instance.defaults.headers.authorization =
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldG8yMUBtYWlsLmNvbSIsImlkIjoiOTFjZTkzMmItOTUyYS00YmZlLTgwMDAtZGQxMjE5OWNhYjlkIiwiaWF0IjoxNjgzMDM2NDM2LCJleHAiOjE2ODMxMjI4MzYsInN1YiI6IjkxY2U5MzJiLTk1MmEtNGJmZS04MDAwLWRkMTIxOTljYWI5ZCJ9.qOldFRFq64cmTUGk9GmzJPe5tkP9iGHMhhWQU9-R6jU";
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGhldXNAZ21haWwuY29tIiwiaWQiOiIzNjZiNDA2NS1mMjVkLTQ1M2QtYmZjZS1kNzNmMDQ2MjYzM2MiLCJpYXQiOjE2ODMwNTM3MjAsImV4cCI6MTY4MzE0MDEyMCwic3ViIjoiMzY2YjQwNjUtZjI1ZC00NTNkLWJmY2UtZDczZjA0NjI2MzNjIn0.j56CadovJ-cqUZCqag2eLxSaRyQhH7S5R18SE8OcbjQ";
       const data = await getUserSpecificReponse(id);
 
       setOwnerOfAdSelected(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onCreateComment = async (formData: iCommentRequest, id: string) => {
+    try {
+      const data = await createCommentResponse(formData, id);
+
+      console.log(data);
+      // setOwnerOfAdSelected(data);
     } catch (error) {
       console.log(error);
     }
@@ -426,6 +440,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         ownerOfAdSelected,
         setOwnerOfAdSelected,
         navigate,
+        onCreateComment,
       }}
     >
       {children}
