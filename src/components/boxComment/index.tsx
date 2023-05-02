@@ -4,28 +4,37 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "../form/input";
 import { useAuth } from "../../context/webContext";
-import { useState } from "react";
-import { iComment } from "../../interface/comment.interface";
+import { useEffect, useState } from "react";
+import { iCommentRequest } from "../../interface/comment.interface";
 import commentSchema from "../../schemas/comments";
 
 export const BoxComment = () => {
-  const { returnHome, isLogged, setIsLogged } = useAuth();
-  const [commentInput, setCommentInput] = useState("");
+  const {
+    returnHome,
+    isLogged,
+    setIsLogged,
+    ownerOfAdSelected,
+    carAdSelected,
+    onCreateComment,
+  } = useAuth();
+  const [commentInput, setCommentInput] = useState<string>("");
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<iComment>({
+  } = useForm<iCommentRequest>({
     resolver: yupResolver(commentSchema),
   });
 
-  const onFormSubmit = (formData: iComment) => {
-    console.log(commentInput);
-    console.log(formData);
+  const onFormSubmit = (formData: iCommentRequest) => {
+    const newData =
+      formData.comment === commentInput ? formData : { comment: commentInput };
+
+    onCreateComment(newData, carAdSelected.id);
   };
 
-  // setIsLogged(true);
+  setIsLogged(true);
 
   return (
     <Container
@@ -63,7 +72,7 @@ export const BoxComment = () => {
               fontWeight={"500"}
               fontSize={"14px"}
             >
-              Samuel Leão
+              {ownerOfAdSelected.name}
             </Text>
           </HStack>
         )}
@@ -148,7 +157,7 @@ export const BoxComment = () => {
           <Button
             variant={"greyComments"}
             onClick={(e) =>
-              setCommentInput((e.target as HTMLButtonElement).innerText)
+              setCommentInput((e.target as HTMLButtonElement).innerHTML)
             }
           >
             Gostei muito!
