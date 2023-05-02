@@ -1,21 +1,40 @@
 import LiCar from "./style";
 import { MdAttachMoney } from "react-icons/md";
 import { Box, Image, Text, Heading } from "@chakra-ui/react";
+import { useAuth } from "../../../context/webContext";
 
 interface iCardProps {
-  nameCar: string
-  brandCar: string
-  description: string
-  price: string
-  image: string
-  userName: string
-  year: string
-  km: string
+  nameCar: string;
+  brandCar: string;
+  description: string;
+  price: string;
+  image: string;
+  userName: string;
+  year: string;
+  km: string;
+  id: string;
 }
 
-const CarCard = ({nameCar, brandCar, description, price, image, userName, year, km}: iCardProps) => {
+const CarCard = ({
+  nameCar,
+  brandCar,
+  description,
+  price,
+  image,
+  userName,
+  year,
+  km,
+  id,
+}: iCardProps) => {
+  const { GetCarSpecific, navigate } = useAuth();
+
   return (
-    <LiCar>
+    <LiCar
+      onClick={() => {
+        GetCarSpecific(id);
+        navigate("detail-card");
+      }}
+    >
       <Box className="container-image">
         <img src={image} alt="Imagem do carro" />
 
@@ -29,9 +48,7 @@ const CarCard = ({nameCar, brandCar, description, price, image, userName, year, 
       <Box as="section" className="container-information">
         <h3>{`${nameCar} - ${brandCar}`}</h3>
 
-        <Text as="p">
-          {description}
-        </Text>
+        <Text as="p">{description}</Text>
       </Box>
       <Box as="section" className="container-plusInfromation">
         <Box as="div" className="plusInformation-containerUser">

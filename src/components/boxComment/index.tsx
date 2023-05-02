@@ -25,7 +25,7 @@ export const BoxComment = () => {
     console.log(formData);
   };
 
-  setIsLogged(true);
+  // setIsLogged(true);
 
   return (
     <Container

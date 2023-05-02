@@ -62,6 +62,7 @@ export const Home = () => {
               pageCard().map((card) => {
                 return (
                   <CarCard
+                    id={card.id}
                     description={card.description}
                     image={card.cover_image}
                     km={card.km}

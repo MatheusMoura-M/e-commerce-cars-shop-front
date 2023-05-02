@@ -2,16 +2,21 @@ import { createContext, useContext } from "react";
 import { iProviderProps } from "../@types";
 import { MenuItem, useDisclosure } from "@chakra-ui/react";
 import { useState, Dispatch, SetStateAction } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import {
+  iLoginProps,
   iRegister,
   iUpdateAddress,
   iUpdateUser,
+  iUser,
+  iUserLogin,
 } from "../interface/user.interface";
 import { instance, instanceKenzieCars } from "../services/api";
-import { iCreateCarAd } from "../interface/car.interface";
+import { iCarResponse, iCreateCarAd } from "../interface/car.interface";
+import { getCarSpecificResponse } from "../services/getCarSpecificResponse";
+import { getUserSpecificReponse } from "../services/getUserSpecificResponse";
 
 export interface iAuthProviderData {
   returnHome: () => void;
@@ -43,15 +48,13 @@ export interface iAuthProviderData {
   onUpdateAddress: (data: iUpdateAddress) => Promise<void>;
   onUpdateUser: (data: iUpdateUser) => Promise<void>;
   onDeleteUser: () => Promise<void>;
-}
-
-export interface iLoginProps {
-  email: string;
-  password: string;
-}
-
-interface iUser {
-  token: string;
+  GetCarSpecific: (id: string) => Promise<void>;
+  GetUserSpecific: (id: string) => Promise<void>;
+  carAdSelected: iCarResponse;
+  setCarAdSelected: Dispatch<SetStateAction<iCarResponse>>;
+  ownerOfAdSelected: iUser;
+  setOwnerOfAdSelected: Dispatch<SetStateAction<iUser>>;
+  navigate: NavigateFunction;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -59,7 +62,7 @@ export const AuthContext = createContext<iAuthProviderData>(
 );
 
 export const AuthProvider = ({ children }: iProviderProps) => {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const {
     isOpen: isOpenAddress,
     onOpen: onOpenAddress,
@@ -80,9 +83,15 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const [brandSelect, setBrandSelect] = useState<string>("");
   const [currentBrand, setCurrentBrand] = useState<[]>([]);
   const [modelSelect, setModelSelect] = useState<string>("");
+  const [carAdSelected, setCarAdSelected] = useState<iCarResponse>(
+    {} as iCarResponse
+  );
+  const [ownerOfAdSelected, setOwnerOfAdSelected] = useState<iUser>(
+    {} as iUser
+  );
 
   const returnHome = () => {
-    Navigate("/");
+    navigate("/");
   };
 
   const onRegisterSubmit = (dataRegister: iRegister) => {
@@ -117,11 +126,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const Login = async (user: iLoginProps): Promise<void> => {
     try {
-      const { data } = await instance.post<iUser>("login", user);
+      const { data } = await instance.post<iUserLogin>("login", user);
 
       window.localStorage.setItem("@token", data.token);
       toast.success("Logado com sucesso");
-      Navigate("/");
+      navigate("/");
     } catch (error) {
       console.log(error);
       toast.error("Algo deu errado");
@@ -192,8 +201,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldG8yMUBtYWlsLmNvbSIsImlkIjoiYjZkM2Y5ODMtNTRmOC00ZWY4LTgyMDctMjkwMTQyNDI5YzhjIiwiaWF0IjoxNjgyNjE5OTMwLCJleHAiOjE2ODI3MDYzMzAsInN1YiI6ImI2ZDNmOTgzLTU0ZjgtNGVmOC04MjA3LTI5MDE0MjQyOWM4YyJ9.9FeeSRxDOBE2iCyfShB3xIxJjQi067m5uMqQmw4nNrs";
 
       const response = await instance.patch("/address", data);
-      console.log(response.data);
-
       toast.success("Address atualizado com sucesso", {
         position: "top-right",
         autoClose: 5000,
@@ -230,8 +237,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       const response = await instance.patch("/user", data, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log(response.data);
-
       toast.success("Usuário atualizado com sucesso", {
         position: "top-right",
         autoClose: 5000,
@@ -357,6 +362,31 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       </MenuItem>
     );
 
+  const GetCarSpecific = async (id: string) => {
+    try {
+      instance.defaults.headers.authorization =
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldG8yMUBtYWlsLmNvbSIsImlkIjoiOTFjZTkzMmItOTUyYS00YmZlLTgwMDAtZGQxMjE5OWNhYjlkIiwiaWF0IjoxNjgzMDM2NDM2LCJleHAiOjE2ODMxMjI4MzYsInN1YiI6IjkxY2U5MzJiLTk1MmEtNGJmZS04MDAwLWRkMTIxOTljYWI5ZCJ9.qOldFRFq64cmTUGk9GmzJPe5tkP9iGHMhhWQU9-R6jU";
+      const data = await getCarSpecificResponse(id);
+
+      GetUserSpecific(data.user.id);
+      setCarAdSelected(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const GetUserSpecific = async (id: string) => {
+    try {
+      instance.defaults.headers.authorization =
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldG8yMUBtYWlsLmNvbSIsImlkIjoiOTFjZTkzMmItOTUyYS00YmZlLTgwMDAtZGQxMjE5OWNhYjlkIiwiaWF0IjoxNjgzMDM2NDM2LCJleHAiOjE2ODMxMjI4MzYsInN1YiI6IjkxY2U5MzJiLTk1MmEtNGJmZS04MDAwLWRkMTIxOTljYWI5ZCJ9.qOldFRFq64cmTUGk9GmzJPe5tkP9iGHMhhWQU9-R6jU";
+      const data = await getUserSpecificReponse(id);
+
+      setOwnerOfAdSelected(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -389,6 +419,13 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         onUpdateAddress,
         onUpdateUser,
         onDeleteUser,
+        carAdSelected,
+        setCarAdSelected,
+        GetCarSpecific,
+        GetUserSpecific,
+        ownerOfAdSelected,
+        setOwnerOfAdSelected,
+        navigate,
       }}
     >
       {children}

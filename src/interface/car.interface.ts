@@ -22,3 +22,17 @@ export interface iCreateCarAd extends Omit<iCar, "id"> {
   images_5?: string;
   images_6?: string;
 }
+
+export interface iUserInCarResponse {
+  id: string;
+}
+
+export interface iImagesInCarResponse {
+  id: string;
+  image_url: string;
+}
+
+export interface iCarResponse extends iCar {
+  user: iUserInCarResponse;
+  images: iImagesInCarResponse[];
+}
