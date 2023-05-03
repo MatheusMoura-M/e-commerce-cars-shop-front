@@ -1,26 +1,14 @@
 import Header from "../../components/navBar";
 import { Footer } from "../../components/footer";
-import {
-  Box,
-  Button,
-  Flex,
-  Image,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Image, Text } from "@chakra-ui/react";
 import { ContainerProfile, UlCardCars } from "./style";
-import { IHeaderProps } from "../../@types";
 import CarCard from "../../components/cards/car/car";
 import { useContext, useEffect, useState } from "react";
 import { contextHomeProvider } from "../../context/homePage.context";
 import imgPerfil from "../../assets/ImgPerfil.svg";
 import { NumberPage } from "./style";
-import { useAuth } from "../../context/webContext";
-import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/createCarsAd.modal";
-import { ModalUpdateAddress } from "../../components/modals/updateAddress/updateAddress.modal";
-import ModalEditUser from "../../components/modals/editProfile/updateUser.modal";
 
-export const ProfileCard = () => {
+export const AnnouncerProfileCard = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { carAd, GetCardsAd } = useContext(contextHomeProvider);
@@ -107,8 +95,6 @@ export const ProfileCard = () => {
     },
   ];
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
     <ContainerProfile>
       <Box
@@ -150,18 +136,6 @@ export const ProfileCard = () => {
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's
             </Text>
-            <Button
-              width="fit-content"
-              color="brand.1"
-              border="2px"
-              bg="f7f7f7"
-              borderColor="brand.1"
-              borderRadius="4px"
-              fontSize="0.875rem"
-              onClick={onOpen}
-            >
-              Criar Anuncio
-            </Button>
           </Flex>
           <UlCardCars>
             {cars.map((card) => {
@@ -178,30 +152,6 @@ export const ProfileCard = () => {
                     key={card.id}
                     userName="usuário"
                   />
-                  <Box display="flex" gap="20px" padding-bottom="20px">
-                    <Button
-                      width="fit-content"
-                      color="gray.0"
-                      border="2px"
-                      bg="f7f7f7"
-                      borderColor="gray.0"
-                      borderRadius="4px"
-                      fontSize="0.875rem"
-                    >
-                      Editar
-                    </Button>
-                    <Button
-                      width="fit-content"
-                      color="gray.0"
-                      border="2px"
-                      bg="f7f7f7"
-                      borderColor="gray.0"
-                      borderRadius="4px"
-                      fontSize="0.875rem"
-                    >
-                      Ver Detalhes
-                    </Button>
-                  </Box>
                 </Box>
               );
             })}
@@ -246,7 +196,6 @@ export const ProfileCard = () => {
           </Box>
         </Box>
       </Box>
-      <ModalCreateCarAd isOpen={isOpen} onClose={onClose} />
       <Footer />
     </ContainerProfile>
   );
