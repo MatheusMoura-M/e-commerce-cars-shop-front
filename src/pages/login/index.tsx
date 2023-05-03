@@ -12,8 +12,10 @@ import ResetPassword from "../../components/modals/resetPassword/resetPassword.m
 
 export const LoginPage = () => {
   const { Login } = useContext(AuthContext);
-
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const formSchema = yup.object().shape({
     email: yup
@@ -46,6 +48,8 @@ export const LoginPage = () => {
               bg: "grey.8",
             }}
             p="1rem"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
           />
           {errors.email && <span>{errors.email.message}</span>}
           <label htmlFor="password-">Senha</label>
@@ -60,6 +64,8 @@ export const LoginPage = () => {
             }}
             p="1rem"
             showPass
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
           />
           {errors.password && <span>{errors.password.message}</span>}
           <p onClick={onOpen}>Esqueci minha senha</p>

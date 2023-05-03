@@ -13,15 +13,19 @@ import {
 } from "@chakra-ui/react";
 import imgLogo from "../../assets/LogoHeader.svg";
 import imgPerfil from "../../assets/ImgPerfil.svg";
-import { IHeaderProps, iComment } from "../../@types";
+import { IHeaderProps } from "../../@types";
 import { useAuth } from "../../context/webContext";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import formSchema from "../../schemas/comments";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 import { ModalUpdateAddress } from "../modals/updateAddress/updateAddress.modal";
 import ModalEditUser from "../modals/editProfile/updateUser.modal";
+=======
+import { iCommentRequest } from "../../interface/comment.interface";
+>>>>>>> a36066b48366b86d4ea7084ad1e3d4735f6b0cc0
 
 const BtnsDefault = ["Login", "Register"];
 const BtnsIsLogged = [
@@ -47,7 +51,7 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<iComment>({
+  } = useForm<iCommentRequest>({
     resolver: yupResolver(formSchema),
   });
 
@@ -57,7 +61,7 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
     console.log(formData);
   };
 
-  setIsLogged(true);
+  // setIsLogged(true);
 
   return (
     <Box

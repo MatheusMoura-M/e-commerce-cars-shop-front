@@ -1,3 +1,5 @@
+import { iOwner } from "./comment.interface";
+
 export interface iCar {
   id: string;
   brand: string;
@@ -21,4 +23,14 @@ export interface iCreateCarAd extends Omit<iCar, "id"> {
   images_4?: string;
   images_5?: string;
   images_6?: string;
+}
+
+export interface iImagesInCarResponse {
+  id: string;
+  image_url: string;
+}
+
+export interface iCarResponse extends iCar {
+  user: iOwner;
+  images: iImagesInCarResponse[];
 }

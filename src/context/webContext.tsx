@@ -2,16 +2,23 @@ import { createContext, useContext } from "react";
 import { iProviderProps } from "../@types";
 import { MenuItem, useDisclosure } from "@chakra-ui/react";
 import { useState, Dispatch, SetStateAction } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import {
+  iLoginProps,
   iRegister,
   iUpdateAddress,
   iUpdateUser,
+  iUser,
+  iUserLogin,
 } from "../interface/user.interface";
 import { instance, instanceKenzieCars } from "../services/api";
-import { iCreateCarAd } from "../interface/car.interface";
+import { iCarResponse, iCreateCarAd } from "../interface/car.interface";
+import { getCarSpecificResponse } from "../services/getCarSpecificResponse";
+import { getUserSpecificReponse } from "../services/getUserSpecificResponse";
+import { iCommentRequest } from "../interface/comment.interface";
+import { createCommentResponse } from "../services/createCommentResponse";
 
 export interface iAuthProviderData {
   returnHome: () => void;
@@ -43,15 +50,17 @@ export interface iAuthProviderData {
   onUpdateAddress: (data: iUpdateAddress) => Promise<void>;
   onUpdateUser: (data: iUpdateUser) => Promise<void>;
   onDeleteUser: () => Promise<void>;
-}
-
-export interface iLoginProps {
-  email: string;
-  password: string;
-}
-
-interface iUser {
-  token: string;
+  GetCarSpecific: (id: string) => Promise<void>;
+  GetUserSpecific: (id: string) => Promise<void>;
+  GetUserProfile: () => Promise<void>;
+  carAdSelected: iCarResponse;
+  setCarAdSelected: Dispatch<SetStateAction<iCarResponse>>;
+  ownerOfAdSelected: iUser;
+  setOwnerOfAdSelected: Dispatch<SetStateAction<iUser>>;
+  userLogged: iUser;
+  setUserLogged: Dispatch<SetStateAction<iUser>>;
+  navigate: NavigateFunction;
+  onCreateComment: (data: iCommentRequest, id: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -59,7 +68,7 @@ export const AuthContext = createContext<iAuthProviderData>(
 );
 
 export const AuthProvider = ({ children }: iProviderProps) => {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const {
     isOpen: isOpenAddress,
     onOpen: onOpenAddress,
@@ -80,14 +89,25 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const [brandSelect, setBrandSelect] = useState<string>("");
   const [currentBrand, setCurrentBrand] = useState<[]>([]);
   const [modelSelect, setModelSelect] = useState<string>("");
+  const [carAdSelected, setCarAdSelected] = useState<iCarResponse>(
+    {} as iCarResponse
+  );
+  const [ownerOfAdSelected, setOwnerOfAdSelected] = useState<iUser>(
+    {} as iUser
+  );
+  const [userLogged, setUserLogged] = useState<iUser>({} as iUser);
 
   const returnHome = () => {
-    Navigate("/");
+    navigate("/");
   };
 
-  const onRegisterSubmit = (dataRegister: iRegister) => {
+  const onRegisterSubmit = async (dataRegister: iRegister) => {
+    console.log(dataRegister);
+
     try {
-      instance.post("/user", dataRegister);
+      const r = await instance.post("/user", dataRegister);
+
+      console.log(r);
 
       toast.success("Usuário registrado com sucesso", {
         position: "top-right",
@@ -99,6 +119,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         progress: undefined,
         theme: "light",
       });
+
+      navigate("/login", { replace: true });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data, {
@@ -117,11 +139,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const Login = async (user: iLoginProps): Promise<void> => {
     try {
-      const { data } = await instance.post<iUser>("login", user);
+      const { data } = await instance.post<iUserLogin>("login", user);
 
       window.localStorage.setItem("@token", data.token);
       toast.success("Logado com sucesso");
-      Navigate("/");
+      navigate("/");
     } catch (error) {
       console.log(error);
       toast.error("Algo deu errado");
@@ -154,10 +176,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const onCreateCarAd = async (data: iCreateCarAd) => {
     try {
-      instance.defaults.headers.authorization =
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldG9AbWFpbC5jb20iLCJpZCI6ImU5NGNhMzY2LTg3ZDgtNDY3Yi04NTdiLTM3ZDMxNTE4MTRmNiIsImlhdCI6MTY4MjAxOTE2OCwiZXhwIjoxNjgyMTA1NTY4LCJzdWIiOiJlOTRjYTM2Ni04N2Q4LTQ2N2ItODU3Yi0zN2QzMTUxODE0ZjYifQ.2U1BtwlC6B88EeJ6QrubkyHngLaqY0hqdPu03ooSLGg";
       const response = await instance.post("/car", data);
-      console.log(response.data);
+
       toast.success("Carro registrado com sucesso", {
         position: "top-right",
         autoClose: 5000,
@@ -169,7 +189,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         theme: "light",
       });
     } catch (error) {
-      console.log(error);
       if (axios.isAxiosError(error)) {
         console.log(error);
         toast.error(error.response?.data.error.errors[0], {
@@ -192,8 +211,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldG8yMUBtYWlsLmNvbSIsImlkIjoiYjZkM2Y5ODMtNTRmOC00ZWY4LTgyMDctMjkwMTQyNDI5YzhjIiwiaWF0IjoxNjgyNjE5OTMwLCJleHAiOjE2ODI3MDYzMzAsInN1YiI6ImI2ZDNmOTgzLTU0ZjgtNGVmOC04MjA3LTI5MDE0MjQyOWM4YyJ9.9FeeSRxDOBE2iCyfShB3xIxJjQi067m5uMqQmw4nNrs";
 
       const response = await instance.patch("/address", data);
-      console.log(response.data);
-
       toast.success("Address atualizado com sucesso", {
         position: "top-right",
         autoClose: 5000,
@@ -230,8 +247,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       const response = await instance.patch("/user", data, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log(response.data);
-
       toast.success("Usuário atualizado com sucesso", {
         position: "top-right",
         autoClose: 5000,
@@ -357,6 +372,54 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       </MenuItem>
     );
 
+  const GetCarSpecific = async (id: string) => {
+    try {
+      instance.defaults.headers.authorization =
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGhldXNAZ21haWwuY29tIiwiaWQiOiIzNjZiNDA2NS1mMjVkLTQ1M2QtYmZjZS1kNzNmMDQ2MjYzM2MiLCJpYXQiOjE2ODMwNTM3MjAsImV4cCI6MTY4MzE0MDEyMCwic3ViIjoiMzY2YjQwNjUtZjI1ZC00NTNkLWJmY2UtZDczZjA0NjI2MzNjIn0.j56CadovJ-cqUZCqag2eLxSaRyQhH7S5R18SE8OcbjQ";
+      const data = await getCarSpecificResponse(id);
+
+      GetUserSpecific(data.user.id);
+      setCarAdSelected(data);
+      GetUserProfile();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const GetUserSpecific = async (id: string) => {
+    try {
+      instance.defaults.headers.authorization =
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGhldXNAZ21haWwuY29tIiwiaWQiOiIzNjZiNDA2NS1mMjVkLTQ1M2QtYmZjZS1kNzNmMDQ2MjYzM2MiLCJpYXQiOjE2ODMwNTM3MjAsImV4cCI6MTY4MzE0MDEyMCwic3ViIjoiMzY2YjQwNjUtZjI1ZC00NTNkLWJmY2UtZDczZjA0NjI2MzNjIn0.j56CadovJ-cqUZCqag2eLxSaRyQhH7S5R18SE8OcbjQ";
+      const data = await getUserSpecificReponse(id);
+
+      setOwnerOfAdSelected(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const GetUserProfile = async () => {
+    try {
+      instance.defaults.headers.authorization =
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGhldXNAZ21haWwuY29tIiwiaWQiOiIzNjZiNDA2NS1mMjVkLTQ1M2QtYmZjZS1kNzNmMDQ2MjYzM2MiLCJpYXQiOjE2ODMxMjM0MDgsImV4cCI6MTY4MzIwOTgwOCwic3ViIjoiMzY2YjQwNjUtZjI1ZC00NTNkLWJmY2UtZDczZjA0NjI2MzNjIn0.dPp2qzfoViZCT8bjMhLznT6qY1PKRVHI--kHU75iaBk";
+      const resp = await instance.get("/user/profile");
+
+      setUserLogged(resp.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onCreateComment = async (formData: iCommentRequest, id: string) => {
+    try {
+      const data = await createCommentResponse(formData, id);
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -389,6 +452,17 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         onUpdateAddress,
         onUpdateUser,
         onDeleteUser,
+        carAdSelected,
+        setCarAdSelected,
+        GetCarSpecific,
+        GetUserSpecific,
+        ownerOfAdSelected,
+        setOwnerOfAdSelected,
+        navigate,
+        onCreateComment,
+        GetUserProfile,
+        userLogged,
+        setUserLogged,
       }}
     >
       {children}
