@@ -8,7 +8,8 @@ Como vendedor, é possível cadastrar veículos e gerenciar os seus anúncios. T
 da sua tabela fipe, então se o valor do veículo for 5% menor que o preço da tabela fipe, seu veículo receberá um selo 
 que será indicado com uma boa compra. Na gestão de anúncio, o vendedores têm uma dashboard que pode gerenciar todos os carros 
 cadastrado pelos mesmos, podendo editar, excluir e pausar o aúncio para não ser mais visto pelos compradores. Todos os anúncios é possivél receber
-comantários e todo vendedor pode ser um comprador. Como usuário, é possível fazer menssagens em posts de veículos e perquisar por novos carros. 
+comantários e todo vendedor pode ser um comprador. Como usuário, é possível fazer menssagens em posts de veículos e perquisar por novos carros.
+ambos podem também editar e excluir informações pessoais.
 
 ## 🛠️:cloud: Inicialização
 
