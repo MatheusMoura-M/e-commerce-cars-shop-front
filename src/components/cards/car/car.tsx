@@ -4,37 +4,20 @@ import { Box, Image, Text, Heading } from "@chakra-ui/react";
 import { useAuth } from "../../../context/webContext";
 
 interface iCardProps {
-  nameCar: string;
-  brandCar: string;
-  description: string;
-  price: string;
-  image: string;
-  userName: string;
-  year: string;
-  km: string;
-  id: string;
+  nameCar: string
+  brandCar: string
+  description: string
+  price: string
+  image: string
+  userName: string
+  year: string
+  km: string
+  id: string
 }
 
-const CarCard = ({
-  nameCar,
-  brandCar,
-  description,
-  price,
-  image,
-  userName,
-  year,
-  km,
-  id,
-}: iCardProps) => {
-  const { GetCarSpecific, navigate } = useAuth();
-
+const CarCard = ({nameCar, brandCar, description, price, image, userName, year, km, id}: iCardProps) => {
   return (
-    <LiCar
-      onClick={() => {
-        GetCarSpecific(id);
-        navigate("detail-card");
-      }}
-    >
+    <LiCar id={id}>
       <Box className="container-image">
         <img src={image} alt="Imagem do carro" />
 

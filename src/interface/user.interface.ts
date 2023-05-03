@@ -13,6 +13,7 @@ export interface iRegister {
   state: string;
   city: string;
   number: string;
+  description: string
   complement: string;
 }
 

@@ -29,6 +29,8 @@ const FormRegisterUser = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
+  const [isSeller, setIsSeller] = useState<boolean>(false)
+  
   const {
     formattedBirthdate,
     formattedCpf,
@@ -63,7 +65,8 @@ const FormRegisterUser = () => {
       city: data.city,
       number: data.number,
       complement: data.complement,
-      isSaler: isSaler,
+      description: data.description,
+      isSaler: isSaler
     };
 
     console.log(objUser);
@@ -225,8 +228,8 @@ const FormRegisterUser = () => {
             <Heading as="h3" fontSize="1rem" fontWeight="500">
               Infomações de endereço
             </Heading>
-          </Box>
-
+          </Box>   
+          
           <Input
             id="zipcode"
             placeholder="00000.000"
@@ -272,6 +275,7 @@ const FormRegisterUser = () => {
               <Text as="span" fontSize="0.7rem" color="alert.1">
                 {errors.state?.message}
               </Text>
+              
             </Box>
             <Box width="48%">
               <Input

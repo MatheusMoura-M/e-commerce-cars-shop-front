@@ -1,35 +1,83 @@
-import { Box, Button, useDisclosure, Show, Hide, Text } from "@chakra-ui/react";
-import { ContainerHomePage, HomePanel, NumberPage, UlCardCars } from "./style";
-import CarCard from "../../components/cards/car/car";
-import ModalFilterMobile from "../../components/modals/home/filterCarsMobile.modal";
-import FilterCars from "../../components/modals/home/filterCars.modal";
+import {
+  Box,
+  Button,
+  useDisclosure,
+  Show,
+  Hide,
+  Link,
+  Card,
+} from "@chakra-ui/react";
+import { ContainerHomePage, HomePanel, NumberPage } from "./style";
+import ModalFilterMobile from "../../components/modals/home/filter/filterCarsMobile.modal";
+import FilterCars from "../../components/modals/home/filter/filterCars.modal";
 import Header from "../../components/navBar";
 import { Footer } from "../../components/footer";
 import { useState, useContext, useEffect } from "react";
 import { contextHomeProvider } from "../../context/homePage.context";
-import CardSkeleton from "../../utils/skeletons/cardCar.skeleton";
+import CardCardList from "./cardCarSection";
 
 export const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentPage, setCurrentPage] = useState(0);
   const arraySkelotons = new Array(12).fill("cards");
 
-  const { carAd, GetCardsAd, isLoading } = useContext(contextHomeProvider);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
+  const [currentPageFilter, setCurrentPageFilter] = useState(0);
+  const [firstCardId, setFirstCardId] = useState<string>("");
+
+  const { 
+    carAd, 
+    GetCardsAd, 
+    filteredCars, 
+    filterFieldsSelected, 
+    filterCarList,
+    isFilter
+  } = useContext(contextHomeProvider);
 
   const pageLimit =
     window.innerWidth == 1450 || window.innerWidth > 1450 ? 12 : 8;
-  const pages = Math.ceil(carAd.length / pageLimit);
-  const startSliceAt = currentPage * pageLimit;
+
+  const pages =
+    filteredCars.length != 0
+      ? Math.ceil(filteredCars.length / pageLimit)
+      : Math.ceil(carAd.length / pageLimit);
+
+  const startSliceAt =
+    filteredCars.length != 0
+      ? currentPageFilter * pageLimit
+      : currentPage * pageLimit;
+
   const endSliceAt = startSliceAt + pageLimit;
 
   useEffect(() => {
+
     GetCardsAd();
+    filterFieldsSelected();
+    filterCarList();
+    pageCard()
+
   }, []);
 
+  useEffect(() => {
+    pageCard()
+  }, [filteredCars])
+
   const pageCard = () => {
-    const cards = carAd.slice(startSliceAt, endSliceAt);
+    
+    let cards: any = [];
+
+    if (filteredCars.length != 0 && isFilter) {
+ 
+      cards = filteredCars.slice(startSliceAt, endSliceAt);
+      
+    } else if (filteredCars.length == 0) {
+      
+      cards = carAd.slice(startSliceAt, endSliceAt);
+      
+    }
 
     return cards;
+
   };
 
   return (
@@ -53,36 +101,7 @@ export const Home = () => {
           <Show breakpoint="(min-width: 1030px)">
             <FilterCars />
           </Show>
-          <UlCardCars>
-            {isLoading ? (
-              arraySkelotons.map((card: any, i: number) => {
-                return <CardSkeleton key={i} />;
-              })
-            ) : pageCard().length != 0 ? (
-              pageCard().map((card) => {
-                return (
-                  <CarCard
-                    id={card.id}
-                    description={card.description}
-                    image={card.cover_image}
-                    km={card.km}
-                    price={card.price}
-                    nameCar={card.model}
-                    brandCar={card.brand}
-                    year={card.year}
-                    key={card.id}
-                    userName="usuário"
-                  />
-                );
-              })
-            ) : (
-              <Box mt="50px">
-                <Text as="h2" fontSize="1.3rem">
-                  Nenhum carro cadastrado &#128533;
-                </Text>
-              </Box>
-            )}
-          </UlCardCars>
+          <CardCardList pageCard={pageCard()} setFirstCardId={setFirstCardId} />
         </Box>
 
         <Box
@@ -107,7 +126,9 @@ export const Home = () => {
               borderRadius="5px"
               fontWeight="500"
               _hover={{ background: "brand.2" }}
-              onClick={onOpen}
+              onClick={() => {
+                onOpen();
+              }}
               mb="0px"
             >
               Filtros
@@ -116,44 +137,98 @@ export const Home = () => {
         </Box>
         <Box>
           <NumberPage>
-            <span>{currentPage + 1}</span>
-            <span>de {!carAd.length ? 1 : pages}</span>
+            {filteredCars.length != 0 ? (
+              <>
+                <span>{currentPageFilter + 1}</span>
+                <span>de {!filteredCars.length ? 1 : pages}</span>
+              </>
+            ) : (
+              <>
+                <span>{currentPage + 1}</span>
+                <span>de {!carAd.length ? 1 : pages}</span>
+              </>
+            )}
           </NumberPage>
           <Box display="flex" justifyContent="center">
-            <Button
-              bg={"grey.10"}
-              color={"brand.2"}
-              fontWeight="600"
-              fontSize="1.10rem"
-              mb="30px"
-              hidden={currentPage < 1 ? true : false}
-              onClick={() =>
-                currentPage > 0
-                  ? setCurrentPage(currentPage - 1)
-                  : setCurrentPage(0)
-              }
-            >
-              &lt; Anterior
-            </Button>
-            <Button
-              bg={"grey.10"}
-              color={"brand.2"}
-              fontWeight="600"
-              fontSize="1.10rem"
-              mb="30px"
-              hidden={pages == currentPage + 1 || !carAd.length ? true : false}
-              onClick={() => {
-                currentPage + 1 < pages
-                  ? setCurrentPage(currentPage + 1)
-                  : setCurrentPage(pages);
-              }}
-            >
-              Seguinte &gt;
-            </Button>
+            {filteredCars.length != 0 ? (
+              <>
+                <Button
+                  bg={"grey.10"}
+                  color={"brand.2"}
+                  fontWeight="600"
+                  fontSize="1.10rem"
+                  mb="30px"
+                  hidden={currentPageFilter + 1 == 1 ? true : false}
+                  onClick={() =>
+                    currentPageFilter > 0
+                      ? setCurrentPageFilter(currentPageFilter - 1)
+                      : setCurrentPageFilter(currentPageFilter - 1)
+                  }
+                >
+                  &lt; Anterior
+                </Button>
+                <Button
+                  as="a"
+                  bg={"grey.10"}
+                  color={"brand.2"}
+                  fontWeight="600"
+                  fontSize="1.10rem"
+                  mb="30px"
+                  hidden={
+                    pages == currentPageFilter + 1 || !filteredCars.length
+                      ? true
+                      : false
+                  }
+                  onClick={() => {
+                    currentPageFilter < pages
+                      ? setCurrentPageFilter(currentPageFilter + 1)
+                      : setCurrentPageFilter(pages);
+                  }}
+                >
+                  Seguinte &gt;
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  bg={"grey.10"}
+                  color={"brand.2"}
+                  fontWeight="600"
+                  fontSize="1.10rem"
+                  mb="30px"
+                  hidden={currentPage + 1 == 1 ? true : false}
+                  onClick={() =>
+                    currentPage > 0
+                      ? setCurrentPage(currentPage - 1)
+                      : setCurrentPage(currentPage - 1)
+                  }
+                >
+                  &lt; Anterior
+                </Button>
+                <Button
+                  bg={"grey.10"}
+                  color={"brand.2"}
+                  fontWeight="600"
+                  fontSize="1.10rem"
+                  mb="30px"
+                  hidden={
+                    pages == currentPage + 1 || !carAd.length ? true : false
+                  }
+                  onClick={() => {
+                    currentPage < pages
+                      ? setCurrentPage(currentPage + 1)
+                      : setCurrentPage(pages);
+                  }}
+                >
+                  Seguinte &gt;
+                </Button>
+              </>
+            )}
           </Box>
         </Box>
 
         <ModalFilterMobile isOpen={isOpen} onClose={onClose} />
+
         <Footer />
       </Box>
     </ContainerHomePage>
