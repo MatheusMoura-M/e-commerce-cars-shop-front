@@ -33,7 +33,9 @@ ou
 npm dev
 ````
 
-2. Inicializar o este projeto: 
+2. Dar o comando **yarn** ou **npm** para instalar as dependências necessárias para rodar o projeto.
+
+3. Inicializar este projeto: 
 
 ````
 yarn dev
@@ -45,4 +47,4 @@ ou
 npm dev
 ````
 
-3. O projeto estará rodando, por padrão, no http://localhost:5173/
+4. O projeto estará rodando, por padrão, no http://localhost:5173/
