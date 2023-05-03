@@ -415,7 +415,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       const data = await createCommentResponse(formData, id);
 
       console.log(data);
-      // setOwnerOfAdSelected(data);
     } catch (error) {
       console.log(error);
     }

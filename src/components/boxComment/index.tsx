@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "../form/input";
 import { useAuth } from "../../context/webContext";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { iCommentRequest } from "../../interface/comment.interface";
 import commentSchema from "../../schemas/comments";
 
@@ -28,13 +28,9 @@ export const BoxComment = () => {
   });
 
   const onFormSubmit = (formData: iCommentRequest) => {
-    console.log("AAA", formData);
-    console.log("BBB", commentInput);
-
-    // const newData =
-    //   formData.comment === commentInput ? formData : { comment: commentInput };
-    // console.log("CCC", newData);
-    // onCreateComment(newData, carAdSelected.id);
+    const newData =
+      formData.comment === commentInput ? formData : { comment: commentInput };
+    onCreateComment(newData, carAdSelected.id);
   };
 
   setIsLogged(true);
@@ -103,6 +99,7 @@ export const BoxComment = () => {
         >
           <Input
             id="comment"
+            value={commentInput}
             register={register}
             errorMessage={errors.comment?.message}
             placeholder="Digitar comentário"
@@ -117,8 +114,9 @@ export const BoxComment = () => {
             _focusVisible={{
               borderColor: { base: "brand.2", xsm2: "transparent" },
             }}
-            onChange={(e) => setCommentInput(e.target.value)}
-            value={commentInput}
+            onChange={(e) => {
+              setCommentInput(e.target.value);
+            }}
           />
           <Flex
             justifyContent={{ base: "flex-start", xsm2: "flex-end" }}
@@ -151,39 +149,51 @@ export const BoxComment = () => {
               </Button>
             )}
           </Flex>
+          <HStack
+            h={{ base: "72px" }}
+            wrap={{ base: "wrap", xsm2: "unset" }}
+            spacing={"8px"}
+          >
+            <Button
+              variant={"greyComments"}
+              // onClick={(e) =>
+              //   setCommentInput((e.target as HTMLButtonElement).innerText)
+              // }
+              onClick={(e) =>
+                onCreateComment(
+                  { comment: (e.target as HTMLButtonElement).innerText },
+                  carAdSelected.id
+                )
+              }
+            >
+              Gostei muito!
+            </Button>
+            <Button
+              variant={"greyComments"}
+              onClick={(e) =>
+                onCreateComment(
+                  { comment: (e.target as HTMLButtonElement).innerText },
+                  carAdSelected.id
+                )
+              }
+            >
+              Incrível
+            </Button>
+            <Button
+              variant={"greyComments"}
+              onClick={(e) =>
+                onCreateComment(
+                  { comment: (e.target as HTMLButtonElement).innerText },
+                  carAdSelected.id
+                )
+              }
+              mt={{ base: "24px", xsm2: "unset" }}
+              ml={{ base: "0px !important", xsm2: "8px !important" }}
+            >
+              Recomendarei para meus amigos!
+            </Button>
+          </HStack>
         </Flex>
-        <HStack
-          h={{ base: "72px" }}
-          wrap={{ base: "wrap", xsm2: "unset" }}
-          spacing={"8px"}
-        >
-          <Button
-            variant={"greyComments"}
-            onClick={(e) =>
-              setCommentInput((e.target as HTMLButtonElement).innerHTML)
-            }
-          >
-            Gostei muito!
-          </Button>
-          <Button
-            variant={"greyComments"}
-            onClick={(e) =>
-              setCommentInput((e.target as HTMLButtonElement).innerText)
-            }
-          >
-            Incrível
-          </Button>
-          <Button
-            variant={"greyComments"}
-            onClick={(e) =>
-              setCommentInput((e.target as HTMLButtonElement).innerText)
-            }
-            mt={{ base: "24px", xsm2: "unset" }}
-            ml={{ base: "0px !important", xsm2: "8px !important" }}
-          >
-            Recomendarei para meus amigos!
-          </Button>
-        </HStack>
       </Flex>
     </Container>
   );
