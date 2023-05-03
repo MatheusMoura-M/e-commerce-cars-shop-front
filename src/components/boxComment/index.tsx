@@ -13,9 +13,9 @@ export const BoxComment = () => {
     returnHome,
     isLogged,
     setIsLogged,
-    ownerOfAdSelected,
     carAdSelected,
     onCreateComment,
+    userLogged,
   } = useAuth();
   const [commentInput, setCommentInput] = useState<string>("");
 
@@ -28,10 +28,13 @@ export const BoxComment = () => {
   });
 
   const onFormSubmit = (formData: iCommentRequest) => {
-    const newData =
-      formData.comment === commentInput ? formData : { comment: commentInput };
+    console.log("AAA", formData);
+    console.log("BBB", commentInput);
 
-    onCreateComment(newData, carAdSelected.id);
+    // const newData =
+    //   formData.comment === commentInput ? formData : { comment: commentInput };
+    // console.log("CCC", newData);
+    // onCreateComment(newData, carAdSelected.id);
   };
 
   setIsLogged(true);
@@ -72,7 +75,7 @@ export const BoxComment = () => {
               fontWeight={"500"}
               fontSize={"14px"}
             >
-              {ownerOfAdSelected.name}
+              {userLogged.name}
             </Text>
           </HStack>
         )}
