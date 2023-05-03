@@ -52,10 +52,13 @@ export interface iAuthProviderData {
   onDeleteUser: () => Promise<void>;
   GetCarSpecific: (id: string) => Promise<void>;
   GetUserSpecific: (id: string) => Promise<void>;
+  GetUserProfile: () => Promise<void>;
   carAdSelected: iCarResponse;
   setCarAdSelected: Dispatch<SetStateAction<iCarResponse>>;
   ownerOfAdSelected: iUser;
   setOwnerOfAdSelected: Dispatch<SetStateAction<iUser>>;
+  userLogged: iUser;
+  setUserLogged: Dispatch<SetStateAction<iUser>>;
   navigate: NavigateFunction;
   onCreateComment: (data: iCommentRequest, id: string) => Promise<void>;
 }
@@ -92,20 +95,19 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const [ownerOfAdSelected, setOwnerOfAdSelected] = useState<iUser>(
     {} as iUser
   );
+  const [userLogged, setUserLogged] = useState<iUser>({} as iUser);
 
   const returnHome = () => {
     navigate("/");
   };
 
   const onRegisterSubmit = async (dataRegister: iRegister) => {
-
-    console.log(dataRegister)
+    console.log(dataRegister);
 
     try {
-
       const r = await instance.post("/user", dataRegister);
 
-      console.log(r)
+      console.log(r);
 
       toast.success("Usuário registrado com sucesso", {
         position: "top-right",
@@ -118,8 +120,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         theme: "light",
       });
 
-      navigate("/login", {replace: true})
-
+      navigate("/login", { replace: true });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data, {
@@ -176,7 +177,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const onCreateCarAd = async (data: iCreateCarAd) => {
     try {
       const response = await instance.post("/car", data);
-      
+
       toast.success("Carro registrado com sucesso", {
         position: "top-right",
         autoClose: 5000,
@@ -188,7 +189,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         theme: "light",
       });
     } catch (error) {
-  
       if (axios.isAxiosError(error)) {
         console.log(error);
         toast.error(error.response?.data.error.errors[0], {
@@ -380,6 +380,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
       GetUserSpecific(data.user.id);
       setCarAdSelected(data);
+      GetUserProfile();
     } catch (error) {
       console.log(error);
     }
@@ -392,6 +393,18 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       const data = await getUserSpecificReponse(id);
 
       setOwnerOfAdSelected(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const GetUserProfile = async () => {
+    try {
+      instance.defaults.headers.authorization =
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGhldXNAZ21haWwuY29tIiwiaWQiOiIzNjZiNDA2NS1mMjVkLTQ1M2QtYmZjZS1kNzNmMDQ2MjYzM2MiLCJpYXQiOjE2ODMxMjM0MDgsImV4cCI6MTY4MzIwOTgwOCwic3ViIjoiMzY2YjQwNjUtZjI1ZC00NTNkLWJmY2UtZDczZjA0NjI2MzNjIn0.dPp2qzfoViZCT8bjMhLznT6qY1PKRVHI--kHU75iaBk";
+      const resp = await instance.get("/user/profile");
+
+      setUserLogged(resp.data);
     } catch (error) {
       console.log(error);
     }
@@ -448,6 +461,9 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         setOwnerOfAdSelected,
         navigate,
         onCreateComment,
+        GetUserProfile,
+        userLogged,
+        setUserLogged,
       }}
     >
       {children}

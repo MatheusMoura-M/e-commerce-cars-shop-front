@@ -34,21 +34,20 @@ interface iHomeContext {
   setFuels: React.Dispatch<React.SetStateAction<string[]>>;
   filterCarList(): void;
   isFilter: boolean;
-  setIsFilter: React.Dispatch<React.SetStateAction<boolean>>
-  setBrands: React.Dispatch<React.SetStateAction<string[]>>
-  filterFieldsSelected(): void
-  minKm: string
-  setMinKm: React.Dispatch<React.SetStateAction<string>>
-  maxKm: string
-  setMaxKm: React.Dispatch<React.SetStateAction<string>>
-  minPrice: string
-  setMinPrice: React.Dispatch<React.SetStateAction<string>>
-  maxPrice: string
-  setMaxPrice: React.Dispatch<React.SetStateAction<string>>
-  FilterInputs(): void,
-  setFilteredCar: React.Dispatch<React.SetStateAction<iCar[]>>
-  clearFilter(): void
-  
+  setIsFilter: React.Dispatch<React.SetStateAction<boolean>>;
+  setBrands: React.Dispatch<React.SetStateAction<string[]>>;
+  filterFieldsSelected(): void;
+  minKm: string;
+  setMinKm: React.Dispatch<React.SetStateAction<string>>;
+  maxKm: string;
+  setMaxKm: React.Dispatch<React.SetStateAction<string>>;
+  minPrice: string;
+  setMinPrice: React.Dispatch<React.SetStateAction<string>>;
+  maxPrice: string;
+  setMaxPrice: React.Dispatch<React.SetStateAction<string>>;
+  FilterInputs(): void;
+  setFilteredCar: React.Dispatch<React.SetStateAction<iCar[]>>;
+  clearFilter(): void;
 }
 
 export const contextHomeProvider = createContext({} as iHomeContext);
@@ -72,10 +71,10 @@ const HomePageContext = ({ children }: iChildren) => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [minKm, setMinKm] = useState<string>("")
-  const [maxKm, setMaxKm] = useState<string>("")
-  const [minPrice, setMinPrice] = useState<string>("")
-  const [maxPrice, setMaxPrice] = useState<string>("")
+  const [minKm, setMinKm] = useState<string>("");
+  const [maxKm, setMaxKm] = useState<string>("");
+  const [minPrice, setMinPrice] = useState<string>("");
+  const [maxPrice, setMaxPrice] = useState<string>("");
 
   const GetCardsAd = async () => {
     try {
@@ -84,132 +83,84 @@ const HomePageContext = ({ children }: iChildren) => {
       const response = await instance.get("/car");
 
       setCarAd(response.data);
-
     } catch (error) {
-
       console.log(error);
-
     } finally {
-
       setIsLoading(false);
-
     }
   };
 
   const filterCarList = () => {
     if (brandSelected) {
-      
       const filtered = carAd.filter((car) => car.brand == brandSelected);
       setFilteredCar(filtered);
-
-
     } else if (modelSelected) {
-      
       const filtered = carAd.filter((car) => car.model == modelSelected);
       setFilteredCar(filtered);
-
-
     } else if (colorSelected) {
-      
       const filtered = carAd.filter((car) => car.color == colorSelected);
       setFilteredCar(filtered);
-
-
     } else if (yearSelected) {
-      
       const filtered = carAd.filter((car) => car.year == yearSelected);
 
       setFilteredCar(filtered);
-
-
     } else if (fuelSelected) {
-      
       const filtered = carAd.filter((car) => car.fuel == fuelSelected);
 
       setFilteredCar(filtered);
-
-
     }
 
     //------------------------------------------ TWO FILTERS SCOPE ---------------------------------------------------//
 
     if (brandSelected && modelSelected) {
-      
       const filtered = carAd.filter(
         (car) => car.brand == brandSelected && car.model == modelSelected
       );
       setFilteredCar(filtered);
-
-
     } else if (brandSelected && colorSelected) {
-
       const filtered = carAd.filter(
         (car) => car.brand == brandSelected && car.color == colorSelected
       );
       setFilteredCar(filtered);
-
-
     } else if (brandSelected && yearSelected) {
-
       const filtered = carAd.filter(
         (car) => car.brand == brandSelected && car.year == yearSelected
       );
       setFilteredCar(filtered);
-
-
     } else if (brandSelected && fuelSelected) {
-
       const filtered = carAd.filter(
         (car) => car.brand == brandSelected && car.fuel == fuelSelected
       );
       setFilteredCar(filtered);
-
-
     } else if (modelSelected && colorSelected) {
-
       const filtered = carAd.filter(
         (car) => car.model == modelSelected && car.color == colorSelected
       );
       setFilteredCar(filtered);
-
-
     } else if (modelSelected && yearSelected) {
-
       const filtered = carAd.filter(
         (car) => car.model == modelSelected && car.year == yearSelected
       );
       setFilteredCar(filtered);
-
-
     } else if (modelSelected && fuelSelected) {
-
       const filtered = carAd.filter(
         (car) => car.model == modelSelected && car.fuel == fuelSelected
       );
       setFilteredCar(filtered);
-
-
     } else if (colorSelected && yearSelected) {
-
       const filtered = carAd.filter(
         (car) => car.color == colorSelected && car.year == yearSelected
       );
       setFilteredCar(filtered);
-
-
     } else if (colorSelected && fuelSelected) {
-
       const filtered = carAd.filter(
         (car) => car.color == colorSelected && car.fuel == fuelSelected
       );
       setFilteredCar(filtered);
-
-
     }
 
     //------------------------------------------ THREE FILTERS SCOPE ---------------------------------------------------//
     else if (brandSelected && modelSelected && colorSelected) {
-
       const filtered = carAd.filter(
         (car) =>
           car.brand == brandSelected &&
@@ -217,10 +168,7 @@ const HomePageContext = ({ children }: iChildren) => {
           car.color == colorSelected
       );
       setFilteredCar(filtered);
-
-
     } else if (modelSelected && colorSelected && fuelSelected) {
-
       const filtered = carAd.filter(
         (car) =>
           car.model == modelSelected &&
@@ -228,10 +176,7 @@ const HomePageContext = ({ children }: iChildren) => {
           car.fuel == fuelSelected
       );
       setFilteredCar(filtered);
-
-
     } else if (modelSelected && yearSelected && fuelSelected) {
-
       const filtered = carAd.filter(
         (car) =>
           car.model == modelSelected &&
@@ -239,10 +184,7 @@ const HomePageContext = ({ children }: iChildren) => {
           car.fuel == fuelSelected
       );
       setFilteredCar(filtered);
-
-
     } else if (colorSelected && fuelSelected && yearSelected) {
-
       const filtered = carAd.filter(
         (car) =>
           car.color == colorSelected &&
@@ -250,10 +192,7 @@ const HomePageContext = ({ children }: iChildren) => {
           car.year == yearSelected
       );
       setFilteredCar(filtered);
-
-
     } else if (fuelSelected && yearSelected && brandSelected) {
-
       const filtered = carAd.filter(
         (car) =>
           car.fuel == fuelSelected &&
@@ -262,13 +201,10 @@ const HomePageContext = ({ children }: iChildren) => {
       );
 
       setFilteredCar(filtered);
-
-
     }
 
     //------------------------------------------ FOUR FILTERS SCOPE ---------------------------------------------------//
     else if (brandSelected && modelSelected && colorSelected && fuelSelected) {
-
       const filtered = carAd.filter(
         (car) =>
           car.brand == brandSelected &&
@@ -277,15 +213,12 @@ const HomePageContext = ({ children }: iChildren) => {
           car.fuel == fuelSelected
       );
       setFilteredCar(filtered);
-
-
     } else if (
       brandSelected &&
       modelSelected &&
       colorSelected &&
       yearSelected
     ) {
-
       const filtered = carAd.filter(
         (car) =>
           car.brand == brandSelected &&
@@ -294,10 +227,7 @@ const HomePageContext = ({ children }: iChildren) => {
           car.year == yearSelected
       );
       setFilteredCar(filtered);
-
-
     } else if (modelSelected && colorSelected && yearSelected && fuelSelected) {
-
       const filtered = carAd.filter(
         (car) =>
           car.model == modelSelected &&
@@ -306,9 +236,7 @@ const HomePageContext = ({ children }: iChildren) => {
           car.fuel == fuelSelected
       );
       setFilteredCar(filtered);
-
     }
-
   };
 
   //-------------------------------------------------------------------------------------------------------------------//
@@ -321,8 +249,7 @@ const HomePageContext = ({ children }: iChildren) => {
     const brandArr: string[] = [];
 
     if (filteredCars.length != 0) {
-
-      setIsFilter(true)
+      setIsFilter(true);
 
       filteredCars.forEach((car) => {
         if (!brandArr.includes(car.brand)) {
@@ -352,8 +279,7 @@ const HomePageContext = ({ children }: iChildren) => {
 
       filterCarList();
     } else {
-
-      setIsFilter(false)
+      setIsFilter(false);
 
       carAd.forEach((car) => {
         if (!brandArr.includes(car.brand)) {
@@ -386,127 +312,106 @@ const HomePageContext = ({ children }: iChildren) => {
     setFuels(fuelArr);
     setModels(modelArr);
     setYears(yaersArr);
-
   };
 
   const FilterInputs = () => {
+    //------------------------------------------------ KM INPUTS FILTER ------------------------------------------------//
 
-//------------------------------------------------ KM INPUTS FILTER ------------------------------------------------//
+    if (minKm && !maxKm && !minPrice && !maxPrice) {
+      const filter = carAd.filter((car) => +car.km >= +minKm);
+      setFilteredCar(filter);
+    } else if (maxKm && !minKm && !minPrice && !maxPrice) {
+      const filter = carAd.filter((car) => +car.km <= +maxKm);
 
-    if(minKm && !maxKm && !minPrice && !maxPrice){
-
-      const filter = carAd.filter(car => +car.km >= +minKm)
-      setFilteredCar(filter)
-
-    }else if(maxKm && !minKm && !minPrice && !maxPrice){
-
-      const filter = carAd.filter(car => +car.km <= +maxKm)
-      
-      setFilteredCar(filter)
-
-    }else if(minKm && maxKm && !minPrice && !maxPrice){
-      
-      const filter = carAd.filter(car => +car.km >= +minKm && +car.km <= +maxKm)
-      setFilteredCar(filter)
-
+      setFilteredCar(filter);
+    } else if (minKm && maxKm && !minPrice && !maxPrice) {
+      const filter = carAd.filter(
+        (car) => +car.km >= +minKm && +car.km <= +maxKm
+      );
+      setFilteredCar(filter);
     }
 
-//----------------------------------------------- PRICE INPUTS FILTER ---------------------------------------------//
+    //----------------------------------------------- PRICE INPUTS FILTER ---------------------------------------------//
 
-    if(minPrice && !maxPrice && !minKm && !maxKm){
-
-      const filter = carAd.filter(car => +car.price >= +minPrice)
-      setFilteredCar(filter)
-
-    }else if(maxPrice && !minPrice && !minKm && !maxKm){
-
-      const filter = carAd.filter(car => +car.price <= +maxPrice)
-      setFilteredCar(filter)
-
-    }else if(minPrice && maxPrice && !minKm && !maxKm){
-
-      const filter = carAd.filter(car => +car.price >= +minPrice && +car.price <= +maxPrice)
-      setFilteredCar(filter)
-
+    if (minPrice && !maxPrice && !minKm && !maxKm) {
+      const filter = carAd.filter((car) => +car.price >= +minPrice);
+      setFilteredCar(filter);
+    } else if (maxPrice && !minPrice && !minKm && !maxKm) {
+      const filter = carAd.filter((car) => +car.price <= +maxPrice);
+      setFilteredCar(filter);
+    } else if (minPrice && maxPrice && !minKm && !maxKm) {
+      const filter = carAd.filter(
+        (car) => +car.price >= +minPrice && +car.price <= +maxPrice
+      );
+      setFilteredCar(filter);
     }
 
-//------------------------------------------- PRICE AND KM INPUTS FILTER -----------------------------------------//
+    //------------------------------------------- PRICE AND KM INPUTS FILTER -----------------------------------------//
 
-    if(minPrice && !maxPrice && minKm && !maxKm){
-
+    if (minPrice && !maxPrice && minKm && !maxKm) {
       const filter = carAd.filter(
-        car => +car.price >= +minPrice && +car.km >= +minKm
-      )
+        (car) => +car.price >= +minPrice && +car.km >= +minKm
+      );
 
-      setFilteredCar(filter)
-
-    }else if(!minPrice && maxPrice && !minKm && maxKm){
-
+      setFilteredCar(filter);
+    } else if (!minPrice && maxPrice && !minKm && maxKm) {
       const filter = carAd.filter(
-        car => +car.price <= +maxPrice && +car.km <= +maxKm
-      )
+        (car) => +car.price <= +maxPrice && +car.km <= +maxKm
+      );
 
-      setFilteredCar(filter)
-
-    }else if(minPrice && maxKm && !maxPrice && !minKm ){
-
+      setFilteredCar(filter);
+    } else if (minPrice && maxKm && !maxPrice && !minKm) {
       const filter = carAd.filter(
-        car => +car.km <= +maxKm && +car.price >= +minPrice
-      )
+        (car) => +car.km <= +maxKm && +car.price >= +minPrice
+      );
 
-      setFilteredCar(filter)
-
-    }else if(maxPrice && minKm && !minPrice && !maxKm ){
-
+      setFilteredCar(filter);
+    } else if (maxPrice && minKm && !minPrice && !maxKm) {
       const filter = carAd.filter(
-        car => +car.km >= +minKm && +car.price <= +maxPrice
-      )
+        (car) => +car.km >= +minKm && +car.price <= +maxPrice
+      );
 
-      setFilteredCar(filter)
-
-    }else if(!minPrice && maxPrice && minKm && maxKm){
-
+      setFilteredCar(filter);
+    } else if (!minPrice && maxPrice && minKm && maxKm) {
       const filter = carAd.filter(
-        car => +car.km <= +maxKm && +car.km >= +minKm && +car.price <= +maxPrice
-      )
+        (car) =>
+          +car.km <= +maxKm && +car.km >= +minKm && +car.price <= +maxPrice
+      );
 
-      setFilteredCar(filter)
-
-    }else if(minPrice && !maxPrice && minKm && maxKm){
-
+      setFilteredCar(filter);
+    } else if (minPrice && !maxPrice && minKm && maxKm) {
       const filter = carAd.filter(
-        car => +car.price >= +minPrice && +car.km <= +maxKm && +car.km >= +minKm
-      )
+        (car) =>
+          +car.price >= +minPrice && +car.km <= +maxKm && +car.km >= +minKm
+      );
 
-      setFilteredCar(filter)
-
-    }else if(minPrice && maxPrice && minKm && maxKm){
-
+      setFilteredCar(filter);
+    } else if (minPrice && maxPrice && minKm && maxKm) {
       const filter = carAd.filter(
-        car => +car.price >= +minPrice && +car.price <= +maxPrice && +car.km <= +maxKm && +car.km >= +minKm
-      )
+        (car) =>
+          +car.price >= +minPrice &&
+          +car.price <= +maxPrice &&
+          +car.km <= +maxKm &&
+          +car.km >= +minKm
+      );
 
-      setFilteredCar(filter)
-
+      setFilteredCar(filter);
     }
-    
-  }
+  };
 
   const clearFilter = () => {
-
-    setIsFilter(false)
-    setFilteredCar([])
-    setBrandSelected("")
-    setModelSelected("")
-    setYearSelected("")
-    setColorSelected("")
-    setFuelSelected("")
-    setMaxKm("")
-    setMinKm("")
-    setMinPrice("")
-    setMaxPrice("")
-
-  }
+    setIsFilter(false);
+    setFilteredCar([]);
+    setBrandSelected("");
+    setModelSelected("");
+    setYearSelected("");
+    setColorSelected("");
+    setFuelSelected("");
+    setMaxKm("");
+    setMinKm("");
+    setMinPrice("");
+    setMaxPrice("");
+  };
 
   return (
     <contextHomeProvider.Provider
@@ -541,7 +446,7 @@ const HomePageContext = ({ children }: iChildren) => {
         setIsFilter,
         setBrands,
         filterFieldsSelected,
-        minKm, 
+        minKm,
         setMinKm,
         maxKm,
         setMaxKm,
@@ -551,7 +456,7 @@ const HomePageContext = ({ children }: iChildren) => {
         setMaxPrice,
         FilterInputs,
         setFilteredCar,
-        clearFilter
+        clearFilter,
       }}
     >
       {children}
