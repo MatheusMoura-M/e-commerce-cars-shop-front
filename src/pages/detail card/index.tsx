@@ -9,14 +9,12 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import CoverImgCar from "../../assets/CoverImgCar.svg";
 import imgPerfil from "../../assets/ImgPerfil.svg";
 import imgPerfil1 from "../../assets/ImgPerfil1.svg";
 import imgPerfil2 from "../../assets/ImgPerfil2.svg";
 import imgPerfil3 from "../../assets/ImgPerfil3.svg";
 import ContainerDetailCard from "./style";
 import { BoxComment } from "../../components/boxComment";
-import { IHeaderProps } from "../../@types";
 import { useAuth } from "../../context/webContext";
 import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/createCarsAd.modal";
 import { ModalUpdateAddress } from "../../components/modals/updateAddress/updateAddress.modal";
@@ -30,14 +28,16 @@ export const DetailCard = () => {
     isLogged,
     isOpenUpdateUser,
     onCloseUpdateUser,
+    carAdSelected,
+    ownerOfAdSelected,
   } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <Button onClick={onOpen}>Open Modal</Button>
+      {/* <Button onClick={onOpen}>Open Modal</Button> */}
       <Header />
-      {/* <ContainerDetailCard>
+      <ContainerDetailCard>
         <Container
           as={"section"}
           display={"flex"}
@@ -66,7 +66,7 @@ export const DetailCard = () => {
               justifyContent={"center"}
             >
               <Image
-                src={CoverImgCar}
+                src={carAdSelected.cover_image}
                 alt="Imagem de um carro branco"
                 w={441}
                 h={253}
@@ -82,6 +82,7 @@ export const DetailCard = () => {
               justifyContent={"center"}
             >
               <Flex
+                w={"100%"}
                 alignItems={"flex-start"}
                 flexDirection={"column"}
                 p={{ base: "28px 20px 28px 28px", xl: "44px 49px 28px 44px" }}
@@ -93,7 +94,7 @@ export const DetailCard = () => {
                     color={"grey.1"}
                     fontSize={"20px"}
                   >
-                    Mercedes Benz A 200 CGI ADVANCE SEDAN Mercedes Benz A 200
+                    {carAdSelected.model}
                   </Text>
                 </Box>
                 <Flex
@@ -111,15 +112,15 @@ export const DetailCard = () => {
                     mt={0}
                   >
                     <Text as="span" fontFamily={"inter"}>
-                      2013
+                      {carAdSelected.year}
                     </Text>
                     <Text as="span" fontFamily={"inter"}>
-                      0 KM
+                      {carAdSelected.km} KM
                     </Text>
                   </Flex>
                   <Flex alignItems={"center"}>
                     <Text as="span" className="priceCar">
-                      R$ 00.000,00
+                      R$ {carAdSelected.price}
                     </Text>
                   </Flex>
                 </Flex>
@@ -174,23 +175,23 @@ export const DetailCard = () => {
                 fontSize={"16px"}
                 fontFamily={"inter"}
                 color={"grey.2"}
+                w={"100%"}
               >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Officiis earum fuga porro inventore, alias quod eos accusantium
-                impedit, voluptate veniam eligendi velit, iusto praesentium
-                doloremque ea? Labore aperiam et sapiente.
+                {carAdSelected.description}
               </Text>
             </Flex>
           </Flex>
           <Flex
+            alignItems={"center"}
             flexDirection={"column"}
             gap={{ base: "52px", xl: "34px" }}
-            w={{ base: "90%", sm4: 700, md: "unset" }}
+            w={{ base: "90%", sm4: 700, md: "90%", xl: 440 }}
             maxW={{ md: 752 }}
           >
             <Flex
               bg={"grey.10"}
-              maxW={{ base: "100%", xl: 440 }}
+              w={{ base: "100%", sm4: 700, md: 752 }}
+              maxW={{ base: "unset", xl: 440 }}
               borderRadius={4}
               alignItems={"flex-start"}
               justifyContent={"center"}
@@ -216,72 +217,25 @@ export const DetailCard = () => {
                 }}
                 ml={{ sm2: "1rem", sm4: 0 }}
               >
-                <Flex
-                  alignItems={"center"}
-                  w={{ base: 90, sm4: 95, xl: 108 }}
-                  h={{ base: 90, sm4: 95, xl: 108 }}
-                  p={"27px 7px"}
-                  bg={"grey.7"}
-                  borderRadius={4}
-                >
-                  <Image src={CoverImgCar} alt="Imagem de um carro Branco" />
-                </Flex>
-                <Flex
-                  alignItems={"center"}
-                  w={{ base: 90, sm4: 95, xl: 108 }}
-                  h={{ base: 90, sm4: 95, xl: 108 }}
-                  p={"27px 7px"}
-                  bg={"grey.7"}
-                  borderRadius={4}
-                >
-                  <Image src={CoverImgCar} alt="Imagem de um carro Branco" />
-                </Flex>
-                <Flex
-                  alignItems={"center"}
-                  w={{ base: 90, sm4: 95, xl: 108 }}
-                  h={{ base: 90, sm4: 95, xl: 108 }}
-                  p={"27px 7px"}
-                  bg={"grey.7"}
-                  borderRadius={4}
-                >
-                  <Image src={CoverImgCar} alt="Imagem de um carro Branco" />
-                </Flex>
-                <Flex
-                  alignItems={"center"}
-                  w={{ base: 90, sm4: 95, xl: 108 }}
-                  h={{ base: 90, sm4: 95, xl: 108 }}
-                  p={"27px 7px"}
-                  bg={"grey.7"}
-                  borderRadius={4}
-                >
-                  <Image src={CoverImgCar} alt="Imagem de um carro Branco" />
-                </Flex>
-                <Flex
-                  alignItems={"center"}
-                  w={{ base: 90, sm4: 95, xl: 108 }}
-                  h={{ base: 90, sm4: 95, xl: 108 }}
-                  p={"27px 7px"}
-                  bg={"grey.7"}
-                  borderRadius={4}
-                >
-                  <Image src={CoverImgCar} alt="Imagem de um carro Branco" />
-                </Flex>
-                <Flex
-                  alignItems={"center"}
-                  w={{ base: 90, sm4: 95, xl: 108 }}
-                  h={{ base: 90, sm4: 95, xl: 108 }}
-                  p={"27px 7px"}
-                  bg={"grey.7"}
-                  borderRadius={4}
-                >
-                  <Image src={CoverImgCar} alt="Imagem de um carro Branco" />
-                </Flex>
+                {carAdSelected.images?.map((image) => (
+                  <Flex
+                    key={image.id}
+                    alignItems={"center"}
+                    w={{ base: 90, sm4: 95, xl: 108 }}
+                    h={{ base: 90, sm4: 95, xl: 108 }}
+                    p={"27px 7px"}
+                    bg={"grey.7"}
+                    borderRadius={4}
+                  >
+                    <Image src={image.image_url} alt="Imagem secundária" />
+                  </Flex>
+                ))}
               </Flex>
             </Flex>
             <Flex
               bg={"grey.10"}
               h={426}
-              w={{ base: "100%", xl: 440 }}
+              w={{ base: "100%", sm4: 700, md: 752, xl: 440 }}
               borderRadius={4}
               alignItems={"center"}
               justifyContent={"center"}
@@ -292,11 +246,18 @@ export const DetailCard = () => {
               <Flex flexDirection={"column"} w={"104px"} h={"104px"}>
                 <Image src={imgPerfil} alt="Foto de perfil do usuário" />
               </Flex>
-              <Text as={"h2"} fontWeight={600} fontSize={"20px"}>
-                Samuel Leão
+              <Text
+                as={"h2"}
+                fontWeight={600}
+                fontSize={"20px"}
+                w={"100%"}
+                textAlign={"center"}
+              >
+                {ownerOfAdSelected.name}
               </Text>
               <Text
                 as={"p"}
+                w={"100%"}
                 fontSize={"16px"}
                 fontWeight={400}
                 lineHeight={"28px"}
@@ -304,8 +265,7 @@ export const DetailCard = () => {
                 textAlign={"center"}
                 fontFamily={"inter"}
               >
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's
+                {ownerOfAdSelected.description}
               </Text>
               <Button
                 variant={"grey0"}
@@ -467,7 +427,7 @@ export const DetailCard = () => {
           </Container>
           <BoxComment />
         </Flex>
-      </ContainerDetailCard> */}
+      </ContainerDetailCard>
       <ModalCreateCarAd isOpen={isOpen} onClose={onClose} />
       <ModalUpdateAddress isOpen={isOpenAddress} onClose={onCloseAddress} />
       <ModalEditUser isOpen={isOpenUpdateUser} onClose={onCloseUpdateUser} />

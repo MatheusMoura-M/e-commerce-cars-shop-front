@@ -18,7 +18,8 @@ const schemaRegister = yup.object({
     state: yup.string().required("Campo obrigatório"),
     city: yup.string().required("Campo obrigatório"),
     number: yup.string().required("Campo obrigatório"),
-    complement: yup.string()
+    complement: yup.string().required(),
+    description: yup.string().required("Campo obrigatório")
 }).required();
 
 export default schemaRegister
