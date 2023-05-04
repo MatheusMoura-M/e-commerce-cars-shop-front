@@ -17,7 +17,10 @@ import { instance, instanceKenzieCars } from "../services/api";
 import { iCarResponse, iCreateCarAd } from "../interface/car.interface";
 import { getCarSpecificResponse } from "../services/getCarSpecificResponse";
 import { getUserSpecificReponse } from "../services/getUserSpecificResponse";
-import { iCommentRequest } from "../interface/comment.interface";
+import {
+  iCommentRequest,
+  iCommentsListResponse,
+} from "../interface/comment.interface";
 import { createCommentResponse } from "../services/createCommentResponse";
 
 export interface iAuthProviderData {
@@ -61,6 +64,8 @@ export interface iAuthProviderData {
   setUserLogged: Dispatch<SetStateAction<iUser>>;
   navigate: NavigateFunction;
   onCreateComment: (data: iCommentRequest, id: string) => Promise<void>;
+  onListComment: (id: string) => Promise<void>;
+  comments: iCommentsListResponse[];
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -96,6 +101,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     {} as iUser
   );
   const [userLogged, setUserLogged] = useState<iUser>({} as iUser);
+  const [comments, setComments] = useState<iCommentsListResponse[]>([]);
 
   const returnHome = () => {
     navigate("/");
@@ -377,10 +383,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       instance.defaults.headers.authorization =
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGhldXNAZ21haWwuY29tIiwiaWQiOiIzNjZiNDA2NS1mMjVkLTQ1M2QtYmZjZS1kNzNmMDQ2MjYzM2MiLCJpYXQiOjE2ODMwNTM3MjAsImV4cCI6MTY4MzE0MDEyMCwic3ViIjoiMzY2YjQwNjUtZjI1ZC00NTNkLWJmY2UtZDczZjA0NjI2MzNjIn0.j56CadovJ-cqUZCqag2eLxSaRyQhH7S5R18SE8OcbjQ";
       const data = await getCarSpecificResponse(id);
-
+      console.log("oi");
       GetUserSpecific(data.user.id);
       setCarAdSelected(data);
       GetUserProfile();
+      onListComment(data.id);
     } catch (error) {
       console.log(error);
     }
@@ -415,6 +422,15 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       const data = await createCommentResponse(formData, id);
 
       console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onListComment = async (id: string) => {
+    try {
+      const commentsCar = await instance.get(`/comments/${id}`);
+      setComments(commentsCar.data);
     } catch (error) {
       console.log(error);
     }
@@ -463,6 +479,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         GetUserProfile,
         userLogged,
         setUserLogged,
+        onListComment,
+        comments,
       }}
     >
       {children}
