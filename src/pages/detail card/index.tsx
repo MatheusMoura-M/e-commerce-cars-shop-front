@@ -34,6 +34,29 @@ export const DetailCard = () => {
   } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const getDayComment = (date: Date) => {
+    const dateNow = new Date();
+    const timeDate1 = date.getTime();
+    const timeDateNow = dateNow.getTime();
+
+    const difference = Math.abs(timeDate1 - timeDateNow);
+
+    const differenceInDay = Math.ceil(difference / (1000 * 60 * 60 * 24));
+
+    if (differenceInDay < 1) {
+      return `Há menos de um dia`;
+    } else if (differenceInDay > 30) {
+      let month = differenceInDay / 30;
+      let toString = month.toString();
+      let IntegerMonth = parseInt(toString);
+      if (IntegerMonth < 1) {
+        return `Há ${IntegerMonth} Mês`;
+      }
+      return `Há ${IntegerMonth} Mêses`;
+    }
+    return `Há ${differenceInDay} dias`;
+  };
+
   return (
     <>
       {/* <Button onClick={onOpen}>Open Modal</Button> */}
@@ -337,7 +360,7 @@ export const DetailCard = () => {
                           color={"grey.3"}
                           mt={"3px"}
                         >
-                          • &ensp;{comment.createdAt}
+                          • &ensp;{getDayComment(comment.createdAt)}
                         </Text>
                       </Flex>
                       <Text
