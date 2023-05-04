@@ -30,8 +30,34 @@ export const DetailCard = () => {
     onCloseUpdateUser,
     carAdSelected,
     ownerOfAdSelected,
+    comments,
   } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const getDayComment = (date: Date) => {
+    const dateNow = new Date();
+    const dateComment = new Date(date);
+
+    const timeDate1 = dateComment.getTime();
+    const timeDateNow = dateNow.getTime();
+
+    const difference = Math.abs(timeDate1 - timeDateNow);
+
+    const differenceInDay = Math.ceil(difference / (1000 * 60 * 60 * 24));
+
+    if (differenceInDay <= 1) {
+      return `Há menos de um dia`;
+    } else if (differenceInDay > 30) {
+      let month = differenceInDay / 30;
+      let toString = month.toString();
+      let IntegerMonth = parseInt(toString);
+      if (IntegerMonth < 1) {
+        return `Há ${IntegerMonth} Mês`;
+      }
+      return `Há ${IntegerMonth} Mêses`;
+    }
+    return `Há ${differenceInDay} dias`;
+  };
 
   return (
     <>
@@ -310,118 +336,47 @@ export const DetailCard = () => {
               >
                 Comentários
               </Text>
-              <Flex flexDirection={"column"} gap={"44px"}>
-                <Flex flexDirection={"column"} gap={"12px"}>
-                  <Flex gap={"10px"} alignItems={"center"}>
-                    <Image src={imgPerfil2} alt="Imagem de perfil do usuário" />
-                    <Text
-                      as={"h3"}
-                      color={"grey.1"}
-                      fontFamily={"inter"}
-                      fontWeight={"500"}
-                      fontSize={"14px"}
-                    >
-                      Júlia Lima
-                    </Text>
-                    <Text
-                      as={"span"}
-                      fontSize={"12px"}
-                      fontFamily={"inter"}
-                      fontWeight={400}
-                      color={"grey.3"}
-                      mt={"3px"}
-                    >
-                      • &ensp;há 3 dias
-                    </Text>
-                  </Flex>
-                  <Text
-                    as={"p"}
-                    fontFamily={"inter"}
-                    fontWeight={400}
-                    fontSize={"14px"}
-                    color={"grey.2"}
-                  >
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s, when an unknown
-                    printer took a galley of type and scrambled it to make a
-                    type specimen book.
-                  </Text>
-                </Flex>
-                <Flex flexDirection={"column"} gap={"12px"}>
-                  <Flex gap={"10px"} alignItems={"center"}>
-                    <Image src={imgPerfil1} alt="Imagem de perfil do usuário" />
-                    <Text
-                      as={"h3"}
-                      color={"grey.1"}
-                      fontFamily={"inter"}
-                      fontWeight={"500"}
-                      fontSize={"14px"}
-                    >
-                      Marcos Antônio
-                    </Text>
-                    <Text
-                      as={"span"}
-                      fontSize={"12px"}
-                      fontFamily={"inter"}
-                      fontWeight={400}
-                      color={"grey.3"}
-                      mt={"3px"}
-                    >
-                      • &ensp;há 7 dias
-                    </Text>
-                  </Flex>
-                  <Text
-                    as={"p"}
-                    fontFamily={"inter"}
-                    fontWeight={400}
-                    fontSize={"14px"}
-                    color={"grey.2"}
-                  >
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s, when an unknown
-                    printer took a galley of type and scrambled it to make a
-                    type specimen book.
-                  </Text>
-                </Flex>
-                <Flex flexDirection={"column"} gap={"12px"}>
-                  <Flex gap={"10px"} alignItems={"center"}>
-                    <Image src={imgPerfil3} alt="Imagem de perfil do usuário" />
-                    <Text
-                      as={"h3"}
-                      color={"grey.1"}
-                      fontFamily={"inter"}
-                      fontWeight={"500"}
-                      fontSize={"14px"}
-                    >
-                      Camila Silva
-                    </Text>
-                    <Text
-                      as={"span"}
-                      fontSize={"12px"}
-                      fontFamily={"inter"}
-                      fontWeight={400}
-                      color={"grey.3"}
-                      mt={"3px"}
-                    >
-                      • &ensp;há 1 mês
-                    </Text>
-                  </Flex>
-                  <Text
-                    as={"p"}
-                    fontFamily={"inter"}
-                    fontWeight={400}
-                    fontSize={"14px"}
-                    color={"grey.2"}
-                  >
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s, when an unknown
-                    printer took a galley of type and scrambled it to make a
-                    type specimen book.
-                  </Text>
-                </Flex>
+              <Flex flexDirection={"column"} gap={"44px"} w={"100%"}>
+                {comments.map((comment) => {
+                  return (
+                    <Flex flexDirection={"column"} gap={"12px"}>
+                      <Flex gap={"10px"} alignItems={"center"}>
+                        <Image
+                          src={comment.users.image_url}
+                          alt="Imagem de perfil do usuário"
+                        />
+                        <Text
+                          as={"h3"}
+                          color={"grey.1"}
+                          fontFamily={"inter"}
+                          fontWeight={"500"}
+                          fontSize={"14px"}
+                        >
+                          {comment.users.name}
+                        </Text>
+                        <Text
+                          as={"span"}
+                          fontSize={"12px"}
+                          fontFamily={"inter"}
+                          fontWeight={400}
+                          color={"grey.3"}
+                          mt={"3px"}
+                        >
+                          • &ensp;{getDayComment(comment.createdAt)}
+                        </Text>
+                      </Flex>
+                      <Text
+                        as={"p"}
+                        fontFamily={"inter"}
+                        fontWeight={400}
+                        fontSize={"14px"}
+                        color={"grey.2"}
+                      >
+                        {comment.comment}
+                      </Text>
+                    </Flex>
+                  );
+                })}
               </Flex>
             </Flex>
           </Container>
