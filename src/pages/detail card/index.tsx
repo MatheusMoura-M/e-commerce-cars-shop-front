@@ -36,14 +36,16 @@ export const DetailCard = () => {
 
   const getDayComment = (date: Date) => {
     const dateNow = new Date();
-    const timeDate1 = date.getTime();
+    const dateComment = new Date(date);
+
+    const timeDate1 = dateComment.getTime();
     const timeDateNow = dateNow.getTime();
 
     const difference = Math.abs(timeDate1 - timeDateNow);
 
     const differenceInDay = Math.ceil(difference / (1000 * 60 * 60 * 24));
 
-    if (differenceInDay < 1) {
+    if (differenceInDay <= 1) {
       return `Há menos de um dia`;
     } else if (differenceInDay > 30) {
       let month = differenceInDay / 30;
