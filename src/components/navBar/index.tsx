@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import imgLogo from "../../assets/LogoHeader.svg";
 import imgPerfil from "../../assets/ImgPerfil.svg";
-import { IHeaderProps, iComment } from "../../@types";
+import { IHeaderProps } from "../../@types";
 import { useAuth } from "../../context/webContext";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { Input } from "../form/input";
@@ -20,6 +20,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import formSchema from "../../schemas/comments";
 import { useNavigate } from "react-router-dom";
+import { iCommentRequest } from "../../interface/comment.interface";
 
 const BtnsDefault = ["Login", "Register"];
 const BtnsIsLogged = [
@@ -30,12 +31,13 @@ const BtnsIsLogged = [
 ];
 
 const Header = ({ isLogin = false }: IHeaderProps) => {
-  const { isLogged } = useAuth();
+  const { MenuHamburguer, returnHome, isLogged, setIsLogged } = useAuth();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<iComment>({
+  } = useForm<iCommentRequest>({
     resolver: yupResolver(formSchema),
   });
 
@@ -44,7 +46,9 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
   const onFormSubmit = (formData: object) => {
     console.log(formData);
   };
-  const { MenuHamburguer, returnHome } = useAuth();
+
+  // setIsLogged(true);
+
   return (
     <Box
       id="header"

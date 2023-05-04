@@ -17,10 +17,6 @@ export interface IHeaderProps {
   isLogin?: boolean;
 }
 
-export interface iComment {
-  comment: string;
-}
-
 export interface iShowPass {
   showPass: boolean;
 }
@@ -28,7 +24,6 @@ export interface iShowPass {
 export interface InputProps extends ChakraInputProps {
   id: Path<any>;
   register: UseFormRegister<any>;
-  // errorMessage?: FieldErrors<iCreateCarAd>;
   errorMessage?: string;
   label?: string;
   icon?: IconType;
@@ -38,5 +33,6 @@ export interface InputProps extends ChakraInputProps {
   type?: string;
   showPass?: boolean;
   marginTopForm?: string;
-  // error?: FieldErrors<iComment> | null;
+  value: string | number;
+  // error?: FieldErrors<iCommentRequest> | null;
 }

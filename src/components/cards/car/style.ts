@@ -3,6 +3,7 @@ import styled from "styled-components";
 const LiCar = styled.li`
   background-color: var(--grey-10);
   max-width: 300px;
+  cursor: pointer;
   .container-image {
     background-color: var(--grey-7);
     position: relative;
