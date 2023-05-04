@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { iCar, iCreateCarAd } from "../interface/car.interface";
+import { iCar, iCarResponse, iCreateCarAd } from "../interface/car.interface";
 import { instance } from "../services/api";
 
 interface iChildren {
@@ -47,6 +47,8 @@ interface iHomeContext {
   setMaxPrice: React.Dispatch<React.SetStateAction<string>>;
   FilterInputs(): void;
   setFilteredCar: React.Dispatch<React.SetStateAction<iCar[]>>;
+  selectedCar: iCarResponse;
+  setSelectedCar(car: iCarResponse): void;
   clearFilter(): void;
 }
 
@@ -54,6 +56,9 @@ export const contextHomeProvider = createContext({} as iHomeContext);
 
 const HomePageContext = ({ children }: iChildren) => {
   const [carAd, setCarAd] = useState<iCar[]>([]);
+  const [selectedCar, setSelectedCar] = useState<iCarResponse>(
+    {} as iCarResponse
+  );
   const [filteredCars, setFilteredCar] = useState<iCar[]>([]);
   const [isFilter, setIsFilter] = useState<boolean>(false);
 
@@ -249,8 +254,7 @@ const HomePageContext = ({ children }: iChildren) => {
     const brandArr: string[] = [];
 
     if (filteredCars.length != 0) {
-      setIsFilter(true);
-
+      [];
       filteredCars.forEach((car) => {
         if (!brandArr.includes(car.brand)) {
           brandArr.push(car.brand);
@@ -456,6 +460,8 @@ const HomePageContext = ({ children }: iChildren) => {
         setMaxPrice,
         FilterInputs,
         setFilteredCar,
+        selectedCar,
+        setSelectedCar,
         clearFilter,
       }}
     >

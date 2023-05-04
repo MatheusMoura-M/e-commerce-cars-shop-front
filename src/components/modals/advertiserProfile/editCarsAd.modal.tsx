@@ -10,28 +10,32 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { Input } from "../../form/input";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import formSchemaCarAd from "../../../schemas/annoucements";
 import {
   iCreateCarAd,
+  iImagesInCarResponse,
   iStatusModalCar,
 } from "../../../interface/car.interface";
 import "./style.css";
 import { useAuth } from "../../../context/webContext";
+import { contextHomeProvider } from "../../../context/homePage.context";
 
-export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
-  const [images, setImages] = useState<string[]>(["", ""]);
+export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
+  const { selectedCar } = useContext(contextHomeProvider);
+
+  const [images, setImages] = useState(selectedCar.images);
   const [modelInfoSelect, setModelInfoSelect] = useState<any>([]);
-  const [year, setYear] = useState("");
-  const [fuel, setFuel] = useState("");
-  const [fipe, setFipe] = useState("");
-  const [coverImage, setCoverImage] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [color, setColor] = useState("");
-  const [km, setKm] = useState("");
+  const [year, setYear] = useState(selectedCar.year);
+  const [fuel, setFuel] = useState(selectedCar.fuel);
+  const [fipe, setFipe] = useState(selectedCar.fipe);
+  const [coverImage, setCoverImage] = useState(selectedCar.cover_image);
+  const [description, setDescription] = useState(selectedCar.description);
+  const [price, setPrice] = useState(selectedCar.price);
+  const [color, setColor] = useState(selectedCar.color);
+  const [km, setKm] = useState(selectedCar.km);
 
   const {
     getCarsBrands,
@@ -258,7 +262,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                         label={`${index + 1}° Imagem da galeria`}
                         type="text"
                         id={`images_${index + 1}`}
-                        value={image}
+                        value={image.image_url}
                         register={register}
                         onChange={(e) => handleChangeImage(e, index)}
                       />
@@ -268,14 +272,18 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                     display={"flex"}
                     flexDirection={"column"}
                     gap={"42px"}
+                    w={"100%"}
+                    paddingInlineStart={"0px"}
+                    paddingInlineEnd={"0px"}
                   >
-                    <Flex w={"100%"} pl={"15px"}>
+                    <Flex w={"100%"}>
                       <Button
                         variant={"brand2"}
                         fontSize={{ base: "10px", xs1: "14px" }}
                         w={"315px"}
                         borderRadius={"4px"}
                         onClick={AddInputImage}
+                        justifySelf={"flex-start"}
                       >
                         Adicionar campo para imagem da galeria
                       </Button>
@@ -289,18 +297,19 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                         fontSize={"16px"}
                         fontFamily={"inter"}
                         borderRadius={"4px"}
+                        w={"55%"}
                       >
-                        Cancelar
+                        Excluir Anuncio
                       </Button>
                       <Button
                         variant="brand6"
-                        w={"193px"}
+                        w={"45%"}
                         fontFamily={"inter"}
                         fontSize={"16px"}
                         borderRadius={"4px"}
                         type="submit"
                       >
-                        Criar anúncio
+                        Salvar Alteracoes
                       </Button>
                     </Flex>
                   </ModalFooter>

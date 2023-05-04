@@ -20,12 +20,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import formSchema from "../../schemas/comments";
 import { useNavigate } from "react-router-dom";
-<<<<<<< HEAD
 import { ModalUpdateAddress } from "../modals/updateAddress/updateAddress.modal";
 import ModalEditUser from "../modals/editProfile/updateUser.modal";
-=======
 import { iCommentRequest } from "../../interface/comment.interface";
->>>>>>> a36066b48366b86d4ea7084ad1e3d4735f6b0cc0
 
 const BtnsDefault = ["Login", "Register"];
 const BtnsIsLogged = [
@@ -40,7 +37,6 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
     MenuHamburguer,
     returnHome,
     isLogged,
-    setIsLogged,
     isOpenAddress,
     onCloseAddress,
     isOpenUpdateUser,
@@ -60,8 +56,6 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
   const onFormSubmit = (formData: object) => {
     console.log(formData);
   };
-
-  // setIsLogged(true);
 
   return (
     <Box

@@ -9,21 +9,19 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { ContainerProfile, UlCardCars } from "./style";
-import { IHeaderProps } from "../../@types";
 import CarCard from "../../components/cards/car/car";
 import { useContext, useEffect, useState } from "react";
 import { contextHomeProvider } from "../../context/homePage.context";
 import imgPerfil from "../../assets/ImgPerfil.svg";
 import { NumberPage } from "./style";
-import { useAuth } from "../../context/webContext";
 import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/createCarsAd.modal";
-import { ModalUpdateAddress } from "../../components/modals/updateAddress/updateAddress.modal";
-import ModalEditUser from "../../components/modals/editProfile/updateUser.modal";
+import { ModalEditCarAd } from "../../components/modals/advertiserProfile/editCarsAd.modal";
+import { iCarResponse } from "../../interface/car.interface";
 
 export const ProfileCard = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { carAd, GetCardsAd } = useContext(contextHomeProvider);
+  const { carAd, GetCardsAd, setSelectedCar } = useContext(contextHomeProvider);
 
   const pageLimit = 12;
   const pages = Math.ceil(carAd.length / pageLimit) - 1;
@@ -40,7 +38,7 @@ export const ProfileCard = () => {
     return cards;
   };
 
-  const cars = [
+  const cars: iCarResponse[] = [
     {
       id: "f9dd7a3c-dcaa-4f5c-88db-ba2d2843d074",
       brand: "test",
@@ -56,6 +54,7 @@ export const ProfileCard = () => {
       published: true,
       cover_image:
         "https://assets-cdn.static-gm.com/Assets/Inventory/Images/e4c6ba57-050a-4aad-8cb7-69b9ad27f0f9/f2504fc6-f517-4ee4-95c8-dfc702a559d7/9BGEB69H0NG203812_637896070136411172.jpg",
+      images: [{ id: 1, image_url: "cocozaum" }],
     },
     {
       id: "3e5fe6bf-acbb-4baf-bb88-3cb650e88892",
@@ -67,11 +66,12 @@ export const ProfileCard = () => {
       color: "test",
       price: "10",
       fipe: "10",
-      description: "test",
+      description: "test 2",
       is_good_price: true,
       published: true,
       cover_image:
         "https://assets-cdn.static-gm.com/Assets/Inventory/Images/e4c6ba57-050a-4aad-8cb7-69b9ad27f0f9/f2504fc6-f517-4ee4-95c8-dfc702a559d7/9BGEB69H0NG203812_637896070136411172.jpg",
+      images: [{ id: 1, image_url: "cocozaum" }],
     },
     {
       id: "be7b534d-4447-4180-a21f-68efc2983e70",
@@ -83,11 +83,12 @@ export const ProfileCard = () => {
       color: "test",
       price: "10",
       fipe: "10",
-      description: "test",
+      description: "test 3",
       is_good_price: true,
       published: true,
       cover_image:
         "https://assets-cdn.static-gm.com/Assets/Inventory/Images/e4c6ba57-050a-4aad-8cb7-69b9ad27f0f9/f2504fc6-f517-4ee4-95c8-dfc702a559d7/9BGEB69H0NG203812_637896070136411172.jpg",
+      images: [{ id: 1, image_url: "cocozaum" }],
     },
     {
       id: "bb0aa2fd-8efe-4d49-a583-fcdbb8387107",
@@ -104,10 +105,27 @@ export const ProfileCard = () => {
       published: true,
       cover_image:
         "https://assets-cdn.static-gm.com/Assets/Inventory/Images/e4c6ba57-050a-4aad-8cb7-69b9ad27f0f9/f2504fc6-f517-4ee4-95c8-dfc702a559d7/9BGEB69H0NG203812_637896070136411172.jpg",
+      images: [{ id: 1, image_url: "cocozaum" }],
     },
   ];
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isCreateOpen,
+    onOpen: onCreateOpen,
+    onClose: onCreateClose,
+  } = useDisclosure();
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onClose: onEditClose,
+  } = useDisclosure();
+
+  const selectCarAd = (id: string) => {
+    const car = cars.filter((car) => {
+      return car.id == id;
+    });
+    setSelectedCar(car);
+  };
 
   return (
     <ContainerProfile>
@@ -158,7 +176,7 @@ export const ProfileCard = () => {
               borderColor="brand.1"
               borderRadius="4px"
               fontSize="0.875rem"
-              onClick={onOpen}
+              onClick={onCreateOpen}
             >
               Criar Anuncio
             </Button>
@@ -175,6 +193,7 @@ export const ProfileCard = () => {
                     nameCar={card.model}
                     brandCar={card.brand}
                     year={card.year}
+                    id={card.id}
                     key={card.id}
                     userName="usuário"
                   />
@@ -187,6 +206,7 @@ export const ProfileCard = () => {
                       borderColor="gray.0"
                       borderRadius="4px"
                       fontSize="0.875rem"
+                      onClick={onEditOpen}
                     >
                       Editar
                     </Button>
@@ -246,7 +266,8 @@ export const ProfileCard = () => {
           </Box>
         </Box>
       </Box>
-      <ModalCreateCarAd isOpen={isOpen} onClose={onClose} />
+      <ModalCreateCarAd isOpen={isCreateOpen} onClose={onCreateClose} />
+      <ModalEditCarAd isOpen={isEditOpen} onClose={onEditClose} />
       <Footer />
     </ContainerProfile>
   );

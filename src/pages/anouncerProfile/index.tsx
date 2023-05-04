@@ -149,6 +149,7 @@ export const AnnouncerProfileCard = () => {
                     nameCar={card.model}
                     brandCar={card.brand}
                     year={card.year}
+                    id={card.id}
                     key={card.id}
                     userName="usuário"
                   />
