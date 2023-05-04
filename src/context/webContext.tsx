@@ -17,10 +17,7 @@ import { instance, instanceKenzieCars } from "../services/api";
 import { iCarResponse, iCreateCarAd } from "../interface/car.interface";
 import { getCarSpecificResponse } from "../services/getCarSpecificResponse";
 import { getUserSpecificReponse } from "../services/getUserSpecificResponse";
-import {
-  iCommentRequest,
-  iCommentsListResponse,
-} from "../interface/comment.interface";
+import { iCommentRequest } from "../interface/comment.interface";
 import { createCommentResponse } from "../services/createCommentResponse";
 
 export interface iAuthProviderData {
@@ -64,8 +61,6 @@ export interface iAuthProviderData {
   setUserLogged: Dispatch<SetStateAction<iUser>>;
   navigate: NavigateFunction;
   onCreateComment: (data: iCommentRequest, id: string) => Promise<void>;
-  onListComment: (id: string) => Promise<void>;
-  comments: iCommentsListResponse[];
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -101,7 +96,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     {} as iUser
   );
   const [userLogged, setUserLogged] = useState<iUser>({} as iUser);
-  const [comments, setComments] = useState<iCommentsListResponse[]>([]);
 
   const returnHome = () => {
     navigate("/");
@@ -214,7 +208,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const onUpdateAddress = async (data: iUpdateAddress) => {
     try {
       instance.defaults.headers.authorization =
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pbGZvbnRzMkBnbWFpbC5jb20iLCJpZCI6IjE3YzE3MGM0LTEwZTEtNDJkMS05ZGRmLWFmN2U1Nzc3MzE5NSIsImlhdCI6MTY4MjcwNDU5NCwiZXhwIjoxNjgyNzkwOTk0LCJzdWIiOiIxN2MxNzBjNC0xMGUxLTQyZDEtOWRkZi1hZjdlNTc3NzMxOTUifQ.ch3Z2pkxrsfehNgVM1uNVDMiZsgasPO2m7oMMtHffBk";
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldG8yMUBtYWlsLmNvbSIsImlkIjoiYjZkM2Y5ODMtNTRmOC00ZWY4LTgyMDctMjkwMTQyNDI5YzhjIiwiaWF0IjoxNjgyNjE5OTMwLCJleHAiOjE2ODI3MDYzMzAsInN1YiI6ImI2ZDNmOTgzLTU0ZjgtNGVmOC04MjA3LTI5MDE0MjQyOWM4YyJ9.9FeeSRxDOBE2iCyfShB3xIxJjQi067m5uMqQmw4nNrs";
 
       const response = await instance.patch("/address", data);
       toast.success("Address atualizado com sucesso", {
@@ -248,7 +242,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const onUpdateUser = async (data: iUpdateUser) => {
     try {
       const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pbGZvbnRzMkBnbWFpbC5jb20iLCJpZCI6IjE3YzE3MGM0LTEwZTEtNDJkMS05ZGRmLWFmN2U1Nzc3MzE5NSIsImlhdCI6MTY4MjcwNDU5NCwiZXhwIjoxNjgyNzkwOTk0LCJzdWIiOiIxN2MxNzBjNC0xMGUxLTQyZDEtOWRkZi1hZjdlNTc3NzMxOTUifQ.ch3Z2pkxrsfehNgVM1uNVDMiZsgasPO2m7oMMtHffBk";
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pbGZvbnRzMkBnbWFpbC5jb20iLCJpZCI6IjY2MThhN2FmLTU0YzYtNGM4OS1iOWM1LTgzMzA3Yzg4ZTE3YSIsImlhdCI6MTY4MjY5NjcwNCwiZXhwIjoxNjgyNzgzMTA0LCJzdWIiOiI2NjE4YTdhZi01NGM2LTRjODktYjljNS04MzMwN2M4OGUxN2EifQ.P2veCzSL7bqLl6CuG0yFyyStS_u0uGqytqNCH9JzpEg";
 
       const response = await instance.patch("/user", data, {
         headers: { Authorization: `Bearer ${token}` },
@@ -284,7 +278,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const onDeleteUser = async () => {
     try {
       const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGhldXNAbWFpbC5jb20iLCJpZCI6Ijc2ZDI2YWI3LTBjMDAtNGEyYy1hZDM4LWVjODExZmQxOTNhMCIsImlhdCI6MTY4MjcwNDYzMywiZXhwIjoxNjgyNzkxMDMzLCJzdWIiOiI3NmQyNmFiNy0wYzAwLTRhMmMtYWQzOC1lYzgxMWZkMTkzYTAifQ.ovbssAu2hwVIwN1trEE7b_UK-pLM9eTggVn8oLUTs50";
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pbGZvbnRzMkBnbWFpbC5jb20iLCJpZCI6IjY2MThhN2FmLTU0YzYtNGM4OS1iOWM1LTgzMzA3Yzg4ZTE3YSIsImlhdCI6MTY4MjY5ODk0NCwiZXhwIjoxNjgyNzg1MzQ0LCJzdWIiOiI2NjE4YTdhZi01NGM2LTRjODktYjljNS04MzMwN2M4OGUxN2EifQ.7MHGh3iV4RTsiry5W3eehyKKHlO_nDLpSEJ9ruZnkZU";
 
       const response = await instance.delete("/user", {
         headers: { Authorization: `Bearer ${token}` },
@@ -383,11 +377,10 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       instance.defaults.headers.authorization =
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGhldXNAZ21haWwuY29tIiwiaWQiOiIzNjZiNDA2NS1mMjVkLTQ1M2QtYmZjZS1kNzNmMDQ2MjYzM2MiLCJpYXQiOjE2ODMwNTM3MjAsImV4cCI6MTY4MzE0MDEyMCwic3ViIjoiMzY2YjQwNjUtZjI1ZC00NTNkLWJmY2UtZDczZjA0NjI2MzNjIn0.j56CadovJ-cqUZCqag2eLxSaRyQhH7S5R18SE8OcbjQ";
       const data = await getCarSpecificResponse(id);
-      console.log("oi");
+
       GetUserSpecific(data.user.id);
       setCarAdSelected(data);
       GetUserProfile();
-      onListComment(data.id);
     } catch (error) {
       console.log(error);
     }
@@ -422,15 +415,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       const data = await createCommentResponse(formData, id);
 
       console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const onListComment = async (id: string) => {
-    try {
-      const commentsCar = await instance.get(`/comments/${id}`);
-      setComments(commentsCar.data);
     } catch (error) {
       console.log(error);
     }
@@ -479,8 +463,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         GetUserProfile,
         userLogged,
         setUserLogged,
-        onListComment,
-        comments,
       }}
     >
       {children}
