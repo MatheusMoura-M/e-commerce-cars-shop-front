@@ -4,18 +4,21 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "../form/input";
 import { useAuth } from "../../context/webContext";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { iCommentRequest } from "../../interface/comment.interface";
 import commentSchema from "../../schemas/comments";
+import { useParams } from "react-router-dom";
 
 export const BoxComment = () => {
+  const { id } = useParams();
+
   const {
     returnHome,
     isLogged,
     setIsLogged,
-    ownerOfAdSelected,
     carAdSelected,
     onCreateComment,
+    userLogged,
   } = useAuth();
   const [commentInput, setCommentInput] = useState<string>("");
 
@@ -30,11 +33,10 @@ export const BoxComment = () => {
   const onFormSubmit = (formData: iCommentRequest) => {
     const newData =
       formData.comment === commentInput ? formData : { comment: commentInput };
+    onCreateComment(newData, id!);
 
-    onCreateComment(newData, carAdSelected.id);
+    setCommentInput("");
   };
-
-  setIsLogged(true);
 
   return (
     <Container
@@ -63,7 +65,12 @@ export const BoxComment = () => {
       >
         {isLogged && (
           <HStack gap={"8px"} w={126}>
-            <Image src={ImgPerfil} alt="Img do usuário" w={"32px"} h={"32px"} />
+            <Image
+              src={userLogged.image_url}
+              alt="Img do usuário"
+              w={"32px"}
+              h={"32px"}
+            />
             <Text
               as={"h3"}
               m={"0px !important"}
@@ -72,7 +79,7 @@ export const BoxComment = () => {
               fontWeight={"500"}
               fontSize={"14px"}
             >
-              {ownerOfAdSelected.name}
+              {userLogged.name}
             </Text>
           </HStack>
         )}
@@ -100,6 +107,7 @@ export const BoxComment = () => {
         >
           <Input
             id="comment"
+            value={commentInput}
             register={register}
             errorMessage={errors.comment?.message}
             placeholder="Digitar comentário"
@@ -114,8 +122,9 @@ export const BoxComment = () => {
             _focusVisible={{
               borderColor: { base: "brand.2", xsm2: "transparent" },
             }}
-            onChange={(e) => setCommentInput(e.target.value)}
-            value={commentInput}
+            onChange={(e) => {
+              setCommentInput(e.target.value);
+            }}
           />
           <Flex
             justifyContent={{ base: "flex-start", xsm2: "flex-end" }}
@@ -157,7 +166,10 @@ export const BoxComment = () => {
           <Button
             variant={"greyComments"}
             onClick={(e) =>
-              setCommentInput((e.target as HTMLButtonElement).innerHTML)
+              onCreateComment(
+                { comment: (e.target as HTMLButtonElement).innerText },
+                id!
+              )
             }
           >
             Gostei muito!
@@ -165,7 +177,10 @@ export const BoxComment = () => {
           <Button
             variant={"greyComments"}
             onClick={(e) =>
-              setCommentInput((e.target as HTMLButtonElement).innerText)
+              onCreateComment(
+                { comment: (e.target as HTMLButtonElement).innerText },
+                id!
+              )
             }
           >
             Incrível
@@ -173,7 +188,10 @@ export const BoxComment = () => {
           <Button
             variant={"greyComments"}
             onClick={(e) =>
-              setCommentInput((e.target as HTMLButtonElement).innerText)
+              onCreateComment(
+                { comment: (e.target as HTMLButtonElement).innerText },
+                id!
+              )
             }
             mt={{ base: "24px", xsm2: "unset" }}
             ml={{ base: "0px !important", xsm2: "8px !important" }}

@@ -7,19 +7,8 @@ const LiCar = styled.li`
   .container-image {
     background-color: var(--grey-7);
     position: relative;
-    span:nth-child(2) {
-      background-color: red;
-      display: block;
-      position: absolute;
-      top: 9px;
-      left: 15px;
-      background-color: var(--brand-1);
-      color: var(--whiteFixed);
-      font-size: 14px;
-      font-weight: 500;
-      padding: 4px 8px 4px 8px;
-    }
-    span:nth-child(3) {
+
+    span {
       background-color: aqua;
       position: absolute;
       top: 0;
@@ -38,6 +27,7 @@ const LiCar = styled.li`
       }
     }
   }
+
   .container-information {
     min-width: 0;
     h3 {
@@ -111,4 +101,5 @@ const LiCar = styled.li`
     }
   }
 `;
-export default LiCar;
+
+export { LiCar };

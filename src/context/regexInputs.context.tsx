@@ -71,7 +71,6 @@ const RegexInputs = ({ children }: iChildren) => {
     } else if (zip.length > 1) {
       zip = zip.replace(/^(\d{5}).*/, "$1");
     }
-
     setCep(zip);
   };
 

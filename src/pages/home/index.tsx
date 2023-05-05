@@ -15,23 +15,25 @@ import { Footer } from "../../components/footer";
 import { useState, useContext, useEffect } from "react";
 import { contextHomeProvider } from "../../context/homePage.context";
 import CardCardList from "./cardCarSection";
+import { useAuth } from "../../context/webContext";
 
 export const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { getAddressLogged } = useAuth();
   const [currentPage, setCurrentPage] = useState(0);
   const arraySkelotons = new Array(12).fill("cards");
 
-  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [currentPageFilter, setCurrentPageFilter] = useState(0);
   const [firstCardId, setFirstCardId] = useState<string>("");
 
-  const { 
-    carAd, 
-    GetCardsAd, 
-    filteredCars, 
-    filterFieldsSelected, 
+  const {
+    carAd,
+    GetCardsAd,
+    filteredCars,
+    filterFieldsSelected,
     filterCarList,
-    isFilter
+    isFilter,
   } = useContext(contextHomeProvider);
 
   const pageLimit =
@@ -50,34 +52,27 @@ export const Home = () => {
   const endSliceAt = startSliceAt + pageLimit;
 
   useEffect(() => {
-
     GetCardsAd();
     filterFieldsSelected();
     filterCarList();
-    pageCard()
-
+    pageCard();
+    getAddressLogged();
   }, []);
 
   useEffect(() => {
-    pageCard()
-  }, [filteredCars])
+    pageCard();
+  }, [filteredCars]);
 
   const pageCard = () => {
-    
     let cards: any = [];
 
     if (filteredCars.length != 0 && isFilter) {
- 
       cards = filteredCars.slice(startSliceAt, endSliceAt);
-      
     } else if (filteredCars.length == 0) {
-      
       cards = carAd.slice(startSliceAt, endSliceAt);
-      
     }
 
     return cards;
-
   };
 
   return (

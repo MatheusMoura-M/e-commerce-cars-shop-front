@@ -1,31 +1,77 @@
-import LiCar from "./style";
+import { LiCar } from "./style";
 import { MdAttachMoney } from "react-icons/md";
-import { Box, Image, Text, Heading } from "@chakra-ui/react";
+import { Box, Image, Text, Heading, Button } from "@chakra-ui/react";
 import { useAuth } from "../../../context/webContext";
 
 interface iCardProps {
-  nameCar: string
-  brandCar: string
-  description: string
-  price: string
-  image: string
-  userName: string
-  year: string
-  km: string
-  id: string
+  nameCar: string;
+  brandCar: string;
+  description: string;
+  price: string;
+  image: string;
+  userName: string;
+  year: string;
+  km: string;
+  id: string;
+  buttonStatus?: boolean;
+  isPublished?: boolean;
+  isGoodPrice?: boolean;
 }
 
-const CarCard = ({nameCar, brandCar, description, price, image, userName, year, km, id}: iCardProps) => {
+const CarCard = ({
+  buttonStatus,
+  nameCar,
+  brandCar,
+  description,
+  price,
+  image,
+  userName,
+  year,
+  km,
+  isPublished,
+  isGoodPrice,
+  id,
+}: iCardProps) => {
+  const { GetCarSpecific, navigate } = useAuth();
+
   return (
-    <LiCar id={id}>
+    <LiCar
+      id={id}
+      onClick={() => {
+        GetCarSpecific(id);
+        navigate(`detail-card/${id}`);
+      }}
+    >
       <Box className="container-image">
         <img src={image} alt="Imagem do carro" />
 
-        <Text as="span">Ativo</Text>
+        {buttonStatus && (
+          <Button
+            position={"absolute"}
+            top="9px"
+            left="15px"
+            backgroundColor={isPublished == true ? "brand.1" : "grey.4"}
+            color="grey.10"
+            fontSize="14px"
+            fontWeight="500"
+            paddingTop="2px"
+            borderRadius="0px"
+            _hover={
+              isPublished ? { bgColor: "brand.2" } : { bgColor: "brand.2" }
+            }
+            height="32px"
+            width="70px"
+            fontFamily={"'Inter', sans-serif"}
+          >
+            {isPublished ? "Ativo" : "Inativo"}
+          </Button>
+        )}
 
-        <Text as="span">
-          <MdAttachMoney className="money-icon" />
-        </Text>
+        {isGoodPrice && (
+          <Text as="span">
+            <MdAttachMoney className="money-icon" />
+          </Text>
+        )}
       </Box>
 
       <Box as="section" className="container-information">

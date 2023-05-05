@@ -3,7 +3,7 @@ export interface iRegister {
   email: string;
   telephone: string;
   password: string;
-  confir_password: string;
+  confir_password?: string;
   cpf: string;
   image_url: string;
   birthdate: string;
@@ -13,7 +13,25 @@ export interface iRegister {
   state: string;
   city: string;
   number: string;
-  description: string
+  description: string;
+  complement: string;
+}
+
+export interface iRegisterReq {
+  name: string;
+  email: string;
+  telephone: string;
+  password: string;
+  cpf: string;
+  image_url: string;
+  birthdate: string;
+  isSeller: boolean;
+  street: string;
+  zipcode: string;
+  state: string;
+  city: string;
+  number: string;
+  description: string;
   complement: string;
 }
 
@@ -59,6 +77,7 @@ export interface iUpdateUser {
   image_url?: string;
   birthdate?: string;
   isSeller?: boolean;
+  description?: string;
 }
 
 export interface iLoginProps {

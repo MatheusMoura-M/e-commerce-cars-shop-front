@@ -1,11 +1,16 @@
 import { Box, Button, Heading, Input, Text } from "@chakra-ui/react";
 import { contextHomeProvider } from "../../../../context/homePage.context";
 import { useContext, useEffect, useState } from "react";
-import { BrandFilter, ColorFilter, FuelFilter, ModelFilter, YearFilter } from "./sectionsFilter";
+import {
+  BrandFilter,
+  ColorFilter,
+  FuelFilter,
+  ModelFilter,
+  YearFilter,
+} from "./sectionsFilter";
 import { ButtonFilter } from "./buttonFilter";
 
 const FilterCars = () => {
-
   const {
     brands,
     colors,
@@ -37,57 +42,44 @@ const FilterCars = () => {
     maxPrice,
     setIsFilter,
     setFilteredCar,
-    clearFilter
+    clearFilter,
   } = useContext(contextHomeProvider);
 
-  const [onlyInputFilter, setOnlyInputFilter] = useState(false)
+  const [onlyInputFilter, setOnlyInputFilter] = useState(false);
 
   useEffect(() => {
     filterFieldsSelected();
     filterCarList();
-    FilterInputs()
+    FilterInputs();
 
-    if(
-      !brandSelected && 
-      !modelSelected && 
-      !colorSelected && 
-      !yearSelected && 
-      !fuelSelected &&
-      minKm ||
+    if (
+      (!brandSelected &&
+        !modelSelected &&
+        !colorSelected &&
+        !yearSelected &&
+        !fuelSelected &&
+        minKm) ||
       maxKm ||
       minPrice ||
-      maxPrice  
-    ){
-
-      setOnlyInputFilter(true)
-
-    }else{
-      setOnlyInputFilter(false)
+      maxPrice
+    ) {
+      setOnlyInputFilter(true);
+    } else {
+      setOnlyInputFilter(false);
     }
- 
-  }, [
-    carAd,
-    isFilter,
-    minKm,
-    maxKm,
-    minPrice,
-    maxPrice
-  ]);
-
-  
+  }, [carAd, isFilter, minKm, maxKm, minPrice, maxPrice]);
 
   return (
-    <Box 
-      as="section" 
-      marginTop="80px" 
-      marginLeft="20px" 
-      w="370px"
-    >
-     <Box>
-
+    <Box as="section" marginTop="80px" marginLeft="20px" w="370px">
+      <Box>
         <Heading fontSize="1.4rem">Marca</Heading>
 
-        <Box marginLeft="-23px" marginBottom="15px" marginTop="15px" cursor="pointer">
+        <Box
+          marginLeft="-23px"
+          marginBottom="15px"
+          marginTop="15px"
+          cursor="pointer"
+        >
           <BrandFilter
             brandSelected={brandSelected}
             isFilter={isFilter}
@@ -96,13 +88,16 @@ const FilterCars = () => {
             brands={brands}
           />
         </Box>
-
-      </Box> 
+      </Box>
       <Box>
-
         <Heading fontSize="1.4rem">Modelo</Heading>
 
-        <Box marginLeft="-23px" marginBottom="15px" marginTop="15px" cursor="pointer">
+        <Box
+          marginLeft="-23px"
+          marginBottom="15px"
+          marginTop="15px"
+          cursor="pointer"
+        >
           <ModelFilter
             modelSelected={modelSelected}
             isFilter={isFilter}
@@ -111,12 +106,16 @@ const FilterCars = () => {
             models={models}
           />
         </Box>
-
       </Box>
       <Box>
         <Heading fontSize="1.4rem">Cor</Heading>
 
-        <Box marginLeft="-23px" marginBottom="15px" marginTop="15px" cursor="pointer">
+        <Box
+          marginLeft="-23px"
+          marginBottom="15px"
+          marginTop="15px"
+          cursor="pointer"
+        >
           <ColorFilter
             isFilter={isFilter}
             setColorSelected={setColorSelected}
@@ -125,12 +124,16 @@ const FilterCars = () => {
             colors={colors}
           />
         </Box>
-
       </Box>
       <Box>
         <Heading fontSize="1.4rem">Ano</Heading>
 
-        <Box marginLeft="-23px" marginBottom="15px" marginTop="15px" cursor="pointer">
+        <Box
+          marginLeft="-23px"
+          marginBottom="15px"
+          marginTop="15px"
+          cursor="pointer"
+        >
           <YearFilter
             yearSelected={yearSelected}
             isFilter={isFilter}
@@ -139,12 +142,16 @@ const FilterCars = () => {
             years={years}
           />
         </Box>
-
       </Box>
       <Box>
         <Heading fontSize="1.4rem">Combustível</Heading>
 
-        <Box marginLeft="-23px" marginBottom="20px" marginTop="15px" cursor="pointer">
+        <Box
+          marginLeft="-23px"
+          marginBottom="20px"
+          marginTop="15px"
+          cursor="pointer"
+        >
           <FuelFilter
             fuelSelected={fuelSelected}
             isFilter={isFilter}
@@ -153,7 +160,6 @@ const FilterCars = () => {
             fuels={fuels}
           />
         </Box>
-        
       </Box>
       <Box>
         <Heading fontSize="1.4rem">KM</Heading>
@@ -171,13 +177,12 @@ const FilterCars = () => {
             focusBorderColor="grey.5"
             type="number"
             onChange={(event) => {
-              setMinKm(event.target.value)
-              
-              if(event.target.value == "" && isFilter){
-                setIsFilter(false)
-                setFilteredCar([])
+              setMinKm(event.target.value);
+
+              if (event.target.value == "" && isFilter) {
+                setIsFilter(false);
+                setFilteredCar([]);
               }
-              
             }}
           />
           <Input
@@ -191,14 +196,13 @@ const FilterCars = () => {
             focusBorderColor="grey.5"
             type="number"
             onChange={(event) => {
-              setMaxKm(event.target.value)
-              FilterInputs()
+              setMaxKm(event.target.value);
+              FilterInputs();
 
-              if(event.target.value == "" && isFilter){
-                setIsFilter(false)
-                setFilteredCar([])
+              if (event.target.value == "" && isFilter) {
+                setIsFilter(false);
+                setFilteredCar([]);
               }
-
             }}
           />
         </Box>
@@ -219,12 +223,12 @@ const FilterCars = () => {
             focusBorderColor="grey.5"
             type="number"
             onChange={(event) => {
-              setMinPrice(event.target.value)
-              FilterInputs()
+              setMinPrice(event.target.value);
+              FilterInputs();
 
-              if(event.target.value == "" && isFilter){
-                setIsFilter(false)
-                setFilteredCar([])
+              if (event.target.value == "" && isFilter) {
+                setIsFilter(false);
+                setFilteredCar([]);
               }
             }}
           />
@@ -240,23 +244,21 @@ const FilterCars = () => {
             focusBorderColor="grey.5"
             type="number"
             onChange={(event) => {
+              setMaxPrice(event.target.value);
+              FilterInputs();
+              setIsFilter(true);
 
-              setMaxPrice(event.target.value)
-              FilterInputs()
-              setIsFilter(true)
-
-              if(event.target.value == "" && isFilter){
-                setIsFilter(false)
-                setFilteredCar([])
+              if (event.target.value == "" && isFilter) {
+                setIsFilter(false);
+                setFilteredCar([]);
               }
-
             }}
           />
         </Box>
       </Box>
       <ButtonFilter
-        isFilter={isFilter} 
-        onlyInputFilter={onlyInputFilter} 
+        isFilter={isFilter}
+        onlyInputFilter={onlyInputFilter}
         clearFilter={clearFilter}
       />
     </Box>

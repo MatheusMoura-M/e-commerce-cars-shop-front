@@ -3,7 +3,8 @@ import Header from "../../components/navBar";
 import { ContainerFormLogin, ContainerLoginage, Form } from "./style";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { AuthContext, iLoginProps } from "../../context/webContext";
+import { iLoginProps } from "../../interface/user.interface";
+import { AuthContext } from "../../context/webContext";
 import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
 import { Input } from "../../components/form/input";
@@ -11,7 +12,7 @@ import { Button, useDisclosure } from "@chakra-ui/react";
 import ResetPassword from "../../components/modals/resetPassword/resetPassword.modal";
 
 export const LoginPage = () => {
-  const { Login } = useContext(AuthContext);
+  const { Login, navigate } = useContext(AuthContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [email, setEmail] = useState<string>("");
@@ -88,6 +89,7 @@ export const LoginPage = () => {
             fontWeight={"600"}
             p={"1rem"}
             w={"100%"}
+            onClick={() => navigate("/register")}
           >
             Cadastrar
           </Button>
