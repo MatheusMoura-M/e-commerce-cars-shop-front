@@ -241,6 +241,36 @@
 //                     onChange={(e) => setDescription(e.target.value)}
 //                     value={description}
 //                   />
+{
+  /* <Box display="flex" justifyContent="space-between" mt={4} as="div">
+  <Button
+    color={isSeller ? "grey.0" : "grey.10"}
+    border="2px"
+    borderColor={isSeller ? "grey.4" : "brand.1"}
+    bg={isSeller ? "grey.10" : "brand.1"}
+    width="48%"
+    borderRadius="4px"
+    fontSize="0.875rem"
+    _focus={{ backgroundColor: "brand.1" }}
+    onClick={() => setIsSeller(false)}
+  >
+    Comprador
+  </Button>
+  <Button
+    color={!isSeller ? "grey.0" : "grey.10"}
+    border="2px"
+    borderColor={!isSeller ? "grey.4" : "brand.1"}
+    bg={!isSeller ? "grey.10" : "brand.1"}
+    width="48%"
+    borderRadius="4px"
+    fontSize="0.875rem"
+    _focus={{ backgroundColor: "brand.1" }}
+    onClick={() => setIsSeller(true)}
+  >
+    Anuciante
+  </Button>
+</Box>; */
+}
 //                   <Input
 //                     errorMessage={errors.cover_image?.message}
 //                     placeholder="https://image.com"

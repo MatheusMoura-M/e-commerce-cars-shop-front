@@ -41,6 +41,7 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
     onCloseAddress,
     isOpenUpdateUser,
     onCloseUpdateUser,
+    userLogged,
   } = useAuth();
 
   const {
@@ -102,7 +103,7 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
                 >
                   <Image
                     width={[30, 35, null, 45]}
-                    src={imgPerfil}
+                    src={userLogged.image_url}
                     alt="Logo Header"
                   />
                   <Text
@@ -110,7 +111,7 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
                     fontWeight={"400"}
                     fontSize={["14px", "15px", "16px"]}
                   >
-                    Samuel Leão
+                    {userLogged.name}
                   </Text>
                 </HStack>
               </MenuButton>
@@ -130,9 +131,16 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
                 pt={"0px"}
                 bg={"#FDFDFD"}
               >
-                {BtnsIsLogged.map((link) => (
-                  <MenuHamburguer key={link}>{link}</MenuHamburguer>
-                ))}
+                <MenuHamburguer key="Editar Perfil">
+                  Editar Perfil
+                </MenuHamburguer>
+                <MenuHamburguer key="Editar Endereço">
+                  Editar Endereço
+                </MenuHamburguer>
+                <MenuHamburguer key="Meus Anuncios">
+                  Meus Anuncios
+                </MenuHamburguer>
+                <MenuHamburguer key="Sair">Sair</MenuHamburguer>
               </MenuList>
             </Menu>
           </Flex>

@@ -16,9 +16,9 @@ import { useForm } from "react-hook-form";
 import { error } from "console";
 import { iRegister } from "../../../interface/user.interface";
 import { Input } from "../input";
+import { useAuth } from "../../../context/webContext";
 
 const FormRegisterUser = () => {
-  const [isSaler, setIsSaler] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [state, setState] = useState<string>("");
@@ -28,9 +28,10 @@ const FormRegisterUser = () => {
   const [complement, setComplement] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
 
-  const [isSeller, setIsSeller] = useState<boolean>(false)
-  
+  const [isSeller, setIsSeller] = useState<boolean>(false);
+
   const {
     formattedBirthdate,
     formattedCpf,
@@ -42,6 +43,8 @@ const FormRegisterUser = () => {
     cep,
   } = useContext(contextRegexInputs);
 
+  const { onRegisterSubmit } = useAuth();
+
   const {
     register,
     handleSubmit,
@@ -51,6 +54,7 @@ const FormRegisterUser = () => {
   });
 
   const onSubmitRegister = (data: iRegister) => {
+    console.log(data);
     const objUser = {
       name: data.name,
       email: data.email,
@@ -65,11 +69,10 @@ const FormRegisterUser = () => {
       city: data.city,
       number: data.number,
       complement: data.complement,
-      description: data.description,
-      isSaler: isSaler
+      description: description,
+      isSeller: isSeller,
     };
-
-    console.log(objUser);
+    onRegisterSubmit(objUser);
   };
 
   return (
@@ -171,7 +174,7 @@ const FormRegisterUser = () => {
             value={cellphoneNumber}
             pt="15px"
             pb="15px"
-            label="CPF"
+            label="Celular"
             marginTopForm="20px"
           />
 
@@ -205,12 +208,14 @@ const FormRegisterUser = () => {
           <FormControl mt={5}>
             <FormLabel fontSize="0.875rem">Descrição</FormLabel>
             <Textarea
+              id="description"
               placeholder="Digitar descrição"
               color="grey.3"
               fontWeight="400"
               fontSize="0.875rem"
               borderColor="grey.6"
               borderRadius="4px"
+              onChange={(event) => setDescription(event.target.value)}
               pt="15px"
               pb="15px"
               resize="none"
@@ -228,8 +233,8 @@ const FormRegisterUser = () => {
             <Heading as="h3" fontSize="1rem" fontWeight="500">
               Infomações de endereço
             </Heading>
-          </Box>   
-          
+          </Box>
+
           <Input
             id="zipcode"
             placeholder="00000.000"
@@ -275,7 +280,6 @@ const FormRegisterUser = () => {
               <Text as="span" fontSize="0.7rem" color="alert.1">
                 {errors.state?.message}
               </Text>
-              
             </Box>
             <Box width="48%">
               <Input
@@ -379,33 +383,32 @@ const FormRegisterUser = () => {
           </Box>
           <Box display="flex" justifyContent="space-between" mt={4} as="div">
             <Button
-              color={isSaler ? "grey.0" : "grey.10"}
+              color={isSeller ? "grey.0" : "grey.10"}
               border="2px"
-              borderColor={isSaler ? "grey.4" : "brand.1"}
-              bg={isSaler ? "grey.10" : "brand.1"}
+              borderColor={isSeller ? "grey.4" : "brand.1"}
+              bg={isSeller ? "grey.10" : "brand.1"}
               width="48%"
               borderRadius="4px"
               fontSize="0.875rem"
               _focus={{ backgroundColor: "brand.1" }}
-              onClick={() => setIsSaler(false)}
+              onClick={() => setIsSeller(false)}
             >
               Comprador
             </Button>
             <Button
-              color={!isSaler ? "grey.0" : "grey.10"}
+              color={!isSeller ? "grey.0" : "grey.10"}
               border="2px"
-              borderColor={!isSaler ? "grey.4" : "brand.1"}
-              bg={!isSaler ? "grey.10" : "brand.1"}
+              borderColor={!isSeller ? "grey.4" : "brand.1"}
+              bg={!isSeller ? "grey.10" : "brand.1"}
               width="48%"
               borderRadius="4px"
               fontSize="0.875rem"
               _focus={{ backgroundColor: "brand.1" }}
-              onClick={() => setIsSaler(true)}
+              onClick={() => setIsSeller(true)}
             >
               Anuciante
             </Button>
           </Box>
-
           <Input
             id="password"
             placeholder="Digitar senha"

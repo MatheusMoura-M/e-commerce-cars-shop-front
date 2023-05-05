@@ -8,6 +8,7 @@ import axios from "axios";
 import {
   iLoginProps,
   iRegister,
+  iRegisterReq,
   iUpdateAddress,
   iUpdateUser,
   iUser,
@@ -61,6 +62,7 @@ export interface iAuthProviderData {
   setUserLogged: Dispatch<SetStateAction<iUser>>;
   navigate: NavigateFunction;
   onCreateComment: (data: iCommentRequest, id: string) => Promise<void>;
+  onRegisterSubmit: (dataRegister: iRegisterReq) => void;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -101,13 +103,9 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     navigate("/");
   };
 
-  const onRegisterSubmit = async (dataRegister: iRegister) => {
-    console.log(dataRegister);
-
+  const onRegisterSubmit = async (dataRegister: iRegisterReq) => {
     try {
       const r = await instance.post("/user", dataRegister);
-
-      console.log(r);
 
       toast.success("Usuário registrado com sucesso", {
         position: "top-right",
@@ -140,8 +138,13 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const Login = async (user: iLoginProps): Promise<void> => {
     try {
       const { data } = await instance.post<iUserLogin>("login", user);
+      instance.defaults.headers.authorization = `Bearer ${data.token}`;
+
+      const { data: userData } = await instance.get("user/profile");
 
       window.localStorage.setItem("@token", data.token);
+      setUserLogged(userData);
+      setIsLogged(true);
       toast.success("Logado com sucesso");
       navigate("/");
     } catch (error) {
@@ -365,6 +368,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
             ? onOpenAddress
             : children === "Editar Perfil"
             ? onOpenUpdateUser
+            : children === "Sair"
+            ? returnHome
             : undefined
         }
       >
@@ -463,6 +468,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         GetUserProfile,
         userLogged,
         setUserLogged,
+        onRegisterSubmit,
       }}
     >
       {children}
