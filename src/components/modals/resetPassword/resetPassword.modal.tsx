@@ -44,10 +44,14 @@ const ResetPassword = ({ isOpen, onClose }: any) => {
         email
       );
 
-      toast.success(data.message);
+      toast.success(data.message, {
+        autoClose: 1000,
+      });
     } catch (error) {
       console.log(error);
-      toast.error("Algo deu errado");
+      toast.error("Algo deu errado", {
+        autoClose: 1000,
+      });
     }
   };
 

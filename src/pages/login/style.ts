@@ -34,7 +34,7 @@ export const ContainerFormLogin = styled.div`
   @media (min-width: 1400px) {
     width: 40%;
     padding: 2rem 2rem;
-    height: 50%;
+    height: auto;
   }
   @media (min-width: 1600px) {
     width: 30%;

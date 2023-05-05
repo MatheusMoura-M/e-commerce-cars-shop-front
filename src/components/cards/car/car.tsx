@@ -1,4 +1,4 @@
-import { LiCar, ButtonStatus } from "./style";
+import { LiCar } from "./style";
 import { MdAttachMoney } from "react-icons/md";
 import { Box, Image, Text, Heading, Button } from "@chakra-ui/react";
 import { useAuth } from "../../../context/webContext";
@@ -40,7 +40,7 @@ const CarCard = ({
       id={id}
       onClick={() => {
         GetCarSpecific(id);
-        navigate("detail-card");
+        navigate(`detail-card/${id}`);
       }}
     >
       <Box className="container-image">

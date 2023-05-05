@@ -54,7 +54,6 @@ const FormRegisterUser = () => {
   });
 
   const onSubmitRegister = (data: iRegister) => {
-    console.log(data);
     const objUser = {
       name: data.name,
       email: data.email,
@@ -69,9 +68,10 @@ const FormRegisterUser = () => {
       city: data.city,
       number: data.number,
       complement: data.complement,
-      description: description,
+      description: data.description,
       isSeller: isSeller,
     };
+
     onRegisterSubmit(objUser);
   };
 
@@ -209,6 +209,7 @@ const FormRegisterUser = () => {
             <FormLabel fontSize="0.875rem">Descrição</FormLabel>
             <Textarea
               id="description"
+              {...register("description")}
               placeholder="Digitar descrição"
               color="grey.3"
               fontWeight="400"
@@ -216,6 +217,7 @@ const FormRegisterUser = () => {
               borderColor="grey.6"
               borderRadius="4px"
               onChange={(event) => setDescription(event.target.value)}
+              value={description}
               pt="15px"
               pb="15px"
               resize="none"

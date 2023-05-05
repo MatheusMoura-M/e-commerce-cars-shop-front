@@ -3,7 +3,7 @@ export interface iRegister {
   email: string;
   telephone: string;
   password: string;
-  confir_password: string;
+  confir_password?: string;
   cpf: string;
   image_url: string;
   birthdate: string;
@@ -77,6 +77,7 @@ export interface iUpdateUser {
   image_url?: string;
   birthdate?: string;
   isSeller?: boolean;
+  description?: string;
 }
 
 export interface iLoginProps {
