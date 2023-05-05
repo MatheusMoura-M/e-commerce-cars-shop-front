@@ -33,7 +33,7 @@ export const BoxComment = () => {
     onCreateComment(newData, carAdSelected.id);
   };
 
-  setIsLogged(true);
+  // setIsLogged(true);
 
   return (
     <Container
