@@ -87,6 +87,8 @@ const HomePageContext = ({ children }: iChildren) => {
 
       const response = await instance.get("/car");
 
+      console.log(response)
+
       setCarAd(response.data);
     } catch (error) {
       console.log(error);
