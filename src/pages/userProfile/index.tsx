@@ -15,7 +15,7 @@ import { contextHomeProvider } from "../../context/homePage.context";
 import imgPerfil from "../../assets/ImgPerfil.svg";
 import { NumberPage } from "./style";
 import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/createCarsAd.modal";
-import { ModalEditCarAd } from "../../components/modals/advertiserProfile/editCarsAd.modal";
+// import { ModalEditCarAd } from "../../components/modals/advertiserProfile/editCarsAd.modal";
 import { iCarResponse, iCarSelected } from "../../interface/car.interface";
 
 export const ProfileCard = () => {
@@ -120,12 +120,12 @@ export const ProfileCard = () => {
     onClose: onEditClose,
   } = useDisclosure();
 
-  const selectCarAd = (id: string) => {
-    const car = cars.filter((car) => {
-      return car.id == id;
-    });
-    setSelectedCar(car);
-  };
+  // const selectCarAd = (id: string) => {
+  //   const car = cars.filter((car) => {
+  //     return car.id == id;
+  //   });
+  //   setSelectedCar(car);
+  // };
 
   return (
     <ContainerProfile>
@@ -267,7 +267,7 @@ export const ProfileCard = () => {
         </Box>
       </Box>
       <ModalCreateCarAd isOpen={isCreateOpen} onClose={onCreateClose} />
-      <ModalEditCarAd isOpen={isEditOpen} onClose={onEditClose} />
+      {/* <ModalEditCarAd isOpen={isEditOpen} onClose={onEditClose} /> */}
       <Footer />
     </ContainerProfile>
   );

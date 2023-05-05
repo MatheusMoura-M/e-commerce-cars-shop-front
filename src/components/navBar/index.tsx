@@ -149,7 +149,11 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
               justifyContent={"space-around"}
               gap={"0.5rem"}
             >
-              <Button variant={"grey5"} color={"grey.2"}>
+              <Button
+                variant={"grey5"}
+                color={"grey.2"}
+                onClick={() => navigate("/login")}
+              >
                 Login
               </Button>
               <Button variant={"grey4"} onClick={() => navigate("/register")}>
