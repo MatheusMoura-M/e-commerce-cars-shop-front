@@ -19,6 +19,8 @@ import { useAuth } from "../../context/webContext";
 import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/createCarsAd.modal";
 import { ModalUpdateAddress } from "../../components/modals/updateAddress/updateAddress.modal";
 import ModalEditUser from "../../components/modals/editProfile/updateUser.modal";
+import { useParams } from "react-router-dom";
+import {useEffect} from "react"
 
 export const DetailCard = () => {
   const {
@@ -31,6 +33,8 @@ export const DetailCard = () => {
     carAdSelected,
     ownerOfAdSelected,
     comments,
+    GetCarSpecific,
+    onListComment
   } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -58,6 +62,15 @@ export const DetailCard = () => {
     }
     return `Há ${differenceInDay} dias`;
   };
+
+  const {id} = useParams()
+
+  useEffect(() => {
+
+    GetCarSpecific(id!)
+    onListComment(id!)
+
+  }, [])
 
   return (
     <>

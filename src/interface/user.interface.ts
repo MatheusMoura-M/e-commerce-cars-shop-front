@@ -3,7 +3,7 @@ export interface iRegister {
   email: string;
   telephone: string;
   password: string;
-  confir_password: string;
+  confir_password?: string;
   cpf: string;
   image_url: string;
   birthdate: string;
@@ -33,6 +33,7 @@ export interface iRegisterReq {
   number: string;
   description: string;
   complement: string;
+
 }
 
 export interface iAddressUpdateResponse {

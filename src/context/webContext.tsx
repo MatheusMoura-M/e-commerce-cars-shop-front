@@ -18,7 +18,7 @@ import { instance, instanceKenzieCars } from "../services/api";
 import { iCarResponse, iCreateCarAd } from "../interface/car.interface";
 import { getCarSpecificResponse } from "../services/getCarSpecificResponse";
 import { getUserSpecificReponse } from "../services/getUserSpecificResponse";
-import { iCommentRequest } from "../interface/comment.interface";
+import { iCommentRequest, iCommentsListResponse } from "../interface/comment.interface";
 import { createCommentResponse } from "../services/createCommentResponse";
 
 export interface iAuthProviderData {
@@ -62,14 +62,15 @@ export interface iAuthProviderData {
   setUserLogged: Dispatch<SetStateAction<iUser>>;
   navigate: NavigateFunction;
   onCreateComment: (data: iCommentRequest, id: string) => Promise<void>;
-  onRegisterSubmit: (dataRegister: iRegisterReq) => void;
+  onListComment: (id: string) => Promise<void>;
+  comments: iCommentsListResponse[];
+  onRegisterSubmit(dataRegister: iRegister): void
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
   {} as iAuthProviderData
 );
 
-console.log("teste");
 export const AuthProvider = ({ children }: iProviderProps) => {
   const navigate = useNavigate();
   const {
@@ -99,14 +100,17 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     {} as iUser
   );
   const [userLogged, setUserLogged] = useState<iUser>({} as iUser);
+  const [comments, setComments] = useState<iCommentsListResponse[]>([]);
+
 
   const returnHome = () => {
     navigate("/");
   };
 
-  const onRegisterSubmit = async (dataRegister: iRegisterReq) => {
+  const onRegisterSubmit = async (dataRegister: iRegister) => {
+    
     try {
-      const r = await instance.post("/user", dataRegister);
+      await instance.post("/user", dataRegister);
 
       toast.success("Usuário registrado com sucesso", {
         position: "top-right",
@@ -180,7 +184,9 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const onCreateCarAd = async (data: iCreateCarAd) => {
     try {
-      const response = await instance.post("/car", data);
+      await instance.post("/car", data, {
+        headers: {Authorization: `Bearer ${localStorage.getItem("@token")}`},
+      });
 
       toast.success("Carro registrado com sucesso", {
         position: "top-right",
@@ -211,10 +217,10 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const onUpdateAddress = async (data: iUpdateAddress) => {
     try {
-      instance.defaults.headers.authorization =
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldG8yMUBtYWlsLmNvbSIsImlkIjoiYjZkM2Y5ODMtNTRmOC00ZWY4LTgyMDctMjkwMTQyNDI5YzhjIiwiaWF0IjoxNjgyNjE5OTMwLCJleHAiOjE2ODI3MDYzMzAsInN1YiI6ImI2ZDNmOTgzLTU0ZjgtNGVmOC04MjA3LTI5MDE0MjQyOWM4YyJ9.9FeeSRxDOBE2iCyfShB3xIxJjQi067m5uMqQmw4nNrs";
-
-      const response = await instance.patch("/address", data);
+     
+      await instance.patch("/address", data, {
+        headers: {Authorization: `Bearer ${localStorage.getItem("@token")}`},
+      });
       toast.success("Address atualizado com sucesso", {
         position: "top-right",
         autoClose: 5000,
@@ -245,12 +251,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const onUpdateUser = async (data: iUpdateUser) => {
     try {
-      const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pbGZvbnRzMkBnbWFpbC5jb20iLCJpZCI6IjY2MThhN2FmLTU0YzYtNGM4OS1iOWM1LTgzMzA3Yzg4ZTE3YSIsImlhdCI6MTY4MjY5NjcwNCwiZXhwIjoxNjgyNzgzMTA0LCJzdWIiOiI2NjE4YTdhZi01NGM2LTRjODktYjljNS04MzMwN2M4OGUxN2EifQ.P2veCzSL7bqLl6CuG0yFyyStS_u0uGqytqNCH9JzpEg";
-
-      const response = await instance.patch("/user", data, {
-        headers: { Authorization: `Bearer ${token}` },
+      
+      await instance.patch("/user", data, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}`},
       });
+
       toast.success("Usuário atualizado com sucesso", {
         position: "top-right",
         autoClose: 5000,
@@ -281,11 +286,9 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const onDeleteUser = async () => {
     try {
-      const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pbGZvbnRzMkBnbWFpbC5jb20iLCJpZCI6IjY2MThhN2FmLTU0YzYtNGM4OS1iOWM1LTgzMzA3Yzg4ZTE3YSIsImlhdCI6MTY4MjY5ODk0NCwiZXhwIjoxNjgyNzg1MzQ0LCJzdWIiOiI2NjE4YTdhZi01NGM2LTRjODktYjljNS04MzMwN2M4OGUxN2EifQ.7MHGh3iV4RTsiry5W3eehyKKHlO_nDLpSEJ9ruZnkZU";
-
-      const response = await instance.delete("/user", {
-        headers: { Authorization: `Bearer ${token}` },
+      
+      await instance.delete("/user", {
+        headers: {Authorization: `Bearer ${localStorage.getItem("@token")}`},
       });
 
       toast.success("Usuário deletado com sucesso", {
@@ -380,13 +383,19 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const GetCarSpecific = async (id: string) => {
     try {
-      instance.defaults.headers.authorization =
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGhldXNAZ21haWwuY29tIiwiaWQiOiIzNjZiNDA2NS1mMjVkLTQ1M2QtYmZjZS1kNzNmMDQ2MjYzM2MiLCJpYXQiOjE2ODMwNTM3MjAsImV4cCI6MTY4MzE0MDEyMCwic3ViIjoiMzY2YjQwNjUtZjI1ZC00NTNkLWJmY2UtZDczZjA0NjI2MzNjIn0.j56CadovJ-cqUZCqag2eLxSaRyQhH7S5R18SE8OcbjQ";
+      
       const data = await getCarSpecificResponse(id);
+
+      const token = localStorage.getItem("@token")
+
+      if(token){
+        GetUserProfile();
+      }
 
       GetUserSpecific(data.user.id);
       setCarAdSelected(data);
-      GetUserProfile();
+
+
     } catch (error) {
       console.log(error);
     }
@@ -394,11 +403,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const GetUserSpecific = async (id: string) => {
     try {
-      instance.defaults.headers.authorization =
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGhldXNAZ21haWwuY29tIiwiaWQiOiIzNjZiNDA2NS1mMjVkLTQ1M2QtYmZjZS1kNzNmMDQ2MjYzM2MiLCJpYXQiOjE2ODMwNTM3MjAsImV4cCI6MTY4MzE0MDEyMCwic3ViIjoiMzY2YjQwNjUtZjI1ZC00NTNkLWJmY2UtZDczZjA0NjI2MzNjIn0.j56CadovJ-cqUZCqag2eLxSaRyQhH7S5R18SE8OcbjQ";
+      
       const data = await getUserSpecificReponse(id);
 
       setOwnerOfAdSelected(data);
+
     } catch (error) {
       console.log(error);
     }
@@ -406,13 +415,17 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const GetUserProfile = async () => {
     try {
-      instance.defaults.headers.authorization =
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGhldXNAZ21haWwuY29tIiwiaWQiOiIzNjZiNDA2NS1mMjVkLTQ1M2QtYmZjZS1kNzNmMDQ2MjYzM2MiLCJpYXQiOjE2ODMxMjM0MDgsImV4cCI6MTY4MzIwOTgwOCwic3ViIjoiMzY2YjQwNjUtZjI1ZC00NTNkLWJmY2UtZDczZjA0NjI2MzNjIn0.dPp2qzfoViZCT8bjMhLznT6qY1PKRVHI--kHU75iaBk";
-      const resp = await instance.get("/user/profile");
+      
+      const resp = await instance.get("/user/profile", {
+        headers: {Authorization: `Bearer ${localStorage.getItem("@token")}`}
+      });
 
       setUserLogged(resp.data);
+
     } catch (error) {
+
       console.log(error);
+
     }
   };
 
@@ -421,6 +434,15 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       const data = await createCommentResponse(formData, id);
 
       console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onListComment = async (id: string) => {
+    try {
+      const commentsCar = await instance.get(`/comments/${id}`);
+      setComments(commentsCar.data);
     } catch (error) {
       console.log(error);
     }
@@ -469,7 +491,9 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         GetUserProfile,
         userLogged,
         setUserLogged,
-        onRegisterSubmit,
+        onListComment,
+        comments,
+        onRegisterSubmit
       }}
     >
       {children}

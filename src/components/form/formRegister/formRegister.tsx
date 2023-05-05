@@ -43,7 +43,7 @@ const FormRegisterUser = () => {
     cep,
   } = useContext(contextRegexInputs);
 
-  const { onRegisterSubmit } = useAuth();
+  const {onRegisterSubmit} = useAuth()
 
   const {
     register,
@@ -54,7 +54,6 @@ const FormRegisterUser = () => {
   });
 
   const onSubmitRegister = (data: iRegister) => {
-    console.log(data);
     const objUser = {
       name: data.name,
       email: data.email,
@@ -69,10 +68,12 @@ const FormRegisterUser = () => {
       city: data.city,
       number: data.number,
       complement: data.complement,
-      description: description,
-      isSeller: isSeller,
+      description: data.description,
+      isSeller: isSeller
     };
-    onRegisterSubmit(objUser);
+
+    onRegisterSubmit(objUser)
+    
   };
 
   return (
