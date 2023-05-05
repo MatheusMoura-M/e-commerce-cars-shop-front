@@ -34,3 +34,12 @@ export interface iCarResponse extends iCar {
   user: iOwner;
   images: iImagesInCarResponse[];
 }
+
+export interface iStatusModalCar {
+  isOpen: boolean;
+  onClose(): void;
+}
+
+export interface iCarSelected extends iCar {
+  images: iImagesInCarResponse[];
+}

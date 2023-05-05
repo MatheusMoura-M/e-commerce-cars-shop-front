@@ -9,17 +9,19 @@ import {
   Image,
   Text,
   Show,
+  useDisclosure,
 } from "@chakra-ui/react";
 import imgLogo from "../../assets/LogoHeader.svg";
 import imgPerfil from "../../assets/ImgPerfil.svg";
 import { IHeaderProps } from "../../@types";
 import { useAuth } from "../../context/webContext";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { Input } from "../form/input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import formSchema from "../../schemas/comments";
 import { useNavigate } from "react-router-dom";
+import { ModalUpdateAddress } from "../modals/updateAddress/updateAddress.modal";
+import ModalEditUser from "../modals/editProfile/updateUser.modal";
 import { iCommentRequest } from "../../interface/comment.interface";
 
 const BtnsDefault = ["Login", "Register"];
@@ -31,7 +33,16 @@ const BtnsIsLogged = [
 ];
 
 const Header = ({ isLogin = false }: IHeaderProps) => {
-  const { MenuHamburguer, returnHome, isLogged, setIsLogged } = useAuth();
+  const {
+    MenuHamburguer,
+    returnHome,
+    isLogged,
+    isOpenAddress,
+    onCloseAddress,
+    isOpenUpdateUser,
+    onCloseUpdateUser,
+    userLogged,
+  } = useAuth();
 
   const {
     register,
@@ -46,8 +57,6 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
   const onFormSubmit = (formData: object) => {
     console.log(formData);
   };
-
-  // setIsLogged(true);
 
   return (
     <Box
@@ -94,7 +103,7 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
                 >
                   <Image
                     width={[30, 35, null, 45]}
-                    src={imgPerfil}
+                    src={userLogged.image_url}
                     alt="Logo Header"
                   />
                   <Text
@@ -102,7 +111,7 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
                     fontWeight={"400"}
                     fontSize={["14px", "15px", "16px"]}
                   >
-                    Samuel Leão
+                    {userLogged.name}
                   </Text>
                 </HStack>
               </MenuButton>
@@ -122,9 +131,16 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
                 pt={"0px"}
                 bg={"#FDFDFD"}
               >
-                {BtnsIsLogged.map((link) => (
-                  <MenuHamburguer key={link}>{link}</MenuHamburguer>
-                ))}
+                <MenuHamburguer key="Editar Perfil">
+                  Editar Perfil
+                </MenuHamburguer>
+                <MenuHamburguer key="Editar Endereço">
+                  Editar Endereço
+                </MenuHamburguer>
+                <MenuHamburguer key="Meus Anuncios">
+                  Meus Anuncios
+                </MenuHamburguer>
+                <MenuHamburguer key="Sair">Sair</MenuHamburguer>
               </MenuList>
             </Menu>
           </Flex>
@@ -141,7 +157,11 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
               justifyContent={"space-around"}
               gap={"0.5rem"}
             >
-              <Button variant={"grey5"} color={"grey.2"}>
+              <Button
+                variant={"grey5"}
+                color={"grey.2"}
+                onClick={() => navigate("/login")}
+              >
                 Login
               </Button>
               <Button variant={"grey4"} onClick={() => navigate("/register")}>
@@ -185,6 +205,8 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
           </Flex>
         )}
       </Flex>
+      <ModalEditUser isOpen={isOpenUpdateUser} onClose={onCloseUpdateUser} />
+      <ModalUpdateAddress isOpen={isOpenAddress} onClose={onCloseAddress} />
     </Box>
   );
 };
