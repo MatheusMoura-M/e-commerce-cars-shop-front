@@ -42,6 +42,7 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
     isOpenUpdateUser,
     onCloseUpdateUser,
     userLogged,
+    navigate
   } = useAuth();
 
   const {
@@ -51,8 +52,6 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
   } = useForm<iCommentRequest>({
     resolver: yupResolver(formSchema),
   });
-
-  const navigate = useNavigate();
 
   const onFormSubmit = (formData: object) => {
     console.log(formData);
@@ -157,11 +156,7 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
               justifyContent={"space-around"}
               gap={"0.5rem"}
             >
-              <Button
-                variant={"grey5"}
-                color={"grey.2"}
-                onClick={() => navigate("/login")}
-              >
+              <Button variant={"grey5"} color={"grey.2"} onClick={() => navigate("/login")}>
                 Login
               </Button>
               <Button variant={"grey4"} onClick={() => navigate("/register")}>

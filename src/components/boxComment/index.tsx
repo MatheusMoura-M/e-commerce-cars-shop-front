@@ -33,7 +33,11 @@ export const BoxComment = () => {
     onCreateComment(newData, carAdSelected.id);
   };
 
-  setIsLogged(true);
+  const token = localStorage.getItem("@token")
+
+  // if(token){
+  //   setIsLogged(true);
+  // }
 
   return (
     <Container
