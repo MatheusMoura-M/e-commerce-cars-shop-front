@@ -16,7 +16,7 @@ import imgPerfil from "../../assets/ImgPerfil.svg";
 import { NumberPage } from "./style";
 import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/createCarsAd.modal";
 import { ModalEditCarAd } from "../../components/modals/advertiserProfile/editCarsAd.modal";
-import { iCarResponse } from "../../interface/car.interface";
+import { iCarResponse, iCarSelected } from "../../interface/car.interface";
 
 export const ProfileCard = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -38,7 +38,7 @@ export const ProfileCard = () => {
     return cards;
   };
 
-  const cars: iCarResponse[] = [
+  const cars: iCarSelected[] = [
     {
       id: "f9dd7a3c-dcaa-4f5c-88db-ba2d2843d074",
       brand: "test",
@@ -54,7 +54,7 @@ export const ProfileCard = () => {
       published: true,
       cover_image:
         "https://assets-cdn.static-gm.com/Assets/Inventory/Images/e4c6ba57-050a-4aad-8cb7-69b9ad27f0f9/f2504fc6-f517-4ee4-95c8-dfc702a559d7/9BGEB69H0NG203812_637896070136411172.jpg",
-      images: [{ id: 1, image_url: "cocozaum" }],
+      images: [{ id: "1", image_url: "cocozaum" }],
     },
     {
       id: "3e5fe6bf-acbb-4baf-bb88-3cb650e88892",
@@ -71,7 +71,7 @@ export const ProfileCard = () => {
       published: true,
       cover_image:
         "https://assets-cdn.static-gm.com/Assets/Inventory/Images/e4c6ba57-050a-4aad-8cb7-69b9ad27f0f9/f2504fc6-f517-4ee4-95c8-dfc702a559d7/9BGEB69H0NG203812_637896070136411172.jpg",
-      images: [{ id: 1, image_url: "cocozaum" }],
+      images: [{ id: "1", image_url: "cocozaum" }],
     },
     {
       id: "be7b534d-4447-4180-a21f-68efc2983e70",
@@ -88,7 +88,7 @@ export const ProfileCard = () => {
       published: true,
       cover_image:
         "https://assets-cdn.static-gm.com/Assets/Inventory/Images/e4c6ba57-050a-4aad-8cb7-69b9ad27f0f9/f2504fc6-f517-4ee4-95c8-dfc702a559d7/9BGEB69H0NG203812_637896070136411172.jpg",
-      images: [{ id: 1, image_url: "cocozaum" }],
+      images: [{ id: "1", image_url: "cocozaum" }],
     },
     {
       id: "bb0aa2fd-8efe-4d49-a583-fcdbb8387107",
@@ -105,7 +105,7 @@ export const ProfileCard = () => {
       published: true,
       cover_image:
         "https://assets-cdn.static-gm.com/Assets/Inventory/Images/e4c6ba57-050a-4aad-8cb7-69b9ad27f0f9/f2504fc6-f517-4ee4-95c8-dfc702a559d7/9BGEB69H0NG203812_637896070136411172.jpg",
-      images: [{ id: 1, image_url: "cocozaum" }],
+      images: [{ id: "1", image_url: "cocozaum" }],
     },
   ];
 

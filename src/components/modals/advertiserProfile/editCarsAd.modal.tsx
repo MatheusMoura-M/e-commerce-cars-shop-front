@@ -176,10 +176,7 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       label="Ano"
                       type="text"
                       id="year"
-                      register={register}
-                      value={year ? year : ""}
-                    />
-                    <Input
+                      register={register}{id: 1, image_url: "cocozaum"}
                       errorMessage={errors.fuel?.message}
                       placeholder="Gasolina / Etanol"
                       label="Combustível"
