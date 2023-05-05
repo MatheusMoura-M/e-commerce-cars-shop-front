@@ -20,7 +20,7 @@ import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/crea
 import { ModalUpdateAddress } from "../../components/modals/updateAddress/updateAddress.modal";
 import ModalEditUser from "../../components/modals/editProfile/updateUser.modal";
 import { useParams } from "react-router-dom";
-import {useEffect} from "react"
+import { useEffect } from "react";
 
 export const DetailCard = () => {
   const {
@@ -34,7 +34,7 @@ export const DetailCard = () => {
     ownerOfAdSelected,
     comments,
     GetCarSpecific,
-    onListComment
+    onListComment,
   } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -58,19 +58,17 @@ export const DetailCard = () => {
       if (IntegerMonth < 1) {
         return `Há ${IntegerMonth} Mês`;
       }
-      return `Há ${IntegerMonth} Mêses`;
+      return `Há ${IntegerMonth} Meses`;
     }
     return `Há ${differenceInDay} dias`;
   };
 
-  const {id} = useParams()
+  const { id } = useParams();
 
   useEffect(() => {
-
-    GetCarSpecific(id!)
-    onListComment(id!)
-
-  }, [])
+    GetCarSpecific(id!);
+    onListComment(id!);
+  }, []);
 
   return (
     <>
@@ -352,7 +350,11 @@ export const DetailCard = () => {
               <Flex flexDirection={"column"} gap={"44px"} w={"100%"}>
                 {comments.map((comment) => {
                   return (
-                    <Flex flexDirection={"column"} gap={"12px"}>
+                    <Flex
+                      key={comment.id}
+                      flexDirection={"column"}
+                      gap={"12px"}
+                    >
                       <Flex gap={"10px"} alignItems={"center"}>
                         <Image
                           src={comment.users.image_url}

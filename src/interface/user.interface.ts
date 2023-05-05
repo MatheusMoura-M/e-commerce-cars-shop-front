@@ -33,7 +33,6 @@ export interface iRegisterReq {
   number: string;
   description: string;
   complement: string;
-
 }
 
 export interface iAddressUpdateResponse {
@@ -78,6 +77,7 @@ export interface iUpdateUser {
   image_url?: string;
   birthdate?: string;
   isSeller?: boolean;
+  description?: string;
 }
 
 export interface iLoginProps {

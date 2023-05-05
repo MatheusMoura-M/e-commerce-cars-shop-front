@@ -43,7 +43,7 @@ const FormRegisterUser = () => {
     cep,
   } = useContext(contextRegexInputs);
 
-  const {onRegisterSubmit} = useAuth()
+  const { onRegisterSubmit } = useAuth();
 
   const {
     register,
@@ -69,11 +69,10 @@ const FormRegisterUser = () => {
       number: data.number,
       complement: data.complement,
       description: data.description,
-      isSeller: isSeller
+      isSeller: isSeller,
     };
 
-    onRegisterSubmit(objUser)
-    
+    onRegisterSubmit(objUser);
   };
 
   return (
@@ -210,6 +209,7 @@ const FormRegisterUser = () => {
             <FormLabel fontSize="0.875rem">Descrição</FormLabel>
             <Textarea
               id="description"
+              {...register("description")}
               placeholder="Digitar descrição"
               color="grey.3"
               fontWeight="400"
@@ -217,6 +217,7 @@ const FormRegisterUser = () => {
               borderColor="grey.6"
               borderRadius="4px"
               onChange={(event) => setDescription(event.target.value)}
+              value={description}
               pt="15px"
               pb="15px"
               resize="none"

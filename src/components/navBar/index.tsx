@@ -9,20 +9,15 @@ import {
   Image,
   Text,
   Show,
-  useDisclosure,
 } from "@chakra-ui/react";
 import imgLogo from "../../assets/LogoHeader.svg";
 import imgPerfil from "../../assets/ImgPerfil.svg";
-import { IHeaderProps } from "../../@types";
 import { useAuth } from "../../context/webContext";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import formSchema from "../../schemas/comments";
-import { useNavigate } from "react-router-dom";
 import { ModalUpdateAddress } from "../modals/updateAddress/updateAddress.modal";
 import ModalEditUser from "../modals/editProfile/updateUser.modal";
 import { iCommentRequest } from "../../interface/comment.interface";
+import { useEffect } from "react";
 
 const BtnsDefault = ["Login", "Register"];
 const BtnsIsLogged = [
@@ -32,7 +27,7 @@ const BtnsIsLogged = [
   "Sair",
 ];
 
-const Header = ({ isLogin = false }: IHeaderProps) => {
+const Header = () => {
   const {
     MenuHamburguer,
     returnHome,
@@ -42,20 +37,13 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
     isOpenUpdateUser,
     onCloseUpdateUser,
     userLogged,
-    navigate
+    navigate,
+    GetUserProfile,
   } = useAuth();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<iCommentRequest>({
-    resolver: yupResolver(formSchema),
-  });
-
-  const onFormSubmit = (formData: object) => {
-    console.log(formData);
-  };
+  useEffect(() => {
+    GetUserProfile();
+  }, []);
 
   return (
     <Box
@@ -104,6 +92,7 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
                     width={[30, 35, null, 45]}
                     src={userLogged.image_url}
                     alt="Logo Header"
+                    borderRadius={"full"}
                   />
                   <Text
                     color={"grey.2"}
@@ -156,7 +145,11 @@ const Header = ({ isLogin = false }: IHeaderProps) => {
               justifyContent={"space-around"}
               gap={"0.5rem"}
             >
-              <Button variant={"grey5"} color={"grey.2"} onClick={() => navigate("/login")}>
+              <Button
+                variant={"grey5"}
+                color={"grey.2"}
+                onClick={() => navigate("/login")}
+              >
                 Login
               </Button>
               <Button variant={"grey4"} onClick={() => navigate("/register")}>
