@@ -8,6 +8,9 @@ import {
   ModalCloseButton,
   Button,
   Flex,
+  Box,
+  Heading,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { Input } from "../../form/input";
 import { useState, useEffect, useContext } from "react";
@@ -16,27 +19,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import formSchemaCarAd from "../../../schemas/annoucements";
 import {
   iCreateCarAd,
-  iImagesInCarResponse,
   iStatusModalCar,
 } from "../../../interface/car.interface";
 import "./style.css";
 import { useAuth } from "../../../context/webContext";
-import { contextHomeProvider } from "../../../context/homePage.context";
+import { ModalVerifyDelete } from "./verifyDelete.modal";
 
 export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
-  const { selectedCar } = useContext(contextHomeProvider);
-
-  const [images, setImages] = useState(selectedCar.images);
-  const [modelInfoSelect, setModelInfoSelect] = useState<any>([]);
-  const [year, setYear] = useState(selectedCar.year);
-  const [fuel, setFuel] = useState(selectedCar.fuel);
-  const [fipe, setFipe] = useState(selectedCar.fipe);
-  const [coverImage, setCoverImage] = useState(selectedCar.cover_image);
-  const [description, setDescription] = useState(selectedCar.description);
-  const [price, setPrice] = useState(selectedCar.price);
-  const [color, setColor] = useState(selectedCar.color);
-  const [km, setKm] = useState(selectedCar.km);
-
   const {
     getCarsBrands,
     brands,
@@ -46,8 +35,23 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
     setBrandSelect,
     setModelSelect,
     getCarModels,
-    onCreateCarAd,
+    onUpdateCarAd,
+    selectedCar,
   } = useAuth();
+
+  const [images, setImages] = useState(["", ""]);
+  const [modelInfoSelect, setModelInfoSelect] = useState<any>([]);
+  const [brand, setBrand] = useState(selectedCar.brand);
+  const [model, setModel] = useState(selectedCar.brand);
+  const [year, setYear] = useState(selectedCar.year);
+  const [fuel, setFuel] = useState(selectedCar.fuel);
+  const [fipe, setFipe] = useState(selectedCar.fipe);
+  const [coverImage, setCoverImage] = useState(selectedCar.cover_image);
+  const [description, setDescription] = useState(selectedCar.description);
+  const [price, setPrice] = useState(selectedCar.price);
+  const [color, setColor] = useState(selectedCar.color);
+  const [km, setKm] = useState(selectedCar.km);
+  const [isActive, setIsActive] = useState(selectedCar.published);
 
   const {
     register,
@@ -91,7 +95,7 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
     setYear(modelInfo[0]?.year);
   }, [modelSelect]);
 
-  const onSubmitCreateAd = (data: iCreateCarAd) => {
+  const onSubmitEditAd = (data: iCreateCarAd) => {
     const newData = {
       ...data,
       fuel: fuel,
@@ -99,8 +103,15 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
       fipe: fipe,
       published: true,
     };
-    onCreateCarAd(newData);
+    onUpdateCarAd(newData, selectedCar.id);
+    onClose();
   };
+
+  const {
+    isOpen: isDeleteOpen,
+    onOpen: onDeleteOpen,
+    onClose: onDeleteClose,
+  } = useDisclosure();
 
   return (
     <>
@@ -108,7 +119,7 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader fontSize={"16px"} color={"grey.1"}>
-            Criar Anúncio
+            Editar Anúncio
           </ModalHeader>
           <Flex flexDirection={"column"} pl={"15px"}>
             <ModalHeader
@@ -120,7 +131,7 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
             </ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <Flex as={"form"} onSubmit={handleSubmit(onSubmitCreateAd)}>
+              <Flex as={"form"} onSubmit={handleSubmit(onSubmitEditAd)}>
                 <Flex display={"flex"} gap={"24px"} flexDirection={"column"}>
                   <Input
                     errorMessage={errors.brand?.message}
@@ -135,7 +146,7 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                     onChange={(e) => {
                       inputValue(e);
                     }}
-                    value={brandSelect}
+                    value={brand}
                   />
                   <datalist id="listBrand">
                     {brands.map((element: any, index: any) => (
@@ -160,7 +171,7 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       getCarModels();
                       setModelSelect((e.target as HTMLInputElement).value);
                     }}
-                    value={modelSelect}
+                    value={model}
                   />
                   <datalist id="listModels">
                     {currentBrand.map((element: any, index: any) => (
@@ -177,8 +188,15 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       type="text"
                       id="year"
                       register={register}
+                      value={year ? year : ""}
+                    />
+                    <Input
+                      errorMessage={errors.fuel?.message}
+                      placeholder="Gasolina / Etanol"
                       label="Combustível"
                       type="text"
+                      id="fuel"
+                      register={register}
                       value={fuel ? fuel : ""}
                     />
                   </Flex>
@@ -237,6 +255,39 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                     onChange={(e) => setDescription(e.target.value)}
                     value={description}
                   />
+                  <Box as="div">
+                    <Heading as="h3" fontSize="1rem" fontWeight="500">
+                      Publicado
+                    </Heading>
+                  </Box>
+                  <Box display="flex" justifyContent="space-between" as="div">
+                    <Button
+                      color={isActive ? "grey.0" : "grey.10"}
+                      border="2px"
+                      borderColor={isActive ? "grey.4" : "brand.1"}
+                      bg={isActive ? "grey.10" : "brand.1"}
+                      width="48%"
+                      borderRadius="4px"
+                      fontSize="0.875rem"
+                      _focus={{ backgroundColor: "brand.1" }}
+                      onClick={() => setIsActive(false)}
+                    >
+                      Sim
+                    </Button>
+                    <Button
+                      color={!isActive ? "grey.0" : "grey.10"}
+                      border="2px"
+                      borderColor={!isActive ? "grey.4" : "brand.1"}
+                      bg={!isActive ? "grey.10" : "brand.1"}
+                      width="48%"
+                      borderRadius="4px"
+                      fontSize="0.875rem"
+                      _focus={{ backgroundColor: "brand.1" }}
+                      onClick={() => setIsActive(true)}
+                    >
+                      Não
+                    </Button>
+                  </Box>
                   <Input
                     errorMessage={errors.cover_image?.message}
                     placeholder="https://image.com"
@@ -255,7 +306,7 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                         label={`${index + 1}° Imagem da galeria`}
                         type="text"
                         id={`images_${index + 1}`}
-                        value={image.image_url}
+                        value={image}
                         register={register}
                         onChange={(e) => handleChangeImage(e, index)}
                       />
@@ -284,7 +335,7 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                     <Flex w={"100%"} justifyContent={"flex-end"}>
                       <Button
                         mr={3}
-                        onClick={onClose}
+                        onClick={onDeleteOpen}
                         variant={"grey1"}
                         color={"grey.2"}
                         fontSize={"16px"}
@@ -312,6 +363,11 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
           </Flex>
         </ModalContent>
       </Modal>
+      <ModalVerifyDelete
+        isOpen={isDeleteOpen}
+        onClose={onDeleteClose}
+        onEditClose={onClose}
+      />
     </>
   );
 };
