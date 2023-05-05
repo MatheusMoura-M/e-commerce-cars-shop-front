@@ -7,25 +7,19 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
-  FormControl,
-  FormLabel,
   Flex,
-  Textarea,
 } from "@chakra-ui/react";
 import { Input } from "../../form/input";
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import formSchemaCarAd from "../../../schemas/annoucements";
-import { iCreateCarAd } from "../../../interface/car.interface";
+import {
+  iCreateCarAd,
+  iStatusModalCar,
+} from "../../../interface/car.interface";
 import "./style.css";
 import { useAuth } from "../../../context/webContext";
-
-interface iStatusModalCar {
-  isOpen: boolean;
-  onClose(): void;
-}
 
 export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
   const [images, setImages] = useState<string[]>(["", ""]);
@@ -42,12 +36,10 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
   const {
     getCarsBrands,
     brands,
-    brandsAndModels,
     brandSelect,
     currentBrand,
     modelSelect,
     setBrandSelect,
-    setCurrentBrand,
     setModelSelect,
     getCarModels,
     onCreateCarAd,
@@ -181,7 +173,6 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       type="text"
                       id="year"
                       register={register}
-                      // isDisabled={true}
                       value={year ? year : ""}
                     />
                     <Input
@@ -191,7 +182,6 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       type="text"
                       id="fuel"
                       register={register}
-                      // isDisabled={true}
                       value={fuel ? fuel : ""}
                     />
                   </Flex>
