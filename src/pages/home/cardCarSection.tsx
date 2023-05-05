@@ -49,6 +49,8 @@ const CardCardList = ({ pageCard }: any) => {
               key={card.id}
               id={card.id}
               userName="usuário"
+              buttonStatus={true}
+              isGoodPrice
             />
           );
         })}
@@ -72,6 +74,9 @@ const CardCardList = ({ pageCard }: any) => {
               key={card.id}
               userName="usuário"
               id={card.id}
+              buttonStatus
+              isPublished={false}
+              isGoodPrice
             />
           );
         })}
