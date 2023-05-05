@@ -72,6 +72,7 @@ export const AuthContext = createContext<iAuthProviderData>(
   {} as iAuthProviderData
 );
 
+console.log("teste");
 export const AuthProvider = ({ children }: iProviderProps) => {
   const navigate = useNavigate();
   const {
