@@ -7,8 +7,11 @@ import { useAuth } from "../../context/webContext";
 import { useState } from "react";
 import { iCommentRequest } from "../../interface/comment.interface";
 import commentSchema from "../../schemas/comments";
+import { useParams } from "react-router-dom";
 
 export const BoxComment = () => {
+  const { id } = useParams();
+
   const {
     returnHome,
     isLogged,
@@ -30,14 +33,10 @@ export const BoxComment = () => {
   const onFormSubmit = (formData: iCommentRequest) => {
     const newData =
       formData.comment === commentInput ? formData : { comment: commentInput };
-    onCreateComment(newData, carAdSelected.id);
+    onCreateComment(newData, id!);
+
+    setCommentInput("");
   };
-
-  const token = localStorage.getItem("@token")
-
-  // if(token){
-  //   setIsLogged(true);
-  // }
 
   return (
     <Container
@@ -66,7 +65,12 @@ export const BoxComment = () => {
       >
         {isLogged && (
           <HStack gap={"8px"} w={126}>
-            <Image src={ImgPerfil} alt="Img do usuário" w={"32px"} h={"32px"} />
+            <Image
+              src={userLogged.image_url}
+              alt="Img do usuário"
+              w={"32px"}
+              h={"32px"}
+            />
             <Text
               as={"h3"}
               m={"0px !important"}
@@ -153,51 +157,48 @@ export const BoxComment = () => {
               </Button>
             )}
           </Flex>
-          <HStack
-            h={{ base: "72px" }}
-            wrap={{ base: "wrap", xsm2: "unset" }}
-            spacing={"8px"}
-          >
-            <Button
-              variant={"greyComments"}
-              // onClick={(e) =>
-              //   setCommentInput((e.target as HTMLButtonElement).innerText)
-              // }
-              onClick={(e) =>
-                onCreateComment(
-                  { comment: (e.target as HTMLButtonElement).innerText },
-                  carAdSelected.id
-                )
-              }
-            >
-              Gostei muito!
-            </Button>
-            <Button
-              variant={"greyComments"}
-              onClick={(e) =>
-                onCreateComment(
-                  { comment: (e.target as HTMLButtonElement).innerText },
-                  carAdSelected.id
-                )
-              }
-            >
-              Incrível
-            </Button>
-            <Button
-              variant={"greyComments"}
-              onClick={(e) =>
-                onCreateComment(
-                  { comment: (e.target as HTMLButtonElement).innerText },
-                  carAdSelected.id
-                )
-              }
-              mt={{ base: "24px", xsm2: "unset" }}
-              ml={{ base: "0px !important", xsm2: "8px !important" }}
-            >
-              Recomendarei para meus amigos!
-            </Button>
-          </HStack>
         </Flex>
+        <HStack
+          h={{ base: "72px" }}
+          wrap={{ base: "wrap", xsm2: "unset" }}
+          spacing={"8px"}
+        >
+          <Button
+            variant={"greyComments"}
+            onClick={(e) =>
+              onCreateComment(
+                { comment: (e.target as HTMLButtonElement).innerText },
+                id!
+              )
+            }
+          >
+            Gostei muito!
+          </Button>
+          <Button
+            variant={"greyComments"}
+            onClick={(e) =>
+              onCreateComment(
+                { comment: (e.target as HTMLButtonElement).innerText },
+                id!
+              )
+            }
+          >
+            Incrível
+          </Button>
+          <Button
+            variant={"greyComments"}
+            onClick={(e) =>
+              onCreateComment(
+                { comment: (e.target as HTMLButtonElement).innerText },
+                id!
+              )
+            }
+            mt={{ base: "24px", xsm2: "unset" }}
+            ml={{ base: "0px !important", xsm2: "8px !important" }}
+          >
+            Recomendarei para meus amigos!
+          </Button>
+        </HStack>
       </Flex>
     </Container>
   );

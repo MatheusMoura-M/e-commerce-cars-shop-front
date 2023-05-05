@@ -14,6 +14,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { instance } from "../../services/api";
 import { useState } from "react";
+import axios from "axios";
 
 const ResetPasswordPage = () => {
   const { token } = useParams();
@@ -53,11 +54,17 @@ const ResetPasswordPage = () => {
         password
       );
 
-      toast.success(data.message);
+      toast.success(data.message, {
+        autoClose: 1000,
+      });
       navigate("/login");
     } catch (error) {
-      console.log(error);
-      toast.error("Algo deu errado");
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        toast.error(error.response?.data.error.errors[0], {
+          autoClose: 1000,
+        });
+      }
     }
   };
 
