@@ -27,7 +27,6 @@ import { useEffect } from "react";
 import { iAddressUpdateResponse } from "../interface/user.interface";
 
 export interface iAuthProviderData {
-  returnHome: () => void;
   MenuHamburguer: ({ children }: iProviderProps) => JSX.Element;
   show: boolean;
   setShow: Dispatch<SetStateAction<boolean>>;
@@ -121,10 +120,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     {} as iAddressUpdateResponse
   );
   const [comments, setComments] = useState<iCommentsListResponse[]>([]);
-
-  const returnHome = () => {
-    navigate("/");
-  };
 
   const GetUserProfile = async () => {
     try {
@@ -370,7 +365,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
             : children === "Editar Perfil"
             ? onOpenUpdateUser
             : children === "Sair"
-            ? returnHome
+            ? () => navigate("/")
             : undefined
         }
       >
@@ -391,7 +386,10 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       GetUserSpecific(data.user.id);
       setCarAdSelected(data);
     } catch (error) {
-      console.log(error);
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        error.response?.data.error === "Car not found!" && navigate("/");
+      }
     }
   };
 
@@ -448,7 +446,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         setPassType,
         show,
         setShow,
-        returnHome,
         Login,
         getCarsBrands,
         brands,
