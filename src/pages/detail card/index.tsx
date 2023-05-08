@@ -10,9 +10,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import imgPerfil from "../../assets/ImgPerfil.svg";
-import imgPerfil1 from "../../assets/ImgPerfil1.svg";
-import imgPerfil2 from "../../assets/ImgPerfil2.svg";
-import imgPerfil3 from "../../assets/ImgPerfil3.svg";
 import ContainerDetailCard from "./style";
 import { BoxComment } from "../../components/boxComment";
 import { useAuth } from "../../context/webContext";
@@ -26,7 +23,7 @@ import ModalEditComment from "../../components/modals/editComment/updateComment.
 
 export const DetailCard = () => {
   const {
-    returnHome,
+    navigate,
     isOpenAddress,
     onCloseAddress,
     isLogged,
@@ -40,6 +37,7 @@ export const DetailCard = () => {
     comments,
     GetCarSpecific,
     onListComment,
+    userLogged,
   } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -185,7 +183,7 @@ export const DetailCard = () => {
                     borderRadius={4}
                     fontSize={"14px"}
                     fontFamily={"inter"}
-                    onClick={returnHome}
+                    onClick={() => navigate("/")}
                   >
                     Comprar
                   </Button>
@@ -362,6 +360,8 @@ export const DetailCard = () => {
                     >
                       <Flex gap={"10px"} alignItems={"center"}>
                         <Image
+                          borderRadius={"full"}
+                          w={"30px"}
                           src={comment.users.image_url}
                           alt="Imagem do usuário"
                         />
@@ -399,17 +399,19 @@ export const DetailCard = () => {
                         >
                           {comment.comment}
                         </Text>
-                        <Flex
-                          _hover={{
-                            color: "brand.1",
-                            transform: "translate(-2px, -2px)",
-                            transition: ".5s",
-                          }}
-                          transition={".5s"}
-                          onClick={onOpenUpdateComment}
-                        >
-                          <GiHamburgerMenu size={18} cursor={"pointer"} />
-                        </Flex>
+                        {comment.users.id === userLogged.id && (
+                          <Flex
+                            _hover={{
+                              color: "brand.1",
+                              transform: "translate(-2px, -2px)",
+                              transition: ".5s",
+                            }}
+                            transition={".5s"}
+                            onClick={onOpenUpdateComment}
+                          >
+                            <GiHamburgerMenu size={18} cursor={"pointer"} />
+                          </Flex>
+                        )}
                       </Flex>
                     </Flex>
                   );

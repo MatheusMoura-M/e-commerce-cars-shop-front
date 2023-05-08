@@ -56,7 +56,7 @@ export const Home = () => {
     filterFieldsSelected();
     filterCarList();
     pageCard();
-    getAddressLogged();
+    // getAddressLogged();
   }, []);
 
   useEffect(() => {
