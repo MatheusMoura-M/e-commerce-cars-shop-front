@@ -152,7 +152,7 @@ export const ProfileCard = () => {
             marginTop={{ base: "65px", xl: "75px" }}
           >
             <Flex flexDirection={"column"} w={"104px"} h={"104px"}>
-              <Image src={imgPerfil} alt="Foto de perfil do usuário" />
+              <Image src={imgPerfil} alt="Foto do usuário" />
             </Flex>
             <Text as={"h2"} fontWeight={600} fontSize={"20px"}>
               Samuel Leão

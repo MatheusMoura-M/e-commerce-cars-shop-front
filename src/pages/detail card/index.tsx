@@ -21,6 +21,8 @@ import { ModalUpdateAddress } from "../../components/modals/updateAddress/update
 import ModalEditUser from "../../components/modals/editProfile/updateUser.modal";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { GiHamburgerMenu } from "react-icons/gi";
+import ModalEditComment from "../../components/modals/editComment/updateComment.modal";
 
 export const DetailCard = () => {
   const {
@@ -30,6 +32,9 @@ export const DetailCard = () => {
     isLogged,
     isOpenUpdateUser,
     onCloseUpdateUser,
+    onOpenUpdateComment,
+    isOpenUpdateComment,
+    onCloseUpdateComment,
     carAdSelected,
     ownerOfAdSelected,
     comments,
@@ -281,7 +286,7 @@ export const DetailCard = () => {
               gap={{ base: "25px", xl: "30px" }}
             >
               <Flex flexDirection={"column"} w={"104px"} h={"104px"}>
-                <Image src={imgPerfil} alt="Foto de perfil do usuário" />
+                <Image src={imgPerfil} alt="Foto do usuário" />
               </Flex>
               <Text
                 as={"h2"}
@@ -358,7 +363,7 @@ export const DetailCard = () => {
                       <Flex gap={"10px"} alignItems={"center"}>
                         <Image
                           src={comment.users.image_url}
-                          alt="Imagem de perfil do usuário"
+                          alt="Imagem do usuário"
                         />
                         <Text
                           as={"h3"}
@@ -380,15 +385,32 @@ export const DetailCard = () => {
                           • &ensp;{getDayComment(comment.createdAt)}
                         </Text>
                       </Flex>
-                      <Text
-                        as={"p"}
-                        fontFamily={"inter"}
-                        fontWeight={400}
-                        fontSize={"14px"}
-                        color={"grey.2"}
+                      <Flex
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
                       >
-                        {comment.comment}
-                      </Text>
+                        <Text
+                          as={"p"}
+                          fontFamily={"inter"}
+                          fontWeight={400}
+                          fontSize={"14px"}
+                          color={"grey.2"}
+                          w={"95%"}
+                        >
+                          {comment.comment}
+                        </Text>
+                        <Flex
+                          _hover={{
+                            color: "brand.1",
+                            transform: "translate(-2px, -2px)",
+                            transition: ".5s",
+                          }}
+                          transition={".5s"}
+                          onClick={onOpenUpdateComment}
+                        >
+                          <GiHamburgerMenu size={18} cursor={"pointer"} />
+                        </Flex>
+                      </Flex>
                     </Flex>
                   );
                 })}
@@ -401,6 +423,10 @@ export const DetailCard = () => {
       <ModalCreateCarAd isOpen={isOpen} onClose={onClose} />
       <ModalUpdateAddress isOpen={isOpenAddress} onClose={onCloseAddress} />
       <ModalEditUser isOpen={isOpenUpdateUser} onClose={onCloseUpdateUser} />
+      <ModalEditComment
+        isOpen={isOpenUpdateComment}
+        onClose={onCloseUpdateComment}
+      />
       <Footer />
     </>
   );

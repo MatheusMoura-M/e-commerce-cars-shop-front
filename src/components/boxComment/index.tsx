@@ -1,5 +1,4 @@
 import { Button, Container, Flex, HStack, Image, Text } from "@chakra-ui/react";
-import ImgPerfil from "../../assets/ImgPerfil.svg";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "../form/input";

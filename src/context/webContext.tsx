@@ -53,6 +53,9 @@ export interface iAuthProviderData {
   isOpenUpdateUser: boolean;
   onOpenUpdateUser: () => void;
   onCloseUpdateUser: () => void;
+  isOpenUpdateComment: boolean;
+  onOpenUpdateComment: () => void;
+  onCloseUpdateComment: () => void;
   onUpdateAddress: (data: iUpdateAddress) => Promise<void>;
   onUpdateUser: (data: iUpdateUser) => Promise<void>;
   onDeleteUser: () => Promise<void>;
@@ -91,6 +94,12 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     isOpen: isOpenUpdateUser,
     onOpen: onOpenUpdateUser,
     onClose: onCloseUpdateUser,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenUpdateComment,
+    onOpen: onOpenUpdateComment,
+    onClose: onCloseUpdateComment,
   } = useDisclosure();
 
   const [isLogged, setIsLogged] = useState(false);
@@ -404,6 +413,10 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
       setAddressLogged(resp.data);
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        error.response?.data.error === "jwt expired" &&
+          localStorage.removeItem("@token");
+      }
       console.log(error);
     }
   };
@@ -448,14 +461,17 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         setModelSelect,
         getCarModels,
         onCreateCarAd,
+        isOpenUpdateComment,
+        onOpenUpdateComment,
+        onCloseUpdateComment,
         isOpenAddress,
         onOpenAddress,
         onCloseAddress,
-        isLogged,
-        setIsLogged,
         isOpenUpdateUser,
         onOpenUpdateUser,
         onCloseUpdateUser,
+        isLogged,
+        setIsLogged,
         onUpdateAddress,
         onUpdateUser,
         onDeleteUser,
