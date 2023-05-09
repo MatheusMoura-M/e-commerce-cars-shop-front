@@ -447,7 +447,7 @@ const FormRegisterUser = () => {
             label="Confirmar Senha"
             register={register}
             type="password"
-            showPass
+            showConfirmPass
             marginTopForm="20px"
             onChange={(e) => setConfirmPassword(e.target.value)}
             value={confirmPassword}
