@@ -1,3 +1,5 @@
+import { iCar } from "./car.interface";
+
 export interface iRegister {
   name: string;
   email: string;
@@ -56,6 +58,19 @@ export interface iUser {
   image_url: string;
   isSeller: boolean;
   address: iAddressUpdateResponse;
+}
+
+export interface iCarsUser {
+  id: string;
+  name: string;
+  email: string;
+  cpf: string;
+  telephone: string;
+  birthdate: string;
+  description: string;
+  image_url: string;
+  isSeller: boolean;
+  cars: iCar[];
 }
 
 export interface iUpdateAddress {

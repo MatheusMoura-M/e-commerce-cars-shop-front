@@ -6,6 +6,7 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import {
+  iCarsUser,
   iLoginProps,
   iRegister,
   iRegisterReq,
@@ -70,10 +71,16 @@ export interface iAuthProviderData {
   navigate: NavigateFunction;
   onCreateComment: (data: iCommentRequest, id: string) => Promise<void>;
   onRegisterSubmit: (dataRegister: iRegisterReq) => void;
-  userCars: iCar[];
+  userCarsProfile: iCar[];
   selectedCar: iCar;
   setSelectedCar: (car: iCar) => void;
   comments: iCommentsListResponse[];
+  onListComment: (id: string) => Promise<void>;
+  onGetCarsUserProfile: () => Promise<void>;
+  goToAnnouncerProfile: (id: string) => void;
+  onGetCarsUser: (id: string) => Promise<void>;
+  setCarsUser: Dispatch<SetStateAction<iCarsUser>>;
+  carsUser: iCarsUser;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -115,64 +122,60 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     {} as iUser
   );
   const [userLogged, setUserLogged] = useState<iUser>({} as iUser);
-  const [userCars, setUserCars] = useState<iCar[]>([] as iCar[]);
+  const [carsUser, setCarsUser] = useState<iCarsUser>({} as iCarsUser);
+  const [userCarsProfile, setUserCarsProfile] = useState<iCar[]>([] as iCar[]);
   const [selectedCar, setSelectedCar] = useState({} as iCar);
   const [comments, setComments] = useState<iCommentsListResponse[]>([]);
 
   const goToProfile = () => {
-    navigate("/user-profile");
-    console.log(userCars);
+    navigate("/profile");
+  };
+
+  const goToAnnouncerProfile = (id: string) => {
+    navigate(`/announcer-profile/${id}`);
   };
 
   const onRegisterSubmit = async (dataRegister: iRegisterReq) => {
     try {
-      const r = await instance.post("/user", dataRegister);
+      await instance.post("/user", dataRegister);
 
       toast.success("Usuário registrado com sucesso", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+        autoClose: 1000,
       });
 
       navigate("/login", { replace: true });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data, {
-          position: "top-right",
           autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
         });
       }
     }
   };
 
-  const Login = async (user: iLoginProps): Promise<void> => {
+  const onGetCarsUser = async (id: string) => {
     try {
-      const { data } = await instance.post<iUserLogin>("login", user);
-      instance.defaults.headers.authorization = `Bearer ${data.token}`;
+      const resp = await instance.get(`user/${id}`);
 
-      const { data: userData } = await instance.get("user/profile");
-      const { data: carsData } = await instance.get("user/cars");
-
-      window.localStorage.setItem("@token", data.token);
-      setUserLogged(userData);
-      setUserCars(carsData);
-      setIsLogged(true);
-      toast.success("Logado com sucesso");
-      navigate("/");
+      setCarsUser(resp.data);
     } catch (error) {
-      console.log(error);
-      toast.error("Algo deu errado");
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+      }
+    }
+  };
+
+  const onGetCarsUserProfile = async () => {
+    try {
+      const resp = await instance.get("user/cars", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
+
+      setUserCarsProfile(resp.data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+      }
     }
   };
 
@@ -183,12 +186,30 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       });
 
       setUserLogged(resp.data);
+      setIsLogged(true);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         error.response?.data.error === "jwt expired" &&
           localStorage.removeItem("@token");
       }
+      navigate("/login");
       console.log(error);
+    }
+  };
+
+  const Login = async (user: iLoginProps): Promise<void> => {
+    try {
+      const { data } = await instance.post<iUserLogin>("login", user);
+      window.localStorage.setItem("@token", data.token);
+
+      GetUserProfile();
+      onGetCarsUserProfile();
+      setIsLogged(true);
+      toast.success("Logado com sucesso");
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      toast.error("Algo deu errado");
     }
   };
 
@@ -218,30 +239,18 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const onCreateCarAd = async (data: iCreateCarAd) => {
     try {
-      const response = await instance.post("/car", data);
+      await instance.post("/car", data, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
 
       toast.success("Carro registrado com sucesso", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+        autoClose: 1000,
       });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);
         toast.error(error.response?.data.error.errors[0], {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          autoClose: 1000,
         });
       }
     }
@@ -249,81 +258,59 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const onUpdateCarAd = async (data: iCreateCarAd, id: string) => {
     try {
-      const response = await instance.patch(`/car/${id}`, data);
-      const { data: carsData } = await instance.get("user/cars");
-      setUserCars(carsData);
+      await instance.patch(`/car/${id}`, data, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
 
       toast.success("Carro editado com sucesso", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+        autoClose: 1000,
       });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);
         toast.error(error.response?.data.error.errors[0], {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          autoClose: 1000,
         });
       }
+    } finally {
+      onGetCarsUserProfile();
     }
   };
 
   const onDeleteCarAd = async (id: string) => {
     try {
-      const response = await instance.delete(`/car/${id}`);
-      const { data: carsData } = await instance.get("user/cars");
-      setUserCars(carsData);
+      await instance.delete(`/car/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
 
       toast.success("Carro deletado com sucesso", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+        autoClose: 1000,
       });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);
         toast.error(error.response?.data.error.errors[0], {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          autoClose: 1000,
         });
       }
+    } finally {
+      onGetCarsUserProfile();
     }
   };
 
   const onUpdateAddress = async (data: iUpdateAddress) => {
     try {
-      const response = await instance.patch("/address", data);
+      await instance.patch("/address", data, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
 
       toast.success("Address atualizado com sucesso", {
-        autoClose: 5000,
+        autoClose: 1000,
       });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.error.errors[0], {
-          autoClose: 3000,
+          autoClose: 1000,
         });
       }
     }
@@ -331,15 +318,17 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const onUpdateUser = async (data: iUpdateUser) => {
     try {
-      const response = await instance.patch("/user", data);
+      await instance.patch("/user", data, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
 
       toast.success("Usuário atualizado com sucesso", {
-        autoClose: 5000,
+        autoClose: 1000,
       });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.error.errors[0], {
-          autoClose: 3000,
+          autoClose: 1000,
         });
       }
     }
@@ -347,29 +336,19 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const onDeleteUser = async () => {
     try {
-      const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pbGZvbnRzMkBnbWFpbC5jb20iLCJpZCI6IjY2MThhN2FmLTU0YzYtNGM4OS1iOWM1LTgzMzA3Yzg4ZTE3YSIsImlhdCI6MTY4MjY5ODk0NCwiZXhwIjoxNjgyNzg1MzQ0LCJzdWIiOiI2NjE4YTdhZi01NGM2LTRjODktYjljNS04MzMwN2M4OGUxN2EifQ.7MHGh3iV4RTsiry5W3eehyKKHlO_nDLpSEJ9ruZnkZU";
-
-      const response = await instance.delete("/user", {
-        headers: { Authorization: `Bearer ${token}` },
+      await instance.delete("/user", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
       });
 
       toast.success("Usuário deletado com sucesso", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+        autoClose: 1000,
       });
     } catch (error) {
       console.log(error);
       if (axios.isAxiosError(error)) {
         console.log(error);
         toast.error(error.response?.data.error.errors[0], {
-          autoClose: 3000,
+          autoClose: 1000,
         });
       }
     }
@@ -413,6 +392,33 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       >
         {children}
       </MenuItem>
+    ) : children === "Sair" ? (
+      <MenuItem
+        alignSelf={"center"}
+        justifyContent={"center"}
+        bg={"transparent"}
+        color={"#0B0D0D"}
+        border={"2px solid"}
+        borderColor={"#ADB5BD"}
+        borderRadius={".3rem"}
+        mb={".5rem"}
+        py={"1rem"}
+        w={"90%"}
+        h={"48px"}
+        onClick={() => {
+          localStorage.removeItem("@token");
+          setIsLogged(false);
+          navigate("/");
+        }}
+        _hover={{
+          bg: "#212529",
+          color: "#FDFDFD",
+          transition: "0.8s",
+        }}
+        transition={"0.8s"}
+      >
+        {children}
+      </MenuItem>
     ) : (
       <MenuItem
         bg={"#FDFDFD"}
@@ -428,11 +434,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
             ? onOpenAddress
             : children === "Editar Perfil"
             ? onOpenUpdateUser
-            : children === "Meus Anuncios"
-            ? goToProfile
-            : children === "Sair"
-            ? () => navigate("/")
-            : undefined
+            : goToProfile
         }
       >
         {children}
@@ -477,7 +479,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     try {
       const data = await createCommentResponse(formData, id);
 
-      console.log(data);
+      onListComment(data.cars.id);
     } catch (error) {
       console.log(error);
     }
@@ -486,7 +488,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   return (
     <AuthContext.Provider
       value={{
-        userCars,
+        userCarsProfile,
         MenuHamburguer,
         passType,
         setPassType,
@@ -535,6 +537,12 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         selectedCar,
         setSelectedCar,
         comments,
+        onListComment,
+        onGetCarsUserProfile,
+        onGetCarsUser,
+        goToAnnouncerProfile,
+        setCarsUser,
+        carsUser,
       }}
     >
       {children}

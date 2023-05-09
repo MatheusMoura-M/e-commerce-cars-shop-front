@@ -15,7 +15,8 @@ import { ModalEditCarAd } from "../../components/modals/advertiserProfile/editCa
 import { useAuth } from "../../context/webContext";
 
 export const ProfileCard = () => {
-  const { userCars, userLogged, setSelectedCar, selectedCar } = useAuth();
+  const { userCarsProfile, userLogged, setSelectedCar, selectedCar } =
+    useAuth();
 
   const {
     isOpen: isCreateOpen,
@@ -53,14 +54,11 @@ export const ProfileCard = () => {
             marginTop={{ base: "65px", xl: "75px" }}
           >
             <Flex flexDirection={"column"} w={"104px"} h={"104px"}>
-<<<<<<< HEAD
               <Image
+                borderRadius={"full"}
                 src={userLogged.image_url}
                 alt="Foto de perfil do usuário"
               />
-=======
-              <Image src={imgPerfil} alt="Foto do usuário" />
->>>>>>> 7bbc720a3991a539737efd75c1dc4779f094cc0a
             </Flex>
             <Text as={"h2"} fontWeight={600} fontSize={"20px"}>
               {userLogged.name}
@@ -89,7 +87,7 @@ export const ProfileCard = () => {
             </Button>
           </Flex>
           <UlCardCars>
-            {userCars.map((card) => {
+            {userCarsProfile.map((card) => {
               return (
                 <Box margin="0px">
                   <CarCard
@@ -97,7 +95,7 @@ export const ProfileCard = () => {
                     image={card.cover_image}
                     km={card.km}
                     price={card.price}
-                    nameCar={card.model}
+                    model={card.model}
                     brandCar={card.brand}
                     year={card.year}
                     id={card.id}
