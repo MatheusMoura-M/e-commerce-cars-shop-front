@@ -2,10 +2,11 @@ import { createContext, useContext } from "react";
 import { iProviderProps } from "../@types";
 import { MenuItem, useDisclosure } from "@chakra-ui/react";
 import { useState, Dispatch, SetStateAction } from "react";
-import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import {
+  iCarsUser,
   iLoginProps,
   iRegister,
   iRegisterReq,
@@ -15,7 +16,7 @@ import {
   iUserLogin,
 } from "../interface/user.interface";
 import { instance, instanceKenzieCars } from "../services/api";
-import { iCarResponse, iCreateCarAd } from "../interface/car.interface";
+import { iCar, iCarResponse, iCreateCarAd } from "../interface/car.interface";
 import { getCarSpecificResponse } from "../services/getCarSpecificResponse";
 import { getUserSpecificReponse } from "../services/getUserSpecificResponse";
 import {
@@ -23,8 +24,6 @@ import {
   iCommentsListResponse,
 } from "../interface/comment.interface";
 import { createCommentResponse } from "../services/createCommentResponse";
-import { useEffect } from "react";
-import { iAddressUpdateResponse } from "../interface/user.interface";
 
 export interface iAuthProviderData {
   MenuHamburguer: ({ children }: iProviderProps) => JSX.Element;
@@ -36,6 +35,8 @@ export interface iAuthProviderData {
   getCarsBrands: () => Promise<void>;
   getCarModels: () => Promise<void>;
   onCreateCarAd: (data: iCreateCarAd) => Promise<void>;
+  onUpdateCarAd: (data: iCreateCarAd, id: string) => Promise<void>;
+  onDeleteCarAd: (id: string) => Promise<void>;
   brands: string[];
   brandsAndModels: [];
   brandSelect: string;
@@ -67,14 +68,19 @@ export interface iAuthProviderData {
   setOwnerOfAdSelected: Dispatch<SetStateAction<iUser>>;
   userLogged: iUser;
   setUserLogged: Dispatch<SetStateAction<iUser>>;
-  addressLogged: iAddressUpdateResponse;
-  setAddressLogged: Dispatch<SetStateAction<iAddressUpdateResponse>>;
   navigate: NavigateFunction;
   onCreateComment: (data: iCommentRequest, id: string) => Promise<void>;
-  onListComment: (id: string) => Promise<void>;
+  onRegisterSubmit: (dataRegister: iRegisterReq) => void;
+  userCarsProfile: iCar[];
+  selectedCar: iCar;
+  setSelectedCar: (car: iCar) => void;
   comments: iCommentsListResponse[];
-  onRegisterSubmit(dataRegister: iRegister): void;
-  getAddressLogged: () => Promise<void>;
+  onListComment: (id: string) => Promise<void>;
+  onGetCarsUserProfile: () => Promise<void>;
+  goToAnnouncerProfile: (id: string) => void;
+  onGetCarsUser: (id: string) => Promise<void>;
+  setCarsUser: Dispatch<SetStateAction<iCarsUser>>;
+  carsUser: iCarsUser;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -116,25 +122,20 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     {} as iUser
   );
   const [userLogged, setUserLogged] = useState<iUser>({} as iUser);
-  const [addressLogged, setAddressLogged] = useState<iAddressUpdateResponse>(
-    {} as iAddressUpdateResponse
-  );
+  const [carsUser, setCarsUser] = useState<iCarsUser>({} as iCarsUser);
+  const [userCarsProfile, setUserCarsProfile] = useState<iCar[]>([] as iCar[]);
+  const [selectedCar, setSelectedCar] = useState({} as iCar);
   const [comments, setComments] = useState<iCommentsListResponse[]>([]);
 
-  const GetUserProfile = async () => {
-    try {
-      const resp = await instance.get("/user/profile", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
-      });
-
-      setUserLogged(resp.data);
-    } catch (error) {
-      console.log(error);
-    }
+  const goToProfile = () => {
+    navigate("/profile");
   };
 
-  const onRegisterSubmit = async (dataRegister: iRegister) => {
-    console.log("AA", dataRegister);
+  const goToAnnouncerProfile = (id: string) => {
+    navigate(`/announcer-profile/${id}`);
+  };
+
+  const onRegisterSubmit = async (dataRegister: iRegisterReq) => {
     try {
       await instance.post("/user", dataRegister);
 
@@ -144,7 +145,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
       navigate("/login", { replace: true });
     } catch (error) {
-      console.log(error);
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data, {
           autoClose: 1000,
@@ -153,34 +153,65 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     }
   };
 
+  const onGetCarsUser = async (id: string) => {
+    try {
+      const resp = await instance.get(`user/${id}`);
+
+      setCarsUser(resp.data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+      }
+    }
+  };
+
+  const onGetCarsUserProfile = async () => {
+    try {
+      const resp = await instance.get("user/cars", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
+
+      setUserCarsProfile(resp.data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+      }
+    }
+  };
+
+  const GetUserProfile = async () => {
+    try {
+      const resp = await instance.get("/user/profile", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
+
+      setUserLogged(resp.data);
+      setIsLogged(true);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        error.response?.data.error === "jwt expired" &&
+          localStorage.removeItem("@token");
+      }
+      navigate("/login");
+      console.log(error);
+    }
+  };
+
   const Login = async (user: iLoginProps): Promise<void> => {
     try {
       const { data } = await instance.post<iUserLogin>("login", user);
       window.localStorage.setItem("@token", data.token);
 
-      const { data: userData } = await instance.get("user/profile", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
-      });
-
-      setUserLogged(userData);
+      GetUserProfile();
+      onGetCarsUserProfile();
       setIsLogged(true);
-      toast.success("Logado com sucesso", {
-        autoClose: 1000,
-      });
+      toast.success("Logado com sucesso");
       navigate("/");
     } catch (error) {
       console.log(error);
-      toast.error("Algo deu errado", {
-        autoClose: 1000,
-      });
+      toast.error("Algo deu errado");
     }
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem("@token");
-
-    token ? setIsLogged(true) : setIsLogged(false);
-  }, []);
 
   const getCarModels = async () => {
     if (brandSelect) {
@@ -225,18 +256,59 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     }
   };
 
+  const onUpdateCarAd = async (data: iCreateCarAd, id: string) => {
+    try {
+      await instance.patch(`/car/${id}`, data, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
+
+      toast.success("Carro editado com sucesso", {
+        autoClose: 1000,
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        toast.error(error.response?.data.error.errors[0], {
+          autoClose: 1000,
+        });
+      }
+    } finally {
+      onGetCarsUserProfile();
+    }
+  };
+
+  const onDeleteCarAd = async (id: string) => {
+    try {
+      await instance.delete(`/car/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
+
+      toast.success("Carro deletado com sucesso", {
+        autoClose: 1000,
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        toast.error(error.response?.data.error.errors[0], {
+          autoClose: 1000,
+        });
+      }
+    } finally {
+      onGetCarsUserProfile();
+    }
+  };
+
   const onUpdateAddress = async (data: iUpdateAddress) => {
     try {
       await instance.patch("/address", data, {
         headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
       });
+
       toast.success("Address atualizado com sucesso", {
         autoClose: 1000,
       });
     } catch (error) {
-      console.log(error);
       if (axios.isAxiosError(error)) {
-        console.log(error);
         toast.error(error.response?.data.error.errors[0], {
           autoClose: 1000,
         });
@@ -254,15 +326,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         autoClose: 1000,
       });
     } catch (error) {
-      console.log(error);
       if (axios.isAxiosError(error)) {
-        console.log(error);
         toast.error(error.response?.data.error.errors[0], {
           autoClose: 1000,
         });
       }
-    } finally {
-      GetUserProfile();
     }
   };
 
@@ -272,7 +340,9 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
       });
 
-      toast.success("Usuário deletado com sucesso");
+      toast.success("Usuário deletado com sucesso", {
+        autoClose: 1000,
+      });
     } catch (error) {
       console.log(error);
       if (axios.isAxiosError(error)) {
@@ -364,9 +434,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
             ? onOpenAddress
             : children === "Editar Perfil"
             ? onOpenUpdateUser
-            : children === "Sair"
-            ? () => navigate("/")
-            : undefined
+            : goToProfile
         }
       >
         {children}
@@ -377,14 +445,9 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     try {
       const data = await getCarSpecificResponse(id);
 
-      const token = localStorage.getItem("@token");
-
-      if (token) {
-        GetUserProfile();
-      }
-
       GetUserSpecific(data.user.id);
       setCarAdSelected(data);
+      GetUserProfile();
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);
@@ -403,22 +466,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     }
   };
 
-  const getAddressLogged = async () => {
-    try {
-      const resp = await instance.get("/address/profile", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
-      });
-
-      setAddressLogged(resp.data);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        error.response?.data.error === "jwt expired" &&
-          localStorage.removeItem("@token");
-      }
-      console.log(error);
-    }
-  };
-
   const onListComment = async (id: string) => {
     try {
       const commentsCar = await instance.get(`/comments/${id}`);
@@ -430,17 +477,18 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const onCreateComment = async (formData: iCommentRequest, id: string) => {
     try {
-      await createCommentResponse(formData, id);
+      const data = await createCommentResponse(formData, id);
+
+      onListComment(data.cars.id);
     } catch (error) {
       console.log(error);
-    } finally {
-      onListComment(id);
     }
   };
 
   return (
     <AuthContext.Provider
       value={{
+        userCarsProfile,
         MenuHamburguer,
         passType,
         setPassType,
@@ -458,6 +506,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         setModelSelect,
         getCarModels,
         onCreateCarAd,
+        onUpdateCarAd,
+        onDeleteCarAd,
         isOpenUpdateComment,
         onOpenUpdateComment,
         onCloseUpdateComment,
@@ -483,12 +533,16 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         GetUserProfile,
         userLogged,
         setUserLogged,
-        onListComment,
-        comments,
         onRegisterSubmit,
-        addressLogged,
-        setAddressLogged,
-        getAddressLogged,
+        selectedCar,
+        setSelectedCar,
+        comments,
+        onListComment,
+        onGetCarsUserProfile,
+        onGetCarsUser,
+        goToAnnouncerProfile,
+        setCarsUser,
+        carsUser,
       }}
     >
       {children}

@@ -40,6 +40,12 @@ export interface iStatusModalCar {
   onClose(): void;
 }
 
+export interface iStatusDeleteModalCar {
+  isOpen: boolean;
+  onClose(): void;
+  onEditClose(): void;
+}
+
 export interface iCarSelected extends iCar {
   images: iImagesInCarResponse[];
 }

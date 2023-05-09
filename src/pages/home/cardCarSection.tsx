@@ -43,7 +43,7 @@ const CardCardList = ({ pageCard }: any) => {
               image={card.cover_image}
               km={card.km}
               price={card.price}
-              nameCar={card.model}
+              model={card.model}
               brandCar={card.brand}
               year={card.year}
               key={card.id}
@@ -68,7 +68,7 @@ const CardCardList = ({ pageCard }: any) => {
               image={card.cover_image}
               km={card.km}
               price={card.price}
-              nameCar={card.model}
+              model={card.model}
               brandCar={card.brand}
               year={card.year}
               key={card.id}

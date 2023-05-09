@@ -7,8 +7,11 @@ import { useContext, useEffect, useState } from "react";
 import { contextHomeProvider } from "../../context/homePage.context";
 import imgPerfil from "../../assets/ImgPerfil.svg";
 import { NumberPage } from "./style";
+import { useAuth } from "../../context/webContext";
+import { useParams } from "react-router-dom";
 
 export const AnnouncerProfileCard = () => {
+  const { carsUser, onGetCarsUser } = useAuth();
   const [currentPage, setCurrentPage] = useState(1);
 
   const { carAd, GetCardsAd } = useContext(contextHomeProvider);
@@ -18,8 +21,11 @@ export const AnnouncerProfileCard = () => {
   const startPageAt = currentPage * pageLimit;
   const endPageAt = startPageAt + pageLimit;
 
+  const { id } = useParams();
+
   useEffect(() => {
     GetCardsAd();
+    onGetCarsUser(id!);
   }, []);
 
   const pageCard = () => {
@@ -27,73 +33,6 @@ export const AnnouncerProfileCard = () => {
 
     return cards;
   };
-
-  const cars = [
-    {
-      id: "f9dd7a3c-dcaa-4f5c-88db-ba2d2843d074",
-      brand: "test",
-      model: "test",
-      year: "test",
-      fuel: "test",
-      km: "10",
-      color: "test",
-      price: "10",
-      fipe: "10",
-      description: "test",
-      is_good_price: true,
-      published: true,
-      cover_image:
-        "https://assets-cdn.static-gm.com/Assets/Inventory/Images/e4c6ba57-050a-4aad-8cb7-69b9ad27f0f9/f2504fc6-f517-4ee4-95c8-dfc702a559d7/9BGEB69H0NG203812_637896070136411172.jpg",
-    },
-    {
-      id: "3e5fe6bf-acbb-4baf-bb88-3cb650e88892",
-      brand: "test",
-      model: "test",
-      year: "test",
-      fuel: "test",
-      km: "10",
-      color: "test",
-      price: "10",
-      fipe: "10",
-      description: "test",
-      is_good_price: true,
-      published: true,
-      cover_image:
-        "https://assets-cdn.static-gm.com/Assets/Inventory/Images/e4c6ba57-050a-4aad-8cb7-69b9ad27f0f9/f2504fc6-f517-4ee4-95c8-dfc702a559d7/9BGEB69H0NG203812_637896070136411172.jpg",
-    },
-    {
-      id: "be7b534d-4447-4180-a21f-68efc2983e70",
-      brand: "test",
-      model: "test",
-      year: "test",
-      fuel: "test",
-      km: "10",
-      color: "test",
-      price: "10",
-      fipe: "10",
-      description: "test",
-      is_good_price: true,
-      published: true,
-      cover_image:
-        "https://assets-cdn.static-gm.com/Assets/Inventory/Images/e4c6ba57-050a-4aad-8cb7-69b9ad27f0f9/f2504fc6-f517-4ee4-95c8-dfc702a559d7/9BGEB69H0NG203812_637896070136411172.jpg",
-    },
-    {
-      id: "bb0aa2fd-8efe-4d49-a583-fcdbb8387107",
-      brand: "test",
-      model: "test",
-      year: "test",
-      fuel: "test",
-      km: "10",
-      color: "test",
-      price: "95",
-      fipe: "100",
-      description: "test",
-      is_good_price: true,
-      published: true,
-      cover_image:
-        "https://assets-cdn.static-gm.com/Assets/Inventory/Images/e4c6ba57-050a-4aad-8cb7-69b9ad27f0f9/f2504fc6-f517-4ee4-95c8-dfc702a559d7/9BGEB69H0NG203812_637896070136411172.jpg",
-    },
-  ];
 
   return (
     <ContainerProfile>
@@ -120,10 +59,14 @@ export const AnnouncerProfileCard = () => {
             marginTop={{ base: "65px", xl: "75px" }}
           >
             <Flex flexDirection={"column"} w={"104px"} h={"104px"}>
-              <Image src={imgPerfil} alt="Foto do usuário" />
+              <Image
+                src={carsUser.image_url}
+                borderRadius={"full"}
+                alt="Foto do usuário"
+              />
             </Flex>
             <Text as={"h2"} fontWeight={600} fontSize={"20px"}>
-              Samuel Leão
+              {carsUser.name}
             </Text>
             <Text
               as={"p"}
@@ -133,29 +76,25 @@ export const AnnouncerProfileCard = () => {
               color={"grey.2"}
               fontFamily={"inter"}
             >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's
+              {carsUser.description}
             </Text>
           </Flex>
           <UlCardCars>
-            {cars.map((card) => {
-              return (
-                <Box margin="0px">
-                  <CarCard
-                    description={card.description}
-                    image={card.cover_image}
-                    km={card.km}
-                    price={card.price}
-                    nameCar={card.model}
-                    brandCar={card.brand}
-                    year={card.year}
-                    id={card.id}
-                    key={card.id}
-                    userName="usuário"
-                  />
-                </Box>
-              );
-            })}
+            {carsUser.cars?.map((card) => (
+              <Box margin="0px" key={card.id}>
+                <CarCard
+                  description={card.description}
+                  image={card.cover_image}
+                  km={card.km}
+                  price={card.price}
+                  model={card.model}
+                  brandCar={card.brand}
+                  year={card.year}
+                  id={card.id}
+                  userName={carsUser.name}
+                />
+              </Box>
+            ))}
           </UlCardCars>
         </Box>
         <Box>

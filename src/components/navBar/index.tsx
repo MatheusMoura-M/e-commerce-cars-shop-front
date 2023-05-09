@@ -38,10 +38,9 @@ const Header = () => {
     GetUserProfile,
   } = useAuth();
 
-  localStorage.getItem("@token") &&
-    useEffect(() => {
-      GetUserProfile();
-    }, []);
+  useEffect(() => {
+    localStorage.getItem("@token") && GetUserProfile();
+  }, []);
 
   return (
     <Box

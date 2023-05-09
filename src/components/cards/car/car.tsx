@@ -4,7 +4,7 @@ import { Box, Image, Text, Heading, Button } from "@chakra-ui/react";
 import { useAuth } from "../../../context/webContext";
 
 interface iCardProps {
-  nameCar: string;
+  model: string;
   brandCar: string;
   description: string;
   price: string;
@@ -13,14 +13,14 @@ interface iCardProps {
   year: string;
   km: string;
   id: string;
-  buttonStatus?: boolean
-  isPublished?: boolean
-  isGoodPrice?: boolean
+  buttonStatus?: boolean;
+  isPublished?: boolean;
+  isGoodPrice?: boolean;
 }
 
 const CarCard = ({
   buttonStatus,
-  nameCar,
+  model,
   brandCar,
   description,
   price,
@@ -30,9 +30,8 @@ const CarCard = ({
   km,
   isPublished,
   isGoodPrice,
-  id
+  id,
 }: iCardProps) => {
-
   const { GetCarSpecific, navigate } = useAuth();
 
   return (
@@ -46,37 +45,37 @@ const CarCard = ({
       <Box className="container-image">
         <img src={image} alt="Imagem do carro" />
 
-        {
-          buttonStatus && <Button 
+        {buttonStatus && (
+          <Button
             position={"absolute"}
             top="9px"
             left="15px"
-            backgroundColor={ isPublished == true ? "brand.1" : "grey.4"}
+            backgroundColor={isPublished == true ? "brand.1" : "grey.4"}
             color="grey.10"
             fontSize="14px"
             fontWeight="500"
             paddingTop="2px"
             borderRadius="0px"
-            _hover={ isPublished ? {bgColor: "brand.2"} : {bgColor: "brand.2"}}
+            _hover={
+              isPublished ? { bgColor: "brand.2" } : { bgColor: "brand.2" }
+            }
             height="32px"
             width="70px"
             fontFamily={"'Inter', sans-serif"}
           >
             {isPublished ? "Ativo" : "Inativo"}
           </Button>
-            
-        }
-        
-        {
-          isGoodPrice &&
+        )}
+
+        {isGoodPrice && (
           <Text as="span">
             <MdAttachMoney className="money-icon" />
           </Text>
-        }
+        )}
       </Box>
 
       <Box as="section" className="container-information">
-        <h3>{`${nameCar} - ${brandCar}`}</h3>
+        <h3>{`${model} - ${brandCar}`}</h3>
 
         <Text as="p">{description}</Text>
       </Box>

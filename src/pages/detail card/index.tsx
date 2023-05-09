@@ -38,8 +38,9 @@ export const DetailCard = () => {
     GetCarSpecific,
     onListComment,
     userLogged,
+    goToAnnouncerProfile,
   } = useAuth();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onClose } = useDisclosure();
 
   const getDayComment = (date: Date) => {
     const dateNow = new Date();
@@ -75,7 +76,6 @@ export const DetailCard = () => {
 
   return (
     <>
-      {/* <Button onClick={onOpen}>Open Modal</Button> */}
       <Header />
       <ContainerDetailCard>
         <Container
@@ -312,6 +312,7 @@ export const DetailCard = () => {
                 w={206}
                 borderRadius={4}
                 fontFamily={"inter"}
+                onClick={() => goToAnnouncerProfile(ownerOfAdSelected.id)}
               >
                 Ver todos anúncios
               </Button>

@@ -14,8 +14,8 @@ const RoutesMain = () => {
       <Route path="/register" element={<RegisterUserPage />} />
       <Route path="/detail-card/:id" element={<DetailCard />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/user-profile" element={<ProfileCard />} />
-      <Route path="+" element={<AnnouncerProfileCard />} />
+      <Route path="/profile" element={<ProfileCard />} />
+      <Route path="/announcer-profile/:id" element={<AnnouncerProfileCard />} />
       <Route path="/resetpass/:token" element={<ResetPasswordPage />} />
     </Routes>
   );
