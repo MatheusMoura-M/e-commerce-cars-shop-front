@@ -29,8 +29,12 @@ export interface iAuthProviderData {
   MenuHamburguer: ({ children }: iProviderProps) => JSX.Element;
   show: boolean;
   setShow: Dispatch<SetStateAction<boolean>>;
+  showConfirm: boolean;
+  setShowConfirm: Dispatch<SetStateAction<boolean>>;
   passType: string;
   setPassType: Dispatch<SetStateAction<string>>;
+  confirmPassType: string;
+  setConfirmPassType: Dispatch<SetStateAction<string>>;
   Login: (user: iLoginProps) => void;
   getCarsBrands: () => Promise<void>;
   getCarModels: () => Promise<void>;
@@ -109,7 +113,9 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const [isLogged, setIsLogged] = useState(false);
   const [show, setShow] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [passType, setPassType] = useState("password");
+  const [confirmPassType, setConfirmPassType] = useState("password");
   const [brandsAndModels, setBrandsAndModels] = useState<[]>([]);
   const [brands, setBrands] = useState<string[]>([]);
   const [brandSelect, setBrandSelect] = useState<string>("");
@@ -543,6 +549,10 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         goToAnnouncerProfile,
         setCarsUser,
         carsUser,
+        showConfirm,
+        setShowConfirm,
+        confirmPassType,
+        setConfirmPassType,
       }}
     >
       {children}

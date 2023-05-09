@@ -18,7 +18,8 @@ export interface IHeaderProps {
 }
 
 export interface iShowPass {
-  showPass: boolean;
+  showPass: boolean | undefined;
+  showConfirmPass: boolean | undefined;
 }
 
 export interface InputProps extends ChakraInputProps {
@@ -32,6 +33,7 @@ export interface InputProps extends ChakraInputProps {
   formWidth?: string;
   type?: string;
   showPass?: boolean;
+  showConfirmPass?: boolean;
   marginTopForm?: string;
   value: string | number;
   // error?: FieldErrors<iCommentRequest> | null;
