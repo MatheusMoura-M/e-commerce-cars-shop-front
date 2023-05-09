@@ -11,12 +11,10 @@ import {
   Show,
 } from "@chakra-ui/react";
 import imgLogo from "../../assets/LogoHeader.svg";
-import imgPerfil from "../../assets/ImgPerfil.svg";
 import { useAuth } from "../../context/webContext";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { ModalUpdateAddress } from "../modals/updateAddress/updateAddress.modal";
 import ModalEditUser from "../modals/editProfile/updateUser.modal";
-import { iCommentRequest } from "../../interface/comment.interface";
 import { useEffect } from "react";
 
 const BtnsDefault = ["Login", "Register"];
@@ -30,7 +28,6 @@ const BtnsIsLogged = [
 const Header = () => {
   const {
     MenuHamburguer,
-    returnHome,
     isLogged,
     isOpenAddress,
     onCloseAddress,
@@ -41,9 +38,10 @@ const Header = () => {
     GetUserProfile,
   } = useAuth();
 
-  useEffect(() => {
-    GetUserProfile();
-  }, []);
+  localStorage.getItem("@token") &&
+    useEffect(() => {
+      GetUserProfile();
+    }, []);
 
   return (
     <Box
@@ -57,7 +55,7 @@ const Header = () => {
       <Flex h={"100%"} justifyContent={"space-between"}>
         <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
           <Image
-            onClick={returnHome}
+            onClick={() => navigate("/")}
             w={[130, null, 140, 153.02]}
             h={[20.1, null, 23, 26.34]}
             src={imgLogo}
@@ -119,16 +117,9 @@ const Header = () => {
                 pt={"0px"}
                 bg={"#FDFDFD"}
               >
-                <MenuHamburguer key="Editar Perfil">
-                  Editar Perfil
-                </MenuHamburguer>
-                <MenuHamburguer key="Editar Endereço">
-                  Editar Endereço
-                </MenuHamburguer>
-                <MenuHamburguer key="Meus Anuncios">
-                  Meus Anuncios
-                </MenuHamburguer>
-                <MenuHamburguer key="Sair">Sair</MenuHamburguer>
+                {BtnsIsLogged.map((link) => (
+                  <MenuHamburguer key={link}>{link}</MenuHamburguer>
+                ))}
               </MenuList>
             </Menu>
           </Flex>

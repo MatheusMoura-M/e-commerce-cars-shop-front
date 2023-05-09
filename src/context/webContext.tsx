@@ -18,11 +18,13 @@ import { instance, instanceKenzieCars } from "../services/api";
 import { iCar, iCarResponse, iCreateCarAd } from "../interface/car.interface";
 import { getCarSpecificResponse } from "../services/getCarSpecificResponse";
 import { getUserSpecificReponse } from "../services/getUserSpecificResponse";
-import { iCommentRequest } from "../interface/comment.interface";
+import {
+  iCommentRequest,
+  iCommentsListResponse,
+} from "../interface/comment.interface";
 import { createCommentResponse } from "../services/createCommentResponse";
 
 export interface iAuthProviderData {
-  returnHome: () => void;
   MenuHamburguer: ({ children }: iProviderProps) => JSX.Element;
   show: boolean;
   setShow: Dispatch<SetStateAction<boolean>>;
@@ -50,6 +52,9 @@ export interface iAuthProviderData {
   isOpenUpdateUser: boolean;
   onOpenUpdateUser: () => void;
   onCloseUpdateUser: () => void;
+  isOpenUpdateComment: boolean;
+  onOpenUpdateComment: () => void;
+  onCloseUpdateComment: () => void;
   onUpdateAddress: (data: iUpdateAddress) => Promise<void>;
   onUpdateUser: (data: iUpdateUser) => Promise<void>;
   onDeleteUser: () => Promise<void>;
@@ -68,6 +73,7 @@ export interface iAuthProviderData {
   userCars: iCar[];
   selectedCar: iCar;
   setSelectedCar: (car: iCar) => void;
+  comments: iCommentsListResponse[];
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -88,6 +94,12 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     onClose: onCloseUpdateUser,
   } = useDisclosure();
 
+  const {
+    isOpen: isOpenUpdateComment,
+    onOpen: onOpenUpdateComment,
+    onClose: onCloseUpdateComment,
+  } = useDisclosure();
+
   const [isLogged, setIsLogged] = useState(false);
   const [show, setShow] = useState(false);
   const [passType, setPassType] = useState("password");
@@ -105,10 +117,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const [userLogged, setUserLogged] = useState<iUser>({} as iUser);
   const [userCars, setUserCars] = useState<iCar[]>([] as iCar[]);
   const [selectedCar, setSelectedCar] = useState({} as iCar);
-
-  const returnHome = () => {
-    navigate("/");
-  };
+  const [comments, setComments] = useState<iCommentsListResponse[]>([]);
 
   const goToProfile = () => {
     navigate("/user-profile");
@@ -164,6 +173,22 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     } catch (error) {
       console.log(error);
       toast.error("Algo deu errado");
+    }
+  };
+
+  const GetUserProfile = async () => {
+    try {
+      const resp = await instance.get("/user/profile", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
+
+      setUserLogged(resp.data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        error.response?.data.error === "jwt expired" &&
+          localStorage.removeItem("@token");
+      }
+      console.log(error);
     }
   };
 
@@ -293,26 +318,12 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       const response = await instance.patch("/address", data);
 
       toast.success("Address atualizado com sucesso", {
-        position: "top-right",
         autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
       });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.error.errors[0], {
-          position: "top-right",
           autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
         });
       }
     }
@@ -323,26 +334,12 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       const response = await instance.patch("/user", data);
 
       toast.success("Usuário atualizado com sucesso", {
-        position: "top-right",
         autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
       });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.error.errors[0], {
-          position: "top-right",
           autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
         });
       }
     }
@@ -372,14 +369,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       if (axios.isAxiosError(error)) {
         console.log(error);
         toast.error(error.response?.data.error.errors[0], {
-          position: "top-right",
           autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
         });
       }
     }
@@ -441,7 +431,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
             : children === "Meus Anuncios"
             ? goToProfile
             : children === "Sair"
-            ? returnHome
+            ? () => navigate("/")
             : undefined
         }
       >
@@ -457,7 +447,10 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       setCarAdSelected(data);
       GetUserProfile();
     } catch (error) {
-      console.log(error);
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        error.response?.data.error === "Car not found!" && navigate("/");
+      }
     }
   };
 
@@ -471,11 +464,10 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     }
   };
 
-  const GetUserProfile = async () => {
+  const onListComment = async (id: string) => {
     try {
-      const resp = await instance.get("/user/profile");
-
-      setUserLogged(resp.data);
+      const commentsCar = await instance.get(`/comments/${id}`);
+      setComments(commentsCar.data);
     } catch (error) {
       console.log(error);
     }
@@ -500,7 +492,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         setPassType,
         show,
         setShow,
-        returnHome,
         Login,
         getCarsBrands,
         brands,
@@ -515,14 +506,17 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         onCreateCarAd,
         onUpdateCarAd,
         onDeleteCarAd,
+        isOpenUpdateComment,
+        onOpenUpdateComment,
+        onCloseUpdateComment,
         isOpenAddress,
         onOpenAddress,
         onCloseAddress,
-        isLogged,
-        setIsLogged,
         isOpenUpdateUser,
         onOpenUpdateUser,
         onCloseUpdateUser,
+        isLogged,
+        setIsLogged,
         onUpdateAddress,
         onUpdateUser,
         onDeleteUser,
@@ -540,6 +534,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         onRegisterSubmit,
         selectedCar,
         setSelectedCar,
+        comments,
       }}
     >
       {children}

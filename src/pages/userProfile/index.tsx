@@ -53,10 +53,14 @@ export const ProfileCard = () => {
             marginTop={{ base: "65px", xl: "75px" }}
           >
             <Flex flexDirection={"column"} w={"104px"} h={"104px"}>
+<<<<<<< HEAD
               <Image
                 src={userLogged.image_url}
                 alt="Foto de perfil do usuário"
               />
+=======
+              <Image src={imgPerfil} alt="Foto do usuário" />
+>>>>>>> 7bbc720a3991a539737efd75c1dc4779f094cc0a
             </Flex>
             <Text as={"h2"} fontWeight={600} fontSize={"20px"}>
               {userLogged.name}

@@ -1,5 +1,4 @@
 import { Button, Container, Flex, HStack, Image, Text } from "@chakra-ui/react";
-import ImgPerfil from "../../assets/ImgPerfil.svg";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "../form/input";
@@ -11,15 +10,7 @@ import { useParams } from "react-router-dom";
 
 export const BoxComment = () => {
   const { id } = useParams();
-
-  const {
-    returnHome,
-    isLogged,
-    setIsLogged,
-    carAdSelected,
-    onCreateComment,
-    userLogged,
-  } = useAuth();
+  const { isLogged, onCreateComment, userLogged, navigate } = useAuth();
   const [commentInput, setCommentInput] = useState<string>("");
 
   const {
@@ -66,10 +57,10 @@ export const BoxComment = () => {
         {isLogged && (
           <HStack gap={"8px"} w={126}>
             <Image
+              borderRadius={"full"}
               src={userLogged.image_url}
               alt="Img do usuário"
               w={"32px"}
-              h={"32px"}
             />
             <Text
               as={"h3"}
@@ -151,7 +142,7 @@ export const BoxComment = () => {
                 h={38}
                 fontSize={"14px"}
                 fontFamily={"inter"}
-                onClick={returnHome}
+                onClick={() => navigate("/login")}
               >
                 Comentar
               </Button>
