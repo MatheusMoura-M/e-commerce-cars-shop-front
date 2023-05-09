@@ -14,12 +14,19 @@ const CardCardList = ({ pageCard }: any) => {
     isLoading,
     filteredCars,
     isFilter,
-    filterFieldsSelected,
+    filterOptionsMenu,
     filterCarList,
+    isInputFilter,
+    inputCarsFiltered,
+    modelSelected,
+    brandSelected,
+    yearSelected,
+    colorSelected,
+    fuelSelected
   } = useContext(contextHomeProvider);
 
   useEffect(() => {
-    filterFieldsSelected();
+    filterOptionsMenu();
     filterCarList();
   }, []);
 
@@ -33,7 +40,31 @@ const CardCardList = ({ pageCard }: any) => {
     );
   }
 
-  if (filteredCars.length != 0 && !isLoading) {
+  if (
+    (filteredCars.length == 0 && isFilter && !isLoading && !isInputFilter) ||
+    (inputCarsFiltered.length == 0 && isInputFilter)
+  ) {
+    return (
+      <UlCardCars>
+        <Box mt="50px">
+          <Text as="h2" fontSize="1.3rem">
+            Nenhum carro encontrado &#128533;
+          </Text>
+        </Box>
+      </UlCardCars>
+    );
+  }else if (carAd.length == 0 && !isFilter && !isInputFilter) {
+    return (
+      <UlCardCars>
+        <Box mt="50px">
+          <Text as="h2" fontSize="1.3rem">
+            Nenhum carro cadastrado &#128533;
+          </Text>
+        </Box>
+      </UlCardCars>
+    );
+  }else{
+
     return (
       <UlCardCars>
         {pageCard.map((card: iCar, i: number) => {
@@ -58,53 +89,6 @@ const CardCardList = ({ pageCard }: any) => {
     );
   }
 
-  if (!isLoading && !isFilter && carAd.length != 0) {
-    return (
-      <UlCardCars>
-        {pageCard.map((card: iCar, i: number) => {
-          return (
-            <CarCard
-              description={card.description}
-              image={card.cover_image}
-              km={card.km}
-              price={card.price}
-              model={card.model}
-              brandCar={card.brand}
-              year={card.year}
-              key={card.id}
-              userName="usuário"
-              id={card.id}
-              buttonStatus
-              isPublished={false}
-              isGoodPrice
-            />
-          );
-        })}
-      </UlCardCars>
-    );
-  }
-
-  if (filteredCars.length == 0 && isFilter === true && !isLoading) {
-    return (
-      <UlCardCars>
-        <Box mt="50px">
-          <Text as="h2" fontSize="1.3rem">
-            Nenhum carro encontrado &#128533;
-          </Text>
-        </Box>
-      </UlCardCars>
-    );
-  }
-
-  return (
-    <UlCardCars>
-      <Box mt="50px">
-        <Text as="h2" fontSize="1.3rem">
-          Nenhum carro cadastrado &#128533;
-        </Text>
-      </Box>
-    </UlCardCars>
-  );
 };
 
 export default CardCardList;

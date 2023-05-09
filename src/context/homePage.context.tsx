@@ -36,7 +36,7 @@ interface iHomeContext {
   isFilter: boolean;
   setIsFilter: React.Dispatch<React.SetStateAction<boolean>>;
   setBrands: React.Dispatch<React.SetStateAction<string[]>>;
-  filterFieldsSelected(): void;
+  filterOptionsMenu(): void;
   minKm: string;
   setMinKm: React.Dispatch<React.SetStateAction<string>>;
   maxKm: string;
@@ -50,6 +50,15 @@ interface iHomeContext {
   selectedCar: iCarResponse;
   setSelectedCar(car: iCarResponse): void;
   clearFilter(): void;
+  inputCarsFiltered: iCar[];
+  setInputCarsFiltered: React.Dispatch<React.SetStateAction<iCar[]>>;
+  isInputFilter: boolean;
+  setIsInputFilter: React.Dispatch<React.SetStateAction<boolean>>;
+  isOnlyInputsFilter: boolean, 
+  setOnlyInputFilter: React.Dispatch<React.SetStateAction<boolean>>
+  inputStatus(value: string, inputField: string): void
+  filteredAlready: boolean
+  setFilteredAlready: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const contextHomeProvider = createContext({} as iHomeContext);
@@ -60,7 +69,11 @@ const HomePageContext = ({ children }: iChildren) => {
     {} as iCarResponse
   );
   const [filteredCars, setFilteredCar] = useState<iCar[]>([]);
+  const [inputCarsFiltered, setInputCarsFiltered] = useState<iCar[]>([]);
+
   const [isFilter, setIsFilter] = useState<boolean>(false);
+  const [isInputFilter, setIsInputFilter] = useState<boolean>(false);
+  const [isOnlyInputsFilter, setOnlyInputFilter] = useState<boolean>(false)
 
   const [brands, setBrands] = useState<string[]>([]);
   const [colors, setColors] = useState<string[]>([]);
@@ -81,6 +94,8 @@ const HomePageContext = ({ children }: iChildren) => {
   const [minPrice, setMinPrice] = useState<string>("");
   const [maxPrice, setMaxPrice] = useState<string>("");
 
+  const [filteredAlready, setFilteredAlready] = useState<boolean>(false)
+
   const GetCardsAd = async () => {
     try {
       setIsLoading(true);
@@ -96,11 +111,17 @@ const HomePageContext = ({ children }: iChildren) => {
   };
 
   const filterCarList = () => {
+
     if (brandSelected) {
+
       const filtered = carAd.filter((car) => car.brand == brandSelected);
+
       setFilteredCar(filtered);
+
     } else if (modelSelected) {
+
       const filtered = carAd.filter((car) => car.model == modelSelected);
+
       setFilteredCar(filtered);
     } else if (colorSelected) {
       const filtered = carAd.filter((car) => car.color == colorSelected);
@@ -246,66 +267,66 @@ const HomePageContext = ({ children }: iChildren) => {
 
   //-------------------------------------------------------------------------------------------------------------------//
 
-  const filterFieldsSelected = () => {
+  const filterOptionsMenu = () => {
+
     const colorArr: string[] = [];
     const modelArr: string[] = [];
     let yaersArr: string[] = [];
     const fuelArr: string[] = [];
     const brandArr: string[] = [];
 
-    if (filteredCars.length != 0) {
-      [];
+    if(filteredCars.length != 0 && isFilter){
+
       filteredCars.forEach((car) => {
+
         if (!brandArr.includes(car.brand)) {
           brandArr.push(car.brand);
         }
-
+  
         if (!colorArr.includes(car.color)) {
           colorArr.push(car.color);
         }
-
+  
         if (!modelArr.includes(car.model)) {
           modelArr.push(car.model);
         }
-
+  
         if (!yaersArr.includes(car.year)) {
           yaersArr.push(car.year);
         }
-
+  
         if (!fuelArr.includes(car.fuel)) {
           fuelArr.push(car.fuel);
         }
-
-        if (!brandArr.includes(car.brand)) {
-          brandArr.push(car.brand);
-        }
+  
       });
 
-      filterCarList();
-    } else {
-      setIsFilter(false);
-
+    }else{
+      
       carAd.forEach((car) => {
+  
         if (!brandArr.includes(car.brand)) {
           brandArr.push(car.brand);
         }
-
+  
         if (!colorArr.includes(car.color)) {
           colorArr.push(car.color);
         }
-
+  
         if (!modelArr.includes(car.model)) {
           modelArr.push(car.model);
         }
-
+  
         if (!yaersArr.includes(car.year)) {
           yaersArr.push(car.year);
         }
-
+  
         if (!fuelArr.includes(car.fuel)) {
           fuelArr.push(car.fuel);
         }
+  
       });
+
     }
 
     const arrOrdered = yaersArr.sort((a, b) => +b - +a);
@@ -316,81 +337,251 @@ const HomePageContext = ({ children }: iChildren) => {
     setFuels(fuelArr);
     setModels(modelArr);
     setYears(yaersArr);
+
   };
+
+  const inputStatus = (value: string, inputField: string) => {
+
+    if(inputField == minKm){
+
+      if(value && !isInputFilter){
+        setIsInputFilter(true)
+
+      }else if(!maxKm && !minPrice && !maxPrice && !value){
+        setIsInputFilter(false)
+      }
+
+    }
+
+    if(inputField == maxKm){
+
+      if(value && !isInputFilter){
+        setIsInputFilter(true)
+
+      }else if(!minKm && !minPrice && !maxPrice && !value){
+        setIsInputFilter(false)
+      }
+
+    }
+
+    if(inputField == minPrice){
+
+      if(value && !isInputFilter){
+        setIsInputFilter(true)
+
+      }else if(!minKm && !maxKm && !maxPrice && !value){
+        setIsInputFilter(false)
+      }
+
+    }
+
+    if(inputField == maxPrice){
+
+      if(value && !isInputFilter){
+        setIsInputFilter(true)
+
+      }else if(!minKm && !maxKm && !minPrice && !value){
+        setIsInputFilter(false)
+      }
+
+    }
+
+  }
 
   const FilterInputs = () => {
     //------------------------------------------------ KM INPUTS FILTER ------------------------------------------------//
 
-    if (minKm && !maxKm && !minPrice && !maxPrice) {
+    if (minKm && !maxKm && !minPrice && !maxPrice && !isFilter) {
+
       const filter = carAd.filter((car) => +car.km >= +minKm);
-      setFilteredCar(filter);
-    } else if (maxKm && !minKm && !minPrice && !maxPrice) {
+
+      setInputCarsFiltered(filter);
+
+    }else if (minKm && !maxKm && !minPrice && !maxPrice && isFilter) {
+
+      const filter = filteredCars.filter((car) => +car.km >= +minKm);
+
+      setInputCarsFiltered(filter);
+
+    }
+    
+    if (maxKm && !minKm && !minPrice && !maxPrice && isFilter) {
+
+      const filter = filteredCars.filter((car) => +car.km <= +maxKm);
+
+      setInputCarsFiltered(filter);
+
+    } else if (maxKm && !minKm && !minPrice && !maxPrice && !isFilter) {
+
       const filter = carAd.filter((car) => +car.km <= +maxKm);
 
-      setFilteredCar(filter);
-    } else if (minKm && maxKm && !minPrice && !maxPrice) {
+      setInputCarsFiltered(filter);
+
+    } else if (maxKm && minKm && !minPrice && !maxPrice && !isFilter) {
+
       const filter = carAd.filter(
         (car) => +car.km >= +minKm && +car.km <= +maxKm
       );
-      setFilteredCar(filter);
+
+      setInputCarsFiltered(filter);
+
+    } else if (maxKm && minKm && !minPrice && !maxPrice && isFilter) {
+
+      const filter = filteredCars.filter(
+        (car) => +car.km >= +minKm && +car.km <= +maxKm
+      );
+
+      setInputCarsFiltered(filter);
+
     }
 
     //----------------------------------------------- PRICE INPUTS FILTER ---------------------------------------------//
 
-    if (minPrice && !maxPrice && !minKm && !maxKm) {
+    if (minPrice && !maxPrice && !minKm && !maxKm && !isFilter) {
+
       const filter = carAd.filter((car) => +car.price >= +minPrice);
-      setFilteredCar(filter);
-    } else if (maxPrice && !minPrice && !minKm && !maxKm) {
+
+      setInputCarsFiltered(filter);
+
+    } else if ( minPrice && !maxPrice && !minKm && !maxKm && isFilter) {
+
+      const filter = filteredCars.filter((car) => +car.price >= +minPrice);
+      setInputCarsFiltered(filter);
+
+    } else if (maxPrice && !minPrice && !minKm && !maxKm && !isFilter) {
+
       const filter = carAd.filter((car) => +car.price <= +maxPrice);
-      setFilteredCar(filter);
-    } else if (minPrice && maxPrice && !minKm && !maxKm) {
+
+      setInputCarsFiltered(filter);
+
+    } else if (maxPrice && !minPrice && !minKm && !maxKm && isFilter) {
+
+      const filter = filteredCars.filter((car) => +car.price <= +maxPrice);
+
+      setInputCarsFiltered(filter);
+
+    } else if (maxPrice && minPrice && !minKm && !maxKm && !isFilter){
+
       const filter = carAd.filter(
         (car) => +car.price >= +minPrice && +car.price <= +maxPrice
       );
-      setFilteredCar(filter);
+
+      setInputCarsFiltered(filter);
+
+    } else if (maxPrice && minPrice && !minKm && !maxKm && isFilter) {
+
+      const filter = filteredCars.filter(
+        (car) => +car.price >= +minPrice && +car.price <= +maxPrice
+      );
+
+      setInputCarsFiltered(filter);
+
     }
 
     //------------------------------------------- PRICE AND KM INPUTS FILTER -----------------------------------------//
 
-    if (minPrice && !maxPrice && minKm && !maxKm) {
+    if (minPrice && minKm && !maxPrice && !maxKm && !isFilter) {
+
       const filter = carAd.filter(
         (car) => +car.price >= +minPrice && +car.km >= +minKm
       );
 
-      setFilteredCar(filter);
-    } else if (!minPrice && maxPrice && !minKm && maxKm) {
+      setInputCarsFiltered(filter);
+
+    } else if ( minPrice && minKm && !maxPrice && !maxKm && isFilter) {
+
+      const filter = filteredCars.filter(
+        (car) => +car.price >= +minPrice && +car.km >= +minKm
+      );
+
+      setInputCarsFiltered(filter);
+
+    } else if (maxPrice && maxKm && !minKm && !minPrice && !isFilter) {
+
       const filter = carAd.filter(
         (car) => +car.price <= +maxPrice && +car.km <= +maxKm
       );
 
-      setFilteredCar(filter);
-    } else if (minPrice && maxKm && !maxPrice && !minKm) {
+      setInputCarsFiltered(filter);
+
+    } else if (maxPrice && maxKm && !minPrice && !minKm && isFilter) {
+
+      const filter = filteredCars.filter(
+        (car) => +car.price <= +maxPrice && +car.km <= +maxKm
+      );
+
+      setInputCarsFiltered(filter);
+
+    } else if (minPrice && maxKm && !maxPrice && !minKm && !isFilter) {
+
       const filter = carAd.filter(
         (car) => +car.km <= +maxKm && +car.price >= +minPrice
       );
 
-      setFilteredCar(filter);
-    } else if (maxPrice && minKm && !minPrice && !maxKm) {
+      setInputCarsFiltered(filter);
+
+    } else if (minPrice && maxKm && !maxPrice && !minKm && isFilter) {
+
+      const filter = filteredCars.filter(
+        (car) => +car.km <= +maxKm && +car.price >= +minPrice
+      );
+
+      setInputCarsFiltered(filter);
+
+    } else if ( maxPrice && minKm && !minPrice && !maxKm && !isFilter) {
+
       const filter = carAd.filter(
         (car) => +car.km >= +minKm && +car.price <= +maxPrice
       );
 
-      setFilteredCar(filter);
-    } else if (!minPrice && maxPrice && minKm && maxKm) {
+      setInputCarsFiltered(filter);
+
+    } else if (maxPrice && minKm && !minPrice && !maxKm && isFilter) {
+
+      const filter = filteredCars.filter(
+        (car) => +car.km >= +minKm && +car.price <= +maxPrice
+      );
+
+      setInputCarsFiltered(filter);
+
+    } else if (maxPrice && minKm && maxKm && !minPrice && !isFilter ) {
+
       const filter = carAd.filter(
         (car) =>
           +car.km <= +maxKm && +car.km >= +minKm && +car.price <= +maxPrice
       );
 
-      setFilteredCar(filter);
-    } else if (minPrice && !maxPrice && minKm && maxKm) {
+      setInputCarsFiltered(filter);
+
+    } else if (maxPrice && minKm && maxKm && !minPrice && isFilter) {
+
+      const filter = filteredCars.filter(
+        (car) =>
+          +car.km <= +maxKm && +car.km >= +minKm && +car.price <= +maxPrice
+      );
+
+      setInputCarsFiltered(filter);
+
+    } else if (minPrice && minKm && maxKm && !maxPrice && !isFilter) {
+
       const filter = carAd.filter(
         (car) =>
           +car.price >= +minPrice && +car.km <= +maxKm && +car.km >= +minKm
       );
 
-      setFilteredCar(filter);
-    } else if (minPrice && maxPrice && minKm && maxKm) {
+      setInputCarsFiltered(filter);
+
+    } else if (minPrice && minKm && maxKm && !maxPrice && isFilter) {
+
+      const filter = filteredCars.filter(
+        (car) =>
+          +car.price >= +minPrice && +car.km <= +maxKm && +car.km >= +minKm
+      );
+
+      setInputCarsFiltered(filter);
+
+    } else if (minPrice && maxPrice && minKm && maxKm && !isFilter) {
+
       const filter = carAd.filter(
         (car) =>
           +car.price >= +minPrice &&
@@ -399,12 +590,26 @@ const HomePageContext = ({ children }: iChildren) => {
           +car.km >= +minKm
       );
 
-      setFilteredCar(filter);
+      setInputCarsFiltered(filter);
+
+    } else if (minPrice && maxPrice && minKm && maxKm && isFilter) {
+
+      const filter = filteredCars.filter(
+        (car) =>
+          +car.price >= +minPrice &&
+          +car.price <= +maxPrice &&
+          +car.km <= +maxKm &&
+          +car.km >= +minKm
+      );
+
+      setInputCarsFiltered(filter);
+
     }
   };
 
   const clearFilter = () => {
     setIsFilter(false);
+    setIsInputFilter(false)
     setFilteredCar([]);
     setBrandSelected("");
     setModelSelected("");
@@ -415,6 +620,8 @@ const HomePageContext = ({ children }: iChildren) => {
     setMinKm("");
     setMinPrice("");
     setMaxPrice("");
+    GetCardsAd()
+
   };
 
   return (
@@ -449,7 +656,7 @@ const HomePageContext = ({ children }: iChildren) => {
         isFilter,
         setIsFilter,
         setBrands,
-        filterFieldsSelected,
+        filterOptionsMenu,
         minKm,
         setMinKm,
         maxKm,
@@ -463,6 +670,15 @@ const HomePageContext = ({ children }: iChildren) => {
         selectedCar,
         setSelectedCar,
         clearFilter,
+        inputCarsFiltered,
+        setInputCarsFiltered,
+        isInputFilter,
+        setIsInputFilter,
+        isOnlyInputsFilter,
+        setOnlyInputFilter,
+        inputStatus,
+        filteredAlready, 
+        setFilteredAlready
       }}
     >
       {children}

@@ -61,6 +61,7 @@ export const BoxComment = () => {
               src={userLogged.image_url}
               alt="Img do usuário"
               w={"32px"}
+              h={"32px"}
             />
             <Text
               as={"h3"}

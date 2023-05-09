@@ -15,11 +15,10 @@ import { Footer } from "../../components/footer";
 import { useState, useContext, useEffect } from "react";
 import { contextHomeProvider } from "../../context/homePage.context";
 import CardCardList from "./cardCarSection";
-import { useAuth } from "../../context/webContext";
+
 
 export const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { getAddressLogged } = useAuth();
   const [currentPage, setCurrentPage] = useState(0);
   const arraySkelotons = new Array(12).fill("cards");
 
@@ -31,9 +30,16 @@ export const Home = () => {
     carAd,
     GetCardsAd,
     filteredCars,
-    filterFieldsSelected,
+    filterOptionsMenu,
     filterCarList,
     isFilter,
+    inputCarsFiltered,
+    isInputFilter,
+    brandSelected,
+    modelSelected,
+    colorSelected,
+    yearSelected, 
+    fuelSelected,
   } = useContext(contextHomeProvider);
 
   const pageLimit =
@@ -53,22 +59,29 @@ export const Home = () => {
 
   useEffect(() => {
     GetCardsAd();
-    filterFieldsSelected();
+    filterOptionsMenu();
     filterCarList();
     pageCard();
-    // getAddressLogged();
-  }, []);
-
+  }, [
+    brandSelected,
+    modelSelected,
+    colorSelected,
+    yearSelected, 
+    fuelSelected
+  ]);
+  
   useEffect(() => {
     pageCard();
-  }, [filteredCars]);
+  }, [isFilter]);
 
   const pageCard = () => {
     let cards: any = [];
-
-    if (filteredCars.length != 0 && isFilter) {
+    
+    if (filteredCars.length != 0 && isFilter && !isInputFilter) {
       cards = filteredCars.slice(startSliceAt, endSliceAt);
-    } else if (filteredCars.length == 0) {
+    } else if ((isInputFilter && !isFilter) || isFilter) {
+      cards = inputCarsFiltered.slice(startSliceAt, endSliceAt);
+    } else if (!isFilter && !isInputFilter) {
       cards = carAd.slice(startSliceAt, endSliceAt);
     }
 

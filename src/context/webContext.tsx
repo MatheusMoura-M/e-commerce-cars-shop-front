@@ -142,6 +142,21 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     navigate("/profile");
   };
 
+  const GetUserProfile = async () => {
+    
+    try {
+      const resp = await instance.get("/user/profile", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
+
+      // navigate("/login", {replace: true})
+
+      setUserLogged(resp.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const goToAnnouncerProfile = (id: string) => {
     navigate(`/announcer-profile/${id}`);
   };
@@ -187,24 +202,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       if (axios.isAxiosError(error)) {
         console.log(error);
       }
-    }
-  };
-
-  const GetUserProfile = async () => {
-    try {
-      const resp = await instance.get("/user/profile", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
-      });
-
-      setUserLogged(resp.data);
-      setIsLogged(true);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        error.response?.data.error === "jwt expired" &&
-          localStorage.removeItem("@token");
-      }
-      navigate("/login");
-      console.log(error);
     }
   };
 
