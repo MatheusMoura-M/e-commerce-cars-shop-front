@@ -61,6 +61,10 @@ export const Form = styled.form`
     padding: 1rem;
   }
 
+  > div {
+    max-height: 45px;
+  }
+
   > p {
     font-size: 0.875rem;
     font-weight: 500;

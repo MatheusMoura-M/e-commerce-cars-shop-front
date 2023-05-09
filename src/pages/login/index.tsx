@@ -3,13 +3,13 @@ import Header from "../../components/navBar";
 import { ContainerFormLogin, ContainerLoginage, Form } from "./style";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { iLoginProps } from "../../interface/user.interface"
 import { AuthContext } from "../../context/webContext";
 import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
 import { Input } from "../../components/form/input";
 import { Button, useDisclosure } from "@chakra-ui/react";
 import ResetPassword from "../../components/modals/resetPassword/resetPassword.modal";
+import { iLoginProps } from "../../interface/user.interface";
 
 export const LoginPage = () => {
   const { Login, navigate } = useContext(AuthContext);
@@ -49,10 +49,12 @@ export const LoginPage = () => {
               bg: "grey.8",
             }}
             p="1rem"
+            minH="45px"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
+            errorMessage={errors.email?.message}
           />
-          {errors.email && <span>{errors.email.message}</span>}
+
           <label htmlFor="password-">Senha</label>
           <Input
             id="password"
@@ -64,11 +66,13 @@ export const LoginPage = () => {
               bg: "grey.8",
             }}
             p="1rem"
+            minH="45px"
             showPass
             onChange={(e) => setPassword(e.target.value)}
             value={password}
+            errorMessage={errors.password?.message}
           />
-          {errors.password && <span>{errors.password.message}</span>}
+
           <p onClick={onOpen}>Esqueci minha senha</p>
           <Button
             variant={"brand1"}
