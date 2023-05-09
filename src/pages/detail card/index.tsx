@@ -20,6 +20,7 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import ModalEditComment from "../../components/modals/editComment/updateComment.modal";
+import { iCommentResponse } from "../../interface/comment.interface";
 
 export const DetailCard = () => {
   const {
@@ -39,6 +40,7 @@ export const DetailCard = () => {
     onListComment,
     userLogged,
     goToAnnouncerProfile,
+    setSelectedCommentId,
   } = useAuth();
   const { isOpen, onClose } = useDisclosure();
 
@@ -73,6 +75,11 @@ export const DetailCard = () => {
     GetCarSpecific(id!);
     onListComment(id!);
   }, []);
+
+  const handleEditComment = (id: string) => {
+    onOpenUpdateComment();
+    setSelectedCommentId(id);
+  };
 
   return (
     <>
@@ -408,7 +415,9 @@ export const DetailCard = () => {
                               transition: ".5s",
                             }}
                             transition={".5s"}
-                            onClick={onOpenUpdateComment}
+                            onClick={() => {
+                              handleEditComment(comment.id);
+                            }}
                           >
                             <GiHamburgerMenu size={18} cursor={"pointer"} />
                           </Flex>
