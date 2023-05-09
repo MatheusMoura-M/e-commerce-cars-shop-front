@@ -85,6 +85,10 @@ export interface iAuthProviderData {
   onGetCarsUser: (id: string) => Promise<void>;
   setCarsUser: Dispatch<SetStateAction<iCarsUser>>;
   carsUser: iCarsUser;
+  onDeleteComment: (idComment: string) => Promise<void>;
+  onEditComment: (idComment: string, form: iCommentRequest) => Promise<void>;
+  selectedCommentId: string;
+  setSelectedCommentId: Dispatch<SetStateAction<string>>;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -132,6 +136,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const [userCarsProfile, setUserCarsProfile] = useState<iCar[]>([] as iCar[]);
   const [selectedCar, setSelectedCar] = useState({} as iCar);
   const [comments, setComments] = useState<iCommentsListResponse[]>([]);
+  const [selectedCommentId, setSelectedCommentId] = useState<string>("");
 
   const goToProfile = () => {
     navigate("/profile");
@@ -491,6 +496,30 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     }
   };
 
+  const onEditComment = async (idComment: string, form: iCommentRequest) => {
+    try {
+      const resp = await instance.patch(`/comments/${idComment}`, form, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
+
+      onListComment(resp.data.cars.id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onDeleteComment = async (idComment: string) => {
+    try {
+      await instance.delete(`/comments/${idComment}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
+
+      onListComment(carAdSelected.id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -553,6 +582,10 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         setShowConfirm,
         confirmPassType,
         setConfirmPassType,
+        onDeleteComment,
+        onEditComment,
+        selectedCommentId,
+        setSelectedCommentId,
       }}
     >
       {children}

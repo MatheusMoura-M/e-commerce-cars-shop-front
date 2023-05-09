@@ -23,7 +23,7 @@ interface iStatusModalUpdateUser {
 }
 
 const ModalEditComment = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
-  const {} = useAuth();
+  const { selectedCommentId, onEditComment, onDeleteComment } = useAuth();
   const [commentInput, setCommentInput] = useState<string>("");
 
   const {
@@ -35,7 +35,7 @@ const ModalEditComment = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
   });
 
   const onFormSubmit = (formData: iCommentRequest) => {
-    console.log(formData);
+    onEditComment(selectedCommentId, formData);
     setCommentInput("");
   };
 
@@ -118,7 +118,10 @@ const ModalEditComment = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                     fontSize={"14px"}
                     w={"150px"}
                     maxW={{ base: 120, xs1: 150, xs3: "110px" }}
-                    // onClick={() => onDeleteUser()}
+                    onClick={() => {
+                      onDeleteComment(selectedCommentId);
+                      onClose();
+                    }}
                   >
                     Excluir Perfil
                   </Button>
