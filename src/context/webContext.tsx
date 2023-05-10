@@ -154,10 +154,15 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       });
 
       // navigate("/login", {replace: true})
-
       setUserLogged(resp.data);
       setIsLogged(true);
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        error.response?.data.error && localStorage.removeItem("@token");
+        toast.error(error.response?.data.error, {
+          autoClose: 1000,
+        });
+      }
       console.log(error);
     }
   };

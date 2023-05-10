@@ -6,6 +6,7 @@ import {
   Container,
   Flex,
   Image,
+  Link,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -69,6 +70,7 @@ export const DetailCard = () => {
     return `Há ${differenceInDay} dias`;
   };
 
+  const linkWhats = `https://api.whatsapp.com/send?phone=55${ownerOfAdSelected.telephone}`;
   const { id } = useParams();
 
   useEffect(() => {
@@ -173,14 +175,25 @@ export const DetailCard = () => {
                 </Flex>
                 {isLogged ? (
                   <Button
+                    display={"flex"}
                     variant={"brand1"}
+                    p={0}
                     w={100}
                     h={38}
                     borderRadius={4}
                     fontSize={"14px"}
                     fontFamily={"inter"}
                   >
-                    Comprar
+                    <Link
+                      textDecoration={"none !important"}
+                      pt={"10px"}
+                      w={"100%"}
+                      h={"100%"}
+                      href={linkWhats}
+                      isExternal
+                    >
+                      Comprar
+                    </Link>
                   </Button>
                 ) : (
                   <Button

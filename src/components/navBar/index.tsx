@@ -29,6 +29,7 @@ const Header = () => {
   const {
     MenuHamburguer,
     isLogged,
+    setIsLogged,
     isOpenAddress,
     onCloseAddress,
     isOpenUpdateUser,
@@ -39,7 +40,10 @@ const Header = () => {
   } = useAuth();
 
   useEffect(() => {
-    localStorage.getItem("@token") && GetUserProfile();
+    if (localStorage.getItem("@token")) {
+      GetUserProfile();
+      setIsLogged(true);
+    }
   }, []);
 
   return (
@@ -80,7 +84,7 @@ const Header = () => {
                   borderColor={"grey.6"}
                   minH={"78px"}
                   display={"flex"}
-                  pl={[".5rem", "1rem", null, "1.7rem"]}
+                  pl={[".5rem", "1rem", null, null]}
                   pr={[".5rem", "1rem", null, "1.7rem"]}
                   alignItems={"center"}
                   gap={[null, ".5rem"]}
@@ -95,6 +99,9 @@ const Header = () => {
                     color={"grey.2"}
                     fontWeight={"400"}
                     fontSize={["14px", "15px", "16px"]}
+                    textOverflow={"ellipsis"}
+                    whiteSpace={"nowrap"}
+                    overflow={"hidden"}
                   >
                     {userLogged.name}
                   </Text>
