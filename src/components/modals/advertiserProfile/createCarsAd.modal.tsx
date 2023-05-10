@@ -50,7 +50,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
     handleSubmit,
     formState: { errors },
   } = useForm<iCreateCarAd>({
-    resolver: yupResolver(formSchemaCarAd),
+    // resolver: yupResolver(formSchemaCarAd),
   });
 
   const AddInputImage = () => {
@@ -96,8 +96,8 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
       published: true,
       is_good_price: false,
     };
-    console.log(newData);
     onCreateCarAd(newData);
+    onClose();
   };
 
   return (

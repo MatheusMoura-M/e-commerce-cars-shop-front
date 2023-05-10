@@ -13,7 +13,7 @@ import CarCard from "../../components/cards/car/car";
 import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/createCarsAd.modal";
 import { ModalEditCarAd } from "../../components/modals/advertiserProfile/editCarsAd.modal";
 import { useAuth } from "../../context/webContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const ProfileCard = () => {
   const {
@@ -22,6 +22,9 @@ export const ProfileCard = () => {
     setSelectedCar,
     selectedCar,
     onGetCarsUserProfile,
+    setIsBool,
+    isBool,
+    getCarModels2,
   } = useAuth();
 
   const {
@@ -124,6 +127,8 @@ export const ProfileCard = () => {
                       onClick={() => {
                         setSelectedCar(card);
                         onEditOpen();
+                        setIsBool(true);
+                        getCarModels2(card);
                       }}
                     >
                       Editar

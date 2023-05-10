@@ -94,6 +94,9 @@ export interface iAuthProviderData {
   onEditComment: (idComment: string, form: iCommentRequest) => Promise<void>;
   selectedCommentId: string;
   setSelectedCommentId: Dispatch<SetStateAction<string>>;
+  isBool: boolean;
+  setIsBool: Dispatch<SetStateAction<boolean>>;
+  getCarModels2: (selectedCar: iCar) => Promise<void>;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -142,6 +145,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const [selectedCar, setSelectedCar] = useState({} as iCar);
   const [comments, setComments] = useState<iCommentsListResponse[]>([]);
   const [selectedCommentId, setSelectedCommentId] = useState<string>("");
+  const [isBool, setIsBool] = useState(false);
 
   const goToProfile = () => {
     navigate("/profile");
@@ -242,6 +246,19 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         console.log(error);
       }
     }
+  };
+
+  const getCarModels2 = async (selectedCar: iCar) => {
+    // try {
+    //   console.log("AAAAAA", selectedCar);
+    //   const response = await instanceKenzieCars.get(
+    //     `/cars?brand=${selectedCar.brand}`
+    //   );
+    //   console.log("brand", response.data);
+    //   setCurrentBrand(response.data);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   const getCarsBrands = async () => {
@@ -593,6 +610,9 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         onEditComment,
         selectedCommentId,
         setSelectedCommentId,
+        isBool,
+        setIsBool,
+        getCarModels2,
       }}
     >
       {children}

@@ -16,11 +16,16 @@ import { Input } from "../../form/input";
 import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { iCarUpdate, iStatusModalCar } from "../../../interface/car.interface";
+import {
+  iCar,
+  iCarUpdate,
+  iStatusModalCar,
+} from "../../../interface/car.interface";
 import "./style.css";
 import { useAuth } from "../../../context/webContext";
 import { ModalVerifyDelete } from "./verifyDelete.modal";
 import formSchemaCarUpdateAd from "../../../schemas/annoucements/updateCar.schema";
+import { instanceKenzieCars } from "../../../services/api";
 
 export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
   const {
@@ -34,6 +39,10 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
     getCarModels,
     onUpdateCarAd,
     selectedCar,
+    setSelectedCar,
+    setIsBool,
+    isBool,
+    setCurrentBrand,
   } = useAuth();
 
   const [images, setImages] = useState(["", ""]);
@@ -56,6 +65,10 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
   const [km, setKm] = useState("");
   const [kmBool, setKmBool] = useState(false);
   const [isActive, setIsActive] = useState(true);
+
+  useEffect(() => {
+    getCarsBrands();
+  }, [selectedCar]);
 
   const {
     register,
@@ -82,9 +95,10 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
   };
 
   useEffect(() => {
-    const modelInfo: any = currentBrand.filter(
-      (element: any) => element.name == modelSelect
-    );
+    const modelInfo: any = currentBrand.filter((element: any) => {
+      element.name === selectedCar.model;
+    });
+
     setModelInfoSelect(modelInfo);
     setFuel(
       modelInfo[0]?.fuel == 1
@@ -96,9 +110,8 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
         : ""
     );
     setFipe(modelInfo[0]?.value);
-    console.log(modelInfo[0]?.value);
     setYear(modelInfo[0]?.year);
-  }, [modelSelect]);
+  }, [selectedCar.model, isBool]);
 
   const onSubmitEditAd = (data: iCarUpdate) => {
     const newData = {
@@ -108,7 +121,6 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
       fipe: selectedCar.fipe,
       published: true,
     };
-    console.log(newData);
     onUpdateCarAd(newData, selectedCar.id);
     onClose();
   };
@@ -125,7 +137,8 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
         isOpen={isOpen}
         onClose={() => {
           onClose();
-          console.log("oi");
+          setSelectedCar({} as iCar);
+          // setIsBool(false);
         }}
       >
         <ModalOverlay />
@@ -150,7 +163,7 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                     label="Marca"
                     type="text"
                     id="brand"
-                    placeholder="Mercedes Benz"
+                    placeholder={selectedCar.brand}
                     register={register}
                     variant="outline"
                     list="listBrand"
@@ -159,7 +172,7 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       inputValue(e);
                       setBrandBool(true);
                     }}
-                    value={brandBool ? brand : selectedCar.brand}
+                    value={""}
                   />
                   <datalist id="listBrand">
                     {brands.map((element: any, index: any) => (
@@ -185,7 +198,7 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       getCarModels();
                       setModelSelect((e.target as HTMLInputElement).value);
                     }}
-                    value={modelBool ? model : selectedCar.model}
+                    value={""}
                   />
                   <datalist id="listModels">
                     {currentBrand.map((element: any, index: any) => (
@@ -216,6 +229,7 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                   </Flex>
                   <Flex gap={"14px"}>
                     <Input
+                      className="km_class"
                       errorMessage={errors.km?.message}
                       placeholder="30.000"
                       label="Quilometragem"
@@ -226,7 +240,7 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                         setKm(e.target.value);
                         setKmBool(true);
                       }}
-                      value={kmBool ? km : selectedCar.km}
+                      value={kmBool ? km : selectedCar ? selectedCar.km : ""}
                     />
                     <Input
                       errorMessage={errors.color?.message}
