@@ -94,7 +94,9 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
       year: year,
       fipe: fipe,
       published: true,
+      is_good_price: false,
     };
+    console.log(newData);
     onCreateCarAd(newData);
   };
 
