@@ -7,8 +7,8 @@ interface iChildren {
 }
 
 interface iHomeContext {
-  carAd: iCar[];
-  setCarAd: React.Dispatch<React.SetStateAction<iCar[]>>;
+  carAd: iCarResponse[];
+  setCarAd: React.Dispatch<React.SetStateAction<iCarResponse[]>>;
   filteredCars: iCar[];
   brands: string[];
   colors: string[];
@@ -64,7 +64,7 @@ interface iHomeContext {
 export const contextHomeProvider = createContext({} as iHomeContext);
 
 const HomePageContext = ({ children }: iChildren) => {
-  const [carAd, setCarAd] = useState<iCar[]>([]);
+  const [carAd, setCarAd] = useState<iCarResponse[]>([]);
   const [selectedCar, setSelectedCar] = useState<iCarResponse>(
     {} as iCarResponse
   );

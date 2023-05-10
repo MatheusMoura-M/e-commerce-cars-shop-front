@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { iProviderProps } from "../@types";
 import { MenuItem, useDisclosure } from "@chakra-ui/react";
 import { useState, Dispatch, SetStateAction } from "react";
@@ -10,6 +10,7 @@ import {
   iLoginProps,
   iRegister,
   iRegisterReq,
+  iSellerData,
   iUpdateAddress,
   iUpdateUser,
   iUser,
@@ -97,6 +98,13 @@ export interface iAuthProviderData {
   isBool: boolean;
   setIsBool: Dispatch<SetStateAction<boolean>>;
   getCarModels2: (selectedCar: iCar) => Promise<void>;
+  onGetSellerCars(idSeller: string): void
+  carsSeller: iCar[]
+  sellerData: iSellerData
+  isOpenDeleteAd: boolean
+  onOpenDeleteAd(): void
+  onCloseDeleteAd(): void
+
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -123,6 +131,12 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     onClose: onCloseUpdateComment,
   } = useDisclosure();
 
+  const {
+    isOpen: isOpenDeleteAd,
+    onOpen: onOpenDeleteAd,
+    onClose: onCloseDeleteAd,
+  } = useDisclosure();
+
   const [isLogged, setIsLogged] = useState(false);
   const [show, setShow] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -140,12 +154,17 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     {} as iUser
   );
   const [userLogged, setUserLogged] = useState<iUser>({} as iUser);
+
   const [carsUser, setCarsUser] = useState<iCarsUser>({} as iCarsUser);
+
   const [userCarsProfile, setUserCarsProfile] = useState<iCar[]>([] as iCar[]);
   const [selectedCar, setSelectedCar] = useState({} as iCar);
   const [comments, setComments] = useState<iCommentsListResponse[]>([]);
   const [selectedCommentId, setSelectedCommentId] = useState<string>("");
   const [isBool, setIsBool] = useState(false);
+
+  const [carsSeller, setCarsSeller] = useState<iCar[]>([])
+  const [sellerData, setSellerData] = useState({} as iSellerData)
 
   const goToProfile = () => {
     navigate("/profile");
@@ -193,11 +212,37 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     }
   };
 
+  const onGetSellerCars = async (idSeller: string) => {
+
+    try {
+      
+      const res = await instance.get(`/car/seller/${idSeller}`)
+      
+      const carsArr = res.data.cars
+      const sellerData: iSellerData = {
+        id: res.data.id!, 
+        name: res.data.name,
+        description: res.data.description,
+        image_url: res.data.image_url 
+      }
+
+      setCarsSeller(carsArr)
+      setSellerData(sellerData)
+
+    } catch (error) {
+
+      console.log(error)
+      
+    }
+
+  }
+
   const onGetCarsUser = async (id: string) => {
     try {
       const resp = await instance.get(`user/${id}`);
 
       setCarsUser(resp.data);
+
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);
@@ -443,6 +488,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         onClick={() => {
           localStorage.removeItem("@token");
           setIsLogged(false);
+          setUserLogged({} as iUser)
           navigate("/");
         }}
         _hover={{
@@ -482,7 +528,10 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
       GetUserSpecific(data.user.id);
       setCarAdSelected(data);
-      GetUserProfile();
+
+      if(localStorage.getItem("@token")){
+        GetUserProfile();
+      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);
@@ -613,6 +662,12 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         isBool,
         setIsBool,
         getCarModels2,
+        onGetSellerCars,
+        carsSeller,
+        sellerData,
+        isOpenDeleteAd,
+        onOpenDeleteAd,
+        onCloseDeleteAd
       }}
     >
       {children}

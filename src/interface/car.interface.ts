@@ -1,6 +1,7 @@
 import { iOwner } from "./comment.interface";
 
 export interface iCar {
+  user: any;
   id: string;
   brand: string;
   model: string;

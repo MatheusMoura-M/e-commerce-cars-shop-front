@@ -3,11 +3,11 @@ import styled from "styled-components";
 export const ContainerProfile = styled.section`
   background: linear-gradient(
     180deg,
-    #4529e6 23.25%,
-    #f7f7f7 23.26%,
-    #f7f7f7 100%
+    #4529e6 370px,
+    #f7f7f7 50px,
+    #f7f7f7 50px
   );
-  height: 100%;
+  height: auto;
   display: flex;
   margin: 0 auto;
   flex-direction: column;
@@ -27,28 +27,57 @@ export const ContainerProfile = styled.section`
   }
 `;
 
+export const ContainerSallerInfo = styled.div`
+
+  width: 90%;
+
+  @media (min-width: 1200px){
+
+    width: 1000px;
+
+  }
+
+`
 export const UlCardCars = styled.ul`
-  display: flex;
-  overflow-x: scroll;
-  width: 80%;
-  margin: 60px 0px 0px 0px;
-  justify-content: space-between;
-  ::-webkit-scrollbar {
-    width: 40px;
-  }
-
-  @media (min-width: 1030px) {
-    overflow: hidden;
-    flex-wrap: wrap;
-    flex-direction: row;
-
-    li {
-      height: 120px;
-      min-height: 370px;
-      margin-bottom: 30px;
+    display: flex;
+    overflow-x: scroll;
+    width: 95.5%;
+    height: 450px;
+    margin: 60px 0px 0px 15px;
+    ::-webkit-scrollbar {
+        width: 40px;
     }
-  }
-`;
+  
+    /* gap: 20px; //retirar */
+    
+    li{
+        margin-left: 10px;
+    }
+    
+    @media (min-width: 1110px){
+        
+        overflow: hidden;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-content: flex-start;
+        width: 1000px;
+        height: auto;
+        margin: 60px 0px 0px 0px;
+        gap: 20px;
+
+        
+        li{
+          height: auto;
+          min-height: 370px;
+          margin-bottom: 10px;
+        }
+    }
+
+    @media (min-width: 1450px){
+      width: 1350px;
+    }
+`
 
 export const NumberPage = styled.div`
   display: flex;

@@ -11,7 +11,7 @@ export const ButtonFilterMobile = ({
   isInputFilter
 }: any) => {
 
-  console.log(isInputFilter)
+  
 
   if (isFilter && isOpen && filteredAlready ) {
 

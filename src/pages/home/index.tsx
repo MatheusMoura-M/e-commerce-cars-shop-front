@@ -76,6 +76,7 @@ export const Home = () => {
 
   const pageCard = () => {
     let cards: any = [];
+
     
     if (filteredCars.length != 0 && isFilter && !isInputFilter) {
       cards = filteredCars.slice(startSliceAt, endSliceAt);
@@ -86,6 +87,7 @@ export const Home = () => {
     }
 
     return cards;
+    
   };
 
   return (
@@ -106,7 +108,7 @@ export const Home = () => {
           </div>
         </HomePanel>
         <Box display="flex">
-          <Show breakpoint="(min-width: 1030px)">
+          <Show breakpoint="(min-width: 1110px)">
             <FilterCars />
           </Show>
           <CardCardList pageCard={pageCard()} setFirstCardId={setFirstCardId} />
@@ -120,7 +122,7 @@ export const Home = () => {
           alignItems="center"
           justifyContent="center"
         >
-          <Hide breakpoint="(min-width: 1030px)">
+          <Hide breakpoint="(min-width: 1110px)">
             <Button
               bg={"brand.1"}
               color={"grey.10"}

@@ -60,7 +60,6 @@ const FormRegisterUser = () => {
       telephone: data.telephone,
       password: data.password,
       cpf: data.cpf,
-      image_url: "https://encurtador.com.br/dmwCE",
       birthdate: data.birthdate,
       street: data.street,
       zipcode: data.zipcode,

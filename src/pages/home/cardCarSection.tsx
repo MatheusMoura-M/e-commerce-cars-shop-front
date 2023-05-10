@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { contextHomeProvider } from "../../context/homePage.context";
 import { UlCardCars } from "./style";
 import CardSkeleton from "../../utils/skeletons/cardCar.skeleton";
-import { iCar } from "../../interface/car.interface";
+import { iCar, iCarResponse } from "../../interface/car.interface";
 import CarCard from "../../components/cards/car/car";
 import { Box, Text } from "@chakra-ui/react";
 
@@ -67,7 +67,10 @@ const CardCardList = ({ pageCard }: any) => {
 
     return (
       <UlCardCars>
-        {pageCard.map((card: iCar, i: number) => {
+        {pageCard.map((card: iCarResponse, i: number) => {
+
+          console.log(card.user.id)
+
           return (
             <CarCard
               description={card.description}
@@ -79,9 +82,11 @@ const CardCardList = ({ pageCard }: any) => {
               year={card.year}
               key={card.id}
               id={card.id}
-              userName="usuário"
-              buttonStatus={true}
-              isGoodPrice
+              imageUrl={card.user.image_url}
+              sellerName={card.user.name}
+              isGoodPrice={card.is_good_price}
+              buttonsSection={false}
+              ownerAdCard={card.user.id}
             />
           );
         })}

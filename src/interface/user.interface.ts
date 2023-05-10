@@ -7,7 +7,6 @@ export interface iRegister {
   password: string;
   confir_password?: string;
   cpf: string;
-  image_url: string;
   birthdate: string;
   isSeller: boolean;
   street: string;
@@ -25,7 +24,6 @@ export interface iRegisterReq {
   telephone: string;
   password: string;
   cpf: string;
-  image_url: string;
   birthdate: string;
   isSeller: boolean;
   street: string;
@@ -102,4 +100,11 @@ export interface iLoginProps {
 
 export interface iUserLogin {
   token: string;
+}
+
+export interface iSellerData {
+  id: string;
+  name: string;
+  description: string
+  image_url: string
 }
