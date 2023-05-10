@@ -143,19 +143,23 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   };
 
   const GetUserProfile = async () => {
-    
     try {
       const resp = await instance.get("/user/profile", {
         headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
       });
 
       // navigate("/login", {replace: true})
-
       setUserLogged(resp.data);
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        error.response?.data.error && localStorage.removeItem("@token");
+        toast.error(error.response?.data.error, {
+          autoClose: 1000,
+        });
+      }
       console.log(error);
     }
-  }
+  };
 
   const goToAnnouncerProfile = (id: string) => {
     navigate(`/announcer-profile/${id}`);

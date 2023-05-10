@@ -29,6 +29,7 @@ const Header = () => {
   const {
     MenuHamburguer,
     isLogged,
+    setIsLogged,
     isOpenAddress,
     onCloseAddress,
     isOpenUpdateUser,
@@ -39,7 +40,10 @@ const Header = () => {
   } = useAuth();
 
   useEffect(() => {
-    localStorage.getItem("@token") && GetUserProfile();
+    if (localStorage.getItem("@token")) {
+      GetUserProfile();
+      setIsLogged(true);
+    }
   }, []);
 
   return (
