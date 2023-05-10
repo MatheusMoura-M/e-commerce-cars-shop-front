@@ -13,10 +13,16 @@ import CarCard from "../../components/cards/car/car";
 import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/createCarsAd.modal";
 import { ModalEditCarAd } from "../../components/modals/advertiserProfile/editCarsAd.modal";
 import { useAuth } from "../../context/webContext";
+import { useEffect } from "react";
 
 export const ProfileCard = () => {
-  const { userCarsProfile, userLogged, setSelectedCar, selectedCar } =
-    useAuth();
+  const {
+    userCarsProfile,
+    userLogged,
+    setSelectedCar,
+    selectedCar,
+    onGetCarsUserProfile,
+  } = useAuth();
 
   const {
     isOpen: isCreateOpen,
@@ -28,6 +34,10 @@ export const ProfileCard = () => {
     onOpen: onEditOpen,
     onClose: onEditClose,
   } = useDisclosure();
+
+  useEffect(() => {
+    onGetCarsUserProfile();
+  }, []);
 
   return (
     <ContainerProfile>
@@ -89,7 +99,7 @@ export const ProfileCard = () => {
           <UlCardCars>
             {userCarsProfile.map((card) => {
               return (
-                <Box margin="0px">
+                <Box margin="0px" key={card.id}>
                   <CarCard
                     description={card.description}
                     image={card.cover_image}

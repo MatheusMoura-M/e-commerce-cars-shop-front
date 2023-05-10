@@ -16,14 +16,11 @@ import { Input } from "../../form/input";
 import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import formSchemaCarAd from "../../../schemas/annoucements";
-import {
-  iCreateCarAd,
-  iStatusModalCar,
-} from "../../../interface/car.interface";
+import { iCarUpdate, iStatusModalCar } from "../../../interface/car.interface";
 import "./style.css";
 import { useAuth } from "../../../context/webContext";
 import { ModalVerifyDelete } from "./verifyDelete.modal";
+import formSchemaCarUpdateAd from "../../../schemas/annoucements/updateCar.schema";
 
 export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
   const {
@@ -41,24 +38,31 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
 
   const [images, setImages] = useState(["", ""]);
   const [modelInfoSelect, setModelInfoSelect] = useState<any>([]);
-  const [brand, setBrand] = useState(selectedCar.brand);
-  const [model, setModel] = useState(selectedCar.brand);
-  const [year, setYear] = useState(selectedCar.year);
-  const [fuel, setFuel] = useState(selectedCar.fuel);
-  const [fipe, setFipe] = useState(selectedCar.fipe);
-  const [coverImage, setCoverImage] = useState(selectedCar.cover_image);
-  const [description, setDescription] = useState(selectedCar.description);
-  const [price, setPrice] = useState(selectedCar.price);
-  const [color, setColor] = useState(selectedCar.color);
-  const [km, setKm] = useState(selectedCar.km);
-  const [isActive, setIsActive] = useState(selectedCar.published);
+  const [brand, setBrand] = useState("");
+  const [brandBool, setBrandBool] = useState(false);
+  const [model, setModel] = useState("");
+  const [modelBool, setModelBool] = useState(false);
+  const [year, setYear] = useState("");
+  const [fuel, setFuel] = useState("");
+  const [fipe, setFipe] = useState("");
+  const [coverImage, setCoverImage] = useState("");
+  const [coverImageBool, setCoverImageBool] = useState(false);
+  const [description, setDescription] = useState("");
+  const [descriptionBool, setDescriptionBool] = useState(false);
+  const [price, setPrice] = useState("");
+  const [priceBool, setPriceBool] = useState(false);
+  const [color, setColor] = useState("");
+  const [colorBool, setColorBool] = useState(false);
+  const [km, setKm] = useState("");
+  const [kmBool, setKmBool] = useState(false);
+  const [isActive, setIsActive] = useState(true);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<iCreateCarAd>({
-    resolver: yupResolver(formSchemaCarAd),
+  } = useForm<iCarUpdate>({
+    resolver: yupResolver(formSchemaCarUpdateAd),
   });
 
   const AddInputImage = () => {
@@ -92,17 +96,19 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
         : ""
     );
     setFipe(modelInfo[0]?.value);
+    console.log(modelInfo[0]?.value);
     setYear(modelInfo[0]?.year);
   }, [modelSelect]);
 
-  const onSubmitEditAd = (data: iCreateCarAd) => {
+  const onSubmitEditAd = (data: iCarUpdate) => {
     const newData = {
       ...data,
-      fuel: fuel,
-      year: year,
-      fipe: fipe,
+      fuel: selectedCar.fuel,
+      year: selectedCar.year,
+      fipe: selectedCar.fipe,
       published: true,
     };
+    console.log(newData);
     onUpdateCarAd(newData, selectedCar.id);
     onClose();
   };
@@ -115,7 +121,13 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+        isOpen={isOpen}
+        onClose={() => {
+          onClose();
+          console.log("oi");
+        }}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader fontSize={"16px"} color={"grey.1"}>
@@ -145,8 +157,9 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                     onClick={getCarsBrands}
                     onChange={(e) => {
                       inputValue(e);
+                      setBrandBool(true);
                     }}
-                    value={brand}
+                    value={brandBool ? brand : selectedCar.brand}
                   />
                   <datalist id="listBrand">
                     {brands.map((element: any, index: any) => (
@@ -166,12 +179,13 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                     onChange={(e) => {
                       getCarModels();
                       setModelSelect(e.target.value);
+                      setModelBool(true);
                     }}
                     onClick={(e) => {
                       getCarModels();
                       setModelSelect((e.target as HTMLInputElement).value);
                     }}
-                    value={model}
+                    value={modelBool ? model : selectedCar.model}
                   />
                   <datalist id="listModels">
                     {currentBrand.map((element: any, index: any) => (
@@ -188,7 +202,7 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       type="text"
                       id="year"
                       register={register}
-                      value={year ? year : ""}
+                      defaultValue={selectedCar.year}
                     />
                     <Input
                       errorMessage={errors.fuel?.message}
@@ -197,7 +211,7 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       type="text"
                       id="fuel"
                       register={register}
-                      value={fuel ? fuel : ""}
+                      defaultValue={selectedCar.fuel}
                     />
                   </Flex>
                   <Flex gap={"14px"}>
@@ -208,8 +222,11 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       type="number"
                       id="km"
                       register={register}
-                      onChange={(e) => setKm(e.target.value)}
-                      value={km}
+                      onChange={(e) => {
+                        setKm(e.target.value);
+                        setKmBool(true);
+                      }}
+                      value={kmBool ? km : selectedCar.km}
                     />
                     <Input
                       errorMessage={errors.color?.message}
@@ -218,8 +235,11 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       type="text"
                       id="color"
                       register={register}
-                      onChange={(e) => setColor(e.target.value)}
-                      value={color}
+                      onChange={(e) => {
+                        setColor(e.target.value);
+                        setColorBool(true);
+                      }}
+                      value={colorBool ? color : selectedCar.color}
                     />
                   </Flex>
                   <Flex gap={"14px"} alignItems={"flex-end"}>
@@ -231,7 +251,7 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       id="fipe"
                       register={register}
                       isDisabled={true}
-                      value={fipe ? fipe : 0}
+                      value={selectedCar?.fipe}
                     />
                     <Input
                       errorMessage={errors.price?.message}
@@ -240,8 +260,11 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       type="number"
                       id="price"
                       register={register}
-                      onChange={(e) => setPrice(e.target.value)}
-                      value={price}
+                      onChange={(e) => {
+                        setPrice(e.target.value);
+                        setPriceBool(true);
+                      }}
+                      value={priceBool ? price : selectedCar.price}
                     />
                   </Flex>
                   <Input
@@ -252,8 +275,13 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                     type="text"
                     id="description"
                     register={register}
-                    onChange={(e) => setDescription(e.target.value)}
-                    value={description}
+                    onChange={(e) => {
+                      setDescription(e.target.value);
+                      setDescriptionBool(true);
+                    }}
+                    value={
+                      descriptionBool ? description : selectedCar.description
+                    }
                   />
                   <Box as="div">
                     <Heading as="h3" fontSize="1rem" fontWeight="500">
@@ -295,8 +323,13 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                     type="text"
                     id="cover_image"
                     register={register}
-                    onChange={(e) => setCoverImage(e.target.value)}
-                    value={coverImage}
+                    onChange={(e) => {
+                      setCoverImage(e.target.value);
+                      setCoverImageBool(true);
+                    }}
+                    value={
+                      coverImageBool ? coverImage : selectedCar.cover_image
+                    }
                   />
                   <Flex flexDirection={"column"} gap={"14px"}>
                     {images.map((image, index) => (
@@ -306,9 +339,9 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                         label={`${index + 1}° Imagem da galeria`}
                         type="text"
                         id={`images_${index + 1}`}
-                        value={image}
                         register={register}
                         onChange={(e) => handleChangeImage(e, index)}
+                        value={image}
                       />
                     ))}
                   </Flex>

@@ -16,7 +16,12 @@ import {
   iUserLogin,
 } from "../interface/user.interface";
 import { instance, instanceKenzieCars } from "../services/api";
-import { iCar, iCarResponse, iCreateCarAd } from "../interface/car.interface";
+import {
+  iCar,
+  iCarResponse,
+  iCreateCarAd,
+  iUpdateCarAd,
+} from "../interface/car.interface";
 import { getCarSpecificResponse } from "../services/getCarSpecificResponse";
 import { getUserSpecificReponse } from "../services/getUserSpecificResponse";
 import {
@@ -39,7 +44,7 @@ export interface iAuthProviderData {
   getCarsBrands: () => Promise<void>;
   getCarModels: () => Promise<void>;
   onCreateCarAd: (data: iCreateCarAd) => Promise<void>;
-  onUpdateCarAd: (data: iCreateCarAd, id: string) => Promise<void>;
+  onUpdateCarAd: (data: iUpdateCarAd, id: string) => Promise<void>;
   onDeleteCarAd: (id: string) => Promise<void>;
   brands: string[];
   brandsAndModels: [];
@@ -143,7 +148,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   };
 
   const GetUserProfile = async () => {
-    
     try {
       const resp = await instance.get("/user/profile", {
         headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
@@ -152,10 +156,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       // navigate("/login", {replace: true})
 
       setUserLogged(resp.data);
+      setIsLogged(true);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const goToAnnouncerProfile = (id: string) => {
     navigate(`/announcer-profile/${id}`);
@@ -264,7 +269,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     }
   };
 
-  const onUpdateCarAd = async (data: iCreateCarAd, id: string) => {
+  const onUpdateCarAd = async (data: iUpdateCarAd, id: string) => {
     try {
       await instance.patch(`/car/${id}`, data, {
         headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
@@ -276,9 +281,9 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);
-        toast.error(error.response?.data.error.errors[0], {
-          autoClose: 1000,
-        });
+        // toast.error(error.response?.data.error.errors[0], {
+        //   autoClose: 1000,
+        // });
       }
     } finally {
       onGetCarsUserProfile();

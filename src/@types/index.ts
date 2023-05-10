@@ -35,6 +35,6 @@ export interface InputProps extends ChakraInputProps {
   showPass?: boolean;
   showConfirmPass?: boolean;
   marginTopForm?: string;
-  value: string | number;
+  value?: string | number;
   // error?: FieldErrors<iCommentRequest> | null;
 }
