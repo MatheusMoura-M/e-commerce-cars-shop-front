@@ -70,6 +70,9 @@ export const BoxComment = () => {
               fontFamily={"inter"}
               fontWeight={"500"}
               fontSize={"14px"}
+              textOverflow={"ellipsis"}
+              whiteSpace={"nowrap"}
+              overflow={"hidden"}
             >
               {userLogged.name}
             </Text>

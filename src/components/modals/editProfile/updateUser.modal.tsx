@@ -34,9 +34,16 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
   const [isSeller, setIsSeller] = useState<boolean>(false);
 
   const [name, setName] = useState<string>("");
+  const [nameBool, setNameBool] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
+  const [emailBool, setEmailBool] = useState<boolean>(false);
+  const [cpfBool, setCpfBool] = useState<boolean>(false);
+  const [telephoneBool, setTelephoneBool] = useState<boolean>(false);
+  const [birthdateBool, setBirthdateBool] = useState<boolean>(false);
   const [description, setDescription] = useState<string>("");
+  const [descriptionBool, setDescriptionBool] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>("");
+  const [imageUrlBool, setImageUrlBool] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
@@ -67,11 +74,14 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
       email: data.email,
       telephone: data.telephone,
       password: data.password,
+      description: data.description,
       cpf: data.cpf,
       image_url: data.image_url || "https://encurtador.com.br/dmwCE",
       birthdate: data.birthdate,
       isSeller: isSeller,
     };
+
+    console.log(objUser);
 
     onUpdateUser(objUser);
   };
@@ -124,13 +134,12 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                   label="Nome"
                   type="text"
                   marginTopForm="20px"
-                  onChange={(e) => setName(e.target.value)}
-                  value={name === "" ? userLogged.name : name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    setNameBool(true);
+                  }}
+                  value={nameBool ? name : userLogged.name}
                 />
-
-                <Text as="span" fontSize="0.7rem" color="alert.1">
-                  {errors.name?.message}
-                </Text>
 
                 <Input
                   id="email"
@@ -141,13 +150,12 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                   register={register}
                   label="Email"
                   marginTopForm="20px"
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email === "" ? userLogged.email : email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setEmailBool(true);
+                  }}
+                  value={emailBool ? email : userLogged.email}
                 />
-
-                <Text as="span" fontSize="0.7rem" color="alert.1">
-                  {errors.email?.message}
-                </Text>
 
                 <Input
                   id="cpf"
@@ -158,15 +166,12 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                   register={register}
                   onChange={(event) => {
                     formattedCpf(event.target.value);
+                    setCpfBool(true);
                   }}
-                  value={cpf === "" ? userLogged.cpf : cpf}
+                  value={cpfBool ? cpf : userLogged.cpf}
                   label="CPF"
                   marginTopForm="20px"
                 />
-
-                <Text as="span" fontSize="0.7rem" color="alert.1">
-                  {errors.cpf?.message}
-                </Text>
 
                 <Input
                   id="telephone"
@@ -177,19 +182,12 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                   register={register}
                   onChange={(event) => {
                     formattedMobileNumber(event.target.value);
+                    setTelephoneBool(true);
                   }}
-                  value={
-                    cellphoneNumber === ""
-                      ? userLogged.telephone
-                      : cellphoneNumber
-                  }
+                  value={telephoneBool ? cellphoneNumber : userLogged.telephone}
                   label="Telefone"
                   marginTopForm="20px"
                 />
-
-                <Text as="span" fontSize="0.7rem" color="alert.1">
-                  {errors.telephone?.message}
-                </Text>
 
                 <Input
                   id="birthdate"
@@ -200,14 +198,13 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                   register={register}
                   label="Data de nascimento"
                   type="text"
-                  onChange={(event) => formattedBirthdate(event.target.value)}
-                  value={birthdate === "" ? userLogged.birthdate : birthdate}
+                  onChange={(event) => {
+                    formattedBirthdate(event.target.value);
+                    setBirthdateBool(true);
+                  }}
+                  value={birthdateBool ? birthdate : userLogged.birthdate}
                   marginTopForm="20px"
                 />
-
-                <Text as="span" fontSize="0.7rem" color="alert.1">
-                  {errors.birthdate?.message}
-                </Text>
 
                 <Input
                   placeholder="https://image.com"
@@ -216,13 +213,12 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                   id="image_url"
                   register={register}
                   marginTopForm="20px"
-                  onChange={(e) => setImageUrl(e.target.value)}
-                  value={imageUrl === "" ? userLogged.image_url : imageUrl}
+                  onChange={(e) => {
+                    setImageUrl(e.target.value);
+                    setImageUrlBool(true);
+                  }}
+                  value={imageUrlBool ? imageUrl : userLogged.image_url}
                 />
-
-                <Text as="span" fontSize="0.7rem" color="alert.1">
-                  {errors.birthdate?.message}
-                </Text>
 
                 <FormControl mt={5}>
                   <FormLabel fontSize="0.875rem">Descrição</FormLabel>
@@ -244,9 +240,12 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                       borderColor: "brand.2",
                     }}
                     _focusVisible={{ boxShadow: "none" }}
-                    onChange={(e) => setDescription(e.target.value)}
+                    onChange={(e) => {
+                      setDescription(e.target.value);
+                      setDescriptionBool(true);
+                    }}
                     value={
-                      description === "" ? userLogged.description : description
+                      descriptionBool ? description : userLogged.description
                     }
                   />
                 </FormControl>
@@ -304,10 +303,6 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                   value={password}
                 />
 
-                <Text as="span" fontSize="0.7rem" color="alert.1">
-                  {errors.password?.message}
-                </Text>
-
                 <Input
                   id="confir_password"
                   placeholder="Digitar senha"
@@ -323,11 +318,8 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   value={confirmPassword}
                 />
-
-                <Text as="span" fontSize="0.7rem" color="alert.1">
-                  {errors.confir_password?.message}
-                </Text>
               </Flex>
+
               <ModalFooter
                 display={"flex"}
                 flexDirection={"column"}
