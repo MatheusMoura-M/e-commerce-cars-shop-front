@@ -62,6 +62,7 @@ export const BoxComment = () => {
               alt="Img do usuário"
               w={"32px"}
               h={"32px"}
+              objectFit={"cover"}
             />
             <Text
               as={"h3"}

@@ -124,12 +124,14 @@ const CarCard = ({
               <Box as="div" className="user-container">
                 <Image
                   src={imageUrl}
-                  w="30px"
                   borderRadius={"full"}
                   onClick={() => {
                     goToAnnouncerProfile(ownerAdCard!);
                   }}
                   cursor={"pointer"}
+                  h={"30px"}
+                  w={"30px"}
+                  objectFit={"cover"}
                 />
                 <Text
                   as="p"

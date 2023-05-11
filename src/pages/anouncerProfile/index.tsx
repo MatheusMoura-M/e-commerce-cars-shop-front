@@ -56,7 +56,8 @@ export const AnnouncerProfileCard = () => {
 
   useEffect(() => {
     onGetSellerCars(id!);
-  }, [id]);
+    console.log(sellerData);
+  }, [id, sellerData]);
 
   const pageCard = () => {
     let cards: any = [];
@@ -96,6 +97,9 @@ export const AnnouncerProfileCard = () => {
                     src={sellerData.image_url}
                     borderRadius={"full"}
                     alt="Foto do usuário"
+                    h={"100%"}
+                    w={"100%"}
+                    objectFit={"cover"}
                   />
                 </Flex>
 

@@ -10,18 +10,15 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import imgPerfil from "../../assets/ImgPerfil.svg";
 import ContainerDetailCard from "./style";
 import { BoxComment } from "../../components/boxComment";
 import { useAuth } from "../../context/webContext";
 import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/createCarsAd.modal";
-import { ModalUpdateAddress } from "../../components/modals/updateAddress/updateAddress.modal";
 import ModalEditUser from "../../components/modals/editProfile/updateUser.modal";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import ModalEditComment from "../../components/modals/editComment/updateComment.modal";
-import { iCommentResponse } from "../../interface/comment.interface";
 
 export const DetailCard = () => {
   const {
@@ -304,7 +301,14 @@ export const DetailCard = () => {
               gap={{ base: "25px", xl: "30px" }}
             >
               <Flex flexDirection={"column"} w={"104px"} h={"104px"}>
-                <Image src={imgPerfil} alt="Foto do usuário" />
+                <Image
+                  src={ownerOfAdSelected.image_url}
+                  alt="Foto do usuário"
+                  h={"100%"}
+                  w={"100%"}
+                  objectFit={"cover"}
+                  borderRadius={"full"}
+                />
               </Flex>
               <Text
                 as={"h2"}
@@ -389,6 +393,8 @@ export const DetailCard = () => {
                           src={comment.users.image_url}
                           alt="Imagem de perfil do usuário"
                           width="30px"
+                          h={"30px"}
+                          objectFit={"cover"}
                         />
                         <Text
                           as={"h3"}

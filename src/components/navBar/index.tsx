@@ -25,6 +25,8 @@ const BtnsIsLogged = [
   "Sair",
 ];
 
+const BtnsIsLoggedNotSeller = ["Editar Perfil", "Editar Endereço", "Sair"];
+
 const Header = () => {
   const {
     MenuHamburguer,
@@ -92,8 +94,11 @@ const Header = () => {
                   <Image
                     width={[30, 35, null, 45]}
                     src={userLogged.image_url}
-                    alt="Logo Header"
+                    alt="Image profile"
                     borderRadius={"full"}
+                    h={"100%"}
+                    w={"100%"}
+                    objectFit={"cover"}
                   />
                   <Text
                     color={"grey.2"}
@@ -123,9 +128,13 @@ const Header = () => {
                 pt={"0px"}
                 bg={"#FDFDFD"}
               >
-                {BtnsIsLogged.map((link) => (
-                  <MenuHamburguer key={link}>{link}</MenuHamburguer>
-                ))}
+                {userLogged.isSeller
+                  ? BtnsIsLogged.map((link) => (
+                      <MenuHamburguer key={link}>{link}</MenuHamburguer>
+                    ))
+                  : BtnsIsLoggedNotSeller.map((link) => (
+                      <MenuHamburguer key={link}>{link}</MenuHamburguer>
+                    ))}
               </MenuList>
             </Menu>
           </Flex>

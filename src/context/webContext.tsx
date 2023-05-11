@@ -516,7 +516,10 @@ export const AuthProvider = ({ children }: iProviderProps) => {
             ? onOpenAddress
             : children === "Editar Perfil"
             ? onOpenUpdateUser
-            : goToProfile
+            : () => {
+                goToAnnouncerProfile(userLogged.id!);
+                onGetSellerCars(userLogged.id);
+              }
         }
       >
         {children}
