@@ -73,6 +73,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
     const modelInfo: any = currentBrand.filter(
       (element: any) => element.name == modelSelect
     );
+
     setModelInfoSelect(modelInfo);
     setFuel(
       modelInfo[0]?.fuel == 1

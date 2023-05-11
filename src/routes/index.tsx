@@ -3,7 +3,6 @@ import { Home } from "../pages/home";
 import { DetailCard } from "../pages/detail card";
 import { LoginPage } from "../pages/login";
 import RegisterUserPage from "../pages/registerUser/register.page";
-import { ProfileCard } from "../pages/userProfile";
 import ResetPasswordPage from "../pages/resetPassword";
 import { AnnouncerProfileCard } from "../pages/anouncerProfile";
 
@@ -14,7 +13,6 @@ const RoutesMain = () => {
       <Route path="/register" element={<RegisterUserPage />} />
       <Route path="/detail-card/:id" element={<DetailCard />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/profile" element={<ProfileCard />} />
       <Route path="/announcer-profile/:id" element={<AnnouncerProfileCard />} />
       <Route path="/resetpass/:token" element={<ResetPasswordPage />} />
     </Routes>

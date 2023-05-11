@@ -22,7 +22,7 @@ const CardCardList = ({ pageCard }: any) => {
     brandSelected,
     yearSelected,
     colorSelected,
-    fuelSelected
+    fuelSelected,
   } = useContext(contextHomeProvider);
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const CardCardList = ({ pageCard }: any) => {
         </Box>
       </UlCardCars>
     );
-  }else if (carAd.length == 0 && !isFilter && !isInputFilter) {
+  } else if (carAd.length == 0 && !isFilter && !isInputFilter) {
     return (
       <UlCardCars>
         <Box mt="50px">
@@ -63,14 +63,10 @@ const CardCardList = ({ pageCard }: any) => {
         </Box>
       </UlCardCars>
     );
-  }else{
-
+  } else {
     return (
       <UlCardCars>
         {pageCard.map((card: iCarResponse, i: number) => {
-
-          console.log(card.user.id)
-
           return (
             <CarCard
               description={card.description}
@@ -93,7 +89,6 @@ const CardCardList = ({ pageCard }: any) => {
       </UlCardCars>
     );
   }
-
 };
 
 export default CardCardList;

@@ -310,8 +310,11 @@ export const DetailCard = () => {
                 as={"h2"}
                 fontWeight={600}
                 fontSize={"20px"}
-                w={"100%"}
+                w={"250px"}
                 textAlign={"center"}
+                textOverflow={"ellipsis"}
+                whiteSpace={"nowrap"}
+                overflow={"hidden"}
               >
                 {ownerOfAdSelected.name}
               </Text>

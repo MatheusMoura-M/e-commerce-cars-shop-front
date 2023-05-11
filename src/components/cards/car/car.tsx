@@ -1,7 +1,16 @@
 import { LiCar } from "./style";
 import { MdAttachMoney } from "react-icons/md";
-import { Box, Image, Text, Heading, Button } from "@chakra-ui/react";
+import {
+  Box,
+  Image,
+  Text,
+  Heading,
+  Button,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { AuthContext, useAuth } from "../../../context/webContext";
+import { ModalEditCarAd } from "../../modals/advertiserProfile/editCarsAd.modal";
+import { iCar } from "../../../interface/car.interface";
 
 interface iCardProps {
   model: string;
@@ -18,7 +27,8 @@ interface iCardProps {
   sellerName?: string;
   imageUrl: string;
   buttonsSection?: boolean;
-  ownerAdCard?: string
+  ownerAdCard?: string;
+  cardObj?: iCar;
 }
 
 const CarCard = ({
@@ -36,27 +46,28 @@ const CarCard = ({
   sellerName,
   imageUrl,
   buttonsSection,
-  ownerAdCard
+  ownerAdCard,
+  cardObj,
 }: iCardProps) => {
-  
   const {
-    goToAnnouncerProfile, 
-    ownerOfAdSelected, 
-    GetCarSpecific, 
+    goToAnnouncerProfile,
+    ownerOfAdSelected,
+    GetCarSpecific,
     navigate,
-  } = useAuth()
+    setSelectedCar,
+    setIsBool,
+    isBool,
+  } = useAuth();
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onClose: onEditClose,
+  } = useDisclosure();
 
   return (
-    <LiCar
-      id={id}
-    >
+    <LiCar id={id}>
       <Box className="container-image" display="flex" justifyContent="center">
-        <Image 
-          src={image} 
-          alt="Imagem do carro"
-          h="190px"
-          width="100%"
-        />
+        <Image src={image} alt="Imagem do carro" h="190px" width="100%" />
 
         {buttonStatus && (
           <Button
@@ -86,15 +97,15 @@ const CarCard = ({
           </Text>
         )}
       </Box>
-
       <Box as="section" className="container-information">
-        <Text as="h3"
+        <Text
+          as="h3"
           onClick={() => {
             GetCarSpecific(id);
             navigate(`detail-card/${id}`);
-          }} 
+          }}
           cursor={"pointer"}
-          _hover={{color: "grey.2"}}
+          _hover={{ color: "grey.2" }}
           fontSize={"1rem"}
           fontWeight={"600"}
           mt="5px"
@@ -102,68 +113,61 @@ const CarCard = ({
           {`${model} - ${brandCar}`}
         </Text>
 
-        <Text as="p" fontSize={"0.875rem"}>{description}</Text>
+        <Text as="p" fontSize={"0.875rem"}>
+          {description}
+        </Text>
       </Box>
-      <Box as="section" className="container-plusInfromation" >
+      <Box as="section" className="container-plusInfromation">
         <Box as="div" className="plusInformation-containerUser">
-          {
-            !buttonsSection && (
-              <Box as="div">
-                <Box 
-                  as="div" 
-                  className="user-container" 
+          {!buttonsSection && (
+            <Box as="div">
+              <Box as="div" className="user-container">
+                <Image
+                  src={imageUrl}
+                  w="30px"
+                  borderRadius={"full"}
+                  onClick={() => {
+                    goToAnnouncerProfile(ownerAdCard!);
+                  }}
+                  cursor={"pointer"}
+                />
+                <Text
+                  as="p"
+                  fontSize="0.9rem"
+                  ml={"10px"}
+                  color="grey.1"
+                  fontWeight="500"
+                  textOverflow={"ellipsis"}
+                  whiteSpace={"nowrap"}
+                  overflow={"hidden"}
+                  w={"100px"}
+                  cursor={"pointer"}
+                  _hover={{ color: "brand.1" }}
+                  onClick={() => {
+                    goToAnnouncerProfile(ownerAdCard!);
+                  }}
                 >
-                  <Image
-                    src={imageUrl}
-                    w="30px"
-                    borderRadius={"full"}
-                    onClick={() => {
-                      goToAnnouncerProfile(ownerAdCard!)
-                    }}
-                    cursor={"pointer"}
-                  />
-                  <Text 
-                    as="p"
-                    fontSize="0.9rem"
-                    ml={"10px"}
-                    color="grey.1" 
-                    fontWeight="500"
-                    cursor={"pointer"}
-                    _hover={{color: "brand.1"}}
-                    onClick={() => {
-                      goToAnnouncerProfile(ownerAdCard!)
-                    }}
-                  >
-                    {sellerName}
-                  </Text>
-                </Box>
+                  {sellerName}
+                </Text>
               </Box>
-            )
-          }
-          
+            </Box>
+          )}
         </Box>
-        <Box 
-          display="flex" 
+        <Box
+          display="flex"
           justifyContent="space-between"
           alignItems={"center"}
         >
           <Box as="div" className="aboutKmYear-container">
-            <Text 
-              as="span" 
-              marginRight="5px"
-            >
+            <Text as="span" marginRight="5px">
               {km} KM
             </Text>
-            <Text 
-              as="span"
-            >
-              {year}
-            </Text>
+            <Text as="span">{year}</Text>
           </Box>
-          <Text 
-            as="span" 
-            className="priceCar" 
-            fontWeight="600" 
+          <Text
+            as="span"
+            className="priceCar"
+            fontWeight="600"
             color="grey.2"
             marginRight="10px"
             marginTop={"15px"}
@@ -171,41 +175,56 @@ const CarCard = ({
             R$ {price}
           </Text>
         </Box>
-        {
-          buttonsSection && (
-            <Box as="div" bgColor={"grey.10"} paddingTop="20px" paddingBottom="15px">
-              <Button 
-                fontSize={"0.875rem"}
-                borderRadius={"3px"}
-                fontWeight={"600"}
-                border={"2px"}
-                borderColor={"grey.1"}
-                bgColor={"transparent"}
-                h={"35px"}
-                _hover={{bgColor: "grey.1", color: "grey.10"}}
-              >
-                Editar
-              </Button>
-              <Button 
-                marginLeft="10px"
-                fontSize={"0.875rem"}
-                borderRadius={"3px"}
-                fontWeight={"600"}
-                border={"2px"}
-                borderColor={"grey.1"}
-                bgColor={"transparent"}
-                h={"35px"}
-                transition="0.4s"
-                _hover={{bgColor: "grey.1", color: "grey.10", transition:"0.4s"}}
-              >
-                Ver detalhes
-              </Button>
-             </Box>
-          )
-        }
+        {buttonsSection && (
+          <Box
+            as="div"
+            bgColor={"grey.10"}
+            paddingTop="20px"
+            paddingBottom="15px"
+          >
+            <Button
+              fontSize={"0.875rem"}
+              borderRadius={"3px"}
+              fontWeight={"600"}
+              border={"2px"}
+              borderColor={"grey.1"}
+              bgColor={"transparent"}
+              h={"35px"}
+              _hover={{ bgColor: "grey.1", color: "grey.10" }}
+              onClick={() => {
+                setSelectedCar(cardObj!);
+                onEditOpen();
+                setIsBool(true);
+              }}
+            >
+              Editar
+            </Button>
+            <Button
+              marginLeft="10px"
+              fontSize={"0.875rem"}
+              borderRadius={"3px"}
+              fontWeight={"600"}
+              border={"2px"}
+              borderColor={"grey.1"}
+              bgColor={"transparent"}
+              h={"35px"}
+              transition="0.4s"
+              _hover={{
+                bgColor: "grey.1",
+                color: "grey.10",
+                transition: "0.4s",
+              }}
+              onClick={() => {
+                GetCarSpecific(id);
+                navigate(`detail-card/${id}`);
+              }}
+            >
+              Ver detalhes
+            </Button>
+          </Box>
+        )}
       </Box>
-      <Box>
-      </Box>
+      <ModalEditCarAd isOpen={isEditOpen} onClose={onEditClose} />
     </LiCar>
   );
 };

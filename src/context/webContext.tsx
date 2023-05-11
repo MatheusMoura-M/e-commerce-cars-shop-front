@@ -97,14 +97,12 @@ export interface iAuthProviderData {
   setSelectedCommentId: Dispatch<SetStateAction<string>>;
   isBool: boolean;
   setIsBool: Dispatch<SetStateAction<boolean>>;
-  getCarModels2: (selectedCar: iCar) => Promise<void>;
-  onGetSellerCars(idSeller: string): void
-  carsSeller: iCar[]
-  sellerData: iSellerData
-  isOpenDeleteAd: boolean
-  onOpenDeleteAd(): void
-  onCloseDeleteAd(): void
-
+  onGetSellerCars(idSeller: string): void;
+  carsSeller: iCar[];
+  sellerData: iSellerData;
+  isOpenDeleteAd: boolean;
+  onOpenDeleteAd(): void;
+  onCloseDeleteAd(): void;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -163,11 +161,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const [selectedCommentId, setSelectedCommentId] = useState<string>("");
   const [isBool, setIsBool] = useState(false);
 
-  const [carsSeller, setCarsSeller] = useState<iCar[]>([])
-  const [sellerData, setSellerData] = useState({} as iSellerData)
+  const [carsSeller, setCarsSeller] = useState<iCar[]>([]);
+  const [sellerData, setSellerData] = useState({} as iSellerData);
 
   const goToProfile = () => {
-    navigate("/profile");
+    navigate(`/announcer-profile/${userLogged.id}`);
   };
 
   const GetUserProfile = async () => {
@@ -213,36 +211,29 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   };
 
   const onGetSellerCars = async (idSeller: string) => {
-
     try {
-      
-      const res = await instance.get(`/car/seller/${idSeller}`)
-      
-      const carsArr = res.data.cars
+      const res = await instance.get(`/car/seller/${idSeller}`);
+
+      const carsArr = res.data.cars;
       const sellerData: iSellerData = {
-        id: res.data.id!, 
+        id: res.data.id!,
         name: res.data.name,
         description: res.data.description,
-        image_url: res.data.image_url 
-      }
+        image_url: res.data.image_url,
+      };
 
-      setCarsSeller(carsArr)
-      setSellerData(sellerData)
-
+      setCarsSeller(carsArr);
+      setSellerData(sellerData);
     } catch (error) {
-
-      console.log(error)
-      
+      console.log(error);
     }
-
-  }
+  };
 
   const onGetCarsUser = async (id: string) => {
     try {
       const resp = await instance.get(`user/${id}`);
 
       setCarsUser(resp.data);
-
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);
@@ -293,19 +284,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     }
   };
 
-  const getCarModels2 = async (selectedCar: iCar) => {
-    // try {
-    //   console.log("AAAAAA", selectedCar);
-    //   const response = await instanceKenzieCars.get(
-    //     `/cars?brand=${selectedCar.brand}`
-    //   );
-    //   console.log("brand", response.data);
-    //   setCurrentBrand(response.data);
-    // } catch (error) {
-    //   console.log(error);
-    // }
-  };
-
   const getCarsBrands = async () => {
     try {
       const response = await instanceKenzieCars.get("/cars");
@@ -333,6 +311,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
           autoClose: 1000,
         });
       }
+    } finally {
+      onGetSellerCars(sellerData.id);
     }
   };
 
@@ -354,6 +334,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       }
     } finally {
       onGetCarsUserProfile();
+      onGetSellerCars(sellerData.id);
     }
   };
 
@@ -488,7 +469,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         onClick={() => {
           localStorage.removeItem("@token");
           setIsLogged(false);
-          setUserLogged({} as iUser)
+          setUserLogged({} as iUser);
           navigate("/");
         }}
         _hover={{
@@ -529,7 +510,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       GetUserSpecific(data.user.id);
       setCarAdSelected(data);
 
-      if(localStorage.getItem("@token")){
+      if (localStorage.getItem("@token")) {
         GetUserProfile();
       }
     } catch (error) {
@@ -661,13 +642,12 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         setSelectedCommentId,
         isBool,
         setIsBool,
-        getCarModels2,
         onGetSellerCars,
         carsSeller,
         sellerData,
         isOpenDeleteAd,
         onOpenDeleteAd,
-        onCloseDeleteAd
+        onCloseDeleteAd,
       }}
     >
       {children}

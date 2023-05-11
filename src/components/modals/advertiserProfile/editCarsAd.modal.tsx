@@ -43,6 +43,8 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
     setIsBool,
     isBool,
     setCurrentBrand,
+    sellerData,
+    onGetSellerCars,
   } = useAuth();
 
   const [images, setImages] = useState(["", ""]);
@@ -64,11 +66,11 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
   const [colorBool, setColorBool] = useState(false);
   const [km, setKm] = useState("");
   const [kmBool, setKmBool] = useState(false);
-  const [isActive, setIsActive] = useState(true);
+  const [isActive, setIsActive] = useState(false);
 
-  useEffect(() => {
-    getCarsBrands();
-  }, [selectedCar]);
+  // useEffect(() => {
+  //   getCarsBrands();
+  // }, [selectedCar]);
 
   const {
     register,
@@ -113,13 +115,17 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
     setYear(modelInfo[0]?.year);
   }, [selectedCar.model, isBool]);
 
+  useEffect(() => {
+    selectedCar.published ? setIsActive(true) : setIsActive(false);
+  }, [isOpen]);
+
   const onSubmitEditAd = (data: iCarUpdate) => {
     const newData = {
       ...data,
       fuel: selectedCar.fuel,
       year: selectedCar.year,
       fipe: selectedCar.fipe,
-      published: true,
+      published: isActive,
     };
     onUpdateCarAd(newData, selectedCar.id);
     onClose();
@@ -138,7 +144,6 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
         onClose={() => {
           onClose();
           setSelectedCar({} as iCar);
-          // setIsBool(false);
         }}
       >
         <ModalOverlay />
@@ -304,19 +309,6 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                   </Box>
                   <Box display="flex" justifyContent="space-between" as="div">
                     <Button
-                      color={isActive ? "grey.0" : "grey.10"}
-                      border="2px"
-                      borderColor={isActive ? "grey.4" : "brand.1"}
-                      bg={isActive ? "grey.10" : "brand.1"}
-                      width="48%"
-                      borderRadius="4px"
-                      fontSize="0.875rem"
-                      _focus={{ backgroundColor: "brand.1" }}
-                      onClick={() => setIsActive(false)}
-                    >
-                      Sim
-                    </Button>
-                    <Button
                       color={!isActive ? "grey.0" : "grey.10"}
                       border="2px"
                       borderColor={!isActive ? "grey.4" : "brand.1"}
@@ -326,6 +318,21 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
                       fontSize="0.875rem"
                       _focus={{ backgroundColor: "brand.1" }}
                       onClick={() => setIsActive(true)}
+                    >
+                      Sim
+                    </Button>
+                    <Button
+                      color={isActive ? "grey.0" : "grey.10"}
+                      border="2px"
+                      borderColor={isActive ? "grey.4" : "brand.1"}
+                      bg={isActive ? "grey.10" : "brand.1"}
+                      width="48%"
+                      borderRadius="4px"
+                      fontSize="0.875rem"
+                      _focus={{ backgroundColor: "brand.1" }}
+                      onClick={() => {
+                        setIsActive(false);
+                      }}
                     >
                       Não
                     </Button>
