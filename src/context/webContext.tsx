@@ -168,6 +168,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const [sellerData, setSellerData] = useState({} as iSellerData);
   const [addressData, setAddressData] = useState({} as iAddressUpdateResponse);
 
+  console.log(userLogged);
+
   const goToProfile = () => {
     navigate(`/announcer-profile/${userLogged.id}`);
   };
@@ -216,6 +218,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const onGetSellerCars = async (idSeller: string) => {
     try {
       const res = await instance.get(`/car/seller/${idSeller}`);
+
+      console.log(res);
 
       const carsArr = res.data.cars;
       const sellerData: iSellerData = {

@@ -56,8 +56,7 @@ export const AnnouncerProfileCard = () => {
 
   useEffect(() => {
     onGetSellerCars(id!);
-    console.log(sellerData);
-  }, [id, sellerData]);
+  }, [id]);
 
   const pageCard = () => {
     let cards: any = [];
