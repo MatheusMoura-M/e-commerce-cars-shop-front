@@ -106,7 +106,7 @@ export const AnnouncerProfileCard = () => {
                     fontSize={"20px"}
                     marginRight="13px"
                     marginBottom="5px"
-                    w={"250px"}
+                    maxW={"250px"}
                     textOverflow={"ellipsis"}
                     whiteSpace={"nowrap"}
                     overflow={"hidden"}
