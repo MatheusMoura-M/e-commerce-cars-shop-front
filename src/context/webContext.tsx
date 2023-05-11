@@ -6,6 +6,7 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import {
+  iAddressUpdateResponse,
   iCarsUser,
   iLoginProps,
   iRegister,
@@ -103,6 +104,8 @@ export interface iAuthProviderData {
   isOpenDeleteAd: boolean;
   onOpenDeleteAd(): void;
   onCloseDeleteAd(): void;
+  onGetAddress: () => Promise<void>;
+  addressData: iAddressUpdateResponse;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -163,6 +166,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const [carsSeller, setCarsSeller] = useState<iCar[]>([]);
   const [sellerData, setSellerData] = useState({} as iSellerData);
+  const [addressData, setAddressData] = useState({} as iAddressUpdateResponse);
 
   const goToProfile = () => {
     navigate(`/announcer-profile/${userLogged.id}`);
@@ -356,6 +360,21 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       }
     } finally {
       onGetCarsUserProfile();
+      onGetSellerCars(sellerData.id);
+    }
+  };
+
+  const onGetAddress = async () => {
+    try {
+      const response = await instance.get("/address/profile", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
+
+      setAddressData(response.data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+      }
     }
   };
 
@@ -648,6 +667,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         isOpenDeleteAd,
         onOpenDeleteAd,
         onCloseDeleteAd,
+        onGetAddress,
+        addressData,
       }}
     >
       {children}
