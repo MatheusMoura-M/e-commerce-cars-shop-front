@@ -450,7 +450,7 @@ export const DetailCard = () => {
         </Flex>
       </ContainerDetailCard>
       <ModalCreateCarAd isOpen={isOpen} onClose={onClose} />
-      <ModalUpdateAddress isOpen={isOpenAddress} onClose={onCloseAddress} />
+      {/* <ModalUpdateAddress isOpen={isOpenAddress} onClose={onCloseAddress} /> */}
       <ModalEditUser isOpen={isOpenUpdateUser} onClose={onCloseUpdateUser} />
       <ModalEditComment
         isOpen={isOpenUpdateComment}
