@@ -3,13 +3,14 @@ import styled from "styled-components";
 const LiCar = styled.li`
   background-color: var(--grey-10);
   min-width: 300px;
+  max-width: 300px;
   height: auto;
   margin: 0px 10px 0px 0px;
 
   .container-image {
     background-color: var(--grey-7);
     position: relative;
-    
+
     span {
       background-color: aqua;
       position: absolute;
@@ -98,7 +99,6 @@ const LiCar = styled.li`
       }
     }
   }
-
 `;
 
-export {LiCar}
+export { LiCar };

@@ -81,8 +81,6 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
       isSeller: isSeller,
     };
 
-    console.log(objUser);
-
     onUpdateUser(objUser);
   };
 
