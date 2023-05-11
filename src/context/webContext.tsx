@@ -31,6 +31,7 @@ import {
   iCommentsListResponse,
 } from "../interface/comment.interface";
 import { createCommentResponse } from "../services/createCommentResponse";
+import { contextHomeProvider } from "./homePage.context";
 
 export interface iAuthProviderData {
   MenuHamburguer: ({ children }: iProviderProps) => JSX.Element;
@@ -106,6 +107,8 @@ export interface iAuthProviderData {
   onCloseDeleteAd(): void;
   onGetAddress: () => Promise<void>;
   addressData: iAddressUpdateResponse;
+  isSeller: boolean;
+  setIsSeller: Dispatch<SetStateAction<boolean>>;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -167,8 +170,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const [carsSeller, setCarsSeller] = useState<iCar[]>([]);
   const [sellerData, setSellerData] = useState({} as iSellerData);
   const [addressData, setAddressData] = useState({} as iAddressUpdateResponse);
-
-  console.log(userLogged);
+  const [isSeller, setIsSeller] = useState<boolean>(false);
 
   const goToProfile = () => {
     navigate(`/announcer-profile/${userLogged.id}`);
@@ -181,6 +183,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       });
 
       setUserLogged(resp.data);
+      setIsSeller(resp.data.isSeller);
       setIsLogged(true);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -218,8 +221,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const onGetSellerCars = async (idSeller: string) => {
     try {
       const res = await instance.get(`/car/seller/${idSeller}`);
-
-      console.log(res);
 
       const carsArr = res.data.cars;
       const sellerData: iSellerData = {
@@ -677,6 +678,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         onCloseDeleteAd,
         onGetAddress,
         addressData,
+        isSeller,
+        setIsSeller,
       }}
     >
       {children}

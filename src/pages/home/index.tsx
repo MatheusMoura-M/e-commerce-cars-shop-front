@@ -15,7 +15,7 @@ import { Footer } from "../../components/footer";
 import { useState, useContext, useEffect } from "react";
 import { contextHomeProvider } from "../../context/homePage.context";
 import CardCardList from "./cardCarSection";
-
+import { useAuth } from "../../context/webContext";
 
 export const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -25,6 +25,7 @@ export const Home = () => {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [currentPageFilter, setCurrentPageFilter] = useState(0);
   const [firstCardId, setFirstCardId] = useState<string>("");
+  const { userLogged } = useAuth();
 
   const {
     carAd,
@@ -38,7 +39,7 @@ export const Home = () => {
     brandSelected,
     modelSelected,
     colorSelected,
-    yearSelected, 
+    yearSelected,
     fuelSelected,
   } = useContext(contextHomeProvider);
 
@@ -62,22 +63,16 @@ export const Home = () => {
     filterOptionsMenu();
     filterCarList();
     pageCard();
-  }, [
-    brandSelected,
-    modelSelected,
-    colorSelected,
-    yearSelected, 
-    fuelSelected
-  ]);
-  
+  }, [brandSelected, modelSelected, colorSelected, yearSelected, fuelSelected]);
+
   useEffect(() => {
     pageCard();
-  }, [isFilter]);
+    GetCardsAd();
+  }, [isFilter, userLogged]);
 
   const pageCard = () => {
     let cards: any = [];
 
-    
     if (filteredCars.length != 0 && isFilter && !isInputFilter) {
       cards = filteredCars.slice(startSliceAt, endSliceAt);
     } else if ((isInputFilter && !isFilter) || isFilter) {
@@ -87,7 +82,6 @@ export const Home = () => {
     }
 
     return cards;
-    
   };
 
   return (

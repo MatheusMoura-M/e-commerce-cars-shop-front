@@ -23,6 +23,7 @@ import { iUpdateUser } from "../../../interface/user.interface";
 import { Input } from "../../form/input";
 import schemaUpdateUser from "../../../schemas/updateUser";
 import { useAuth } from "../../../context/webContext";
+import { contextHomeProvider } from "../../../context/homePage.context";
 
 interface iStatusModalUpdateUser {
   isOpen: boolean;
@@ -30,8 +31,8 @@ interface iStatusModalUpdateUser {
 }
 
 const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
-  const { onUpdateUser, onDeleteUser, userLogged } = useAuth();
-  const [isSeller, setIsSeller] = useState<boolean>(false);
+  const { onUpdateUser, onDeleteUser, userLogged, setIsSeller, isSeller } =
+    useAuth();
 
   const [name, setName] = useState<string>("");
   const [nameBool, setNameBool] = useState<boolean>(false);
@@ -46,10 +47,6 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
   const [imageUrlBool, setImageUrlBool] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-
-  useEffect(() => {
-    userLogged.isSeller == isSeller && setIsSeller(true);
-  }, []);
 
   const {
     formattedBirthdate,
