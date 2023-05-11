@@ -1,21 +1,29 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { iProviderProps } from "../@types";
 import { MenuItem, useDisclosure } from "@chakra-ui/react";
 import { useState, Dispatch, SetStateAction } from "react";
-import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import {
+  iAddressUpdateResponse,
+  iCarsUser,
   iLoginProps,
   iRegister,
   iRegisterReq,
+  iSellerData,
   iUpdateAddress,
   iUpdateUser,
   iUser,
   iUserLogin,
 } from "../interface/user.interface";
 import { instance, instanceKenzieCars } from "../services/api";
-import { iCarResponse, iCreateCarAd } from "../interface/car.interface";
+import {
+  iCar,
+  iCarResponse,
+  iCreateCarAd,
+  iUpdateCarAd,
+} from "../interface/car.interface";
 import { getCarSpecificResponse } from "../services/getCarSpecificResponse";
 import { getUserSpecificReponse } from "../services/getUserSpecificResponse";
 import {
@@ -23,20 +31,23 @@ import {
   iCommentsListResponse,
 } from "../interface/comment.interface";
 import { createCommentResponse } from "../services/createCommentResponse";
-import { useEffect } from "react";
-import { iAddressUpdateResponse } from "../interface/user.interface";
 
 export interface iAuthProviderData {
-  returnHome: () => void;
   MenuHamburguer: ({ children }: iProviderProps) => JSX.Element;
   show: boolean;
   setShow: Dispatch<SetStateAction<boolean>>;
+  showConfirm: boolean;
+  setShowConfirm: Dispatch<SetStateAction<boolean>>;
   passType: string;
   setPassType: Dispatch<SetStateAction<string>>;
+  confirmPassType: string;
+  setConfirmPassType: Dispatch<SetStateAction<string>>;
   Login: (user: iLoginProps) => void;
   getCarsBrands: () => Promise<void>;
   getCarModels: () => Promise<void>;
   onCreateCarAd: (data: iCreateCarAd) => Promise<void>;
+  onUpdateCarAd: (data: iUpdateCarAd, id: string) => Promise<void>;
+  onDeleteCarAd: (id: string) => Promise<void>;
   brands: string[];
   brandsAndModels: [];
   brandSelect: string;
@@ -53,6 +64,9 @@ export interface iAuthProviderData {
   isOpenUpdateUser: boolean;
   onOpenUpdateUser: () => void;
   onCloseUpdateUser: () => void;
+  isOpenUpdateComment: boolean;
+  onOpenUpdateComment: () => void;
+  onCloseUpdateComment: () => void;
   onUpdateAddress: (data: iUpdateAddress) => Promise<void>;
   onUpdateUser: (data: iUpdateUser) => Promise<void>;
   onDeleteUser: () => Promise<void>;
@@ -65,14 +79,33 @@ export interface iAuthProviderData {
   setOwnerOfAdSelected: Dispatch<SetStateAction<iUser>>;
   userLogged: iUser;
   setUserLogged: Dispatch<SetStateAction<iUser>>;
-  addressLogged: iAddressUpdateResponse;
-  setAddressLogged: Dispatch<SetStateAction<iAddressUpdateResponse>>;
   navigate: NavigateFunction;
   onCreateComment: (data: iCommentRequest, id: string) => Promise<void>;
-  onListComment: (id: string) => Promise<void>;
+  onRegisterSubmit: (dataRegister: iRegisterReq) => void;
+  userCarsProfile: iCar[];
+  selectedCar: iCar;
+  setSelectedCar: (car: iCar) => void;
   comments: iCommentsListResponse[];
-  onRegisterSubmit(dataRegister: iRegister): void;
-  getAddressLogged: () => Promise<void>;
+  onListComment: (id: string) => Promise<void>;
+  onGetCarsUserProfile: () => Promise<void>;
+  goToAnnouncerProfile: (id: string) => void;
+  onGetCarsUser: (id: string) => Promise<void>;
+  setCarsUser: Dispatch<SetStateAction<iCarsUser>>;
+  carsUser: iCarsUser;
+  onDeleteComment: (idComment: string) => Promise<void>;
+  onEditComment: (idComment: string, form: iCommentRequest) => Promise<void>;
+  selectedCommentId: string;
+  setSelectedCommentId: Dispatch<SetStateAction<string>>;
+  isBool: boolean;
+  setIsBool: Dispatch<SetStateAction<boolean>>;
+  onGetSellerCars(idSeller: string): void;
+  carsSeller: iCar[];
+  sellerData: iSellerData;
+  isOpenDeleteAd: boolean;
+  onOpenDeleteAd(): void;
+  onCloseDeleteAd(): void;
+  onGetAddress: () => Promise<void>;
+  addressData: iAddressUpdateResponse;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -93,9 +126,23 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     onClose: onCloseUpdateUser,
   } = useDisclosure();
 
+  const {
+    isOpen: isOpenUpdateComment,
+    onOpen: onOpenUpdateComment,
+    onClose: onCloseUpdateComment,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenDeleteAd,
+    onOpen: onOpenDeleteAd,
+    onClose: onCloseDeleteAd,
+  } = useDisclosure();
+
   const [isLogged, setIsLogged] = useState(false);
   const [show, setShow] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [passType, setPassType] = useState("password");
+  const [confirmPassType, setConfirmPassType] = useState("password");
   const [brandsAndModels, setBrandsAndModels] = useState<[]>([]);
   const [brands, setBrands] = useState<string[]>([]);
   const [brandSelect, setBrandSelect] = useState<string>("");
@@ -108,13 +155,21 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     {} as iUser
   );
   const [userLogged, setUserLogged] = useState<iUser>({} as iUser);
-  const [addressLogged, setAddressLogged] = useState<iAddressUpdateResponse>(
-    {} as iAddressUpdateResponse
-  );
-  const [comments, setComments] = useState<iCommentsListResponse[]>([]);
 
-  const returnHome = () => {
-    navigate("/");
+  const [carsUser, setCarsUser] = useState<iCarsUser>({} as iCarsUser);
+
+  const [userCarsProfile, setUserCarsProfile] = useState<iCar[]>([] as iCar[]);
+  const [selectedCar, setSelectedCar] = useState({} as iCar);
+  const [comments, setComments] = useState<iCommentsListResponse[]>([]);
+  const [selectedCommentId, setSelectedCommentId] = useState<string>("");
+  const [isBool, setIsBool] = useState(false);
+
+  const [carsSeller, setCarsSeller] = useState<iCar[]>([]);
+  const [sellerData, setSellerData] = useState({} as iSellerData);
+  const [addressData, setAddressData] = useState({} as iAddressUpdateResponse);
+
+  const goToProfile = () => {
+    navigate(`/announcer-profile/${userLogged.id}`);
   };
 
   const GetUserProfile = async () => {
@@ -124,13 +179,23 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       });
 
       setUserLogged(resp.data);
+      setIsLogged(true);
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        error.response?.data.error && localStorage.removeItem("@token");
+        toast.error(error.response?.data.error, {
+          autoClose: 1000,
+        });
+      }
       console.log(error);
     }
   };
 
-  const onRegisterSubmit = async (dataRegister: iRegister) => {
-    console.log("AA", dataRegister);
+  const goToAnnouncerProfile = (id: string) => {
+    navigate(`/announcer-profile/${id}`);
+  };
+
+  const onRegisterSubmit = async (dataRegister: iRegisterReq) => {
     try {
       await instance.post("/user", dataRegister);
 
@@ -140,11 +205,55 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
       navigate("/login", { replace: true });
     } catch (error) {
-      console.log(error);
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data, {
           autoClose: 1000,
         });
+      }
+    }
+  };
+
+  const onGetSellerCars = async (idSeller: string) => {
+    try {
+      const res = await instance.get(`/car/seller/${idSeller}`);
+
+      const carsArr = res.data.cars;
+      const sellerData: iSellerData = {
+        id: res.data.id!,
+        name: res.data.name,
+        description: res.data.description,
+        image_url: res.data.image_url,
+      };
+
+      setCarsSeller(carsArr);
+      setSellerData(sellerData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onGetCarsUser = async (id: string) => {
+    try {
+      const resp = await instance.get(`user/${id}`);
+
+      setCarsUser(resp.data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+      }
+    }
+  };
+
+  const onGetCarsUserProfile = async () => {
+    try {
+      const resp = await instance.get("user/cars", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
+
+      setUserCarsProfile(resp.data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error);
       }
     }
   };
@@ -154,29 +263,16 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       const { data } = await instance.post<iUserLogin>("login", user);
       window.localStorage.setItem("@token", data.token);
 
-      const { data: userData } = await instance.get("user/profile", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
-      });
-
-      setUserLogged(userData);
+      GetUserProfile();
+      onGetCarsUserProfile();
       setIsLogged(true);
-      toast.success("Logado com sucesso", {
-        autoClose: 1000,
-      });
+      toast.success("Logado com sucesso");
       navigate("/");
     } catch (error) {
       console.log(error);
-      toast.error("Algo deu errado", {
-        autoClose: 1000,
-      });
+      toast.error("Algo deu errado");
     }
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem("@token");
-
-    token ? setIsLogged(true) : setIsLogged(false);
-  }, []);
 
   const getCarModels = async () => {
     if (brandSelect) {
@@ -218,6 +314,66 @@ export const AuthProvider = ({ children }: iProviderProps) => {
           autoClose: 1000,
         });
       }
+    } finally {
+      onGetSellerCars(sellerData.id);
+    }
+  };
+
+  const onUpdateCarAd = async (data: iUpdateCarAd, id: string) => {
+    try {
+      await instance.patch(`/car/${id}`, data, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
+
+      toast.success("Carro editado com sucesso", {
+        autoClose: 1000,
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        // toast.error(error.response?.data.error.errors[0], {
+        //   autoClose: 1000,
+        // });
+      }
+    } finally {
+      onGetCarsUserProfile();
+      onGetSellerCars(sellerData.id);
+    }
+  };
+
+  const onDeleteCarAd = async (id: string) => {
+    try {
+      await instance.delete(`/car/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
+
+      toast.success("Carro deletado com sucesso", {
+        autoClose: 1000,
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        toast.error(error.response?.data.error.errors[0], {
+          autoClose: 1000,
+        });
+      }
+    } finally {
+      onGetCarsUserProfile();
+      onGetSellerCars(sellerData.id);
+    }
+  };
+
+  const onGetAddress = async () => {
+    try {
+      const response = await instance.get("/address/profile", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
+
+      setAddressData(response.data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+      }
     }
   };
 
@@ -226,13 +382,12 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       await instance.patch("/address", data, {
         headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
       });
+
       toast.success("Address atualizado com sucesso", {
         autoClose: 1000,
       });
     } catch (error) {
-      console.log(error);
       if (axios.isAxiosError(error)) {
-        console.log(error);
         toast.error(error.response?.data.error.errors[0], {
           autoClose: 1000,
         });
@@ -250,9 +405,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         autoClose: 1000,
       });
     } catch (error) {
-      console.log(error);
       if (axios.isAxiosError(error)) {
-        console.log(error);
         toast.error(error.response?.data.error.errors[0], {
           autoClose: 1000,
         });
@@ -268,7 +421,9 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
       });
 
-      toast.success("Usuário deletado com sucesso");
+      toast.success("Usuário deletado com sucesso", {
+        autoClose: 1000,
+      });
     } catch (error) {
       console.log(error);
       if (axios.isAxiosError(error)) {
@@ -334,6 +489,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         onClick={() => {
           localStorage.removeItem("@token");
           setIsLogged(false);
+          setUserLogged({} as iUser);
           navigate("/");
         }}
         _hover={{
@@ -360,9 +516,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
             ? onOpenAddress
             : children === "Editar Perfil"
             ? onOpenUpdateUser
-            : children === "Sair"
-            ? returnHome
-            : undefined
+            : goToProfile
         }
       >
         {children}
@@ -373,16 +527,17 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     try {
       const data = await getCarSpecificResponse(id);
 
-      const token = localStorage.getItem("@token");
-
-      if (token) {
-        GetUserProfile();
-      }
-
       GetUserSpecific(data.user.id);
       setCarAdSelected(data);
+
+      if (localStorage.getItem("@token")) {
+        GetUserProfile();
+      }
     } catch (error) {
-      console.log(error);
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        error.response?.data.error === "Car not found!" && navigate("/");
+      }
     }
   };
 
@@ -391,18 +546,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       const data = await getUserSpecificReponse(id);
 
       setOwnerOfAdSelected(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getAddressLogged = async () => {
-    try {
-      const resp = await instance.get("/address/profile", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
-      });
-
-      setAddressLogged(resp.data);
     } catch (error) {
       console.log(error);
     }
@@ -419,23 +562,47 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const onCreateComment = async (formData: iCommentRequest, id: string) => {
     try {
-      await createCommentResponse(formData, id);
+      const data = await createCommentResponse(formData, id);
+
+      onListComment(data.cars.id);
     } catch (error) {
       console.log(error);
-    } finally {
-      onListComment(id);
+    }
+  };
+
+  const onEditComment = async (idComment: string, form: iCommentRequest) => {
+    try {
+      const resp = await instance.patch(`/comments/${idComment}`, form, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
+
+      onListComment(resp.data.cars.id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onDeleteComment = async (idComment: string) => {
+    try {
+      await instance.delete(`/comments/${idComment}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
+
+      onListComment(carAdSelected.id);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   return (
     <AuthContext.Provider
       value={{
+        userCarsProfile,
         MenuHamburguer,
         passType,
         setPassType,
         show,
         setShow,
-        returnHome,
         Login,
         getCarsBrands,
         brands,
@@ -448,14 +615,19 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         setModelSelect,
         getCarModels,
         onCreateCarAd,
+        onUpdateCarAd,
+        onDeleteCarAd,
+        isOpenUpdateComment,
+        onOpenUpdateComment,
+        onCloseUpdateComment,
         isOpenAddress,
         onOpenAddress,
         onCloseAddress,
-        isLogged,
-        setIsLogged,
         isOpenUpdateUser,
         onOpenUpdateUser,
         onCloseUpdateUser,
+        isLogged,
+        setIsLogged,
         onUpdateAddress,
         onUpdateUser,
         onDeleteUser,
@@ -470,12 +642,34 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         GetUserProfile,
         userLogged,
         setUserLogged,
-        onListComment,
-        comments,
         onRegisterSubmit,
-        addressLogged,
-        setAddressLogged,
-        getAddressLogged,
+        selectedCar,
+        setSelectedCar,
+        comments,
+        onListComment,
+        onGetCarsUserProfile,
+        onGetCarsUser,
+        goToAnnouncerProfile,
+        setCarsUser,
+        carsUser,
+        showConfirm,
+        setShowConfirm,
+        confirmPassType,
+        setConfirmPassType,
+        onDeleteComment,
+        onEditComment,
+        selectedCommentId,
+        setSelectedCommentId,
+        isBool,
+        setIsBool,
+        onGetSellerCars,
+        carsSeller,
+        sellerData,
+        isOpenDeleteAd,
+        onOpenDeleteAd,
+        onCloseDeleteAd,
+        onGetAddress,
+        addressData,
       }}
     >
       {children}

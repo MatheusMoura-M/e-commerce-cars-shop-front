@@ -6,13 +6,11 @@ import {
   Container,
   Flex,
   Image,
+  Link,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import imgPerfil from "../../assets/ImgPerfil.svg";
-import imgPerfil1 from "../../assets/ImgPerfil1.svg";
-import imgPerfil2 from "../../assets/ImgPerfil2.svg";
-import imgPerfil3 from "../../assets/ImgPerfil3.svg";
 import ContainerDetailCard from "./style";
 import { BoxComment } from "../../components/boxComment";
 import { useAuth } from "../../context/webContext";
@@ -21,22 +19,31 @@ import { ModalUpdateAddress } from "../../components/modals/updateAddress/update
 import ModalEditUser from "../../components/modals/editProfile/updateUser.modal";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { GiHamburgerMenu } from "react-icons/gi";
+import ModalEditComment from "../../components/modals/editComment/updateComment.modal";
+import { iCommentResponse } from "../../interface/comment.interface";
 
 export const DetailCard = () => {
   const {
-    returnHome,
+    navigate,
     isOpenAddress,
     onCloseAddress,
     isLogged,
     isOpenUpdateUser,
     onCloseUpdateUser,
+    onOpenUpdateComment,
+    isOpenUpdateComment,
+    onCloseUpdateComment,
     carAdSelected,
     ownerOfAdSelected,
     comments,
     GetCarSpecific,
     onListComment,
+    userLogged,
+    goToAnnouncerProfile,
+    setSelectedCommentId,
   } = useAuth();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onClose } = useDisclosure();
 
   const getDayComment = (date: Date) => {
     const dateNow = new Date();
@@ -63,6 +70,7 @@ export const DetailCard = () => {
     return `Há ${differenceInDay} dias`;
   };
 
+  const linkWhats = `https://api.whatsapp.com/send?phone=55${ownerOfAdSelected.telephone}`;
   const { id } = useParams();
 
   useEffect(() => {
@@ -70,9 +78,13 @@ export const DetailCard = () => {
     onListComment(id!);
   }, []);
 
+  const handleEditComment = (id: string) => {
+    onOpenUpdateComment();
+    setSelectedCommentId(id);
+  };
+
   return (
     <>
-      {/* <Button onClick={onOpen}>Open Modal</Button> */}
       <Header />
       <ContainerDetailCard>
         <Container
@@ -163,14 +175,25 @@ export const DetailCard = () => {
                 </Flex>
                 {isLogged ? (
                   <Button
+                    display={"flex"}
                     variant={"brand1"}
+                    p={0}
                     w={100}
                     h={38}
                     borderRadius={4}
                     fontSize={"14px"}
                     fontFamily={"inter"}
                   >
-                    Comprar
+                    <Link
+                      textDecoration={"none !important"}
+                      pt={"10px"}
+                      w={"100%"}
+                      h={"100%"}
+                      href={linkWhats}
+                      isExternal
+                    >
+                      Comprar
+                    </Link>
                   </Button>
                 ) : (
                   <Button
@@ -180,7 +203,7 @@ export const DetailCard = () => {
                     borderRadius={4}
                     fontSize={"14px"}
                     fontFamily={"inter"}
-                    onClick={returnHome}
+                    onClick={() => navigate("/")}
                   >
                     Comprar
                   </Button>
@@ -281,14 +304,17 @@ export const DetailCard = () => {
               gap={{ base: "25px", xl: "30px" }}
             >
               <Flex flexDirection={"column"} w={"104px"} h={"104px"}>
-                <Image src={imgPerfil} alt="Foto de perfil do usuário" />
+                <Image src={imgPerfil} alt="Foto do usuário" />
               </Flex>
               <Text
                 as={"h2"}
                 fontWeight={600}
                 fontSize={"20px"}
-                w={"100%"}
+                w={"250px"}
                 textAlign={"center"}
+                textOverflow={"ellipsis"}
+                whiteSpace={"nowrap"}
+                overflow={"hidden"}
               >
                 {ownerOfAdSelected.name}
               </Text>
@@ -309,6 +335,7 @@ export const DetailCard = () => {
                 w={206}
                 borderRadius={4}
                 fontFamily={"inter"}
+                onClick={() => goToAnnouncerProfile(ownerOfAdSelected.id)}
               >
                 Ver todos anúncios
               </Button>
@@ -357,8 +384,11 @@ export const DetailCard = () => {
                     >
                       <Flex gap={"10px"} alignItems={"center"}>
                         <Image
+                          borderRadius={"full"}
+                          w={"30px"}
                           src={comment.users.image_url}
                           alt="Imagem de perfil do usuário"
+                          width="30px"
                         />
                         <Text
                           as={"h3"}
@@ -380,15 +410,36 @@ export const DetailCard = () => {
                           • &ensp;{getDayComment(comment.createdAt)}
                         </Text>
                       </Flex>
-                      <Text
-                        as={"p"}
-                        fontFamily={"inter"}
-                        fontWeight={400}
-                        fontSize={"14px"}
-                        color={"grey.2"}
+                      <Flex
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
                       >
-                        {comment.comment}
-                      </Text>
+                        <Text
+                          as={"p"}
+                          fontFamily={"inter"}
+                          fontWeight={400}
+                          fontSize={"14px"}
+                          color={"grey.2"}
+                          w={"95%"}
+                        >
+                          {comment.comment}
+                        </Text>
+                        {comment.users.id === userLogged.id && (
+                          <Flex
+                            _hover={{
+                              color: "brand.1",
+                              transform: "translate(-2px, -2px)",
+                              transition: ".5s",
+                            }}
+                            transition={".5s"}
+                            onClick={() => {
+                              handleEditComment(comment.id);
+                            }}
+                          >
+                            <GiHamburgerMenu size={18} cursor={"pointer"} />
+                          </Flex>
+                        )}
+                      </Flex>
                     </Flex>
                   );
                 })}
@@ -399,8 +450,12 @@ export const DetailCard = () => {
         </Flex>
       </ContainerDetailCard>
       <ModalCreateCarAd isOpen={isOpen} onClose={onClose} />
-      <ModalUpdateAddress isOpen={isOpenAddress} onClose={onCloseAddress} />
+      {/* <ModalUpdateAddress isOpen={isOpenAddress} onClose={onCloseAddress} /> */}
       <ModalEditUser isOpen={isOpenUpdateUser} onClose={onCloseUpdateUser} />
+      <ModalEditComment
+        isOpen={isOpenUpdateComment}
+        onClose={onCloseUpdateComment}
+      />
       <Footer />
     </>
   );

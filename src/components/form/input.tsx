@@ -27,15 +27,29 @@ export const Input = ({
   formWidth,
   marginTopForm,
   showPass,
+  showConfirmPass,
   value,
   ...rest
 }: InputProps) => {
-  const { passType, setPassType, show, setShow } = useAuth();
-  const { onChange, onBlur, name, ref } = register!(id);
+  const {
+    passType,
+    setPassType,
+    confirmPassType,
+    setConfirmPassType,
+    show,
+    setShow,
+    showConfirm,
+    setShowConfirm,
+  } = useAuth();
+  const { onBlur, name, ref } = register!(id);
   // Validations
   const inputType = showPass ? passType : type;
+  const inputTypeConfirmPass = showConfirmPass ? confirmPassType : type;
 
-  const showPassword = ({ showPass }: iShowPass): ReactNode => {
+  const showPassword = ({
+    showPass,
+    showConfirmPass,
+  }: iShowPass): ReactNode => {
     if (value !== "" && showPass) {
       const whichEye =
         show === false ? (
@@ -43,6 +57,7 @@ export const Input = ({
         ) : (
           <AiFillEye size={22} color="#030303" />
         );
+
       const passType = show === false ? "text" : "password";
 
       return (
@@ -51,6 +66,30 @@ export const Input = ({
           onClick={() => {
             setShow(!show);
             setPassType(passType);
+          }}
+          role="button"
+        >
+          {whichEye}
+        </Box>
+      );
+    }
+
+    if (value !== "" && showConfirmPass) {
+      const whichEye =
+        showConfirm === false ? (
+          <AiFillEyeInvisible size={22} color="#030303" />
+        ) : (
+          <AiFillEye size={22} color="#030303" />
+        );
+
+      const confirmPassType = showConfirm === false ? "text" : "password";
+
+      return (
+        <Box
+          className="showPass"
+          onClick={() => {
+            setShowConfirm(!showConfirm);
+            setConfirmPassType(confirmPassType);
           }}
           role="button"
         >
@@ -78,7 +117,7 @@ export const Input = ({
           name={name}
           ref={ref}
           value={value}
-          type={inputType}
+          type={showPass ? inputType : inputTypeConfirmPass}
           bg={"transparent"}
           border={"1px solid"}
           borderColor={"grey.7"}
@@ -98,11 +137,11 @@ export const Input = ({
           }}
           {...rest}
         />
-        {showPass === true && (
+        {showPass === true || showConfirmPass === true ? (
           <InputRightElement h="100%">
-            {showPassword({ showPass })}
+            {showPassword({ showPass, showConfirmPass })}
           </InputRightElement>
-        )}
+        ) : null}
         {isError && (
           <Text
             color={"alert.1"}

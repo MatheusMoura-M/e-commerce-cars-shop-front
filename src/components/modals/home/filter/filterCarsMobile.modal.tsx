@@ -7,6 +7,7 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
+  Heading,
   Input,
   Text,
 } from "@chakra-ui/react";
@@ -19,8 +20,8 @@ import {
   ModelFilter,
   YearFilter,
 } from "./sectionsFilter";
-import {useState} from "react"
-import { ButtonFilterMobile } from "./buttonFilter";
+import { useState } from "react";
+import { ButtonFilter, ButtonFilterMobile } from "./buttonFilter";
 
 interface iStatusModal {
   isOpen: boolean;
@@ -28,6 +29,7 @@ interface iStatusModal {
 }
 
 const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
+  
   const {
     brands,
     colors,
@@ -45,46 +47,53 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
     colorSelected,
     fuelSelected,
     filterCarList,
-    filteredCars,
     isFilter,
-    filterFieldsSelected,
-    setIsFilter,
-    setFilteredCar,
-    setMinKm,
+    carAd,
+    filterOptionsMenu,
     setMaxKm,
+    setMinKm,
     setMinPrice,
     setMaxPrice,
-    maxPrice,
-    minPrice,
-    maxKm,
     minKm,
-    FilterInputs, 
-    clearFilter
+    maxKm,
+    minPrice,
+    maxPrice,
+    setIsFilter,
+    clearFilter,
+    isInputFilter,
+    inputStatus,
+    FilterInputs,
+    filteredAlready, 
+    setFilteredAlready,
+    filteredCars
   } = useContext(contextHomeProvider);
 
   useEffect(() => {
-    filterFieldsSelected();
     filterCarList();
+    filterOptionsMenu();
     FilterInputs()
   }, [
     isOpen,
-    colorSelected,
-    yearSelected,
+    carAd,
+    isFilter,
+    isInputFilter,
     brandSelected,
     modelSelected,
+    yearSelected,
+    colorSelected,
     fuelSelected,
-    isFilter,
-    filteredCars,
     minKm,
     maxKm,
     minPrice,
-    maxPrice
+    maxPrice,
   ]);
 
-  const [isClearButton, setIsClearButton] = useState<boolean>(false)
-
   return (
-    <Drawer onClose={onClose} isOpen={isOpen} size="full">
+    <Drawer 
+      onClose={onClose} 
+      isOpen={isOpen} 
+      size="full"
+    >
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton marginTop="6px" />
@@ -96,169 +105,180 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
         >
           Filtro
         </Text>
-        <DrawerBody>
-          <Box marginLeft="-25px">
-            <DrawerHeader>Marca</DrawerHeader>
+          <DrawerBody>
+            <Box marginLeft="-25px">
 
-            <BrandFilter
-              brandSelected={brandSelected}
-              isFilter={isFilter}
-              filterFieldsSelected={filterFieldsSelected}
-              setBrandSelected={setBrandSelected}
-              brands={brands}
-            />
+              <DrawerHeader>Marca</DrawerHeader>
 
-            <DrawerHeader>Modelo</DrawerHeader>
-
-            <ModelFilter
-              modelSelected={modelSelected}
-              isFilter={isFilter}
-              setModelSelected={setModelSelected}
-              filterFieldsSelected={filterFieldsSelected}
-              models={models}
-            />
-          </Box>
-          <Box marginLeft="-25px">
-            <DrawerHeader>Cor</DrawerHeader>
-
-            <ColorFilter
-              isFilter={isFilter}
-              setColorSelected={setColorSelected}
-              colorSelected={colorSelected}
-              filterFieldsSelected={filterFieldsSelected}
-              colors={colors}
-            />
-          </Box>
-          <Box marginLeft="-25px">
-            <DrawerHeader>Ano</DrawerHeader>
-
-            <YearFilter
-              yearSelected={yearSelected}
-              isFilter={isFilter}
-              setYearSelected={setYearSelected}
-              filterFieldsSelected={filterFieldsSelected}
-              years={years}
-            />
-          </Box>
-          <Box marginLeft="-25px">
-            <DrawerHeader>Combustível</DrawerHeader>
-
-            <FuelFilter
-              fuelSelected={fuelSelected}
-              isFilter={isFilter}
-              setFuelSelected={setFuelSelected}
-              filterFieldsSelected={filterFieldsSelected}
-              fuels={fuels}
-            />
-          </Box>
-          <Box marginLeft="-25px" marginTop="35px">
-            <DrawerHeader>KM</DrawerHeader>
-            <Box marginLeft="30px" display="flex">
-              <Input
-                w="120px"
-                marginRight="25px"
-                borderRadius="0px"
-                bgColor="grey.5"
-                borderColor="grey.5"
-                placeholder="Mínima"
-                fontWeight="600"
-                color="grey.1"
-                focusBorderColor="grey.5"
-                type="number"
-                onChange={(event) => {
-                  setMinKm(event.target.value)
-                  setIsFilter(true)
-                  
-                  if(event.target.value == "" && isFilter){
-                    setIsFilter(false)
-                    setFilteredCar([])
-                  }
-                  
-                }}
+              <BrandFilter
+                brandSelected={brandSelected}
+                isFilter={isFilter}
+                filterOptionsMenu={filterOptionsMenu}
+                setBrandSelected={setBrandSelected}
+                brands={brands}
+                setIsFilter={setIsFilter}
+                filterCarList={filterCarList}
               />
-              <Input
-                w="120px"
-                borderRadius="0px"
-                bgColor="grey.5"
-                borderColor="grey.5"
-                placeholder="Máxima"
-                fontWeight="600"
-                color="grey.1"
-                focusBorderColor="grey.5"
-                type="number"
-                onChange={(event) => {
-                  setMaxKm(event.target.value)
-                  setIsFilter(true)
-                  
-                  if(event.target.value == "" && isFilter){
-                    setIsFilter(false)
-                    setFilteredCar([])
-                  }
-                  
-                }}
-              />
+
             </Box>
-          </Box>
-          <Box marginLeft="-25px" marginTop="35px">
-            <DrawerHeader>Preço</DrawerHeader>
-            <Box marginLeft="30px" display="flex">
-              <Input
-                w="120px"
-                marginRight="25px"
-                borderRadius="0px"
-                bgColor="grey.5"
-                borderColor="grey.5"
-                placeholder="Mínimo"
-                fontWeight="600"
-                color="grey.1"
-                focusBorderColor="grey.5"
-                type="number"
-                onChange={(event) => {
-                  setMinPrice(event.target.value)
-                  setIsFilter(true)
-                  
-                  if(event.target.value == "" && isFilter){
-                    setIsFilter(false)
-                    setFilteredCar([])
-                  }
-                  
-                }}
+            <Box marginLeft="-25px">
+
+              <DrawerHeader>Modelo</DrawerHeader>
+
+              <ModelFilter
+                modelSelected={modelSelected}
+                isFilter={isFilter}
+                setModelSelected={setModelSelected}
+                filterOptionsMenu={filterOptionsMenu}
+                models={models}
+                setIsFilter={setIsFilter}
               />
 
-              <Input
-                w="120px"
-                borderRadius="0px"
-                bgColor="grey.5"
-                borderColor="grey.5"
-                placeholder="Máximo"
-                fontWeight="600"
-                color="grey.1"
-                focusBorderColor="grey.5"
-                type="number"
-                onChange={(event) => {
-                  setMaxPrice(event.target.value)
-                  setIsFilter(true)
-                  
-                  if(event.target.value == "" && isFilter){
-                    setIsFilter(false)
-                    setFilteredCar([])
-                  }
-                  
-                }}
-              />
             </Box>
-          </Box>
-          <ButtonFilterMobile 
-            isFilter={isFilter} 
-            onClose={onClose} 
-            setIsClearButton={setIsClearButton} 
-            isClearButton={isClearButton}
-            clearFilter={clearFilter}
-          />
-        </DrawerBody>
+            <Box marginLeft="-25px">
+
+              <DrawerHeader>Cor</DrawerHeader>
+
+              <ColorFilter
+                isFilter={isFilter}
+                setColorSelected={setColorSelected}
+                colorSelected={colorSelected}
+                filterOptionsMenu={filterOptionsMenu}
+                colors={colors}
+                setIsFilter={setIsFilter}
+              />
+
+            </Box>
+            <Box marginLeft="-25px">
+
+              <DrawerHeader>Ano</DrawerHeader>
+
+              <YearFilter
+                yearSelected={yearSelected}
+                isFilter={isFilter}
+                setYearSelected={setYearSelected}
+                filterOptionsMenu={filterOptionsMenu}
+                years={years}
+                setIsFilter={setIsFilter}
+              />
+
+            </Box>
+            <Box marginLeft="-25px">
+              <DrawerHeader>Combustível</DrawerHeader>
+
+              <FuelFilter
+                fuelSelected={fuelSelected}
+                isFilter={isFilter}
+                setFuelSelected={setFuelSelected}
+                filterOptionsMenu={filterOptionsMenu}
+                fuels={fuels}
+                setIsFilter={setIsFilter}
+              />
+
+            </Box>
+            <Box marginLeft="-25px" marginTop="35px">
+
+              <DrawerHeader>KM</DrawerHeader>
+
+              <Box marginLeft="30px" display="flex">
+
+                <Input
+                  w="120px"
+                  marginRight="25px"
+                  borderRadius="0px"
+                  bgColor="grey.5"
+                  borderColor="grey.5"
+                  placeholder="Mínima"
+                  fontWeight="600"
+                  color="grey.1"
+                  focusBorderColor="grey.5"
+                  type="number"
+                  value={minKm}
+                  onChange={(event) => {
+                    setMinKm(event.target.value);
+                    inputStatus(event.target.value, minKm);
+                  }}
+                />
+                <Input
+                  w="120px"
+                  borderRadius="0px"
+                  bgColor="grey.5"
+                  borderColor="grey.5"
+                  placeholder="Máxima"
+                  fontWeight="600"
+                  color="grey.1"
+                  focusBorderColor="grey.5"
+                  type="number"
+                  value={maxKm}
+                  onChange={(event) => {
+                    setMaxKm(event.target.value);
+                    inputStatus(event.target.value, maxKm);
+                  }}
+                />
+              </Box>
+
+            </Box>
+            <Box marginLeft="-25px" marginTop="35px">
+
+              <DrawerHeader>Preço</DrawerHeader>
+
+              <Box marginLeft="30px" display="flex">
+
+                <Input
+                  w="120px"
+                  marginRight="25px"
+                  borderRadius="0px"
+                  bgColor="grey.5"
+                  borderColor="grey.5"
+                  placeholder="Mínimo"
+                  fontWeight="600"
+                  color="grey.1"
+                  focusBorderColor="grey.5"
+                  type="number"
+                  value={minPrice}
+                  onChange={(event) => {
+                    setMinPrice(event.target.value);
+                    inputStatus(event.target.value, minPrice);
+                  }}
+                />
+
+                <Input
+                  w="120px"
+                  borderRadius="0px"
+                  bgColor="grey.5"
+                  borderColor="grey.5"
+                  placeholder="Máximo"
+                  fontWeight="600"
+                  color="grey.1"
+                  focusBorderColor="grey.5"
+                  type="number"
+                  value={maxPrice}
+                  onChange={(event) => {
+                    setMaxPrice(event.target.value);
+                    inputStatus(event.target.value, maxPrice);
+                  }}
+                />
+                
+              </Box>
+
+            </Box>
+            
+            <ButtonFilterMobile
+              isFilter={isFilter}
+              isInputFilter={isInputFilter}
+              clearFilter={clearFilter}
+              onClose={onClose}
+              isOpen={isOpen}
+              filteredAlready={filteredAlready}
+              setFilteredAlready={setFilteredAlready}
+              filteredCars={filteredCars}
+            />
+
+          </DrawerBody>
       </DrawerContent>
     </Drawer>
-  );
+  )
+
 };
 
 export default ModalFilterMobile;

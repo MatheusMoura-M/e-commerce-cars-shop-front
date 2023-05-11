@@ -88,12 +88,14 @@ export const UlCardCars = styled.ul`
     ::-webkit-scrollbar {
         width: 40px;
     }
+
+    /* gap: 20px; //retirar */
     
     li{
         margin-left: 10px;
     }
     
-    @media (min-width: 1077px){
+    @media (min-width: 1110px){
         
         overflow: hidden;
         flex-wrap: wrap;

@@ -50,7 +50,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
     handleSubmit,
     formState: { errors },
   } = useForm<iCreateCarAd>({
-    resolver: yupResolver(formSchemaCarAd),
+    // resolver: yupResolver(formSchemaCarAd),
   });
 
   const AddInputImage = () => {
@@ -73,6 +73,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
     const modelInfo: any = currentBrand.filter(
       (element: any) => element.name == modelSelect
     );
+
     setModelInfoSelect(modelInfo);
     setFuel(
       modelInfo[0]?.fuel == 1
@@ -94,8 +95,10 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
       year: year,
       fipe: fipe,
       published: true,
+      is_good_price: false,
     };
     onCreateCarAd(newData);
+    onClose();
   };
 
   return (

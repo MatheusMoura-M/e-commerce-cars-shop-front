@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { contextHomeProvider } from "../../context/homePage.context";
 import { UlCardCars } from "./style";
 import CardSkeleton from "../../utils/skeletons/cardCar.skeleton";
-import { iCar } from "../../interface/car.interface";
+import { iCar, iCarResponse } from "../../interface/car.interface";
 import CarCard from "../../components/cards/car/car";
 import { Box, Text } from "@chakra-ui/react";
 
@@ -14,12 +14,19 @@ const CardCardList = ({ pageCard }: any) => {
     isLoading,
     filteredCars,
     isFilter,
-    filterFieldsSelected,
+    filterOptionsMenu,
     filterCarList,
+    isInputFilter,
+    inputCarsFiltered,
+    modelSelected,
+    brandSelected,
+    yearSelected,
+    colorSelected,
+    fuelSelected,
   } = useContext(contextHomeProvider);
 
   useEffect(() => {
-    filterFieldsSelected();
+    filterOptionsMenu();
     filterCarList();
   }, []);
 
@@ -33,58 +40,10 @@ const CardCardList = ({ pageCard }: any) => {
     );
   }
 
-  if (filteredCars.length != 0 && !isLoading) {
-    return (
-      <UlCardCars>
-        {pageCard.map((card: iCar, i: number) => {
-          return (
-            <CarCard
-              description={card.description}
-              image={card.cover_image}
-              km={card.km}
-              price={card.price}
-              nameCar={card.model}
-              brandCar={card.brand}
-              year={card.year}
-              key={card.id}
-              id={card.id}
-              userName="usuário"
-              buttonStatus={true}
-              isGoodPrice
-            />
-          );
-        })}
-      </UlCardCars>
-    );
-  }
-
-  if (!isLoading && !isFilter && carAd.length != 0) {
-    return (
-      <UlCardCars>
-        {pageCard.map((card: iCar, i: number) => {
-          return (
-            <CarCard
-              description={card.description}
-              image={card.cover_image}
-              km={card.km}
-              price={card.price}
-              nameCar={card.model}
-              brandCar={card.brand}
-              year={card.year}
-              key={card.id}
-              userName="usuário"
-              id={card.id}
-              buttonStatus
-              isPublished={false}
-              isGoodPrice
-            />
-          );
-        })}
-      </UlCardCars>
-    );
-  }
-
-  if (filteredCars.length == 0 && isFilter === true && !isLoading) {
+  if (
+    (filteredCars.length == 0 && isFilter && !isLoading && !isInputFilter) ||
+    (inputCarsFiltered.length == 0 && isInputFilter)
+  ) {
     return (
       <UlCardCars>
         <Box mt="50px">
@@ -94,17 +53,42 @@ const CardCardList = ({ pageCard }: any) => {
         </Box>
       </UlCardCars>
     );
+  } else if (carAd.length == 0 && !isFilter && !isInputFilter) {
+    return (
+      <UlCardCars>
+        <Box mt="50px">
+          <Text as="h2" fontSize="1.3rem">
+            Nenhum carro cadastrado &#128533;
+          </Text>
+        </Box>
+      </UlCardCars>
+    );
+  } else {
+    return (
+      <UlCardCars>
+        {pageCard.map((card: iCarResponse, i: number) => {
+          return (
+            <CarCard
+              description={card.description}
+              image={card.cover_image}
+              km={card.km}
+              price={card.price}
+              model={card.model}
+              brandCar={card.brand}
+              year={card.year}
+              key={card.id}
+              id={card.id}
+              imageUrl={card.user.image_url}
+              sellerName={card.user.name}
+              isGoodPrice={card.is_good_price}
+              buttonsSection={false}
+              ownerAdCard={card.user.id}
+            />
+          );
+        })}
+      </UlCardCars>
+    );
   }
-
-  return (
-    <UlCardCars>
-      <Box mt="50px">
-        <Text as="h2" fontSize="1.3rem">
-          Nenhum carro cadastrado &#128533;
-        </Text>
-      </Box>
-    </UlCardCars>
-  );
 };
 
 export default CardCardList;

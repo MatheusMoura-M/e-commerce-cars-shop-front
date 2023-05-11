@@ -15,7 +15,7 @@ import { useAuth } from "../../../context/webContext";
 import formSchemaUpdateAddress from "../../../schemas/updateAddress";
 import { iUpdateAddress } from "../../../interface/user.interface";
 import { Input } from "../../form/input";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { contextRegexInputs } from "../../../context/regexInputs.context";
 
 interface iStatusModalAddress {
@@ -28,7 +28,7 @@ export const ModalUpdateAddress = ({
   onClose,
 }: iStatusModalAddress) => {
   const { formattedZipcode, cep } = useContext(contextRegexInputs);
-  const { onUpdateAddress } = useAuth();
+  const { onUpdateAddress, addressData, onGetAddress } = useAuth();
 
   const [state, setState] = useState<string>("");
   const [city, setCity] = useState<string>("");
@@ -47,6 +47,10 @@ export const ModalUpdateAddress = ({
   const formSubmitAddress = (data: iUpdateAddress) => {
     onUpdateAddress(data);
   };
+
+  useEffect(() => {
+    onGetAddress();
+  }, []);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -78,7 +82,7 @@ export const ModalUpdateAddress = ({
               <Input
                 id="zipcode"
                 errorMessage={errors.zipcode?.message}
-                placeholder="98855.254"
+                placeholder={addressData.zipcode}
                 label="CEP"
                 type="text"
                 h={"48px"}
@@ -91,7 +95,7 @@ export const ModalUpdateAddress = ({
                 <Input
                   id="state"
                   errorMessage={errors.state?.message}
-                  placeholder="Paraná"
+                  placeholder={addressData.state}
                   label="Estado"
                   type="text"
                   h={"48px"}
@@ -103,7 +107,7 @@ export const ModalUpdateAddress = ({
                 <Input
                   id="city"
                   errorMessage={errors.city?.message}
-                  placeholder="Curitiba"
+                  placeholder={addressData.city}
                   label="Cidade"
                   type="text"
                   h={"48px"}
@@ -116,7 +120,7 @@ export const ModalUpdateAddress = ({
               <Input
                 id="street"
                 errorMessage={errors.street?.message}
-                placeholder="Rua do paraná"
+                placeholder={addressData.street}
                 label="Rua"
                 type="text"
                 h={"48px"}
@@ -129,7 +133,7 @@ export const ModalUpdateAddress = ({
                 <Input
                   id="number"
                   errorMessage={errors.number?.message}
-                  placeholder="1029"
+                  placeholder={addressData.number}
                   label="Número"
                   type="text"
                   h={"48px"}
@@ -141,7 +145,7 @@ export const ModalUpdateAddress = ({
                 <Input
                   id="complement"
                   errorMessage={errors.complement?.message}
-                  placeholder="Apart 12"
+                  placeholder={addressData.complement}
                   label="Complemento"
                   type="text"
                   h={"48px"}

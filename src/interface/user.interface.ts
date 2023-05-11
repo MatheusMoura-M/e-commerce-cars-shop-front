@@ -1,3 +1,5 @@
+import { iCar } from "./car.interface";
+
 export interface iRegister {
   name: string;
   email: string;
@@ -5,7 +7,6 @@ export interface iRegister {
   password: string;
   confir_password?: string;
   cpf: string;
-  image_url: string;
   birthdate: string;
   isSeller: boolean;
   street: string;
@@ -23,7 +24,6 @@ export interface iRegisterReq {
   telephone: string;
   password: string;
   cpf: string;
-  image_url: string;
   birthdate: string;
   isSeller: boolean;
   street: string;
@@ -58,6 +58,19 @@ export interface iUser {
   address: iAddressUpdateResponse;
 }
 
+export interface iCarsUser {
+  id: string;
+  name: string;
+  email: string;
+  cpf: string;
+  telephone: string;
+  birthdate: string;
+  description: string;
+  image_url: string;
+  isSeller: boolean;
+  cars: iCar[];
+}
+
 export interface iUpdateAddress {
   street?: string;
   zipcode?: string;
@@ -87,4 +100,11 @@ export interface iLoginProps {
 
 export interface iUserLogin {
   token: string;
+}
+
+export interface iSellerData {
+  id: string;
+  name: string;
+  description: string
+  image_url: string
 }

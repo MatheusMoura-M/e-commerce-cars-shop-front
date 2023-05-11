@@ -3,7 +3,7 @@ const token = localStorage.getItem("@token");
 
 const instanceKenzieCars = axios.create({
   baseURL: "https://kenzie-kars.herokuapp.com",
-  timeout: 2000,
+  timeout: 5000,
   headers: {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
