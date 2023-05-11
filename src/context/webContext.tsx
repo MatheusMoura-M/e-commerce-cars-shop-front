@@ -178,7 +178,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
       });
 
-      // navigate("/login", {replace: true})
       setUserLogged(resp.data);
       setIsLogged(true);
     } catch (error) {
@@ -411,6 +410,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
           autoClose: 1000,
         });
       }
+    } finally {
+      GetUserProfile();
     }
   };
 
