@@ -1,0 +1,10 @@
+.aboutKmYear-container span {
+  color: var(--brand-1);
+  background-color: var(--brand-4);
+  font-weight: 600;
+  padding: 8px 12px;
+  white-space: nowrap;
+  width: max-content;
+  border-radius: 5px;
+  font-size: 14px;
+}

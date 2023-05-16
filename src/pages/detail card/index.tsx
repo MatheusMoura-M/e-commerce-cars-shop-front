@@ -10,7 +10,6 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import ContainerDetailCard from "./style";
 import { BoxComment } from "../../components/boxComment";
 import { useAuth } from "../../context/webContext";
 import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/createCarsAd.modal";
@@ -19,12 +18,11 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import ModalEditComment from "../../components/modals/editComment/updateComment.modal";
+import "./style.css";
 
 export const DetailCard = () => {
   const {
     navigate,
-    isOpenAddress,
-    onCloseAddress,
     isLogged,
     isOpenUpdateUser,
     onCloseUpdateUser,
@@ -83,7 +81,20 @@ export const DetailCard = () => {
   return (
     <>
       <Header />
-      <ContainerDetailCard>
+      <Flex
+        as={"section"}
+        bg={"#f7f7f7"}
+        bgGradient="linear-gradient(
+          180deg,
+          #4529e6 31.25%,
+          #f1f3f5 31.26%,
+          #f1f3f5 100%
+        );"
+        h={"100%"}
+        m={"0 auto"}
+        flexDirection={"column"}
+        maxW={1450}
+      >
         <Container
           as={"section"}
           display={"flex"}
@@ -156,6 +167,7 @@ export const DetailCard = () => {
                     justifyContent={{ base: "flex-start", sm: "center" }}
                     alignItems={"center"}
                     mt={0}
+                    w={"150px"}
                   >
                     <Text as="span" fontFamily={"inter"}>
                       {carAdSelected.year}
@@ -454,14 +466,14 @@ export const DetailCard = () => {
           </Container>
           <BoxComment />
         </Flex>
-      </ContainerDetailCard>
-      <ModalCreateCarAd isOpen={isOpen} onClose={onClose} />
-      {/* <ModalUpdateAddress isOpen={isOpenAddress} onClose={onCloseAddress} /> */}
-      <ModalEditUser isOpen={isOpenUpdateUser} onClose={onCloseUpdateUser} />
-      <ModalEditComment
-        isOpen={isOpenUpdateComment}
-        onClose={onCloseUpdateComment}
-      />
+        <ModalCreateCarAd isOpen={isOpen} onClose={onClose} />
+        {/* <ModalUpdateAddress isOpen={isOpenAddress} onClose={onCloseAddress} /> */}
+        <ModalEditUser isOpen={isOpenUpdateUser} onClose={onCloseUpdateUser} />
+        <ModalEditComment
+          isOpen={isOpenUpdateComment}
+          onClose={onCloseUpdateComment}
+        />
+      </Flex>
       <Footer />
     </>
   );

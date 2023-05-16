@@ -1,14 +1,14 @@
-import { LiCar } from "./style";
+import "./style.css";
 import { MdAttachMoney } from "react-icons/md";
 import {
   Box,
   Image,
   Text,
-  Heading,
   Button,
   useDisclosure,
+  Flex,
 } from "@chakra-ui/react";
-import { AuthContext, useAuth } from "../../../context/webContext";
+import { useAuth } from "../../../context/webContext";
 import { ModalEditCarAd } from "../../modals/advertiserProfile/editCarsAd.modal";
 import { iCar } from "../../../interface/car.interface";
 
@@ -49,14 +49,14 @@ const CarCard = ({
   ownerAdCard,
   cardObj,
 }: iCardProps) => {
+  console.log(buttonsSection);
+
   const {
     goToAnnouncerProfile,
-    ownerOfAdSelected,
     GetCarSpecific,
     navigate,
     setSelectedCar,
     setIsBool,
-    isBool,
   } = useAuth();
   const {
     isOpen: isEditOpen,
@@ -65,9 +65,31 @@ const CarCard = ({
   } = useDisclosure();
 
   return (
-    <LiCar id={id}>
-      <Box className="container-image" display="flex" justifyContent="center">
-        <Image src={image} alt="Imagem do carro" h="190px" width="100%" />
+    <Box
+      id={id}
+      as="li"
+      bg={"grey.10"}
+      minW={300}
+      maxW={300}
+      h={"auto"}
+      minH={{ lg2m: 370 }}
+      mb={{ lg2m: "10px" }}
+      m={"0px 10px 0px 10px"}
+    >
+      <Box
+        display="flex"
+        position={"relative"}
+        bg={"grey.7"}
+        justifyContent="center"
+        borderTopRadius={"10px"}
+      >
+        <Image
+          src={image}
+          alt="Imagem do carro"
+          h="190px"
+          width="100%"
+          borderTopRadius={"10px"}
+        />
 
         {buttonStatus && (
           <Button
@@ -92,79 +114,103 @@ const CarCard = ({
         )}
 
         {isGoodPrice && (
-          <Text as="span">
-            <MdAttachMoney className="money-icon" />
+          <Text
+            as="span"
+            display={"flex"}
+            position={"absolute"}
+            top={0}
+            right={0}
+            alignItems={"center"}
+            justifyContent={"center"}
+            bg={"var(--random-7)"}
+            w={"17px"}
+            h={"27px"}
+            borderTopRightRadius={"10px"}
+            borderBottomLeftRadius={"3px"}
+          >
+            <MdAttachMoney size={17} color={"#FFFFFF"} />
           </Text>
         )}
       </Box>
-      <Box as="section" className="container-information">
+      <Box as="section" minW={0}>
         <Text
           as="h3"
+          w={"97%"}
+          overflow={"hidden"}
+          textOverflow={"ellipsis"}
+          whiteSpace={"nowrap"}
+          mt={"25px"}
+          cursor={"pointer"}
+          fontSize={"1rem"}
+          fontWeight={600}
+          _hover={{ color: "grey.2" }}
           onClick={() => {
             GetCarSpecific(id);
             navigate(`detail-card/${id}`);
           }}
-          cursor={"pointer"}
-          _hover={{ color: "grey.2" }}
-          fontSize={"1rem"}
-          fontWeight={"600"}
-          mt="5px"
         >
           {`${model} - ${brandCar}`}
         </Text>
 
-        <Text as="p" fontSize={"0.875rem"}>
+        <Text
+          as="p"
+          display={"-webkit-box"}
+          w={260}
+          minH={"48px"}
+          maxH={"48px"}
+          color={"grey.2"}
+          mt={"1rem"}
+          fontSize={"14px"}
+          lineHeight={"24px"}
+          fontWeight={400}
+          overflow={"hidden"}
+          noOfLines={2}
+        >
           {description}
         </Text>
       </Box>
-      <Box as="section" className="container-plusInfromation">
-        <Box as="div" className="plusInformation-containerUser">
-          {!buttonsSection && (
-            <Box as="div">
-              <Box as="div" className="user-container">
-                <Image
-                  src={imageUrl}
-                  borderRadius={"full"}
-                  onClick={() => {
-                    goToAnnouncerProfile(ownerAdCard!);
-                  }}
-                  cursor={"pointer"}
-                  h={"30px"}
-                  w={"30px"}
-                  objectFit={"cover"}
-                />
-                <Text
-                  as="p"
-                  fontSize="0.9rem"
-                  ml={"10px"}
-                  color="grey.1"
-                  fontWeight="500"
-                  textOverflow={"ellipsis"}
-                  whiteSpace={"nowrap"}
-                  overflow={"hidden"}
-                  w={"100px"}
-                  cursor={"pointer"}
-                  _hover={{ color: "brand.1" }}
-                  onClick={() => {
-                    goToAnnouncerProfile(ownerAdCard!);
-                  }}
-                >
-                  {sellerName}
-                </Text>
-              </Box>
-            </Box>
-          )}
-        </Box>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems={"center"}
-        >
-          <Box as="div" className="aboutKmYear-container">
+      <Box as="section">
+        {!buttonsSection && (
+          <Flex alignItems={"center"} pt={"16px"}>
+            <Image
+              src={imageUrl}
+              borderRadius={"full"}
+              onClick={() => {
+                goToAnnouncerProfile(ownerAdCard!);
+              }}
+              cursor={"pointer"}
+              h={"30px"}
+              w={"30px"}
+              objectFit={"cover"}
+            />
+            <Text
+              as="p"
+              fontSize="0.9rem"
+              ml={"10px"}
+              color="grey.1"
+              fontWeight="500"
+              textOverflow={"ellipsis"}
+              whiteSpace={"nowrap"}
+              overflow={"hidden"}
+              w={"100px"}
+              cursor={"pointer"}
+              _hover={{ color: "brand.1" }}
+              onClick={() => {
+                goToAnnouncerProfile(ownerAdCard!);
+              }}
+            >
+              {sellerName}
+            </Text>
+          </Flex>
+        )}
+        <Flex justifyContent="space-between" alignItems={"center"}>
+          <Box className="aboutKmYear-container" mt={"19px"}>
             <Text as="span" marginRight="5px">
               {km} KM
             </Text>
-            <Text as="span">{year}</Text>
+            <Text as="span" ml={"10px"}>
+              {year}
+            </Text>
           </Box>
           <Text
             as="span"
@@ -176,14 +222,9 @@ const CarCard = ({
           >
             R$ {price}
           </Text>
-        </Box>
+        </Flex>
         {buttonsSection && (
-          <Box
-            as="div"
-            bgColor={"grey.10"}
-            paddingTop="20px"
-            paddingBottom="15px"
-          >
+          <Box bgColor={"grey.10"} paddingTop="20px" paddingBottom="15px">
             <Button
               fontSize={"0.875rem"}
               borderRadius={"3px"}
@@ -227,7 +268,7 @@ const CarCard = ({
         )}
       </Box>
       <ModalEditCarAd isOpen={isEditOpen} onClose={onEditClose} />
-    </LiCar>
+    </Box>
   );
 };
 

@@ -7,13 +7,11 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import { FormRegister } from "./style";
 import { useState, useContext } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { contextRegexInputs } from "../../../context/regexInputs.context";
 import schemaRegister from "../../../schemas/register.schema";
 import { useForm } from "react-hook-form";
-import { error } from "console";
 import { iRegister } from "../../../interface/user.interface";
 import { Input } from "../input";
 import { useAuth } from "../../../context/webContext";
@@ -75,7 +73,15 @@ const FormRegisterUser = () => {
   };
 
   return (
-    <FormRegister onSubmit={handleSubmit(onSubmitRegister)}>
+    <Box
+      as="form"
+      bg={"grey.10"}
+      borderRadius={"4px"}
+      w={{ base: "95%", xs3: 420 }}
+      my={"40px"}
+      mx={"auto"}
+      onSubmit={handleSubmit(onSubmitRegister)}
+    >
       <Box w="80%" margin="0 auto" as="section">
         <Box paddingTop="45px" as="div">
           <Heading as="h2" fontSize="1.6rem" fontWeight="500">
@@ -473,7 +479,7 @@ const FormRegisterUser = () => {
           </Box>
         </Box>
       </Box>
-    </FormRegister>
+    </Box>
   );
 };
 

@@ -15,10 +15,13 @@ const breakpoints = {
   md2: "55em", // 880px
   lg: "62em", // 992px
   lg2: "64.37em", // 1030px
+  lg2m: "69.375em", // 1110px
   lg3: "72em", // 1152px
+  lg4: "75em", // 1200px
   xl: "80em", // 1280px
   xl1: "84.37em", // 1350px
   xl2: "88em", // 1408px
+  xl2m: "90.625em", // 1450px
   xl3: "96em", // 1536px
   xl4: "107.5625em", // 1721px
 };
@@ -44,6 +47,9 @@ const custonTheme = extendTheme({
       8: "#F1F3F5",
       9: "#F8F9FA",
       10: "#FDFDFD",
+    },
+    whiteFixed: {
+      1: "#FFFFFF",
     },
     alert: {
       1: "#CD2B31",
