@@ -1,7 +1,7 @@
 # :oncoming_automobile: Motors Shop
 
 Motors Shop é uma página web de market place de venda de carros que é possivèl comprar e vender 
-automóveis. todo site foi construído em: React com Typescript, styled-components, hook-form e router-dom e axios. 
+automóveis. todo site foi construído em: React com Typescript, Chakra-ui, styled-components, hook-form e router-dom e axios. 
 Nessa aplicação também foi utilizado uma api externa que possuí mais de 3 mil carros de diferentes marcas e modelos. 
 
 Como vendedor, é possível cadastrar veículos e gerenciar os seus anúncios. Todo carro cadastrato, já possui o valor 
