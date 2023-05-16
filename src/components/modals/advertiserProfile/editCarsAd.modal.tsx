@@ -13,7 +13,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { Input } from "../../form/input";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -21,11 +21,9 @@ import {
   iCarUpdate,
   iStatusModalCar,
 } from "../../../interface/car.interface";
-import "./style.css";
 import { useAuth } from "../../../context/webContext";
 import { ModalVerifyDelete } from "./verifyDelete.modal";
 import formSchemaCarUpdateAd from "../../../schemas/annoucements/updateCar.schema";
-import { instanceKenzieCars } from "../../../services/api";
 
 export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
   const {
@@ -45,6 +43,7 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
     setCurrentBrand,
     sellerData,
     onGetSellerCars,
+    onCreateImageCar,
   } = useAuth();
 
   const [images, setImages] = useState(["", ""]);
@@ -119,14 +118,26 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
     selectedCar.published ? setIsActive(true) : setIsActive(false);
   }, [isOpen]);
 
+  type variationOptions = {
+    [key: string]: string | boolean;
+  };
+
   const onSubmitEditAd = (data: iCarUpdate) => {
-    const newData = {
+    const newData: variationOptions = {
       ...data,
       fuel: selectedCar.fuel,
       year: selectedCar.year,
       fipe: selectedCar.fipe,
       published: isActive,
     };
+
+    for (let elem in newData) {
+      if (elem.includes("images") && newData[elem] !== "") {
+        const newObj = { image_url: newData[elem] };
+        onCreateImageCar(newObj, selectedCar.id);
+      }
+    }
+
     onUpdateCarAd(newData, selectedCar.id);
     onClose();
   };

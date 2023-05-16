@@ -75,3 +75,7 @@ export interface iUpdateCarAd extends Omit<iCarUpdate, "id"> {
   images_5?: string;
   images_6?: string;
 }
+
+export interface iImageCar {
+  image_url: string | boolean;
+}

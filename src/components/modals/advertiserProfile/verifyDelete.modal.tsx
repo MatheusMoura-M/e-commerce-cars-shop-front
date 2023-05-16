@@ -14,7 +14,6 @@ import {
   iStatusDeleteModalCar,
   iStatusModalCar,
 } from "../../../interface/car.interface";
-import "./style.css";
 import { useAuth } from "../../../context/webContext";
 import { useNavigate } from "react-router-dom";
 

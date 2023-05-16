@@ -22,6 +22,7 @@ import {
   iCar,
   iCarResponse,
   iCreateCarAd,
+  iImageCar,
   iUpdateCarAd,
 } from "../interface/car.interface";
 import { getCarSpecificResponse } from "../services/getCarSpecificResponse";
@@ -109,6 +110,7 @@ export interface iAuthProviderData {
   addressData: iAddressUpdateResponse;
   isSeller: boolean;
   setIsSeller: Dispatch<SetStateAction<boolean>>;
+  onCreateImageCar: (formData: iImageCar, id: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -602,6 +604,16 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     }
   };
 
+  const onCreateImageCar = async (formData: iImageCar, id: string) => {
+    try {
+      const resp = await instance.post(`/car/image/${id}`, formData, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -680,6 +692,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         addressData,
         isSeller,
         setIsSeller,
+        onCreateImageCar,
       }}
     >
       {children}

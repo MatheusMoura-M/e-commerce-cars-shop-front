@@ -18,7 +18,6 @@ import {
   iCreateCarAd,
   iStatusModalCar,
 } from "../../../interface/car.interface";
-import "./style.css";
 import { useAuth } from "../../../context/webContext";
 
 export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
@@ -50,7 +49,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
     handleSubmit,
     formState: { errors },
   } = useForm<iCreateCarAd>({
-    // resolver: yupResolver(formSchemaCarAd),
+    resolver: yupResolver(formSchemaCarAd),
   });
 
   const AddInputImage = () => {
@@ -97,6 +96,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModalCar) => {
       published: true,
       is_good_price: false,
     };
+
     onCreateCarAd(newData);
     onClose();
   };
