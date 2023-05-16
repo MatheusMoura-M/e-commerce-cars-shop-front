@@ -1,15 +1,14 @@
 # :oncoming_automobile: Motors Shop
 
-Motors Shop é uma página web de market place de venda de carros que é possivèl comprar e vender 
-automóveis. todo site foi construído em: React com Typescript, Chakra-ui, styled-components, hook-form e router-dom e axios. 
-Nessa aplicação também foi utilizado uma api externa que possuí mais de 3 mil carros de diferentes marcas e modelos. 
+Motors Shop é uma página web de market place de venda de carros que é possível comprar e vender 
+automóveis. Todo site foi construído em: React com Typescript, Chakra-ui, styled-components, hook-form e router-dom e axios. 
+Nessa aplicação também foi utilizado uma Api externa que possuí mais de 3 mil carros, marcas e modelos diferentes. 
 
-Como vendedor, é possível cadastrar veículos e gerenciar os seus anúncios. Todo carro cadastrato, já possui o valor 
+Como vendedor, é possível cadastrar veículos e gerenciar os seus anúncios. Todo carro cadastrado, já possui o valor 
 da sua tabela fipe, então se o valor do veículo for 5% menor que o preço da tabela fipe, seu veículo receberá um selo 
-que será indicado com uma boa compra. Na gestão de anúncio, o vendedores têm uma dashboard que pode gerenciar todos os carros 
-cadastrado pelos mesmos, podendo editar, excluir e pausar o aúncio para não ser mais visto pelos compradores. Todos os anúncios é possivél receber
-comantários e todo vendedor pode ser um comprador. Como usuário, é possível fazer menssagens em posts de veículos e pesquisar por novos carros.
-ambos podem também editar e excluir informações pessoais.
+que será indicado com uma boa compra. Na gestão de anúncio, o vendedores tem uma dashboard que pode gerenciar todos os carros 
+cadastrados, podendo editar, excluir e pausar o anúncio para não ser mais visto pelos compradores. Todos os anúncios são possível receber
+comentários e todo vendedor pode ser um comprador. Como usuário, é possível fazer comentários em posts de veículos e pesquisar por novos carros, ambos podem também editar e excluir informações pessoais.
 
 ## 🛠️:cloud: Inicialização
 
