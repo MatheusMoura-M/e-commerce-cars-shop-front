@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  useDisclosure,
-  Show,
-  Hide,
-  Link,
-  Card,
-} from "@chakra-ui/react";
-import { ContainerHomePage, HomePanel, NumberPage } from "./style";
+import { Box, Button, useDisclosure, Show, Hide, Flex } from "@chakra-ui/react";
 import ModalFilterMobile from "../../components/modals/home/filter/filterCarsMobile.modal";
 import FilterCars from "../../components/modals/home/filter/filterCars.modal";
 import Header from "../../components/navBar";
@@ -16,15 +7,11 @@ import { useState, useContext, useEffect } from "react";
 import { contextHomeProvider } from "../../context/homePage.context";
 import CardCardList from "./cardCarSection";
 import { useAuth } from "../../context/webContext";
+import { HomePanel } from "../../components/HomePanel";
+import { PageSwitch } from "../../components/PageSwitch";
 
 export const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [currentPage, setCurrentPage] = useState(0);
-  const arraySkelotons = new Array(12).fill("cards");
-
-  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
-  const [currentPageFilter, setCurrentPageFilter] = useState(0);
-  const [firstCardId, setFirstCardId] = useState<string>("");
   const { userLogged } = useAuth();
 
   const {
@@ -41,15 +28,12 @@ export const Home = () => {
     colorSelected,
     yearSelected,
     fuelSelected,
+    currentPage,
+    currentPageFilter,
   } = useContext(contextHomeProvider);
 
   const pageLimit =
     window.innerWidth == 1450 || window.innerWidth > 1450 ? 12 : 8;
-
-  const pages =
-    filteredCars.length != 0
-      ? Math.ceil(filteredCars.length / pageLimit)
-      : Math.ceil(carAd.length / pageLimit);
 
   const startSliceAt =
     filteredCars.length != 0
@@ -85,34 +69,32 @@ export const Home = () => {
   };
 
   return (
-    <ContainerHomePage>
-      <Box
-        display="flex"
+    <Box
+      display={{ xl2m: "flex" }}
+      w={{ base: "100%", lg3: 1110, xl2m: "100%" }}
+      m={{ lg2m: "0 auto" }}
+      alignItems={{ xl2m: "center" }}
+      justifyContent={{ xl2m: "center" }}
+    >
+      <Flex
         justifyContent="center"
         flexDirection="column"
         bgColor="grey.10"
-        maxWidth="1450px"
+        maxW="1450px"
       >
         <Header />
-
-        <HomePanel>
-          <div>
-            <h2>Motors Shop</h2>
-            <p>A melhor plataforma de anúncios de carros do país</p>
-          </div>
-        </HomePanel>
-        <Box display="flex">
+        <HomePanel />
+        <Flex>
           <Show breakpoint="(min-width: 1110px)">
             <FilterCars />
           </Show>
-          <CardCardList pageCard={pageCard()} setFirstCardId={setFirstCardId} />
-        </Box>
+          <CardCardList pageCard={pageCard()} />
+        </Flex>
 
-        <Box
+        <Flex
           w={"100%"}
           mt="60px"
           mb="30px"
-          display="flex"
           alignItems="center"
           justifyContent="center"
         >
@@ -138,103 +120,11 @@ export const Home = () => {
               Filtros
             </Button>
           </Hide>
-        </Box>
-        <Box>
-          <NumberPage>
-            {filteredCars.length != 0 ? (
-              <>
-                <span>{currentPageFilter + 1}</span>
-                <span>de {!filteredCars.length ? 1 : pages}</span>
-              </>
-            ) : (
-              <>
-                <span>{currentPage + 1}</span>
-                <span>de {!carAd.length ? 1 : pages}</span>
-              </>
-            )}
-          </NumberPage>
-          <Box display="flex" justifyContent="center">
-            {filteredCars.length != 0 ? (
-              <>
-                <Button
-                  bg={"grey.10"}
-                  color={"brand.2"}
-                  fontWeight="600"
-                  fontSize="1.10rem"
-                  mb="30px"
-                  hidden={currentPageFilter + 1 == 1 ? true : false}
-                  onClick={() =>
-                    currentPageFilter > 0
-                      ? setCurrentPageFilter(currentPageFilter - 1)
-                      : setCurrentPageFilter(currentPageFilter - 1)
-                  }
-                >
-                  &lt; Anterior
-                </Button>
-                <Button
-                  as="a"
-                  bg={"grey.10"}
-                  color={"brand.2"}
-                  fontWeight="600"
-                  fontSize="1.10rem"
-                  mb="30px"
-                  hidden={
-                    pages == currentPageFilter + 1 || !filteredCars.length
-                      ? true
-                      : false
-                  }
-                  onClick={() => {
-                    currentPageFilter < pages
-                      ? setCurrentPageFilter(currentPageFilter + 1)
-                      : setCurrentPageFilter(pages);
-                  }}
-                >
-                  Seguinte &gt;
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button
-                  bg={"grey.10"}
-                  color={"brand.2"}
-                  fontWeight="600"
-                  fontSize="1.10rem"
-                  mb="30px"
-                  hidden={currentPage + 1 == 1 ? true : false}
-                  onClick={() =>
-                    currentPage > 0
-                      ? setCurrentPage(currentPage - 1)
-                      : setCurrentPage(currentPage - 1)
-                  }
-                >
-                  &lt; Anterior
-                </Button>
-                <Button
-                  bg={"grey.10"}
-                  color={"brand.2"}
-                  fontWeight="600"
-                  fontSize="1.10rem"
-                  mb="30px"
-                  hidden={
-                    pages == currentPage + 1 || !carAd.length ? true : false
-                  }
-                  onClick={() => {
-                    currentPage < pages
-                      ? setCurrentPage(currentPage + 1)
-                      : setCurrentPage(pages);
-                  }}
-                >
-                  Seguinte &gt;
-                </Button>
-              </>
-            )}
-          </Box>
-        </Box>
-
+        </Flex>
+        <PageSwitch />
         <ModalFilterMobile isOpen={isOpen} onClose={onClose} />
-
         <Footer />
-      </Box>
-    </ContainerHomePage>
+      </Flex>
+    </Box>
   );
 };

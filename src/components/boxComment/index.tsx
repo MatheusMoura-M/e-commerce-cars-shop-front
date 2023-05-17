@@ -4,9 +4,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Input } from "../form/input";
 import { useAuth } from "../../context/webContext";
 import { useState } from "react";
-import { iCommentRequest } from "../../interface/comment.interface";
 import commentSchema from "../../schemas/comments";
 import { useParams } from "react-router-dom";
+import { iCommentRequest } from "../../interface";
 
 export const BoxComment = () => {
   const { id } = useParams();
@@ -107,7 +107,7 @@ export const BoxComment = () => {
             register={register}
             errorMessage={errors.comment?.message}
             placeholder="Digitar comentário"
-            height="128px"
+            h="128px"
             variant="outline"
             _hover={{
               bg: "grey.8",

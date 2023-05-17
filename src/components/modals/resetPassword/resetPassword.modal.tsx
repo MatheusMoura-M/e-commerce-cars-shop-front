@@ -7,6 +7,7 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
+  Flex,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import * as yup from "yup";
@@ -15,20 +16,15 @@ import { useForm } from "react-hook-form";
 import { Input } from "../../form/input";
 import { toast } from "react-toastify";
 import { instance } from "../../../services/api";
+import { IresetProps, IresetPropsResponse } from "../../../interface";
 
 const ResetPassword = ({ isOpen, onClose }: any) => {
   const [email, setEmail] = useState<string>("");
 
-  interface IresetProps {
-    email: string;
-  }
-  interface IresetPropsResponse {
-    message: string;
-  }
-
   const formSchema = yup.object().shape({
     email: yup.string().email().required("Email Obrigatório"),
   });
+
   const {
     register,
     handleSubmit: handleresetpass,
@@ -58,14 +54,13 @@ const ResetPassword = ({ isOpen, onClose }: any) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent alignSelf="center" padding="1rem">
+      <ModalContent alignSelf="center" p="1rem">
         <ModalHeader>Esqueci minha senha</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Box
+          <Flex
             as="form"
             backgroundColor="var(--grey-10)"
-            display="flex"
             flexDirection="column"
             gap="2rem"
             alignItems="center"
@@ -74,6 +69,7 @@ const ResetPassword = ({ isOpen, onClose }: any) => {
             <h1>Reset Password</h1>
             <Input
               id="email"
+              errorMessage={errors.email?.message}
               type="email"
               placeholder="Digite seu email"
               variant="outline"
@@ -95,7 +91,7 @@ const ResetPassword = ({ isOpen, onClose }: any) => {
             >
               Send Reset
             </Button>
-          </Box>
+          </Flex>
         </ModalBody>
       </ModalContent>
     </Modal>

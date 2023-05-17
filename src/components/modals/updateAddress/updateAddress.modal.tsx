@@ -13,20 +13,12 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAuth } from "../../../context/webContext";
 import formSchemaUpdateAddress from "../../../schemas/updateAddress";
-import { iUpdateAddress } from "../../../interface/user.interface";
 import { Input } from "../../form/input";
 import { useState, useContext, useEffect } from "react";
 import { contextRegexInputs } from "../../../context/regexInputs.context";
+import { iStatusModal, iUpdateAddress } from "../../../interface";
 
-interface iStatusModalAddress {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export const ModalUpdateAddress = ({
-  isOpen,
-  onClose,
-}: iStatusModalAddress) => {
+export const ModalUpdateAddress = ({ isOpen, onClose }: iStatusModal) => {
   const { formattedZipcode, cep } = useContext(contextRegexInputs);
   const { onUpdateAddress, addressData, onGetAddress } = useAuth();
 
@@ -72,7 +64,6 @@ export const ModalUpdateAddress = ({
           <ModalBody p={0}>
             <Flex
               as={"form"}
-              display={"flex"}
               alignItems={"center"}
               flexDirection={"column"}
               gap={"24px"}
@@ -156,7 +147,6 @@ export const ModalUpdateAddress = ({
                 />
               </Flex>
               <ModalFooter
-                display={"flex"}
                 flexDirection={"column"}
                 gap={"42px"}
                 w={"100%"}

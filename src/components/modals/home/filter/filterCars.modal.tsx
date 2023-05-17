@@ -1,13 +1,7 @@
-import { Box, Button, Heading, Input, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Input } from "@chakra-ui/react";
 import { contextHomeProvider } from "../../../../context/homePage.context";
-import { useContext, useEffect, useState } from "react";
-import {
-  BrandFilter,
-  ColorFilter,
-  FuelFilter,
-  ModelFilter,
-  YearFilter,
-} from "./sectionsFilter";
+import { useContext, useEffect } from "react";
+import { Filters } from "./sectionsFilter";
 import { ButtonFilter } from "./buttonFilter";
 
 const FilterCars = () => {
@@ -64,115 +58,74 @@ const FilterCars = () => {
   ]);
 
   return (
-
-    <Box as="section" marginTop="80px" marginLeft="20px" w="370px">
-      <Box>
+    <Box as="section" mt="80px" ml="20px" w="370px">
+      <Flex flexDirection={"column"}>
         <Heading fontSize="1.4rem">Marca</Heading>
 
-        <Box
-          marginLeft="-23px"
-          marginBottom="15px"
-          marginTop="15px"
-          cursor="pointer"
-        >
-          <BrandFilter
-            brandSelected={brandSelected}
-            isFilter={isFilter}
+        <Box m={"15px 0 15px 7px"} cursor="pointer">
+          <Filters
             filterOptionsMenu={filterOptionsMenu}
             setBrandSelected={setBrandSelected}
             brands={brands}
             setIsFilter={setIsFilter}
-            filterCarList={filterCarList}
           />
         </Box>
-      </Box>
-      <Box>
+      </Flex>
+      <Flex flexDirection={"column"}>
         <Heading fontSize="1.4rem">Modelo</Heading>
 
-        <Box
-          marginLeft="-23px"
-          marginBottom="15px"
-          marginTop="15px"
-          cursor="pointer"
-        >
-          <ModelFilter
-            modelSelected={modelSelected}
-            isFilter={isFilter}
+        <Box m={"15px 0 15px 7px"} cursor="pointer">
+          <Filters
             setModelSelected={setModelSelected}
-            filterOptionsMenu={filterOptionsMenu}
             models={models}
             setIsFilter={setIsFilter}
+            filterOptionsMenu={filterOptionsMenu}
           />
         </Box>
-      </Box>
-      <Box>
+      </Flex>
+      <Flex flexDirection={"column"}>
         <Heading fontSize="1.4rem">Cor</Heading>
 
-        <Box
-          marginLeft="-23px"
-          marginBottom="15px"
-          marginTop="15px"
-          cursor="pointer"
-        >
-          <ColorFilter
-            isFilter={isFilter}
+        <Box m={"15px 0 15px 7px"} cursor="pointer">
+          <Filters
             setColorSelected={setColorSelected}
-            colorSelected={colorSelected}
-            filterOptionsMenu={filterOptionsMenu}
             colors={colors}
             setIsFilter={setIsFilter}
+            filterOptionsMenu={filterOptionsMenu}
           />
         </Box>
-      </Box>
-      <Box>
+      </Flex>
+      <Flex flexDirection={"column"}>
         <Heading fontSize="1.4rem">Ano</Heading>
 
-        <Box
-          marginLeft="-23px"
-          marginBottom="15px"
-          marginTop="15px"
-          cursor="pointer"
-        >
-          <YearFilter
-            yearSelected={yearSelected}
-            isFilter={isFilter}
+        <Box m={"15px 0 15px 7px"} cursor="pointer">
+          <Filters
             setYearSelected={setYearSelected}
-            filterOptionsMenu={filterOptionsMenu}
             years={years}
             setIsFilter={setIsFilter}
+            filterOptionsMenu={filterOptionsMenu}
           />
         </Box>
-      </Box>
-      <Box>
-        <Heading fontSize="1.4rem">Combustível</Heading>
+      </Flex>
+      <Flex flexDirection={"column"}>
+        <Heading fontSize="1  .4rem">Combustível</Heading>
 
-        <Box
-          marginLeft="-23px"
-          marginBottom="20px"
-          marginTop="15px"
-          cursor="pointer"
-        >
-          <FuelFilter
-            fuelSelected={fuelSelected}
-            isFilter={isFilter}
+        <Box m={"20px 0 15px 7px"} cursor="pointer">
+          <Filters
             setFuelSelected={setFuelSelected}
-            filterOptionsMenu={filterOptionsMenu}
             fuels={fuels}
             setIsFilter={setIsFilter}
+            filterOptionsMenu={filterOptionsMenu}
           />
         </Box>
-      </Box>
-      <Box>
-
+      </Flex>
+      <Flex flexDirection={"column"}>
         <Heading fontSize="1.4rem">KM</Heading>
 
-        <Box 
-          margin="25px 0px 35px 10px" 
-          display="flex"
-        >
+        <Flex m="25px 0px 35px 10px">
           <Input
             w="120px"
-            marginRight="25px"
+            mr="25px"
             borderRadius="0px"
             bgColor="grey.5"
             borderColor="grey.5"
@@ -201,15 +154,15 @@ const FilterCars = () => {
               inputStatus(event.target.value, maxKm);
             }}
           />
-        </Box>
-      </Box>
-      <Box>
+        </Flex>
+      </Flex>
+      <Flex flexDirection={"column"}>
         <Heading fontSize="1.4rem">Preço</Heading>
 
-        <Box margin="25px 0px 35px 10px" display="flex">
+        <Flex m="25px 0px 35px 10px">
           <Input
             w="120px"
-            marginRight="25px"
+            mr="25px"
             borderRadius="0px"
             bgColor="grey.5"
             borderColor="grey.5"
@@ -239,8 +192,8 @@ const FilterCars = () => {
               inputStatus(event.target.value, maxPrice);
             }}
           />
-        </Box>
-      </Box>
+        </Flex>
+      </Flex>
       <ButtonFilter
         isFilter={isFilter}
         isInputFilter={isInputFilter}

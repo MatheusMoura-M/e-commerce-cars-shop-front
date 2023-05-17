@@ -58,7 +58,7 @@ const Header = () => {
       borderColor={"grey.6"}
     >
       <Flex h={"100%"} justifyContent={"space-between"}>
-        <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
+        <Flex alignItems={"center"} justifyContent={"center"}>
           <Image
             onClick={() => navigate("/")}
             w={[130, null, 140, 153.02]}
@@ -67,7 +67,7 @@ const Header = () => {
             alt="Logo Header"
             cursor="pointer"
           />
-        </Box>
+        </Flex>
         {isLogged ? (
           // MENU HAMBURGUER IS LOGGED
           <Flex alignItems={"center"} gap={"1rem"} h={"100%"}>
@@ -82,22 +82,21 @@ const Header = () => {
                 px={0}
               >
                 <HStack
+                  display={"flex"}
+                  alignItems={"center"}
+                  gap={[null, ".5rem"]}
                   borderLeft={"2px solid"}
                   borderColor={"grey.6"}
                   minH={"78px"}
-                  display={"flex"}
                   pl={[".5rem", "1rem", null, null]}
                   pr={[".5rem", "1rem", null, "1.7rem"]}
-                  alignItems={"center"}
-                  gap={[null, ".5rem"]}
                 >
                   <Image
-                    width={[30, 35, null, 45]}
+                    w={[30, 35, null, 45]}
                     src={userLogged.image_url}
                     alt="Image profile"
                     borderRadius={"full"}
                     h={"100%"}
-                    w={"100%"}
                     objectFit={"cover"}
                   />
                   <Text
@@ -113,20 +112,20 @@ const Header = () => {
                 </HStack>
               </MenuButton>
               <MenuList
-                transform={{
-                  base: "translate(0px, -7px) !important",
-                  xl4: "translate(-127px, -7px) !important",
-                }}
                 display={"flex"}
-                flexDirection={"column"}
-                alignItems={"flex-start"}
                 justifyContent={"flex-start"}
-                borderTopRadius={"0rem"}
-                borderBottomRadius={".5rem"}
+                alignItems={"flex-start"}
+                flexDirection={"column"}
                 maxH={"max-content"}
                 minW={["18.5rem", "20.5rem"]}
                 pt={"0px"}
                 bg={"#FDFDFD"}
+                borderTopRadius={"0rem"}
+                borderBottomRadius={".5rem"}
+                transform={{
+                  base: "translate(0px, -7px) !important",
+                  xl4: "translate(-127px, -7px) !important",
+                }}
               >
                 {userLogged.isSeller
                   ? BtnsIsLogged.map((link) => (

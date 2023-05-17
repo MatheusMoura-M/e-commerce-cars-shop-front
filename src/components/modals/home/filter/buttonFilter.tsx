@@ -1,4 +1,5 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
+import { iButtonFilterMobile } from "../../../../interface";
 
 export const ButtonFilterMobile = ({
   isFilter,
@@ -7,22 +8,10 @@ export const ButtonFilterMobile = ({
   isOpen,
   filteredAlready,
   setFilteredAlready,
-  filteredCars,
-  isInputFilter
-}: any) => {
-
-  
-
-  if (isFilter && isOpen && filteredAlready ) {
-
+}: iButtonFilterMobile) => {
+  if (isFilter && isOpen && filteredAlready) {
     return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        marginTop="70px"
-        marginBottom="40px"
-        w="100%"
-      >
+      <Flex justifyContent="center" mt="70px" mb="40px" w="100%">
         <Button
           bg={"brand.1"}
           color={"grey.10"}
@@ -30,27 +19,19 @@ export const ButtonFilterMobile = ({
           borderRadius="5px"
           fontWeight="600"
           _hover={{ background: "brand.2" }}
-          padding="25px 0px 22px 0px"
+          p="25px 0px 22px 0px"
           onClick={() => {
             clearFilter();
-            setFilteredAlready(false)
+            setFilteredAlready(false);
           }}
         >
           Limpar Filtros
         </Button>
-      </Box>
+      </Flex>
     );
-
-  }else{
-
+  } else {
     return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        marginTop="70px"
-        marginBottom="40px"
-        w="100%"
-      >
+      <Flex justifyContent="center" mt="70px" mb="40px" w="100%">
         <Button
           bg={"brand.1"}
           color={"grey.10"}
@@ -58,36 +39,26 @@ export const ButtonFilterMobile = ({
           borderRadius="5px"
           fontWeight="600"
           _hover={{ background: "brand.2" }}
-          padding="25px 0px 22px 0px"
+          p="25px 0px 22px 0px"
           onClick={() => {
+            onClose();
 
-            onClose()
-
-            if(isFilter){
-              setFilteredAlready(true)
+            if (isFilter) {
+              setFilteredAlready(true);
             }
-
           }}
         >
           Ver Anúncios
         </Button>
-      </Box>
+      </Flex>
     );
   }
-  
 };
 
 export const ButtonFilter = ({ isFilter, isInputFilter, clearFilter }: any) => {
-  
   if (isFilter && !isInputFilter) {
     return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        marginTop="70px"
-        marginBottom="40px"
-        w="100%"
-      >
+      <Flex justifyContent="center" mt="70px" mb="40px" w="100%">
         <Button
           bg={"brand.1"}
           color={"grey.10"}
@@ -95,14 +66,14 @@ export const ButtonFilter = ({ isFilter, isInputFilter, clearFilter }: any) => {
           borderRadius="5px"
           fontWeight="600"
           _hover={{ background: "brand.2" }}
-          padding="25px 0px 22px 0px"
+          p="25px 0px 22px 0px"
           onClick={() => {
             clearFilter();
           }}
         >
           Limpar Filtros
         </Button>
-      </Box>
+      </Flex>
     );
   } else {
     return null;

@@ -1,6 +1,6 @@
 import { iCar } from "./car.interface";
 
-export interface iRegister {
+interface iRegister {
   name: string;
   email: string;
   telephone: string;
@@ -18,7 +18,7 @@ export interface iRegister {
   complement: string;
 }
 
-export interface iRegisterReq {
+interface iRegisterReq {
   name: string;
   email: string;
   telephone: string;
@@ -35,7 +35,7 @@ export interface iRegisterReq {
   complement: string;
 }
 
-export interface iAddressUpdateResponse {
+interface iAddressUpdateResponse {
   id: string;
   street: string;
   zipcode: string;
@@ -45,7 +45,7 @@ export interface iAddressUpdateResponse {
   complement: string;
 }
 
-export interface iUser {
+interface iUser {
   id: string;
   name: string;
   email: string;
@@ -58,7 +58,7 @@ export interface iUser {
   address: iAddressUpdateResponse;
 }
 
-export interface iCarsUser {
+interface iCarsUser {
   id: string;
   name: string;
   email: string;
@@ -71,7 +71,7 @@ export interface iCarsUser {
   cars: iCar[];
 }
 
-export interface iUpdateAddress {
+interface iUpdateAddress {
   street?: string;
   zipcode?: string;
   state?: string;
@@ -80,7 +80,7 @@ export interface iUpdateAddress {
   complement?: string;
 }
 
-export interface iUpdateUser {
+interface iUpdateUser {
   name?: string;
   email?: string;
   telephone?: string;
@@ -93,18 +93,31 @@ export interface iUpdateUser {
   description?: string;
 }
 
-export interface iLoginProps {
+interface iLoginProps {
   email: string;
   password: string;
 }
 
-export interface iUserLogin {
+interface iUserLogin {
   token: string;
 }
 
-export interface iSellerData {
+interface iSellerData {
   id: string;
   name: string;
-  description: string
-  image_url: string
+  description: string;
+  image_url: string;
 }
+
+export type {
+  iAddressUpdateResponse,
+  iCarsUser,
+  iLoginProps,
+  iRegister,
+  iUserLogin,
+  iSellerData,
+  iUser,
+  iUpdateUser,
+  iRegisterReq,
+  iUpdateAddress,
+};

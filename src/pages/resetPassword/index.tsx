@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { instance } from "../../services/api";
 import { useState } from "react";
 import axios from "axios";
+import { IresetPropsRequest, IresetPropsResponse } from "../../interface";
 
 const ResetPasswordPage = () => {
   const { token } = useParams();
@@ -22,14 +23,6 @@ const ResetPasswordPage = () => {
 
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-
-  interface IresetRequestProps {
-    password: string;
-    confirm_password: string;
-  }
-  interface IresetRequestPropsResponse {
-    message: string;
-  }
 
   const formSchema = yup.object().shape({
     password: yup.string().required("Senha obrigatória"),
@@ -39,17 +32,17 @@ const ResetPasswordPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IresetRequestProps>({
+  } = useForm<IresetPropsRequest>({
     resolver: yupResolver(formSchema),
   });
 
-  const ResetPass = async (password: IresetRequestProps): Promise<void> => {
+  const ResetPass = async (password: IresetPropsRequest): Promise<void> => {
     try {
       if (password.password !== password.confirm_password) {
         throw new Error("As senhas não coincidem");
       }
 
-      const { data } = await instance.patch<IresetRequestPropsResponse>(
+      const { data } = await instance.patch<IresetPropsResponse>(
         `user/reset-password/${token}`,
         password
       );

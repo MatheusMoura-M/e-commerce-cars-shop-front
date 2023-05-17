@@ -6,13 +6,11 @@ import {
   InputGroup,
   InputRightElement,
   Box,
-  FormErrorMessage,
-  FormHelperText,
   Text,
 } from "@chakra-ui/react";
 import { InputProps, iShowPass } from "../../@types";
 import { useAuth } from "../../context/webContext";
-import { useState, ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 export const Input = ({

@@ -6,13 +6,17 @@ const breakpoints = {
   xs2: "25em", // 400px
   xs3: "27.37em", // 438px
   sm: "30em", // 480px
+  smm: "31.25em", // 500px
   sm1: "31.87em", // 510px
   xsm2: "33.76em", // 540px
+  xsm3: "35.625em", // 570px
   sm2: "40em", // 640px
   sm3: "43.55em", // 697px
   sm4: "45em", // 720px
   md: "48em", // 768px
+  md1: "50em", // 800px
   md2: "55em", // 880px
+  md3: "59.375em", // 950px
   lg: "62em", // 992px
   lg2: "64.37em", // 1030px
   lg2m: "69.375em", // 1110px

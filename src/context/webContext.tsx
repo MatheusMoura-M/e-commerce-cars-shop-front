@@ -1,38 +1,32 @@
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext } from "react";
 import { iProviderProps } from "../@types";
 import { MenuItem, useDisclosure } from "@chakra-ui/react";
 import { useState, Dispatch, SetStateAction } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { instance, instanceKenzieCars } from "../services/api";
+import { getCarSpecificResponse } from "../services/getCarSpecificResponse";
+import { getUserSpecificReponse } from "../services/getUserSpecificResponse";
+import { createCommentResponse } from "../services/createCommentResponse";
 import {
   iAddressUpdateResponse,
+  iCar,
+  iCarResponse,
   iCarsUser,
+  iCommentRequest,
+  iCommentsListResponse,
+  iCreateCarAd,
+  iImageCar,
   iLoginProps,
-  iRegister,
   iRegisterReq,
   iSellerData,
   iUpdateAddress,
+  iUpdateCarAd,
   iUpdateUser,
   iUser,
   iUserLogin,
-} from "../interface/user.interface";
-import { instance, instanceKenzieCars } from "../services/api";
-import {
-  iCar,
-  iCarResponse,
-  iCreateCarAd,
-  iImageCar,
-  iUpdateCarAd,
-} from "../interface/car.interface";
-import { getCarSpecificResponse } from "../services/getCarSpecificResponse";
-import { getUserSpecificReponse } from "../services/getUserSpecificResponse";
-import {
-  iCommentRequest,
-  iCommentsListResponse,
-} from "../interface/comment.interface";
-import { createCommentResponse } from "../services/createCommentResponse";
-import { contextHomeProvider } from "./homePage.context";
+} from "../interface";
 
 export interface iAuthProviderData {
   MenuHamburguer: ({ children }: iProviderProps) => JSX.Element;
@@ -371,15 +365,19 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   };
 
   const onGetAddress = async () => {
-    try {
-      const response = await instance.get("/address/profile", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
-      });
+    if (localStorage.getItem("@token")) {
+      try {
+        const response = await instance.get("/address/profile", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("@token")}`,
+          },
+        });
 
-      setAddressData(response.data);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log(error);
+        setAddressData(response.data);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.log(error);
+        }
       }
     }
   };

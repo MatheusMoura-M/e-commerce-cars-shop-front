@@ -1,4 +1,4 @@
-import { iCarResponse } from "../interface/car.interface";
+import { iCarResponse } from "../interface";
 import { instance } from "./api";
 
 export const getCarSpecificResponse = async (

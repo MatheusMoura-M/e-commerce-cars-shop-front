@@ -9,7 +9,7 @@ import { useContext, useState } from "react";
 import { Input } from "../../components/form/input";
 import { Button, useDisclosure } from "@chakra-ui/react";
 import ResetPassword from "../../components/modals/resetPassword/resetPassword.modal";
-import { iLoginProps } from "../../interface/user.interface";
+import { iLoginProps } from "../../interface";
 
 export const LoginPage = () => {
   const { Login, navigate } = useContext(AuthContext);

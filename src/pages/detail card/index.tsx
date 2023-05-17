@@ -112,7 +112,7 @@ export const DetailCard = () => {
             flexDirection={"column"}
             alignItems={{ base: "center", xl: "unset" }}
             gap={"1rem"}
-            width={{ base: "90%", xl: "unset" }}
+            w={{ base: "90%", xl: "unset" }}
           >
             <Flex
               bg={"grey.10"}
@@ -404,7 +404,6 @@ export const DetailCard = () => {
                           w={"30px"}
                           src={comment.users.image_url}
                           alt="Imagem de perfil do usuário"
-                          width="30px"
                           h={"30px"}
                           objectFit={"cover"}
                         />

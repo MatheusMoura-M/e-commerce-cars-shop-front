@@ -1,10 +1,10 @@
 import { useContext, useEffect } from "react";
 import { contextHomeProvider } from "../../context/homePage.context";
-import { UlCardCars } from "./style";
 import CardSkeleton from "../../utils/skeletons/cardCar.skeleton";
-import { iCar, iCarResponse } from "../../interface/car.interface";
-import CarCard from "../../components/cards/car/car";
+import CarCard from "../../components/cards/car";
 import { Box, Text } from "@chakra-ui/react";
+import { iCarResponse } from "../../interface";
+import { UlCardCars } from "../../components/UlCardCars";
 
 const CardCardList = ({ pageCard }: any) => {
   const arraySkelotons = new Array(12).fill("cards");
@@ -18,11 +18,6 @@ const CardCardList = ({ pageCard }: any) => {
     filterCarList,
     isInputFilter,
     inputCarsFiltered,
-    modelSelected,
-    brandSelected,
-    yearSelected,
-    colorSelected,
-    fuelSelected,
   } = useContext(contextHomeProvider);
 
   useEffect(() => {

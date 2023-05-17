@@ -12,25 +12,18 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Text,
   Textarea,
 } from "@chakra-ui/react";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { contextRegexInputs } from "../../../context/regexInputs.context";
 import { useForm } from "react-hook-form";
-import { iUpdateUser } from "../../../interface/user.interface";
 import { Input } from "../../form/input";
 import schemaUpdateUser from "../../../schemas/updateUser";
 import { useAuth } from "../../../context/webContext";
-import { contextHomeProvider } from "../../../context/homePage.context";
+import { iStatusModal, iUpdateUser } from "../../../interface";
 
-interface iStatusModalUpdateUser {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
+const ModalEditUser = ({ isOpen, onClose }: iStatusModal) => {
   const { onUpdateUser, onDeleteUser, userLogged, setIsSeller, isSeller } =
     useAuth();
 
@@ -114,7 +107,7 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
             >
               <Flex
                 w="100%"
-                margin="0 auto"
+                m="0 auto"
                 as="section"
                 overflowY={"scroll"}
                 flexDirection={"column"}
@@ -245,7 +238,7 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                   />
                 </FormControl>
 
-                <Box pt={"15px"} pb={"8px"} as="div">
+                <Box pt={"15px"} pb={"8px"}>
                   <Heading
                     as="h3"
                     fontSize="14px"
@@ -255,13 +248,13 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                     Tipo de conta
                   </Heading>
                 </Box>
-                <Box display="flex" justifyContent="space-between" as="div">
+                <Flex justifyContent="space-between">
                   <Button
                     color={isSeller ? "grey.0" : "grey.10"}
                     border="2px"
                     borderColor={isSeller ? "grey.4" : "brand.1"}
                     bg={isSeller ? "grey.10" : "brand.1"}
-                    width="48%"
+                    w="48%"
                     fontSize="0.875rem"
                     _focus={{ backgroundColor: "brand.1" }}
                     onClick={() => setIsSeller(false)}
@@ -273,14 +266,14 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                     border="2px"
                     borderColor={!isSeller ? "grey.4" : "brand.1"}
                     bg={!isSeller ? "grey.10" : "brand.1"}
-                    width="48%"
+                    w="48%"
                     fontSize="0.875rem"
                     _focus={{ backgroundColor: "brand.1" }}
                     onClick={() => setIsSeller(true)}
                   >
                     Anuciante
                   </Button>
-                </Box>
+                </Flex>
 
                 <Input
                   id="password"
@@ -315,12 +308,7 @@ const ModalEditUser = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                 />
               </Flex>
 
-              <ModalFooter
-                display={"flex"}
-                flexDirection={"column"}
-                gap={"42px"}
-                p={0}
-              >
+              <ModalFooter flexDirection={"column"} gap={"42px"} p={0}>
                 <Flex
                   w={"100%"}
                   gap={"10px"}

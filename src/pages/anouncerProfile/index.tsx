@@ -9,12 +9,12 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import CarCard from "../../components/cards/car/car";
+import CarCard from "../../components/cards/car";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/webContext";
 import { useParams } from "react-router-dom";
-import { iCarResponse } from "../../interface/car.interface";
 import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/createCarsAd.modal";
+import { iCarResponse } from "../../interface";
 
 export const AnnouncerProfileCard = () => {
   const { onGetSellerCars, sellerData, userLogged, carsSeller } = useAuth();
@@ -66,14 +66,8 @@ export const AnnouncerProfileCard = () => {
         #f7f7f7 50px)"
     >
       <Header />
-      <Box
-        display="flex"
-        justifyContent="center"
-        flexDirection="column"
-        maxWidth="1450px"
-      >
-        <Box
-          display="flex"
+      <Flex justifyContent="center" flexDirection="column" maxW="1450px">
+        <Flex
           flexDirection={"column"}
           alignItems={"center"}
           justifyContent={"center"}
@@ -86,7 +80,7 @@ export const AnnouncerProfileCard = () => {
               flexDirection={"column"}
               p={{ base: "30px 28px", xl: "37px 44px" }}
               gap={{ base: "25px", xl: "30px" }}
-              marginTop={{ base: "65px", xl: "75px" }}
+              mt={{ base: "65px", xl: "75px" }}
             >
               <Flex flexDirection={"column"} w={"104px"} h={"104px"}>
                 <Image
@@ -99,13 +93,13 @@ export const AnnouncerProfileCard = () => {
                 />
               </Flex>
 
-              <Box display="flex" flexWrap="wrap">
+              <Flex flexWrap="wrap">
                 <Text
                   as={"h2"}
                   fontWeight={600}
                   fontSize={"20px"}
-                  marginRight="13px"
-                  marginBottom="5px"
+                  mr="13px"
+                  mb="5px"
                   maxW={"250px"}
                   textOverflow={"ellipsis"}
                   whiteSpace={"nowrap"}
@@ -116,17 +110,17 @@ export const AnnouncerProfileCard = () => {
                 <Text
                   bgColor="brand.4"
                   color="brand.1"
-                  width="100px"
+                  w="100px"
                   fontSize="0.875rem"
                   fontWeight="500"
-                  height="29px"
+                  h="29px"
                   textAlign="center"
                   pt="4px"
                   borderRadius="3px"
                 >
                   Anunciante
                 </Text>
-              </Box>
+              </Flex>
               <Text
                 as={"p"}
                 fontSize={"16px"}
@@ -140,7 +134,7 @@ export const AnnouncerProfileCard = () => {
               </Text>
               {sellerData.id == userId && (
                 <Button
-                  width="140px"
+                  w="140px"
                   fontSize="0.875rem"
                   borderRadius="3px"
                   border="2px"
@@ -148,7 +142,7 @@ export const AnnouncerProfileCard = () => {
                   bgColor="transparent"
                   color="brand.1"
                   _hover={{ bgColor: "brand.4" }}
-                  marginBottom="5px"
+                  mb="5px"
                   onClick={onCreateOpen}
                 >
                   Criar Anúncio
@@ -170,13 +164,13 @@ export const AnnouncerProfileCard = () => {
             gap={{ lg2m: "20px" }}
             sx={{
               "::-webkit-scrollbar": {
-                width: "10px",
-                height: "12px",
+                w: "10px",
+                h: "12px",
               },
               "::-webkit-scrollbar-track": {
                 background: "grey.3",
                 borderRadius: "10px",
-                width: "10px",
+                w: "10px",
               },
               "::-webkit-scrollbar-thumb": {
                 background: "grey.4",
@@ -206,7 +200,7 @@ export const AnnouncerProfileCard = () => {
               );
             })}
           </Flex>
-        </Box>
+        </Flex>
         <Box>
           <Flex
             justifyContent={"center"}
@@ -233,7 +227,7 @@ export const AnnouncerProfileCard = () => {
               de {!carsSeller.length ? 1 : pages}
             </Text>
           </Flex>
-          <Box display="flex" justifyContent="center">
+          <Flex justifyContent="center">
             <Button
               bg={"grey.10"}
               color={"brand.2"}
@@ -268,9 +262,9 @@ export const AnnouncerProfileCard = () => {
             >
               Seguinte &gt;
             </Button>
-          </Box>
+          </Flex>
         </Box>
-      </Box>
+      </Flex>
       <Footer />
       <ModalCreateCarAd isOpen={isCreateOpen} onClose={onCreateClose} />
     </Container>

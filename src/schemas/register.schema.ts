@@ -4,7 +4,7 @@ const schemaRegister = yup
   .object({
     name: yup.string().required("Campo obrigatório"),
     email: yup.string().email().required("Campo obrigatório"),
-    description: yup.string().required("Campo obrigat?rio"),
+    description: yup.string().required("Campo obrigatório"),
     telephone: yup
       .string()
       .min(15, "Número de telefone invalido")

@@ -8,28 +8,9 @@ import {
   useDisclosure,
   Flex,
 } from "@chakra-ui/react";
-import { useAuth } from "../../../context/webContext";
-import { ModalEditCarAd } from "../../modals/advertiserProfile/editCarsAd.modal";
-import { iCar } from "../../../interface/car.interface";
-
-interface iCardProps {
-  model: string;
-  brandCar: string;
-  description: string;
-  price: string;
-  image: string;
-  year: string;
-  km: string;
-  id: string;
-  buttonStatus?: boolean;
-  isPublished?: boolean;
-  isGoodPrice?: boolean;
-  sellerName?: string;
-  imageUrl: string;
-  buttonsSection?: boolean;
-  ownerAdCard?: string;
-  cardObj?: iCar;
-}
+import { useAuth } from "../../context/webContext";
+import { ModalEditCarAd } from "../modals/advertiserProfile/editCarsAd.modal";
+import { iCardProps } from "../../interface";
 
 const CarCard = ({
   buttonStatus,
@@ -49,8 +30,6 @@ const CarCard = ({
   ownerAdCard,
   cardObj,
 }: iCardProps) => {
-  console.log(buttonsSection);
-
   const {
     goToAnnouncerProfile,
     GetCarSpecific,
@@ -71,13 +50,12 @@ const CarCard = ({
       bg={"grey.10"}
       minW={300}
       maxW={300}
-      h={"auto"}
+      h={{ base: "auto" }}
       minH={{ lg2m: 370 }}
       mb={{ lg2m: "10px" }}
-      m={"0px 10px 0px 10px"}
+      m={{ base: "0px 10px 0px 10px", lg2m: "0px 30px 20px 0px" }}
     >
-      <Box
-        display="flex"
+      <Flex
         position={"relative"}
         bg={"grey.7"}
         justifyContent="center"
@@ -87,7 +65,7 @@ const CarCard = ({
           src={image}
           alt="Imagem do carro"
           h="190px"
-          width="100%"
+          w="100%"
           borderTopRadius={"10px"}
         />
 
@@ -100,13 +78,13 @@ const CarCard = ({
             color="grey.10"
             fontSize="14px"
             fontWeight="500"
-            paddingTop="2px"
+            pt="2px"
             borderRadius="0px"
             _hover={
               isPublished ? { bgColor: "brand.2" } : { bgColor: "brand.2" }
             }
-            height="32px"
-            width="70px"
+            h="32px"
+            w="70px"
             fontFamily={"'Inter', sans-serif"}
           >
             {isPublished ? "Ativo" : "Inativo"}
@@ -131,7 +109,7 @@ const CarCard = ({
             <MdAttachMoney size={17} color={"#FFFFFF"} />
           </Text>
         )}
-      </Box>
+      </Flex>
       <Box as="section" minW={0}>
         <Text
           as="h3"
@@ -205,7 +183,7 @@ const CarCard = ({
         )}
         <Flex justifyContent="space-between" alignItems={"center"}>
           <Box className="aboutKmYear-container" mt={"19px"}>
-            <Text as="span" marginRight="5px">
+            <Text as="span" mr="5px">
               {km} KM
             </Text>
             <Text as="span" ml={"10px"}>
@@ -217,14 +195,14 @@ const CarCard = ({
             className="priceCar"
             fontWeight="600"
             color="grey.2"
-            marginRight="10px"
-            marginTop={"15px"}
+            mr="10px"
+            mt={"15px"}
           >
             R$ {price}
           </Text>
         </Flex>
         {buttonsSection && (
-          <Box bgColor={"grey.10"} paddingTop="20px" paddingBottom="15px">
+          <Box bgColor={"grey.10"} pt="20px" pb="15px">
             <Button
               fontSize={"0.875rem"}
               borderRadius={"3px"}
@@ -243,7 +221,7 @@ const CarCard = ({
               Editar
             </Button>
             <Button
-              marginLeft="10px"
+              ml="10px"
               fontSize={"0.875rem"}
               borderRadius={"3px"}
               fontWeight={"600"}

@@ -14,15 +14,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Input } from "../../form/input";
 import { useAuth } from "../../../context/webContext";
-import { iCommentRequest } from "../../../interface/comment.interface";
 import commentSchema from "../../../schemas/comments";
+import { iCommentRequest, iStatusModal } from "../../../interface";
 
-interface iStatusModalUpdateUser {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-const ModalEditComment = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
+const ModalEditComment = ({ isOpen, onClose }: iStatusModal) => {
   const { selectedCommentId, onEditComment, onDeleteComment } = useAuth();
   const [commentInput, setCommentInput] = useState<string>("");
 
@@ -68,7 +63,7 @@ const ModalEditComment = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                 justifyContent={"center"}
                 w="100%"
                 minH={150}
-                margin="0 auto"
+                m="0 auto"
                 as="section"
               >
                 <Input
@@ -89,12 +84,7 @@ const ModalEditComment = ({ isOpen, onClose }: iStatusModalUpdateUser) => {
                   value={commentInput}
                 />
               </Flex>
-              <ModalFooter
-                display={"flex"}
-                flexDirection={"column"}
-                gap={"42px"}
-                p={0}
-              >
+              <ModalFooter flexDirection={"column"} gap={"42px"} p={0}>
                 <Flex
                   w={{ base: "100%", xs3: "85%" }}
                   flexWrap={"wrap"}

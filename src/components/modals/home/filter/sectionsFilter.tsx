@@ -1,163 +1,59 @@
 import { Box, Text } from "@chakra-ui/react";
+import { iFilters } from "../../../../interface";
 
-export const BrandFilter = ({
-  brandSelected,
-  isFilter,
+export const Filters = ({
   filterOptionsMenu,
-  setBrandSelected,
+  setIsFilter,
   brands,
-  setIsFilter,
-}: any) => {
-
-  return brands.map((brand: string, i: number) => {
-    return (
-      <Box marginLeft="30px" key={i}>
-        <Text
-          fontWeight="600"
-          color="grey.3"
-          onClick={() => {
-            setBrandSelected(brand);
-            filterOptionsMenu()
-            setIsFilter(true);
-          }}
-          _hover={{ color: "grey.2", transition: "0.3s" }}
-        >
-          {brand}
-        </Text>
-      </Box>
-    );
-  });
-  
-};
-
-export const ModelFilter = ({
-  modelSelected,
-  isFilter,
-  setModelSelected,
-  filterOptionsMenu,
+  setBrandSelected,
   models,
-  setIsFilter,
-}: any) => {
- 
-  return (
-    <Box marginLeft="30px">
-      {models.map((model: string, i: number) => {
-        return (
-          <Text
-            fontWeight="600"
-            color="grey.3"
-            key={i}
-            onClick={() => {
-              setModelSelected(model);
-              filterOptionsMenu()
-              setIsFilter(true);
-            }}
-            _hover={{ color: "grey.2", transition: "0.3s" }}
-          >
-            {model}
-          </Text>
-        );
-      })}
-    </Box>
-  );
-  
-};
-
-export const ColorFilter = ({
-  isFilter,
-  setColorSelected,
-  colorSelected,
-  filterOptionsMenu,
+  setModelSelected,
   colors,
-  setIsFilter,
-}: any) => {
-  
-  return (
-    <Box marginLeft="30px">
-      {colors.map((color: string, i: number) => {
-        return (
-          <Text
-            fontWeight="600"
-            color="grey.3"
-            key={i}
-            onClick={() => {
-              setColorSelected(color);
-              filterOptionsMenu()
-              setIsFilter(true);
-            }}
-            _hover={{ color: "grey.2", transition: "0.3s" }}
-          >
-            {color}
-          </Text>
-        );
-      })}
-    </Box>
-  );
-  
-};
-
-export const YearFilter = ({
-  yearSelected,
-  isFilter,
-  setYearSelected,
-  filterOptionsMenu,
+  setColorSelected,
   years,
-  setIsFilter,
-}: any) => {
-
-  return (
-    <Box marginLeft="30px">
-      {years.map((year: string, i: number) => {
-        return (
-          <Text
-            fontWeight="600"
-            color="grey.3"
-            key={i}
-            onClick={() => {
-              setYearSelected(year);
-              filterOptionsMenu()
-              setIsFilter(true);
-            }}
-            _hover={{ color: "grey.2", transition: "0.3s" }}
-          >
-            {year}
-          </Text>
-        );
-      })}
-    </Box>
-  );
-  
-};
-
-export const FuelFilter = ({
-  fuelSelected,
-  isFilter,
-  setFuelSelected,
-  filterOptionsMenu,
+  setYearSelected,
   fuels,
-  setIsFilter,
-}: any) => {
+  setFuelSelected,
+}: iFilters) => {
+  const filter = brands
+    ? brands
+    : models
+    ? models
+    : colors
+    ? colors
+    : years
+    ? years
+    : fuels;
 
   return (
-    <Box marginLeft="30px">
-      {fuels.map((fuel: string, i: number) => {
+    <Box>
+      {filter!.map((elem: string, i: number) => {
         return (
           <Text
+            key={i}
             fontWeight="600"
             color="grey.3"
-            key={i}
             onClick={() => {
-              setFuelSelected(fuel);
-              filterOptionsMenu()
+              filterOptionsMenu();
               setIsFilter(true);
+              {
+                setBrandSelected
+                  ? setBrandSelected!(elem)
+                  : setModelSelected
+                  ? setModelSelected!(elem)
+                  : setColorSelected
+                  ? setColorSelected!(elem)
+                  : setYearSelected
+                  ? setYearSelected!(elem)
+                  : setFuelSelected!(elem);
+              }
             }}
             _hover={{ color: "grey.2", transition: "0.3s" }}
           >
-            {fuel}
+            {elem}
           </Text>
         );
       })}
     </Box>
   );
-  
 };

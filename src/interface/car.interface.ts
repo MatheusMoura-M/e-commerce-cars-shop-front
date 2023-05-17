@@ -1,6 +1,6 @@
 import { iOwner } from "./comment.interface";
 
-export interface iCar {
+interface iCar {
   user: any;
   id: string;
   brand: string;
@@ -17,7 +17,7 @@ export interface iCar {
   cover_image: string;
 }
 
-export interface iCreateCarAd extends Omit<iCar, "id"> {
+interface iCreateCarAd extends Omit<iCar, "id"> {
   images_1?: string;
   images_2?: string;
   images_3?: string;
@@ -26,32 +26,27 @@ export interface iCreateCarAd extends Omit<iCar, "id"> {
   images_6?: string;
 }
 
-export interface iImagesInCarResponse {
+interface iImagesInCarResponse {
   id: string;
   image_url: string;
 }
 
-export interface iCarResponse extends iCar {
+interface iCarResponse extends iCar {
   user: iOwner;
   images: iImagesInCarResponse[];
 }
 
-export interface iStatusModalCar {
-  isOpen: boolean;
-  onClose(): void;
-}
-
-export interface iStatusDeleteModalCar {
+interface iStatusDeleteModalCar {
   isOpen: boolean;
   onClose(): void;
   onEditClose(): void;
 }
 
-export interface iCarSelected extends iCar {
+interface iCarSelected extends iCar {
   images: iImagesInCarResponse[];
 }
 
-export interface iCarUpdate {
+interface iCarUpdate {
   id?: string;
   brand?: string;
   model?: string;
@@ -67,7 +62,7 @@ export interface iCarUpdate {
   cover_image?: string;
 }
 
-export interface iUpdateCarAd extends Omit<iCarUpdate, "id"> {
+interface iUpdateCarAd extends Omit<iCarUpdate, "id"> {
   images_1?: string;
   images_2?: string;
   images_3?: string;
@@ -76,6 +71,18 @@ export interface iUpdateCarAd extends Omit<iCarUpdate, "id"> {
   images_6?: string;
 }
 
-export interface iImageCar {
+interface iImageCar {
   image_url: string | boolean;
 }
+
+export type {
+  iCar,
+  iCarResponse,
+  iCarSelected,
+  iCarUpdate,
+  iCreateCarAd,
+  iImageCar,
+  iImagesInCarResponse,
+  iStatusDeleteModalCar,
+  iUpdateCarAd,
+};

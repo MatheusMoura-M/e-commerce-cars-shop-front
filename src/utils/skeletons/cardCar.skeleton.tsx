@@ -24,35 +24,19 @@ const CardSkeleton = () => {
       ml="15px"
       borderRadius="5px"
     >
-      <Skeleton w="100%" height="150px" borderRadius="5px" />
-      <SkeletonText
-        noOfLines={1}
-        skeletonHeight="4"
-        width="90%"
-        marginTop="25px"
-      />
-      <SkeletonText
-        noOfLines={3}
-        skeletonHeight="2"
-        width="90%"
-        marginTop="25px"
-      />
+      <Skeleton w="100%" h="150px" borderRadius="5px" />
+      <SkeletonText noOfLines={1} skeletonHeight="4" w="90%" mt="25px" />
+      <SkeletonText noOfLines={3} skeletonHeight="2" w="90%" mt="25px" />
 
-      <Box
-        mt="12px"
-        display="flex"
-        alignItems="center"
-        justifyContent="flex-start"
-        width="100%"
-      >
+      <Flex mt="12px" alignItems="center" justifyContent="flex-start" w="100%">
         <SkeletonCircle />
-        <SkeletonText noOfLines={1} skeletonHeight="3" width="70px" ml="7px" />
-      </Box>
+        <SkeletonText noOfLines={1} skeletonHeight="3" w="70px" ml="7px" />
+      </Flex>
 
-      <Box display="flex" mt="15px">
+      <Flex mt="15px">
         <Skeleton w="75px" h="25px" mr="10px" />
         <Skeleton w="50px" h="25px" />
-      </Box>
+      </Flex>
     </Box>
   );
 };
