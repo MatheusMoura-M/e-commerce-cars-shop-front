@@ -1,7 +1,7 @@
 import { Footer } from "../../components/Footer";
 import Header from "../../components/NavBar";
 import { Flex, Text, useDisclosure } from "@chakra-ui/react";
-import ResetPassword from "../../components/Modals/resetPassword/resetPassword.modal";
+import ResetPassword from "../../components/Modals/resetPassword";
 import FormLogin from "../../components/Forms/FormLogin";
 
 export const LoginPage = () => {

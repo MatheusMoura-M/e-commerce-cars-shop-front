@@ -14,8 +14,8 @@ import imgLogo from "../../assets/LogoHeader.svg";
 import { useAuth } from "../../context/webContext";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useEffect } from "react";
-import { ModalUpdateAddress } from "../Modals/updateAddress/updateAddress.modal";
-import ModalEditUser from "../Modals/editProfile/updateUser.modal";
+import { ModalUpdateAddress } from "../Modals/editAddress";
+import ModalEditUser from "../Modals/editProfile";
 
 const BtnsDefault = ["Login", "Register"];
 const BtnsIsLogged = [

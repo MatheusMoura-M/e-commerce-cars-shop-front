@@ -12,12 +12,12 @@ import {
 } from "@chakra-ui/react";
 import { BoxComment } from "../../components/BoxComment";
 import { useAuth } from "../../context/webContext";
-import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/createCarsAd.modal";
-import ModalEditUser from "../../components/modals/editProfile/updateUser.modal";
+import { ModalCreateCarAd } from "../../components/Modals/advertiserProfile/createCarsAd.modal";
+import ModalEditUser from "../../components/Modals/editProfile";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import ModalEditComment from "../../components/modals/editComment/updateComment.modal";
+import ModalEditComment from "../../components/Modals/editComment";
 import "./style.css";
 
 export const DetailCard = () => {

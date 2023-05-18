@@ -13,7 +13,7 @@ import CarCard from "../../components/Cards/car";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/webContext";
 import { useParams } from "react-router-dom";
-import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/createCarsAd.modal";
+import { ModalCreateCarAd } from "../../components/Modals/advertiserProfile/createCarsAd.modal";
 import { iCarResponse } from "../../interface";
 
 export const AnnouncerProfileCard = () => {

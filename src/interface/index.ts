@@ -43,6 +43,7 @@ interface iStatusModal {
 interface iStatusModalOptional {
   isOpen?: boolean;
   onClose?: () => void;
+  onDeleteOpen?: () => void;
 }
 
 export type {

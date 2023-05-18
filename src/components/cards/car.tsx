@@ -9,7 +9,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { useAuth } from "../../context/webContext";
-import { ModalEditCarAd } from "../modals/advertiserProfile/editCarsAd.modal";
+import { ModalEditCarAd } from "../Modals/advertiserProfile/editCarsAd.modal";
 import { iCardProps } from "../../interface";
 
 const CarCard = ({
