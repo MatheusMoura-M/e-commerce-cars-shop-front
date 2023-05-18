@@ -1,4 +1,4 @@
-import { iUser } from "../interface/user.interface";
+import { iUser } from "../interface";
 import { instance } from "./api";
 
 export const getUserSpecificReponse = async (id: string): Promise<iUser> => {

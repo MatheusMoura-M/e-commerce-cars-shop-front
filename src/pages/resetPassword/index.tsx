@@ -1,83 +1,67 @@
-import { Footer } from "../../components/footer";
-import Header from "../../components/navBar";
+import { Footer } from "../../components/Footer";
+import Header from "../../components/NavBar";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { Input } from "../../components/form/input";
-import { Button } from "@chakra-ui/react";
-import {
-  ContainerFormResetPass,
-  ContainerResetPassPage,
-  FormResetPass,
-} from "./style";
-import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { instance } from "../../services/api";
+import { Input } from "../../components/Input";
+import { Button, Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import axios from "axios";
+import { IresetPropsRequest } from "../../interface";
+import { useAuth } from "../../context/webContext";
 
 const ResetPasswordPage = () => {
-  const { token } = useParams();
-  const navigate = useNavigate();
-
+  const { ResetPass } = useAuth();
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-
-  interface IresetRequestProps {
-    password: string;
-    confirm_password: string;
-  }
-  interface IresetRequestPropsResponse {
-    message: string;
-  }
 
   const formSchema = yup.object().shape({
     password: yup.string().required("Senha obrigatória"),
     confirm_password: yup.string().required("Confirmar senha obrigatória"),
   });
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IresetRequestProps>({
+  } = useForm<IresetPropsRequest>({
     resolver: yupResolver(formSchema),
   });
 
-  const ResetPass = async (password: IresetRequestProps): Promise<void> => {
-    try {
-      if (password.password !== password.confirm_password) {
-        throw new Error("As senhas não coincidem");
-      }
-
-      const { data } = await instance.patch<IresetRequestPropsResponse>(
-        `user/reset-password/${token}`,
-        password
-      );
-
-      toast.success(data.message, {
-        autoClose: 1000,
-      });
-      navigate("/login");
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log(error);
-        toast.error(error.response?.data.error.errors[0], {
-          autoClose: 1000,
-        });
-      }
-    }
-  };
-
   return (
-    <ContainerResetPassPage>
+    <Flex
+      justifyContent={"space-between"}
+      flexDir={"column"}
+      maxW={1450}
+      margin={"0 auto"}
+      h={"100vh"}
+    >
       <Header />
-      <ContainerFormResetPass>
-        <h1>Reset Password</h1>
-        <FormResetPass onSubmit={handleSubmit(ResetPass)}>
-          <label htmlFor="password-">Senha</label>
+      <Flex
+        justifyContent={"space-between"}
+        flexDir={"column"}
+        gap={"1rem"}
+        bg={"grey.10"}
+        p={{ base: "2rem 1rem", sm2: "2rem 2rem" }}
+        m={"0 auto"}
+        h={{ md: "65%" }}
+        w={{ base: "90%", sm2: 600 }}
+        borderRadius={"4px"}
+      >
+        <Text as={"h1"} fontSize={"1.5rem"} fontWeight={500} color={"grey.0"}>
+          Reset Password
+        </Text>
+        <Flex
+          as="form"
+          flexDir={"column"}
+          gap={"1rem"}
+          position={"relative"}
+          onSubmit={handleSubmit(ResetPass)}
+        >
           <Input
             id="password"
             register={register}
+            label={"Senha"}
+            errorMessage={errors.password?.message}
             type="password"
             placeholder="Digitar Senha"
             variant="outline"
@@ -89,12 +73,11 @@ const ResetPasswordPage = () => {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
           />
-          {errors.password && <span>{errors.password.message}</span>}
-
-          <label htmlFor="confirm_password-">Confirmar Senha</label>
           <Input
             id="confirm_password"
             register={register}
+            label={"Confirmar Senha"}
+            errorMessage={errors.confirm_password?.message}
             type="password"
             placeholder="Digite sua Senha novamente"
             variant="outline"
@@ -106,9 +89,6 @@ const ResetPasswordPage = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             value={confirmPassword}
           />
-          {errors.confirm_password && (
-            <span>{errors.confirm_password.message}</span>
-          )}
           <Button
             variant={"brand1"}
             type="submit"
@@ -120,10 +100,10 @@ const ResetPasswordPage = () => {
           >
             Reset Password
           </Button>
-        </FormResetPass>
-      </ContainerFormResetPass>
+        </Flex>
+      </Flex>
       <Footer />
-    </ContainerResetPassPage>
+    </Flex>
   );
 };
 

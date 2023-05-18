@@ -1,108 +1,38 @@
-import { Footer } from "../../components/footer";
-import Header from "../../components/navBar";
-import { ContainerFormLogin, ContainerLoginage, Form } from "./style";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { AuthContext } from "../../context/webContext";
-import { useForm } from "react-hook-form";
-import { useContext, useState } from "react";
-import { Input } from "../../components/form/input";
-import { Button, useDisclosure } from "@chakra-ui/react";
-import ResetPassword from "../../components/modals/resetPassword/resetPassword.modal";
-import { iLoginProps } from "../../interface/user.interface";
+import { Footer } from "../../components/Footer";
+import Header from "../../components/NavBar";
+import { Flex, Text, useDisclosure } from "@chakra-ui/react";
+import ResetPassword from "../../components/Modals/resetPassword";
+import FormLogin from "../../components/Forms/FormLogin";
 
 export const LoginPage = () => {
-  const { Login, navigate } = useContext(AuthContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-
-  const formSchema = yup.object().shape({
-    email: yup
-      .string()
-      .required("Usuario obrigatório")
-      .email("Email obrigatório"),
-    password: yup.string().required("Senha obrigatória"),
-  });
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<iLoginProps>({
-    resolver: yupResolver(formSchema),
-  });
   return (
-    <ContainerLoginage>
+    <Flex
+      justifyContent={"space-between"}
+      flexDir={"column"}
+      h={"100vh"}
+      maxW={1450}
+      margin={"0 auto"}
+    >
       <Header />
-      <ContainerFormLogin>
-        <h1>Login</h1>
-        <Form onSubmit={handleSubmit(Login)}>
-          <label htmlFor="email">Email</label>
-          <Input
-            id="email"
-            register={register}
-            type="text"
-            placeholder="Digitar Email"
-            variant="outline"
-            _hover={{
-              bg: "grey.8",
-            }}
-            p="1rem"
-            minH="45px"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            errorMessage={errors.email?.message}
-          />
-
-          <label htmlFor="password-">Senha</label>
-          <Input
-            id="password"
-            register={register}
-            type="password"
-            placeholder="Digitar Senha"
-            variant="outline"
-            _hover={{
-              bg: "grey.8",
-            }}
-            p="1rem"
-            minH="45px"
-            showPass
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            errorMessage={errors.password?.message}
-          />
-
-          <p onClick={onOpen}>Esqueci minha senha</p>
-          <Button
-            variant={"brand1"}
-            type="submit"
-            fontSize={"1rem"}
-            fontWeight={"600"}
-            p={"1rem"}
-            mt={"3rem"}
-            w={"100%"}
-          >
-            Entrar
-          </Button>
-          <h5>Ainda não possui conta?</h5>
-          <Button
-            variant={"grey4"}
-            type="button"
-            fontSize={"1rem"}
-            fontWeight={"600"}
-            p={"1rem"}
-            w={"100%"}
-            onClick={() => navigate("/register")}
-          >
-            Cadastrar
-          </Button>
-        </Form>
-
+      <Flex
+        justifyContent={"space-between"}
+        flexDir={"column"}
+        gap={"1rem"}
+        bg={"grey.10"}
+        p={{ base: "2rem 1rem", sm2: "2rem 2rem" }}
+        m={"0 auto"}
+        w={{ base: "90%", sm2: 600 }}
+        borderRadius={"4px"}
+      >
+        <Text as="h1" fontSize={"1.5rem"} fontWeight={500} color={"grey.0"}>
+          Login
+        </Text>
+        <FormLogin onOpen={onOpen} />
         <ResetPassword isOpen={isOpen} onClose={onClose} />
-      </ContainerFormLogin>
-
+      </Flex>
       <Footer />
-    </ContainerLoginage>
+    </Flex>
   );
 };

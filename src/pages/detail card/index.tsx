@@ -1,5 +1,5 @@
-import Header from "../../components/navBar";
-import { Footer } from "../../components/footer";
+import Header from "../../components/NavBar";
+import { Footer } from "../../components/Footer";
 import {
   Box,
   Button,
@@ -10,21 +10,19 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import ContainerDetailCard from "./style";
-import { BoxComment } from "../../components/boxComment";
+import { BoxComment } from "../../components/BoxComment";
 import { useAuth } from "../../context/webContext";
-import { ModalCreateCarAd } from "../../components/modals/advertiserProfile/createCarsAd.modal";
-import ModalEditUser from "../../components/modals/editProfile/updateUser.modal";
+import { ModalCreateCarAd } from "../../components/Modals/advertiserProfile/createCarsAd.modal";
+import ModalEditUser from "../../components/Modals/editProfile";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import ModalEditComment from "../../components/modals/editComment/updateComment.modal";
+import ModalEditComment from "../../components/Modals/editComment";
+import "./style.css";
 
 export const DetailCard = () => {
   const {
     navigate,
-    isOpenAddress,
-    onCloseAddress,
     isLogged,
     isOpenUpdateUser,
     onCloseUpdateUser,
@@ -83,11 +81,24 @@ export const DetailCard = () => {
   return (
     <>
       <Header />
-      <ContainerDetailCard>
+      <Flex
+        as={"section"}
+        bg={"#f7f7f7"}
+        bgGradient="linear-gradient(
+          180deg,
+          #4529e6 31.25%,
+          #f1f3f5 31.26%,
+          #f1f3f5 100%
+        );"
+        h={"100%"}
+        m={"0 auto"}
+        flexDir={"column"}
+        maxW={1450}
+      >
         <Container
           as={"section"}
           display={"flex"}
-          flexDirection={{ base: "column", xl: "row" }}
+          flexDir={{ base: "column", xl: "row" }}
           alignItems={{ base: "center", xl: "unset" }}
           p={0}
           minW={"100%"}
@@ -98,10 +109,10 @@ export const DetailCard = () => {
           <Flex
             as={"section"}
             mt={"40px"}
-            flexDirection={"column"}
+            flexDir={"column"}
             alignItems={{ base: "center", xl: "unset" }}
             gap={"1rem"}
-            width={{ base: "90%", xl: "unset" }}
+            w={{ base: "90%", xl: "unset" }}
           >
             <Flex
               bg={"grey.10"}
@@ -130,7 +141,7 @@ export const DetailCard = () => {
               <Flex
                 w={"100%"}
                 alignItems={"flex-start"}
-                flexDirection={"column"}
+                flexDir={"column"}
                 p={{ base: "28px 20px 28px 28px", xl: "44px 49px 28px 44px" }}
               >
                 <Box mb={"41px"}>
@@ -147,7 +158,7 @@ export const DetailCard = () => {
                   justifyContent={"space-between"}
                   w={"100%"}
                   mb={"24px"}
-                  flexDirection={{ base: "column", sm: "row" }}
+                  flexDir={{ base: "column", sm: "row" }}
                   gap={{ base: "32px", sm: "unset" }}
                 >
                   <Flex
@@ -156,6 +167,7 @@ export const DetailCard = () => {
                     justifyContent={{ base: "flex-start", sm: "center" }}
                     alignItems={"center"}
                     mt={0}
+                    w={"150px"}
                   >
                     <Text as="span" fontFamily={"inter"}>
                       {carAdSelected.year}
@@ -212,7 +224,7 @@ export const DetailCard = () => {
               h={{ base: 325, sm1: 216 }}
               w={{ base: "100%", sm4: 700, md: 752 }}
               borderRadius={4}
-              flexDirection={"column"}
+              flexDir={"column"}
               alignItems={"flex-start"}
               justifyContent={"center"}
               gap={"2rem"}
@@ -240,7 +252,7 @@ export const DetailCard = () => {
           </Flex>
           <Flex
             alignItems={"center"}
-            flexDirection={"column"}
+            flexDir={"column"}
             gap={{ base: "52px", xl: "34px" }}
             w={{ base: "90%", sm4: 700, md: "90%", xl: 440 }}
             maxW={{ md: 752 }}
@@ -253,7 +265,7 @@ export const DetailCard = () => {
               alignItems={"flex-start"}
               justifyContent={"center"}
               mt={{ base: 0, xl: "40px" }}
-              flexDirection={"column"}
+              flexDir={"column"}
               p={{ base: "20px 10px", sm1: "36px 44px" }}
               gap={"32px"}
             >
@@ -296,11 +308,11 @@ export const DetailCard = () => {
               borderRadius={4}
               alignItems={"center"}
               justifyContent={"center"}
-              flexDirection={"column"}
+              flexDir={"column"}
               p={{ base: "30px 28px", xl: "37px 44px" }}
               gap={{ base: "25px", xl: "30px" }}
             >
-              <Flex flexDirection={"column"} w={"104px"} h={"104px"}>
+              <Flex flexDir={"column"} w={"104px"} h={"104px"}>
                 <Image
                   src={ownerOfAdSelected.image_url}
                   alt="Foto do usuário"
@@ -351,7 +363,7 @@ export const DetailCard = () => {
           w={{ base: "100%", xl: "60.3%", xl1: "59.8%", xl2: "59.3%" }}
           alignItems={{ base: "center", xl: "flex-end" }}
           justifyContent={"center"}
-          flexDirection={"column"}
+          flexDir={"column"}
           gap={33}
         >
           <Container
@@ -365,7 +377,7 @@ export const DetailCard = () => {
             <Flex
               bg={"grey.10"}
               p={{ base: "36px 40px 36px 20px", xl: "36px 44px" }}
-              flexDirection={"column"}
+              flexDir={"column"}
               w={{ base: "90%", sm3: "100%", sm4: 700, md: 752 }}
               borderRadius={4}
               alignItems={"center"}
@@ -378,21 +390,16 @@ export const DetailCard = () => {
               >
                 Comentários
               </Text>
-              <Flex flexDirection={"column"} gap={"44px"} w={"100%"}>
+              <Flex flexDir={"column"} gap={"44px"} w={"100%"}>
                 {comments.map((comment) => {
                   return (
-                    <Flex
-                      key={comment.id}
-                      flexDirection={"column"}
-                      gap={"12px"}
-                    >
+                    <Flex key={comment.id} flexDir={"column"} gap={"12px"}>
                       <Flex gap={"10px"} alignItems={"center"}>
                         <Image
                           borderRadius={"full"}
                           w={"30px"}
                           src={comment.users.image_url}
                           alt="Imagem de perfil do usuário"
-                          width="30px"
                           h={"30px"}
                           objectFit={"cover"}
                         />
@@ -454,14 +461,13 @@ export const DetailCard = () => {
           </Container>
           <BoxComment />
         </Flex>
-      </ContainerDetailCard>
-      <ModalCreateCarAd isOpen={isOpen} onClose={onClose} />
-      {/* <ModalUpdateAddress isOpen={isOpenAddress} onClose={onCloseAddress} /> */}
-      <ModalEditUser isOpen={isOpenUpdateUser} onClose={onCloseUpdateUser} />
-      <ModalEditComment
-        isOpen={isOpenUpdateComment}
-        onClose={onCloseUpdateComment}
-      />
+        <ModalCreateCarAd isOpen={isOpen} onClose={onClose} />
+        <ModalEditUser isOpen={isOpenUpdateUser} onClose={onCloseUpdateUser} />
+        <ModalEditComment
+          isOpen={isOpenUpdateComment}
+          onClose={onCloseUpdateComment}
+        />
+      </Flex>
       <Footer />
     </>
   );

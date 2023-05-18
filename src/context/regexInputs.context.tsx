@@ -1,8 +1,5 @@
 import { createContext, useState } from "react";
-
-interface iChildren {
-  children: React.ReactNode;
-}
+import { iProviderProps } from "../@types";
 
 interface iRegexContextProvider {
   formattedMobileNumber(number: string): void;
@@ -17,7 +14,7 @@ interface iRegexContextProvider {
 
 export const contextRegexInputs = createContext({} as iRegexContextProvider);
 
-const RegexInputs = ({ children }: iChildren) => {
+const RegexInputs = ({ children }: iProviderProps) => {
   const [cellphoneNumber, setCellphoneNumber] = useState<string>("");
   const [birthdate, setBirthdate] = useState<string>("");
   const [cpf, setCpf] = useState<string>("");

@@ -1,20 +1,10 @@
 import { ReactNode } from "react";
-import {
-  FieldError,
-  FieldErrors,
-  Path,
-  UseFormRegister,
-} from "react-hook-form";
+import { Path, UseFormRegister } from "react-hook-form";
 import { InputProps as ChakraInputProps } from "@chakra-ui/react";
 import { IconType } from "react-icons";
-import { iCreateCarAd } from "../interface/car.interface";
 
 export interface iProviderProps {
   children: ReactNode;
-}
-
-export interface IHeaderProps {
-  isLogin?: boolean;
 }
 
 export interface iShowPass {
@@ -36,5 +26,4 @@ export interface InputProps extends ChakraInputProps {
   showConfirmPass?: boolean;
   marginTopForm?: string;
   value?: string | number;
-  // error?: FieldErrors<iCommentRequest> | null;
 }

@@ -1,7 +1,4 @@
-import {
-  iCommentRequest,
-  iCommentResponse,
-} from "../interface/comment.interface";
+import { iCommentRequest, iCommentResponse } from "../interface";
 import { instance } from "./api";
 
 export const createCommentResponse = async (

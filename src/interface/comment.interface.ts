@@ -1,20 +1,20 @@
-export interface iOwner {
+interface iOwner {
   id: string;
   name: string;
-  image_url: string
+  image_url: string;
 }
 
-export interface iCommentRequest {
+interface iCommentRequest {
   comment: string;
 }
 
-export interface iCommentResponse extends iCommentRequest {
+interface iCommentResponse extends iCommentRequest {
   id: string;
   users: iOwner;
   cars: iOwner;
 }
 
-export interface iCommentsListResponse {
+interface iCommentsListResponse {
   id: string;
   comment: string;
   createdAt: Date;
@@ -32,3 +32,10 @@ export interface iCommentsListResponse {
     reset_token: null | string;
   };
 }
+
+export type {
+  iCommentRequest,
+  iCommentResponse,
+  iCommentsListResponse,
+  iOwner,
+};

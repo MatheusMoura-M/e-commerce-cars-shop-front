@@ -23,7 +23,7 @@ export const Footer = () => {
       <Stack
         justifyContent={{ base: "center", md: "space-between" }}
         align={"center"}
-        flexDirection={{ base: "column", md: "row" }}
+        flexDir={{ base: "column", md: "row" }}
         p={{ base: "33px 55.5px", xs1: "45px 55.5px", md: "45px 59px" }}
         gap={{ base: "60px", md: "unset" }}
       >

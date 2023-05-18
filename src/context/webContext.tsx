@@ -1,37 +1,35 @@
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext } from "react";
 import { iProviderProps } from "../@types";
 import { MenuItem, useDisclosure } from "@chakra-ui/react";
 import { useState, Dispatch, SetStateAction } from "react";
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { instance, instanceKenzieCars } from "../services/api";
+import { getCarSpecificResponse } from "../services/getCarSpecificResponse";
+import { getUserSpecificReponse } from "../services/getUserSpecificResponse";
+import { createCommentResponse } from "../services/createCommentResponse";
 import {
+  IresetProps,
+  IresetPropsRequest,
+  IresetPropsResponse,
   iAddressUpdateResponse,
+  iCar,
+  iCarResponse,
   iCarsUser,
+  iCommentRequest,
+  iCommentsListResponse,
+  iCreateCarAd,
+  iImageCar,
   iLoginProps,
-  iRegister,
   iRegisterReq,
   iSellerData,
   iUpdateAddress,
+  iUpdateCarAd,
   iUpdateUser,
   iUser,
   iUserLogin,
-} from "../interface/user.interface";
-import { instance, instanceKenzieCars } from "../services/api";
-import {
-  iCar,
-  iCarResponse,
-  iCreateCarAd,
-  iUpdateCarAd,
-} from "../interface/car.interface";
-import { getCarSpecificResponse } from "../services/getCarSpecificResponse";
-import { getUserSpecificReponse } from "../services/getUserSpecificResponse";
-import {
-  iCommentRequest,
-  iCommentsListResponse,
-} from "../interface/comment.interface";
-import { createCommentResponse } from "../services/createCommentResponse";
-import { contextHomeProvider } from "./homePage.context";
+} from "../interface";
 
 export interface iAuthProviderData {
   MenuHamburguer: ({ children }: iProviderProps) => JSX.Element;
@@ -109,6 +107,21 @@ export interface iAuthProviderData {
   addressData: iAddressUpdateResponse;
   isSeller: boolean;
   setIsSeller: Dispatch<SetStateAction<boolean>>;
+  onCreateImageCar: (formData: iImageCar, id: string) => Promise<void>;
+  ResetPassRequest: (email: IresetProps) => Promise<void>;
+  yearCreate: string;
+  setYearCreate: Dispatch<SetStateAction<string>>;
+  fuelCreate: string;
+  setFuelCreate: Dispatch<SetStateAction<string>>;
+  fipeCreate: string;
+  setFipeCreate: Dispatch<SetStateAction<string>>;
+  yearEdit: string;
+  setYearEdit: Dispatch<SetStateAction<string>>;
+  fuelEdit: string;
+  setFuelEdit: Dispatch<SetStateAction<string>>;
+  fipeEdit: string;
+  setFipeEdit: Dispatch<SetStateAction<string>>;
+  ResetPass: (password: IresetPropsRequest) => Promise<void>;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -171,6 +184,12 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const [sellerData, setSellerData] = useState({} as iSellerData);
   const [addressData, setAddressData] = useState({} as iAddressUpdateResponse);
   const [isSeller, setIsSeller] = useState<boolean>(false);
+  const [yearCreate, setYearCreate] = useState<string>("");
+  const [fuelCreate, setFuelCreate] = useState<string>("");
+  const [fipeCreate, setFipeCreate] = useState<string>("");
+  const [yearEdit, setYearEdit] = useState<string>("");
+  const [fuelEdit, setFuelEdit] = useState<string>("");
+  const [fipeEdit, setFipeEdit] = useState<string>("");
 
   const goToProfile = () => {
     navigate(`/announcer-profile/${userLogged.id}`);
@@ -369,15 +388,19 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   };
 
   const onGetAddress = async () => {
-    try {
-      const response = await instance.get("/address/profile", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
-      });
+    if (localStorage.getItem("@token")) {
+      try {
+        const response = await instance.get("/address/profile", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("@token")}`,
+          },
+        });
 
-      setAddressData(response.data);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log(error);
+        setAddressData(response.data);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.log(error);
+        }
       }
     }
   };
@@ -585,6 +608,9 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       });
 
       onListComment(resp.data.cars.id);
+      toast.success("Comentário atualizado com sucesso", {
+        autoClose: 1000,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -597,8 +623,65 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       });
 
       onListComment(carAdSelected.id);
+      toast.success("Comentário deletado com sucesso", {
+        autoClose: 1000,
+      });
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const onCreateImageCar = async (formData: iImageCar, id: string) => {
+    try {
+      const resp = await instance.post(`/car/image/${id}`, formData, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const ResetPassRequest = async (email: IresetProps): Promise<void> => {
+    try {
+      const { data } = await instance.post<IresetPropsResponse>(
+        "user/reset-password",
+        email
+      );
+
+      toast.success(data.message, {
+        autoClose: 1000,
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error("Algo deu errado", {
+        autoClose: 1000,
+      });
+    }
+  };
+
+  const ResetPass = async (password: IresetPropsRequest): Promise<void> => {
+    const { token } = useParams();
+    try {
+      if (password.password !== password.confirm_password) {
+        throw new Error("As senhas não coincidem");
+      }
+
+      const { data } = await instance.patch<IresetPropsResponse>(
+        `user/reset-password/${token}`,
+        password
+      );
+
+      toast.success(data.message, {
+        autoClose: 1000,
+      });
+      navigate("/login");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        toast.error(error.response?.data.error.errors[0], {
+          autoClose: 1000,
+        });
+      }
     }
   };
 
@@ -680,6 +763,21 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         addressData,
         isSeller,
         setIsSeller,
+        onCreateImageCar,
+        ResetPassRequest,
+        fuelCreate,
+        fipeCreate,
+        yearCreate,
+        setFipeCreate,
+        setFuelCreate,
+        setYearCreate,
+        fuelEdit,
+        fipeEdit,
+        yearEdit,
+        setFipeEdit,
+        setFuelEdit,
+        setYearEdit,
+        ResetPass,
       }}
     >
       {children}

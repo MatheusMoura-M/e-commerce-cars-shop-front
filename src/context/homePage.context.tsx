@@ -1,14 +1,11 @@
-import { createContext, useEffect, useState } from "react";
-import { iCar, iCarResponse, iCreateCarAd } from "../interface/car.interface";
+import { Dispatch, SetStateAction, createContext, useState } from "react";
 import { instance } from "../services/api";
-
-interface iChildren {
-  children: React.ReactNode;
-}
+import { iCar, iCarResponse } from "../interface";
+import { iProviderProps } from "../@types";
 
 interface iHomeContext {
   carAd: iCarResponse[];
-  setCarAd: React.Dispatch<React.SetStateAction<iCarResponse[]>>;
+  setCarAd: Dispatch<SetStateAction<iCarResponse[]>>;
   filteredCars: iCar[];
   brands: string[];
   colors: string[];
@@ -16,54 +13,58 @@ interface iHomeContext {
   models: string[];
   fuels: string[];
   brandSelected: string;
-  setBrandSelected: React.Dispatch<React.SetStateAction<string>>;
+  setBrandSelected: Dispatch<SetStateAction<string>>;
   colorSelected: string;
-  setColorSelected: React.Dispatch<React.SetStateAction<string>>;
+  setColorSelected: Dispatch<SetStateAction<string>>;
   yearSelected: string;
-  setYearSelected: React.Dispatch<React.SetStateAction<string>>;
+  setYearSelected: Dispatch<SetStateAction<string>>;
   modelSelected: string;
-  setModelSelected: React.Dispatch<React.SetStateAction<string>>;
+  setModelSelected: Dispatch<SetStateAction<string>>;
   fuelSelected: string;
-  setFuelSelected: React.Dispatch<React.SetStateAction<string>>;
+  setFuelSelected: Dispatch<SetStateAction<string>>;
   GetCardsAd(): void;
   isLoading: boolean;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setColors: React.Dispatch<React.SetStateAction<string[]>>;
-  setYears: React.Dispatch<React.SetStateAction<string[]>>;
-  setModels: React.Dispatch<React.SetStateAction<string[]>>;
-  setFuels: React.Dispatch<React.SetStateAction<string[]>>;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+  setColors: Dispatch<SetStateAction<string[]>>;
+  setYears: Dispatch<SetStateAction<string[]>>;
+  setModels: Dispatch<SetStateAction<string[]>>;
+  setFuels: Dispatch<SetStateAction<string[]>>;
   filterCarList(): void;
   isFilter: boolean;
-  setIsFilter: React.Dispatch<React.SetStateAction<boolean>>;
-  setBrands: React.Dispatch<React.SetStateAction<string[]>>;
+  setIsFilter: Dispatch<SetStateAction<boolean>>;
+  setBrands: Dispatch<SetStateAction<string[]>>;
   filterOptionsMenu(): void;
   minKm: string;
-  setMinKm: React.Dispatch<React.SetStateAction<string>>;
+  setMinKm: Dispatch<SetStateAction<string>>;
   maxKm: string;
-  setMaxKm: React.Dispatch<React.SetStateAction<string>>;
+  setMaxKm: Dispatch<SetStateAction<string>>;
   minPrice: string;
-  setMinPrice: React.Dispatch<React.SetStateAction<string>>;
+  setMinPrice: Dispatch<SetStateAction<string>>;
   maxPrice: string;
-  setMaxPrice: React.Dispatch<React.SetStateAction<string>>;
+  setMaxPrice: Dispatch<SetStateAction<string>>;
   FilterInputs(): void;
-  setFilteredCar: React.Dispatch<React.SetStateAction<iCar[]>>;
+  setFilteredCar: Dispatch<SetStateAction<iCar[]>>;
   selectedCar: iCarResponse;
   setSelectedCar(car: iCarResponse): void;
   clearFilter(): void;
   inputCarsFiltered: iCar[];
-  setInputCarsFiltered: React.Dispatch<React.SetStateAction<iCar[]>>;
+  setInputCarsFiltered: Dispatch<SetStateAction<iCar[]>>;
   isInputFilter: boolean;
-  setIsInputFilter: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsInputFilter: Dispatch<SetStateAction<boolean>>;
   isOnlyInputsFilter: boolean;
-  setOnlyInputFilter: React.Dispatch<React.SetStateAction<boolean>>;
+  setOnlyInputFilter: Dispatch<SetStateAction<boolean>>;
   inputStatus(value: string, inputField: string): void;
   filteredAlready: boolean;
-  setFilteredAlready: React.Dispatch<React.SetStateAction<boolean>>;
+  setFilteredAlready: Dispatch<SetStateAction<boolean>>;
+  currentPage: number;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
+  currentPageFilter: number;
+  setCurrentPageFilter: Dispatch<SetStateAction<number>>;
 }
 
 export const contextHomeProvider = createContext({} as iHomeContext);
 
-const HomePageContext = ({ children }: iChildren) => {
+const HomePageContext = ({ children }: iProviderProps) => {
   const [carAd, setCarAd] = useState<iCarResponse[]>([]);
   const [selectedCar, setSelectedCar] = useState<iCarResponse>(
     {} as iCarResponse
@@ -95,6 +96,9 @@ const HomePageContext = ({ children }: iChildren) => {
   const [maxPrice, setMaxPrice] = useState<string>("");
 
   const [filteredAlready, setFilteredAlready] = useState<boolean>(false);
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPageFilter, setCurrentPageFilter] = useState(0);
 
   const GetCardsAd = async () => {
     try {
@@ -598,6 +602,10 @@ const HomePageContext = ({ children }: iChildren) => {
         inputStatus,
         filteredAlready,
         setFilteredAlready,
+        currentPage,
+        currentPageFilter,
+        setCurrentPage,
+        setCurrentPageFilter,
       }}
     >
       {children}
