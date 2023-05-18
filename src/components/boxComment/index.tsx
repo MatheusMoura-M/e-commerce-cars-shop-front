@@ -1,7 +1,7 @@
 import { Button, Container, Flex, HStack, Image, Text } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Input } from "../form/input";
+import { Input } from "../Input";
 import { useAuth } from "../../context/webContext";
 import { useState } from "react";
 import commentSchema from "../../schemas/comments";
@@ -24,8 +24,8 @@ export const BoxComment = () => {
   const onFormSubmit = (formData: iCommentRequest) => {
     const newData =
       formData.comment === commentInput ? formData : { comment: commentInput };
-    onCreateComment(newData, id!);
 
+    onCreateComment(newData, id!);
     setCommentInput("");
   };
 
@@ -49,7 +49,7 @@ export const BoxComment = () => {
             ? { base: "36px 41px 36px 26px", xl: "36px 35px 39px 44px" }
             : "57px 35px 39px 44px"
         }
-        flexDirection={"column"}
+        flexDir={"column"}
         justifyContent={{ base: "unset", xsm2: "space-around" }}
         gap={{ base: "24px", xsm2: 15 }}
         borderRadius={"4px"}
@@ -85,7 +85,7 @@ export const BoxComment = () => {
           border={"1px solid"}
           borderColor={{ base: "transparent", xsm2: "grey.7" }}
           borderRadius={"4px"}
-          flexDirection={"column"}
+          flexDir={"column"}
           h={
             errors.comment?.message
               ? { base: 200, xsm2: 150 }

@@ -1,14 +1,16 @@
 import { Box, Button, useDisclosure, Show, Hide, Flex } from "@chakra-ui/react";
-import ModalFilterMobile from "../../components/modals/home/filter/filterCarsMobile.modal";
-import FilterCars from "../../components/modals/home/filter/filterCars.modal";
-import Header from "../../components/navBar";
-import { Footer } from "../../components/footer";
+import Header from "../../components/NavBar";
+import { Footer } from "../../components/Footer";
 import { useState, useContext, useEffect } from "react";
 import { contextHomeProvider } from "../../context/homePage.context";
 import CardCardList from "./cardCarSection";
 import { useAuth } from "../../context/webContext";
 import { HomePanel } from "../../components/HomePanel";
 import { PageSwitch } from "../../components/PageSwitch";
+import {
+  FilterCars,
+  ModalFilterMobile,
+} from "../../components/Modals/homeFilters";
 
 export const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -78,7 +80,7 @@ export const Home = () => {
     >
       <Flex
         justifyContent="center"
-        flexDirection="column"
+        flexDir="column"
         bgColor="grey.10"
         maxW="1450px"
       >

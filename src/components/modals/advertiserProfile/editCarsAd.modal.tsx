@@ -12,14 +12,14 @@ import {
   Heading,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Input } from "../../form/input";
+import { Input } from "../../Input";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAuth } from "../../../context/webContext";
-import { ModalVerifyDelete } from "./verifyDelete.modal";
 import formSchemaCarUpdateAd from "../../../schemas/annoucements/updateCar.schema";
 import { iCar, iCarUpdate, iStatusModal } from "../../../interface";
+import { ModalVerifyDelete } from "./verifyDelete.modal";
 
 export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModal) => {
   const {
@@ -137,14 +137,14 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModal) => {
         <ModalHeader fontSize={"16px"} color={"grey.1"}>
           Editar Anúncio
         </ModalHeader>
-        <Flex flexDirection={"column"} pl={"15px"}>
+        <Flex flexDir={"column"} pl={"15px"}>
           <ModalHeader fontFamily={"inter"} fontSize={"14px"} color={"grey.1"}>
             Informações do veículo
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Flex as={"form"} onSubmit={handleSubmit(onSubmitEditAd)}>
-              <Flex gap={"24px"} flexDirection={"column"}>
+              <Flex gap={"24px"} flexDir={"column"}>
                 <Input
                   errorMessage={errors.brand?.message}
                   label="Marca"
@@ -330,7 +330,7 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModal) => {
                   }}
                   value={coverImageBool ? coverImage : selectedCar.cover_image}
                 />
-                <Flex flexDirection={"column"} gap={"14px"}>
+                <Flex flexDir={"column"} gap={"14px"}>
                   {images.map((image, index) => (
                     <Input
                       key={index + 1}
@@ -344,12 +344,7 @@ export const ModalEditCarAd = ({ isOpen, onClose }: iStatusModal) => {
                     />
                   ))}
                 </Flex>
-                <ModalFooter
-                  flexDirection={"column"}
-                  gap={"42px"}
-                  w={"100%"}
-                  px={0}
-                >
+                <ModalFooter flexDir={"column"} gap={"42px"} w={"100%"} px={0}>
                   <Flex w={"100%"}>
                     <Button
                       variant={"brand2"}

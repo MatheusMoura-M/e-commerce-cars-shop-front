@@ -12,7 +12,7 @@ import {
 import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { Input } from "../../form/input";
+import { Input } from "../../Input";
 import { useAuth } from "../../../context/webContext";
 import commentSchema from "../../../schemas/comments";
 import { iCommentRequest, iStatusModal } from "../../../interface";
@@ -41,7 +41,7 @@ const ModalEditComment = ({ isOpen, onClose }: iStatusModal) => {
         <ModalHeader fontSize={"16px"} fontFamily={"inter"} color={"grey.1"}>
           Editar Comentário
         </ModalHeader>
-        <Flex flexDirection={"column"}>
+        <Flex flexDir={"column"}>
           <ModalCloseButton />
           <ModalBody p={0} w={"100%"}>
             <Flex
@@ -54,12 +54,12 @@ const ModalEditComment = ({ isOpen, onClose }: iStatusModal) => {
               m={"0px auto"}
               minH={200}
               maxH={300}
-              flexDirection={"column"}
+              flexDir={"column"}
               gap={"25px"}
               p={"0 0 10px 0"}
             >
               <Flex
-                flexDirection={"column"}
+                flexDir={"column"}
                 justifyContent={"center"}
                 w="100%"
                 minH={150}
@@ -84,7 +84,7 @@ const ModalEditComment = ({ isOpen, onClose }: iStatusModal) => {
                   value={commentInput}
                 />
               </Flex>
-              <ModalFooter flexDirection={"column"} gap={"42px"} p={0}>
+              <ModalFooter flexDir={"column"} gap={"42px"} p={0}>
                 <Flex
                   w={{ base: "100%", xs3: "85%" }}
                   flexWrap={"wrap"}

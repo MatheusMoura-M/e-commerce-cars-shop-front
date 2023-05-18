@@ -10,6 +10,8 @@ import { getCarSpecificResponse } from "../services/getCarSpecificResponse";
 import { getUserSpecificReponse } from "../services/getUserSpecificResponse";
 import { createCommentResponse } from "../services/createCommentResponse";
 import {
+  IresetProps,
+  IresetPropsResponse,
   iAddressUpdateResponse,
   iCar,
   iCarResponse,
@@ -105,6 +107,7 @@ export interface iAuthProviderData {
   isSeller: boolean;
   setIsSeller: Dispatch<SetStateAction<boolean>>;
   onCreateImageCar: (formData: iImageCar, id: string) => Promise<void>;
+  ResetPassRequest: (email: IresetProps) => Promise<void>;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -612,6 +615,24 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     }
   };
 
+  const ResetPassRequest = async (email: IresetProps): Promise<void> => {
+    try {
+      const { data } = await instance.post<IresetPropsResponse>(
+        "user/reset-password",
+        email
+      );
+
+      toast.success(data.message, {
+        autoClose: 1000,
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error("Algo deu errado", {
+        autoClose: 1000,
+      });
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -691,6 +712,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         isSeller,
         setIsSeller,
         onCreateImageCar,
+        ResetPassRequest,
       }}
     >
       {children}

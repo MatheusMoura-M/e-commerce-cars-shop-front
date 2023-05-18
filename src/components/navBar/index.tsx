@@ -13,9 +13,9 @@ import {
 import imgLogo from "../../assets/LogoHeader.svg";
 import { useAuth } from "../../context/webContext";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { ModalUpdateAddress } from "../modals/updateAddress/updateAddress.modal";
-import ModalEditUser from "../modals/editProfile/updateUser.modal";
 import { useEffect } from "react";
+import { ModalUpdateAddress } from "../Modals/updateAddress/updateAddress.modal";
+import ModalEditUser from "../Modals/editProfile/updateUser.modal";
 
 const BtnsDefault = ["Login", "Register"];
 const BtnsIsLogged = [
@@ -115,7 +115,7 @@ const Header = () => {
                 display={"flex"}
                 justifyContent={"flex-start"}
                 alignItems={"flex-start"}
-                flexDirection={"column"}
+                flexDir={"column"}
                 maxH={"max-content"}
                 minW={["18.5rem", "20.5rem"]}
                 pt={"0px"}
@@ -177,7 +177,7 @@ const Header = () => {
               </MenuButton>
               <MenuList
                 display={"flex"}
-                flexDirection={"column"}
+                flexDir={"column"}
                 alignItems={"flex-start"}
                 justifyContent={"flex-start"}
                 borderTopRadius={"0rem"}

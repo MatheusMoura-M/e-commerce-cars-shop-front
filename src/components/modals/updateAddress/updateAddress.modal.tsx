@@ -11,12 +11,12 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useAuth } from "../../../context/webContext";
 import formSchemaUpdateAddress from "../../../schemas/updateAddress";
-import { Input } from "../../form/input";
 import { useState, useContext, useEffect } from "react";
 import { contextRegexInputs } from "../../../context/regexInputs.context";
 import { iStatusModal, iUpdateAddress } from "../../../interface";
+import { Input } from "../../Input";
+import { useAuth } from "../../../context/webContext";
 
 export const ModalUpdateAddress = ({ isOpen, onClose }: iStatusModal) => {
   const { formattedZipcode, cep } = useContext(contextRegexInputs);
@@ -51,7 +51,7 @@ export const ModalUpdateAddress = ({ isOpen, onClose }: iStatusModal) => {
         <ModalHeader fontSize={"16px"} color={"grey.1"}>
           Editar endereço
         </ModalHeader>
-        <Flex flexDirection={"column"} px={"1.5rem"} gap={"1rem"} minH={496}>
+        <Flex flexDir={"column"} px={"1.5rem"} gap={"1rem"} minH={496}>
           <ModalHeader
             fontFamily={"inter"}
             fontSize={"14px"}
@@ -65,7 +65,7 @@ export const ModalUpdateAddress = ({ isOpen, onClose }: iStatusModal) => {
             <Flex
               as={"form"}
               alignItems={"center"}
-              flexDirection={"column"}
+              flexDir={"column"}
               gap={"24px"}
               h={"100%"}
               onSubmit={handleSubmit(formSubmitAddress)}
@@ -147,7 +147,7 @@ export const ModalUpdateAddress = ({ isOpen, onClose }: iStatusModal) => {
                 />
               </Flex>
               <ModalFooter
-                flexDirection={"column"}
+                flexDir={"column"}
                 gap={"42px"}
                 w={"100%"}
                 p={0}

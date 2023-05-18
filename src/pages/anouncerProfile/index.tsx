@@ -1,5 +1,5 @@
-import Header from "../../components/navBar";
-import { Footer } from "../../components/footer";
+import Header from "../../components/NavBar";
+import { Footer } from "../../components/Footer";
 import {
   Box,
   Button,
@@ -9,7 +9,7 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import CarCard from "../../components/cards/car";
+import CarCard from "../../components/Cards/car";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/webContext";
 import { useParams } from "react-router-dom";
@@ -55,7 +55,7 @@ export const AnnouncerProfileCard = () => {
       as={"section"}
       p={0}
       display={"flex"}
-      flexDirection={"column"}
+      flexDir={"column"}
       h={"auto"}
       m={"0 auto"}
       maxW={1450}
@@ -66,9 +66,9 @@ export const AnnouncerProfileCard = () => {
         #f7f7f7 50px)"
     >
       <Header />
-      <Flex justifyContent="center" flexDirection="column" maxW="1450px">
+      <Flex justifyContent="center" flexDir="column" maxW="1450px">
         <Flex
-          flexDirection={"column"}
+          flexDir={"column"}
           alignItems={"center"}
           justifyContent={"center"}
         >
@@ -77,12 +77,12 @@ export const AnnouncerProfileCard = () => {
               bg={"grey.10"}
               w="100%"
               borderRadius={4}
-              flexDirection={"column"}
+              flexDir={"column"}
               p={{ base: "30px 28px", xl: "37px 44px" }}
               gap={{ base: "25px", xl: "30px" }}
               mt={{ base: "65px", xl: "75px" }}
             >
-              <Flex flexDirection={"column"} w={"104px"} h={"104px"}>
+              <Flex flexDir={"column"} w={"104px"} h={"104px"}>
                 <Image
                   src={sellerData.image_url}
                   borderRadius={"full"}
@@ -158,7 +158,7 @@ export const AnnouncerProfileCard = () => {
             m={{ base: "60px 0px 0px 15px", lg2m: "60px 0px 0px 0px" }}
             overflow={{ lg2m: "hidden" }}
             flexWrap={{ lg2m: "wrap" }}
-            flexDirection={{ lg2m: "row" }}
+            flexDir={{ lg2m: "row" }}
             justifyContent={{ lg2m: "flex-start" }}
             alignItems={{ lg2m: "flex-start" }}
             gap={{ lg2m: "20px" }}
@@ -201,11 +201,12 @@ export const AnnouncerProfileCard = () => {
             })}
           </Flex>
         </Flex>
+        {/* PageSwitch */}
         <Box>
           <Flex
             justifyContent={"center"}
             alignItems={"center"}
-            flexDirection={"row"}
+            flexDir={"row"}
             mt={"40px"}
           >
             <Text

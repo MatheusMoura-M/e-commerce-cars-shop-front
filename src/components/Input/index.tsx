@@ -103,7 +103,7 @@ export const Input = ({
     <FormControl mt={marginTopForm} width={formWidth}>
       {!!label && <FormLabel fontSize="0.875rem">{label}</FormLabel>}
 
-      <InputGroup flexDirection={"column"}>
+      <InputGroup flexDir={"column"}>
         {Icon && (
           <InputLeftElement mt={2.5}>
             <Icon />

@@ -9,7 +9,7 @@ import {
   Button,
   Flex,
 } from "@chakra-ui/react";
-import { Input } from "../../form/input";
+import { Input } from "../../Input";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -99,14 +99,14 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModal) => {
         <ModalHeader fontSize={"16px"} color={"grey.1"}>
           Criar Anúncio
         </ModalHeader>
-        <Flex flexDirection={"column"} pl={"15px"}>
+        <Flex flexDir={"column"} pl={"15px"}>
           <ModalHeader fontFamily={"inter"} fontSize={"14px"} color={"grey.1"}>
             Informações do veículo
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Flex as={"form"} onSubmit={handleSubmit(onSubmitCreateAd)}>
-              <Flex gap={"24px"} flexDirection={"column"}>
+              <Flex gap={"24px"} flexDir={"column"}>
                 <Input
                   errorMessage={errors.brand?.message}
                   label="Marca"
@@ -239,7 +239,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModal) => {
                   onChange={(e) => setCoverImage(e.target.value)}
                   value={coverImage}
                 />
-                <Flex flexDirection={"column"} gap={"14px"}>
+                <Flex flexDir={"column"} gap={"14px"}>
                   {images.map((image, index) => (
                     <Input
                       key={index + 1}
@@ -253,7 +253,7 @@ export const ModalCreateCarAd = ({ isOpen, onClose }: iStatusModal) => {
                     />
                   ))}
                 </Flex>
-                <ModalFooter flexDirection={"column"} gap={"42px"}>
+                <ModalFooter flexDir={"column"} gap={"42px"}>
                   <Flex w={"100%"} pl={"15px"}>
                     <Button
                       variant={"brand2"}

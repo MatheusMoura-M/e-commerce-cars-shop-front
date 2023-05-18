@@ -6,7 +6,7 @@ export const HomePanel = () => {
       as={"section"}
       alignItems={"center"}
       justifyContent={"center"}
-      flexDirection={"column"}
+      flexDir={"column"}
       position={"relative"}
       h={{ base: 590, smm: 620, md1: 400 }}
       bgImage="src/assets/imgCardCar/porsche.svg"
@@ -16,7 +16,7 @@ export const HomePanel = () => {
     >
       <Flex
         position={"absolute"}
-        flexDirection={"column"}
+        flexDir={"column"}
         alignItems={"center"}
         justifyContent={{ md1: "center" }}
         color={"white"}

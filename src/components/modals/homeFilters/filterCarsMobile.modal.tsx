@@ -11,10 +11,10 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
-import { contextHomeProvider } from "../../../../context/homePage.context";
-import { Filters } from "./sectionsFilter";
-import { ButtonFilterMobile } from "./buttonFilter";
-import { iStatusModal } from "../../../../interface";
+import { contextHomeProvider } from "../../../context/homePage.context";
+import Filters from "./sectionsFilter";
+import { iStatusModal } from "../../../interface";
+import ButtonFilterMobile from "./buttonFilter";
 
 const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
   const {

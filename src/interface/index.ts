@@ -40,6 +40,11 @@ interface iStatusModal {
   onClose: () => void;
 }
 
+interface iStatusModalOptional {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
 export type {
   iCardProps,
   iCommentRequest,
@@ -66,6 +71,7 @@ export type {
   iRegisterReq,
   iUpdateAddress,
   iStatusModal,
+  iStatusModalOptional,
   IresetProps,
   IresetPropsRequest,
   IresetPropsResponse,

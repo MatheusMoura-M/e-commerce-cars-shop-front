@@ -13,11 +13,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { contextRegexInputs } from "../../../context/regexInputs.context";
 import schemaRegister from "../../../schemas/register.schema";
 import { useForm } from "react-hook-form";
-import { Input } from "../input";
+import { Input } from "../../Input";
 import { useAuth } from "../../../context/webContext";
 import { iRegister } from "../../../interface";
 
 const FormRegisterUser = () => {
+  const { onRegisterSubmit } = useAuth();
+
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [state, setState] = useState<string>("");
@@ -28,7 +30,6 @@ const FormRegisterUser = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-
   const [isSeller, setIsSeller] = useState<boolean>(false);
 
   const {
@@ -41,8 +42,6 @@ const FormRegisterUser = () => {
     cellphoneNumber,
     cep,
   } = useContext(contextRegexInputs);
-
-  const { onRegisterSubmit } = useAuth();
 
   const {
     register,

@@ -1,7 +1,7 @@
 import { Box, Text } from "@chakra-ui/react";
-import { iFilters } from "../../../../interface";
+import { iFilters } from "../../../interface";
 
-export const Filters = ({
+const Filters = ({
   filterOptionsMenu,
   setIsFilter,
   brands,
@@ -57,3 +57,5 @@ export const Filters = ({
     </Box>
   );
 };
+
+export default Filters;

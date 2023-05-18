@@ -27,7 +27,7 @@ export const ModalVerifyDelete = ({
         <ModalHeader fontSize={"16px"} color={"grey.1"}>
           Excluir Anuncio
         </ModalHeader>
-        <Flex flexDirection={"column"} pl={"15px"}>
+        <Flex flexDir={"column"} pl={"15px"}>
           <ModalHeader fontFamily={"inter"} fontSize={"14px"} color={"grey.1"}>
             Tem certeza que deseja remover este anúncio?
           </ModalHeader>

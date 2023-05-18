@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { contextHomeProvider } from "../../context/homePage.context";
 import CardSkeleton from "../../utils/skeletons/cardCar.skeleton";
-import CarCard from "../../components/cards/car";
+import CarCard from "../../components/Cards/car";
 import { Box, Text } from "@chakra-ui/react";
 import { iCarResponse } from "../../interface";
 import { UlCardCars } from "../../components/UlCardCars";

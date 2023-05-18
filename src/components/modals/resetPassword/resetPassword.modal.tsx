@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Modal,
   ModalOverlay,
@@ -8,19 +7,19 @@ import {
   ModalCloseButton,
   ModalBody,
   Flex,
+  Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { Input } from "../../form/input";
-import { toast } from "react-toastify";
-import { instance } from "../../../services/api";
-import { IresetProps, IresetPropsResponse } from "../../../interface";
+import { Input } from "../../Input";
+import { IresetProps } from "../../../interface";
+import { useAuth } from "../../../context/webContext";
 
 const ResetPassword = ({ isOpen, onClose }: any) => {
   const [email, setEmail] = useState<string>("");
-
+  const { ResetPassRequest } = useAuth();
   const formSchema = yup.object().shape({
     email: yup.string().email().required("Email Obrigatório"),
   });
@@ -33,50 +32,32 @@ const ResetPassword = ({ isOpen, onClose }: any) => {
     resolver: yupResolver(formSchema),
   });
 
-  const ResetPassRequest = async (email: IresetProps): Promise<void> => {
-    try {
-      const { data } = await instance.post<IresetPropsResponse>(
-        "user/reset-password",
-        email
-      );
-
-      toast.success(data.message, {
-        autoClose: 1000,
-      });
-    } catch (error) {
-      console.log(error);
-      toast.error("Algo deu errado", {
-        autoClose: 1000,
-      });
-    }
-  };
-
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent alignSelf="center" p="1rem">
+      <ModalContent alignSelf={"center"} p={"1rem"}>
         <ModalHeader>Esqueci minha senha</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Flex
-            as="form"
-            backgroundColor="var(--grey-10)"
-            flexDirection="column"
-            gap="2rem"
-            alignItems="center"
+            as={"form"}
+            backgroundColor={"grey.10"}
+            flexDir={"column"}
+            gap={"2rem"}
+            alignItems={"center"}
             onSubmit={handleresetpass(ResetPassRequest)}
           >
-            <h1>Reset Password</h1>
+            <Text as={"h1"}>Reset Password</Text>
             <Input
-              id="email"
+              id={"email"}
               errorMessage={errors.email?.message}
-              type="email"
-              placeholder="Digite seu email"
-              variant="outline"
+              type={"email"}
+              placeholder={"Digite seu email"}
+              variant={"outline"}
               _hover={{
                 bg: "grey.8",
               }}
-              p="1rem"
+              p={"1rem"}
               register={register}
               onChange={(e) => setEmail(e.target.value)}
               value={email}

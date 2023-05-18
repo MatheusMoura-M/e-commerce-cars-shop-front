@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { Home } from "../pages/home";
 import { DetailCard } from "../pages/detail card";
 import { LoginPage } from "../pages/login";
-import RegisterUserPage from "../pages/registerUser/register.page";
+import RegisterUserPage from "../pages/registerUser";
 import ResetPasswordPage from "../pages/resetPassword";
 import { AnnouncerProfileCard } from "../pages/anouncerProfile";
 

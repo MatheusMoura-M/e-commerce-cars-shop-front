@@ -1,7 +1,7 @@
 import { Button, Flex } from "@chakra-ui/react";
-import { iButtonFilterMobile } from "../../../../interface";
+import { iButtonFilterMobile } from "../../../interface";
 
-export const ButtonFilterMobile = ({
+const ButtonFilterMobile = ({
   isFilter,
   clearFilter,
   onClose,
@@ -79,3 +79,5 @@ export const ButtonFilter = ({ isFilter, isInputFilter, clearFilter }: any) => {
     return null;
   }
 };
+
+export default ButtonFilterMobile;

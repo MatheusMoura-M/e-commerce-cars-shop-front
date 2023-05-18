@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, Input } from "@chakra-ui/react";
-import { contextHomeProvider } from "../../../../context/homePage.context";
+import { contextHomeProvider } from "../../../context/homePage.context";
 import { useContext, useEffect } from "react";
-import { Filters } from "./sectionsFilter";
+import Filters from "./sectionsFilter";
 import { ButtonFilter } from "./buttonFilter";
 
 const FilterCars = () => {
@@ -59,7 +59,7 @@ const FilterCars = () => {
 
   return (
     <Box as="section" mt="80px" ml="20px" w="370px">
-      <Flex flexDirection={"column"}>
+      <Flex flexDir={"column"}>
         <Heading fontSize="1.4rem">Marca</Heading>
 
         <Box m={"15px 0 15px 7px"} cursor="pointer">
@@ -71,7 +71,7 @@ const FilterCars = () => {
           />
         </Box>
       </Flex>
-      <Flex flexDirection={"column"}>
+      <Flex flexDir={"column"}>
         <Heading fontSize="1.4rem">Modelo</Heading>
 
         <Box m={"15px 0 15px 7px"} cursor="pointer">
@@ -83,7 +83,7 @@ const FilterCars = () => {
           />
         </Box>
       </Flex>
-      <Flex flexDirection={"column"}>
+      <Flex flexDir={"column"}>
         <Heading fontSize="1.4rem">Cor</Heading>
 
         <Box m={"15px 0 15px 7px"} cursor="pointer">
@@ -95,7 +95,7 @@ const FilterCars = () => {
           />
         </Box>
       </Flex>
-      <Flex flexDirection={"column"}>
+      <Flex flexDir={"column"}>
         <Heading fontSize="1.4rem">Ano</Heading>
 
         <Box m={"15px 0 15px 7px"} cursor="pointer">
@@ -107,7 +107,7 @@ const FilterCars = () => {
           />
         </Box>
       </Flex>
-      <Flex flexDirection={"column"}>
+      <Flex flexDir={"column"}>
         <Heading fontSize="1  .4rem">Combustível</Heading>
 
         <Box m={"20px 0 15px 7px"} cursor="pointer">
@@ -119,7 +119,7 @@ const FilterCars = () => {
           />
         </Box>
       </Flex>
-      <Flex flexDirection={"column"}>
+      <Flex flexDir={"column"}>
         <Heading fontSize="1.4rem">KM</Heading>
 
         <Flex m="25px 0px 35px 10px">
@@ -156,7 +156,7 @@ const FilterCars = () => {
           />
         </Flex>
       </Flex>
-      <Flex flexDirection={"column"}>
+      <Flex flexDir={"column"}>
         <Heading fontSize="1.4rem">Preço</Heading>
 
         <Flex m="25px 0px 35px 10px">

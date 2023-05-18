@@ -1,9 +1,9 @@
-import { Footer } from "../../components/footer";
-import Header from "../../components/navBar";
+import { Footer } from "../../components/Footer";
+import Header from "../../components/NavBar";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { Input } from "../../components/form/input";
+import { Input } from "../../components/Input";
 import { Button } from "@chakra-ui/react";
 import {
   ContainerFormResetPass,
