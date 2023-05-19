@@ -1,4 +1,5 @@
 import { Flex, Text } from "@chakra-ui/react";
+import ImgPorsche from "../../assets/imgCardCar/porsche.svg";
 
 export const HomePanel = () => {
   return (
@@ -9,7 +10,8 @@ export const HomePanel = () => {
       flexDir={"column"}
       position={"relative"}
       h={{ base: 590, smm: 620, md1: 400 }}
-      bgImage="url('/src/assets/imgCardCar/porsche.svg')"
+      bgImage={ImgPorsche}
+      // bgImage={`url(${ImgPorsche})`}
       bgSize={{ base: "150%", smm: "130%", xsm3: "100%", md3: "1000px" }}
       bgRepeat={"no-repeat"}
       bgPosition={"center"}
