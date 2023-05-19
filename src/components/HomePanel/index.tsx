@@ -9,7 +9,7 @@ export const HomePanel = () => {
       flexDir={"column"}
       position={"relative"}
       h={{ base: 590, smm: 620, md1: 400 }}
-      bgImage="url('/src/assets/imgCardCar/porsche.jpg')"
+      bgImage="url('/src/assets/imgCardCar/porsche.svg')"
       bgSize={{ base: "150%", smm: "130%", xsm3: "100%", md3: "1000px" }}
       bgRepeat={"no-repeat"}
       bgPosition={"center"}
