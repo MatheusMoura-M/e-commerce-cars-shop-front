@@ -48,7 +48,6 @@ export interface iAuthProviderData {
   onUpdateCarAd: (data: iUpdateCarAd, id: string) => Promise<void>;
   onDeleteCarAd: (id: string) => Promise<void>;
   brands: string[];
-  brandsAndModels: [];
   brandSelect: string;
   setBrandSelect: Dispatch<SetStateAction<string>>;
   currentBrand: [];
@@ -159,7 +158,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [passType, setPassType] = useState("password");
   const [confirmPassType, setConfirmPassType] = useState("password");
-  const [brandsAndModels, setBrandsAndModels] = useState<[]>([]);
   const [brands, setBrands] = useState<string[]>([]);
   const [brandSelect, setBrandSelect] = useState<string>("");
   const [currentBrand, setCurrentBrand] = useState<[]>([]);
@@ -191,8 +189,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const [fuelEdit, setFuelEdit] = useState<string>("");
   const [fipeEdit, setFipeEdit] = useState<string>("");
 
-  const goToProfile = () => {
-    navigate(`/announcer-profile/${userLogged.id}`);
+  const goToAnnouncerProfile = (id: string) => {
+    navigate(`/announcer-profile/${id}`);
   };
 
   const GetUserProfile = async () => {
@@ -213,10 +211,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       }
       console.log(error);
     }
-  };
-
-  const goToAnnouncerProfile = (id: string) => {
-    navigate(`/announcer-profile/${id}`);
   };
 
   const onRegisterSubmit = async (dataRegister: iRegisterReq) => {
@@ -314,7 +308,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const getCarsBrands = async () => {
     try {
       const response = await instanceKenzieCars.get("/cars");
-      setBrandsAndModels(response.data);
+
       const brandsCars = Object.keys(response.data);
       setBrands(brandsCars);
     } catch (error) {
@@ -697,7 +691,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         Login,
         getCarsBrands,
         brands,
-        brandsAndModels,
         brandSelect,
         setBrandSelect,
         currentBrand,

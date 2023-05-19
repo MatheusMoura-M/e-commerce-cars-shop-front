@@ -14,6 +14,8 @@ const Filters = ({
   setYearSelected,
   fuels,
   setFuelSelected,
+  setOptionFilterSelected,
+  optionFilterSelected,
 }: iFilters) => {
   const filter = brands
     ? brands
@@ -33,20 +35,46 @@ const Filters = ({
             key={i}
             fontWeight="600"
             color="grey.3"
+            cursor={"pointer"}
             onClick={() => {
               filterOptionsMenu();
               setIsFilter(true);
-              {
-                setBrandSelected
-                  ? setBrandSelected!(elem)
-                  : setModelSelected
-                  ? setModelSelected!(elem)
-                  : setColorSelected
-                  ? setColorSelected!(elem)
-                  : setYearSelected
-                  ? setYearSelected!(elem)
-                  : setFuelSelected!(elem);
-              }
+
+              brands
+                ? setOptionFilterSelected!({
+                    ...optionFilterSelected,
+                    brand: elem,
+                  })
+                : models
+                ? setOptionFilterSelected!({
+                    ...optionFilterSelected,
+                    model: elem,
+                  })
+                : colors
+                ? setOptionFilterSelected!({
+                    ...optionFilterSelected,
+                    color: elem,
+                  })
+                : years
+                ? setOptionFilterSelected!({
+                    ...optionFilterSelected,
+                    year: elem,
+                  })
+                : setOptionFilterSelected!({
+                    ...optionFilterSelected,
+                    fuel: elem,
+                  });
+              // {
+              //   setBrandSelected
+              //     ? setBrandSelected!(elem)
+              //     : setModelSelected
+              //     ? setModelSelected!(elem)
+              //     : setColorSelected
+              //     ? setColorSelected!(elem)
+              //     : setYearSelected
+              //     ? setYearSelected!(elem)
+              //     : setFuelSelected!(elem);
+              // }
             }}
             _hover={{ color: "grey.2", transition: "0.3s" }}
           >

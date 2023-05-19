@@ -14,7 +14,7 @@ import { useContext, useEffect } from "react";
 import { contextHomeProvider } from "../../../context/homePage.context";
 import Filters from "./sectionsFilter";
 import { iStatusModal } from "../../../interface";
-import ButtonFilterMobile from "./buttonFilter";
+import { ButtonFilterMobile } from "./buttonFilter";
 
 const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
   const {
@@ -50,9 +50,8 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
     isInputFilter,
     inputStatus,
     FilterInputs,
-    filteredAlready,
-    setFilteredAlready,
-    filteredCars,
+    setOptionFilterSelected,
+    optionFilterSelected,
   } = useContext(contextHomeProvider);
 
   useEffect(() => {
@@ -73,6 +72,7 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
     maxKm,
     minPrice,
     maxPrice,
+    optionFilterSelected,
   ]);
 
   return (
@@ -80,61 +80,76 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton mt="6px" />
-        <Text color="grey.1" ml="15px" mt="20px" fontWeight="600">
-          Filtro
+        <Text
+          color="grey.1"
+          ml="15px"
+          mt="20px"
+          fontSize={"1.5rem"}
+          fontWeight="600"
+        >
+          Filtros
         </Text>
-        <DrawerBody>
-          <Box ml="-25px">
-            <DrawerHeader>Marca</DrawerHeader>
-
+        <DrawerBody px={0}>
+          <DrawerHeader px={"1.5rem"}>Marca</DrawerHeader>
+          <Box ml={"35px"}>
             <Filters
               setBrandSelected={setBrandSelected}
               brands={brands}
               setIsFilter={setIsFilter}
               filterOptionsMenu={filterOptionsMenu}
+              setOptionFilterSelected={setOptionFilterSelected}
+              optionFilterSelected={optionFilterSelected}
             />
           </Box>
-          <Box ml="-25px">
-            <DrawerHeader>Modelo</DrawerHeader>
 
+          <DrawerHeader px={"1.5rem"}>Modelo</DrawerHeader>
+          <Box ml={"35px"}>
             <Filters
               setModelSelected={setModelSelected}
               models={models}
               setIsFilter={setIsFilter}
               filterOptionsMenu={filterOptionsMenu}
+              setOptionFilterSelected={setOptionFilterSelected}
+              optionFilterSelected={optionFilterSelected}
             />
           </Box>
-          <Box ml="-25px">
-            <DrawerHeader>Cor</DrawerHeader>
 
+          <DrawerHeader px={"1.5rem"}>Cor</DrawerHeader>
+          <Box ml={"35px"}>
             <Filters
               setColorSelected={setColorSelected}
               colors={colors}
               setIsFilter={setIsFilter}
               filterOptionsMenu={filterOptionsMenu}
+              setOptionFilterSelected={setOptionFilterSelected}
+              optionFilterSelected={optionFilterSelected}
             />
           </Box>
-          <Box ml="-25px">
-            <DrawerHeader>Ano</DrawerHeader>
 
+          <DrawerHeader px={"1.5rem"}>Ano</DrawerHeader>
+          <Box ml={"35px"}>
             <Filters
               setYearSelected={setYearSelected}
               years={years}
               setIsFilter={setIsFilter}
               filterOptionsMenu={filterOptionsMenu}
+              setOptionFilterSelected={setOptionFilterSelected}
+              optionFilterSelected={optionFilterSelected}
             />
           </Box>
-          <Box ml="-25px">
-            <DrawerHeader>Combustível</DrawerHeader>
 
+          <DrawerHeader px={"1.5rem"}>Combustível</DrawerHeader>
+          <Box ml={"35px"}>
             <Filters
               setFuelSelected={setFuelSelected}
               fuels={fuels}
               setIsFilter={setIsFilter}
               filterOptionsMenu={filterOptionsMenu}
+              setOptionFilterSelected={setOptionFilterSelected}
+              optionFilterSelected={optionFilterSelected}
             />
           </Box>
-          <Box ml="-25px" mt="35px">
+          <Box mt="35px">
             <DrawerHeader>KM</DrawerHeader>
 
             <Flex ml="30px">
@@ -173,7 +188,7 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
               />
             </Flex>
           </Box>
-          <Box ml="-25px" mt="35px">
+          <Box mt="35px">
             <DrawerHeader>Preço</DrawerHeader>
 
             <Flex ml="30px">
@@ -216,8 +231,6 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
           <ButtonFilterMobile
             isFilter={isFilter}
             isOpen={isOpen}
-            filteredAlready={filteredAlready}
-            setFilteredAlready={setFilteredAlready}
             onClose={onClose}
             clearFilter={clearFilter}
           />

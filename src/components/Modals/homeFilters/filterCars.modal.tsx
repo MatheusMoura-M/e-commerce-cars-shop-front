@@ -37,6 +37,8 @@ const FilterCars = () => {
     clearFilter,
     isInputFilter,
     inputStatus,
+    setOptionFilterSelected,
+    optionFilterSelected,
   } = useContext(contextHomeProvider);
 
   useEffect(() => {
@@ -55,6 +57,7 @@ const FilterCars = () => {
     maxKm,
     minPrice,
     maxPrice,
+    optionFilterSelected,
   ]);
 
   return (
@@ -62,60 +65,70 @@ const FilterCars = () => {
       <Flex flexDir={"column"}>
         <Heading fontSize="1.4rem">Marca</Heading>
 
-        <Box m={"15px 0 15px 7px"} cursor="pointer">
+        <Box m={"15px 0 15px 7px"}>
           <Filters
-            filterOptionsMenu={filterOptionsMenu}
             setBrandSelected={setBrandSelected}
             brands={brands}
             setIsFilter={setIsFilter}
+            filterOptionsMenu={filterOptionsMenu}
+            setOptionFilterSelected={setOptionFilterSelected}
+            optionFilterSelected={optionFilterSelected}
           />
         </Box>
       </Flex>
       <Flex flexDir={"column"}>
         <Heading fontSize="1.4rem">Modelo</Heading>
 
-        <Box m={"15px 0 15px 7px"} cursor="pointer">
+        <Box m={"15px 0 15px 7px"}>
           <Filters
             setModelSelected={setModelSelected}
             models={models}
             setIsFilter={setIsFilter}
             filterOptionsMenu={filterOptionsMenu}
+            setOptionFilterSelected={setOptionFilterSelected}
+            optionFilterSelected={optionFilterSelected}
           />
         </Box>
       </Flex>
       <Flex flexDir={"column"}>
         <Heading fontSize="1.4rem">Cor</Heading>
 
-        <Box m={"15px 0 15px 7px"} cursor="pointer">
+        <Box m={"15px 0 15px 7px"}>
           <Filters
             setColorSelected={setColorSelected}
             colors={colors}
             setIsFilter={setIsFilter}
             filterOptionsMenu={filterOptionsMenu}
+            setOptionFilterSelected={setOptionFilterSelected}
+            optionFilterSelected={optionFilterSelected}
           />
         </Box>
       </Flex>
       <Flex flexDir={"column"}>
         <Heading fontSize="1.4rem">Ano</Heading>
 
-        <Box m={"15px 0 15px 7px"} cursor="pointer">
+        <Box m={"15px 0 15px 7px"}>
           <Filters
             setYearSelected={setYearSelected}
             years={years}
             setIsFilter={setIsFilter}
             filterOptionsMenu={filterOptionsMenu}
+            setOptionFilterSelected={setOptionFilterSelected}
+            optionFilterSelected={optionFilterSelected}
           />
         </Box>
       </Flex>
       <Flex flexDir={"column"}>
         <Heading fontSize="1  .4rem">Combustível</Heading>
 
-        <Box m={"20px 0 15px 7px"} cursor="pointer">
+        <Box m={"20px 0 15px 7px"}>
           <Filters
             setFuelSelected={setFuelSelected}
             fuels={fuels}
             setIsFilter={setIsFilter}
             filterOptionsMenu={filterOptionsMenu}
+            setOptionFilterSelected={setOptionFilterSelected}
+            optionFilterSelected={optionFilterSelected}
           />
         </Box>
       </Flex>

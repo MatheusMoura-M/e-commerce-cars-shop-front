@@ -32,6 +32,7 @@ export const Home = () => {
     fuelSelected,
     currentPage,
     currentPageFilter,
+    optionFilterSelected,
   } = useContext(contextHomeProvider);
 
   const pageLimit =
@@ -49,7 +50,14 @@ export const Home = () => {
     filterOptionsMenu();
     filterCarList();
     pageCard();
-  }, [brandSelected, modelSelected, colorSelected, yearSelected, fuelSelected]);
+  }, [
+    brandSelected,
+    modelSelected,
+    colorSelected,
+    yearSelected,
+    fuelSelected,
+    optionFilterSelected,
+  ]);
 
   useEffect(() => {
     pageCard();

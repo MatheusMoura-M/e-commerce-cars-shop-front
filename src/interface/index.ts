@@ -33,7 +33,11 @@ import {
   IresetPropsRequest,
   IresetPropsResponse,
 } from "./reset.interface";
-import { iButtonFilterMobile, iFilters } from "./filters.interface";
+import {
+  iButtonFilterMobile,
+  iFilters,
+  iOptionFilterSelected,
+} from "./filters.interface";
 
 interface iStatusModal {
   isOpen: boolean;
@@ -78,4 +82,5 @@ export type {
   IresetPropsResponse,
   iButtonFilterMobile,
   iFilters,
+  iOptionFilterSelected,
 };

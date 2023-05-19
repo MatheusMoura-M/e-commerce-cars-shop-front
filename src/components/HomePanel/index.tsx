@@ -11,7 +11,6 @@ export const HomePanel = () => {
       position={"relative"}
       h={{ base: 590, smm: 620, md1: 400 }}
       bgImage={ImgPorsche}
-      // bgImage={`url(${ImgPorsche})`}
       bgSize={{ base: "150%", smm: "130%", xsm3: "100%", md3: "1000px" }}
       bgRepeat={"no-repeat"}
       bgPosition={"center"}

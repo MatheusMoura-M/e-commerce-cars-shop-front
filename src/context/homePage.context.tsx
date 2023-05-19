@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, createContext, useState } from "react";
 import { instance } from "../services/api";
-import { iCar, iCarResponse } from "../interface";
+import { iCar, iCarResponse, iOptionFilterSelected } from "../interface";
 import { iProviderProps } from "../@types";
 
 interface iHomeContext {
@@ -43,7 +43,7 @@ interface iHomeContext {
   maxPrice: string;
   setMaxPrice: Dispatch<SetStateAction<string>>;
   FilterInputs(): void;
-  setFilteredCar: Dispatch<SetStateAction<iCar[]>>;
+  setFilteredCars: Dispatch<SetStateAction<iCar[]>>;
   selectedCar: iCarResponse;
   setSelectedCar(car: iCarResponse): void;
   clearFilter(): void;
@@ -54,12 +54,12 @@ interface iHomeContext {
   isOnlyInputsFilter: boolean;
   setOnlyInputFilter: Dispatch<SetStateAction<boolean>>;
   inputStatus(value: string, inputField: string): void;
-  filteredAlready: boolean;
-  setFilteredAlready: Dispatch<SetStateAction<boolean>>;
   currentPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
   currentPageFilter: number;
   setCurrentPageFilter: Dispatch<SetStateAction<number>>;
+  optionFilterSelected: iOptionFilterSelected;
+  setOptionFilterSelected: Dispatch<SetStateAction<iOptionFilterSelected>>;
 }
 
 export const contextHomeProvider = createContext({} as iHomeContext);
@@ -69,7 +69,7 @@ const HomePageContext = ({ children }: iProviderProps) => {
   const [selectedCar, setSelectedCar] = useState<iCarResponse>(
     {} as iCarResponse
   );
-  const [filteredCars, setFilteredCar] = useState<iCar[]>([]);
+  const [filteredCars, setFilteredCars] = useState<iCar[]>([]);
   const [inputCarsFiltered, setInputCarsFiltered] = useState<iCar[]>([]);
 
   const [isFilter, setIsFilter] = useState<boolean>(false);
@@ -88,14 +88,15 @@ const HomePageContext = ({ children }: iProviderProps) => {
   const [modelSelected, setModelSelected] = useState<string>("");
   const [fuelSelected, setFuelSelected] = useState<string>("");
 
+  const [optionFilterSelected, setOptionFilterSelected] =
+    useState<iOptionFilterSelected>({} as iOptionFilterSelected);
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [minKm, setMinKm] = useState<string>("");
   const [maxKm, setMaxKm] = useState<string>("");
   const [minPrice, setMinPrice] = useState<string>("");
   const [maxPrice, setMaxPrice] = useState<string>("");
-
-  const [filteredAlready, setFilteredAlready] = useState<boolean>(false);
 
   const [currentPage, setCurrentPage] = useState(0);
   const [currentPageFilter, setCurrentPageFilter] = useState(0);
@@ -105,7 +106,6 @@ const HomePageContext = ({ children }: iProviderProps) => {
       setIsLoading(true);
 
       const response = await instance.get("/car");
-
       setCarAd(response.data);
     } catch (error) {
       console.log(error);
@@ -115,165 +115,269 @@ const HomePageContext = ({ children }: iProviderProps) => {
   };
 
   const filterCarList = () => {
-    if (brandSelected) {
-      const filtered = carAd.filter((car) => car.brand == brandSelected);
+    if (optionFilterSelected) {
+      const lengthOptions = Object.keys(optionFilterSelected).length;
 
-      setFilteredCar(filtered);
-    } else if (modelSelected) {
-      const filtered = carAd.filter((car) => car.model == modelSelected);
-
-      setFilteredCar(filtered);
-    } else if (colorSelected) {
-      const filtered = carAd.filter((car) => car.color == colorSelected);
-      setFilteredCar(filtered);
-    } else if (yearSelected) {
-      const filtered = carAd.filter((car) => car.year == yearSelected);
-
-      setFilteredCar(filtered);
-    } else if (fuelSelected) {
-      const filtered = carAd.filter((car) => car.fuel == fuelSelected);
-
-      setFilteredCar(filtered);
-    }
-
-    //------------------------------------------ TWO FILTERS SCOPE ---------------------------------------------------//
-
-    if (brandSelected && modelSelected) {
-      const filtered = carAd.filter(
-        (car) => car.brand == brandSelected && car.model == modelSelected
-      );
-      setFilteredCar(filtered);
-    } else if (brandSelected && colorSelected) {
-      const filtered = carAd.filter(
-        (car) => car.brand == brandSelected && car.color == colorSelected
-      );
-      setFilteredCar(filtered);
-    } else if (brandSelected && yearSelected) {
-      const filtered = carAd.filter(
-        (car) => car.brand == brandSelected && car.year == yearSelected
-      );
-      setFilteredCar(filtered);
-    } else if (brandSelected && fuelSelected) {
-      const filtered = carAd.filter(
-        (car) => car.brand == brandSelected && car.fuel == fuelSelected
-      );
-      setFilteredCar(filtered);
-    } else if (modelSelected && colorSelected) {
-      const filtered = carAd.filter(
-        (car) => car.model == modelSelected && car.color == colorSelected
-      );
-      setFilteredCar(filtered);
-    } else if (modelSelected && yearSelected) {
-      const filtered = carAd.filter(
-        (car) => car.model == modelSelected && car.year == yearSelected
-      );
-      setFilteredCar(filtered);
-    } else if (modelSelected && fuelSelected) {
-      const filtered = carAd.filter(
-        (car) => car.model == modelSelected && car.fuel == fuelSelected
-      );
-      setFilteredCar(filtered);
-    } else if (colorSelected && yearSelected) {
-      const filtered = carAd.filter(
-        (car) => car.color == colorSelected && car.year == yearSelected
-      );
-      setFilteredCar(filtered);
-    } else if (colorSelected && fuelSelected) {
-      const filtered = carAd.filter(
-        (car) => car.color == colorSelected && car.fuel == fuelSelected
-      );
-      setFilteredCar(filtered);
-    }
-
-    //------------------------------------------ THREE FILTERS SCOPE ---------------------------------------------------//
-    else if (brandSelected && modelSelected && colorSelected) {
-      const filtered = carAd.filter(
-        (car) =>
-          car.brand == brandSelected &&
-          car.model == modelSelected &&
-          car.color == colorSelected
-      );
-      setFilteredCar(filtered);
-    } else if (modelSelected && colorSelected && fuelSelected) {
-      const filtered = carAd.filter(
-        (car) =>
-          car.model == modelSelected &&
-          car.color == colorSelected &&
-          car.fuel == fuelSelected
-      );
-      setFilteredCar(filtered);
-    } else if (modelSelected && yearSelected && fuelSelected) {
-      const filtered = carAd.filter(
-        (car) =>
-          car.model == modelSelected &&
-          car.year == yearSelected &&
-          car.fuel == fuelSelected
-      );
-      setFilteredCar(filtered);
-    } else if (colorSelected && fuelSelected && yearSelected) {
-      const filtered = carAd.filter(
-        (car) =>
-          car.color == colorSelected &&
-          car.fuel == fuelSelected &&
-          car.year == yearSelected
-      );
-      setFilteredCar(filtered);
-    } else if (fuelSelected && yearSelected && brandSelected) {
-      const filtered = carAd.filter(
-        (car) =>
-          car.fuel == fuelSelected &&
-          car.year == yearSelected &&
-          car.brand == brandSelected
-      );
-
-      setFilteredCar(filtered);
-    }
-
-    //------------------------------------------ FOUR FILTERS SCOPE ---------------------------------------------------//
-    else if (brandSelected && modelSelected && colorSelected && fuelSelected) {
-      const filtered = carAd.filter(
-        (car) =>
-          car.brand == brandSelected &&
-          car.model == modelSelected &&
-          car.color == colorSelected &&
-          car.fuel == fuelSelected
-      );
-      setFilteredCar(filtered);
-    } else if (
-      brandSelected &&
-      modelSelected &&
-      colorSelected &&
-      yearSelected
-    ) {
-      const filtered = carAd.filter(
-        (car) =>
-          car.brand == brandSelected &&
-          car.model == modelSelected &&
-          car.color == colorSelected &&
-          car.year == yearSelected
-      );
-      setFilteredCar(filtered);
-    } else if (modelSelected && colorSelected && yearSelected && fuelSelected) {
-      const filtered = carAd.filter(
-        (car) =>
-          car.model == modelSelected &&
-          car.color == colorSelected &&
-          car.year == yearSelected &&
-          car.fuel == fuelSelected
-      );
-      setFilteredCar(filtered);
+      console.log(optionFilterSelected);
+      const filtered = carAd.filter((car) => {
+        if (lengthOptions == 1) {
+          return optionFilterSelected.brand
+            ? optionFilterSelected.brand == car.brand
+            : optionFilterSelected.model
+            ? optionFilterSelected.model == car.model
+            : optionFilterSelected.color
+            ? optionFilterSelected.color == car.color
+            : optionFilterSelected.year
+            ? optionFilterSelected.year == car.year
+            : optionFilterSelected.fuel == car.fuel;
+        } else if (lengthOptions == 2) {
+          return optionFilterSelected.brand && optionFilterSelected.model
+            ? optionFilterSelected.brand == car.brand &&
+                optionFilterSelected.model == car.model
+            : optionFilterSelected.brand && optionFilterSelected.color
+            ? optionFilterSelected.brand == car.brand &&
+              optionFilterSelected.color == car.color
+            : optionFilterSelected.brand && optionFilterSelected.year
+            ? optionFilterSelected.brand == car.brand &&
+              optionFilterSelected.year == car.year
+            : optionFilterSelected.brand && optionFilterSelected.fuel
+            ? optionFilterSelected.brand == car.brand &&
+              optionFilterSelected.fuel == car.fuel
+            : optionFilterSelected.model && optionFilterSelected.color
+            ? optionFilterSelected.model == car.model &&
+              optionFilterSelected.color == car.color
+            : optionFilterSelected.model && optionFilterSelected.year
+            ? optionFilterSelected.model == car.model &&
+              optionFilterSelected.year == car.year
+            : optionFilterSelected.model && optionFilterSelected.fuel
+            ? optionFilterSelected.model == car.model &&
+              optionFilterSelected.fuel == car.fuel
+            : optionFilterSelected.color && optionFilterSelected.year
+            ? optionFilterSelected.color == car.color &&
+              optionFilterSelected.year == car.year
+            : optionFilterSelected.color == car.color &&
+              optionFilterSelected.fuel == car.fuel;
+        } else if (lengthOptions == 3) {
+          return optionFilterSelected.brand &&
+            optionFilterSelected.model &&
+            optionFilterSelected.color
+            ? optionFilterSelected.brand == car.brand &&
+                optionFilterSelected.model == car.model &&
+                optionFilterSelected.color == car.color
+            : optionFilterSelected.brand &&
+              optionFilterSelected.year &&
+              optionFilterSelected.fuel
+            ? optionFilterSelected.brand == car.brand &&
+              optionFilterSelected.year == car.year &&
+              optionFilterSelected.fuel == car.fuel
+            : optionFilterSelected.brand &&
+              optionFilterSelected.year &&
+              optionFilterSelected.model
+            ? optionFilterSelected.brand == car.brand &&
+              optionFilterSelected.year == car.year &&
+              optionFilterSelected.model == car.model
+            : optionFilterSelected.fuel &&
+              optionFilterSelected.model &&
+              optionFilterSelected.color
+            ? optionFilterSelected.fuel == car.fuel &&
+              optionFilterSelected.model == car.model &&
+              optionFilterSelected.color == car.color
+            : optionFilterSelected.year &&
+              optionFilterSelected.model &&
+              optionFilterSelected.fuel
+            ? optionFilterSelected.year == car.year &&
+              optionFilterSelected.model == car.model &&
+              optionFilterSelected.fuel == car.fuel
+            : optionFilterSelected.year == car.year &&
+              optionFilterSelected.fuel == car.fuel &&
+              optionFilterSelected.color == car.color;
+        } else if (lengthOptions == 3) {
+          return optionFilterSelected.brand &&
+            optionFilterSelected.model &&
+            optionFilterSelected.color &&
+            optionFilterSelected.fuel
+            ? optionFilterSelected.brand == car.brand &&
+                optionFilterSelected.model == car.model &&
+                optionFilterSelected.color == car.color &&
+                optionFilterSelected.fuel == car.fuel
+            : optionFilterSelected.brand &&
+              optionFilterSelected.model &&
+              optionFilterSelected.color &&
+              optionFilterSelected.year
+            ? optionFilterSelected.brand == car.brand &&
+              optionFilterSelected.model == car.model &&
+              optionFilterSelected.color == car.color &&
+              optionFilterSelected.year == car.year
+            : optionFilterSelected.year == car.year &&
+              optionFilterSelected.model == car.model &&
+              optionFilterSelected.color == car.color &&
+              optionFilterSelected.fuel == car.fuel;
+        }
+      });
+      setFilteredCars(filtered);
     }
   };
+  // const filterCarList = () => {
+  //   if (brandSelected) {
+  //     const filtered = carAd.filter((car) => car.brand == brandSelected);
+
+  //     setFilteredCars(filtered);
+  //   } else if (modelSelected) {
+  //     const filtered = carAd.filter((car) => car.model == modelSelected);
+
+  //     setFilteredCars(filtered);
+  //   } else if (colorSelected) {
+  //     const filtered = carAd.filter((car) => car.color == colorSelected);
+  //     setFilteredCars(filtered);
+  //   } else if (yearSelected) {
+  //     const filtered = carAd.filter((car) => car.year == yearSelected);
+
+  //     setFilteredCars(filtered);
+  //   } else if (fuelSelected) {
+  //     const filtered = carAd.filter((car) => car.fuel == fuelSelected);
+
+  //     setFilteredCars(filtered);
+  //   }
+
+  //   //------------------------------------------ TWO FILTERS SCOPE ---------------------------------------------------//
+
+  //   if (brandSelected && modelSelected) {
+  //     const filtered = carAd.filter(
+  //       (car) => car.brand == brandSelected && car.model == modelSelected
+  //     );
+  //     setFilteredCars(filtered);
+  //   } else if (brandSelected && colorSelected) {
+  //     const filtered = carAd.filter(
+  //       (car) => car.brand == brandSelected && car.color == colorSelected
+  //     );
+  //     setFilteredCars(filtered);
+  //   } else if (brandSelected && yearSelected) {
+  //     const filtered = carAd.filter(
+  //       (car) => car.brand == brandSelected && car.year == yearSelected
+  //     );
+  //     setFilteredCars(filtered);
+  //   } else if (brandSelected && fuelSelected) {
+  //     const filtered = carAd.filter(
+  //       (car) => car.brand == brandSelected && car.fuel == fuelSelected
+  //     );
+  //     setFilteredCars(filtered);
+  //   } else if (modelSelected && colorSelected) {
+  //     const filtered = carAd.filter(
+  //       (car) => car.model == modelSelected && car.color == colorSelected
+  //     );
+  //     setFilteredCars(filtered);
+  //   } else if (modelSelected && yearSelected) {
+  //     const filtered = carAd.filter(
+  //       (car) => car.model == modelSelected && car.year == yearSelected
+  //     );
+  //     setFilteredCars(filtered);
+  //   } else if (modelSelected && fuelSelected) {
+  //     const filtered = carAd.filter(
+  //       (car) => car.model == modelSelected && car.fuel == fuelSelected
+  //     );
+  //     setFilteredCars(filtered);
+  //   } else if (colorSelected && yearSelected) {
+  //     const filtered = carAd.filter(
+  //       (car) => car.color == colorSelected && car.year == yearSelected
+  //     );
+  //     setFilteredCars(filtered);
+  //   } else if (colorSelected && fuelSelected) {
+  //     const filtered = carAd.filter(
+  //       (car) => car.color == colorSelected && car.fuel == fuelSelected
+  //     );
+  //     setFilteredCars(filtered);
+  //   }
+
+  //   //------------------------------------------ THREE FILTERS SCOPE ---------------------------------------------------//
+  //   else if (brandSelected && modelSelected && colorSelected) {
+  //     const filtered = carAd.filter(
+  //       (car) =>
+  //         car.brand == brandSelected &&
+  //         car.model == modelSelected &&
+  //         car.color == colorSelected
+  //     );
+  //     setFilteredCars(filtered);
+  //   } else if (modelSelected && colorSelected && fuelSelected) {
+  //     const filtered = carAd.filter(
+  //       (car) =>
+  //         car.model == modelSelected &&
+  //         car.color == colorSelected &&
+  //         car.fuel == fuelSelected
+  //     );
+  //     setFilteredCars(filtered);
+  //   } else if (modelSelected && yearSelected && fuelSelected) {
+  //     const filtered = carAd.filter(
+  //       (car) =>
+  //         car.model == modelSelected &&
+  //         car.year == yearSelected &&
+  //         car.fuel == fuelSelected
+  //     );
+  //     setFilteredCars(filtered);
+  //   } else if (colorSelected && fuelSelected && yearSelected) {
+  //     const filtered = carAd.filter(
+  //       (car) =>
+  //         car.color == colorSelected &&
+  //         car.fuel == fuelSelected &&
+  //         car.year == yearSelected
+  //     );
+  //     setFilteredCars(filtered);
+  //   } else if (fuelSelected && yearSelected && brandSelected) {
+  //     const filtered = carAd.filter(
+  //       (car) =>
+  //         car.fuel == fuelSelected &&
+  //         car.year == yearSelected &&
+  //         car.brand == brandSelected
+  //     );
+
+  //     setFilteredCars(filtered);
+  //   }
+
+  //   //------------------------------------------ FOUR FILTERS SCOPE ---------------------------------------------------//
+  //   else if (brandSelected && modelSelected && colorSelected && fuelSelected) {
+  //     const filtered = carAd.filter(
+  //       (car) =>
+  //         car.brand == brandSelected &&
+  //         car.model == modelSelected &&
+  //         car.color == colorSelected &&
+  //         car.fuel == fuelSelected
+  //     );
+  //     setFilteredCars(filtered);
+  //   } else if (
+  //     brandSelected &&
+  //     modelSelected &&
+  //     colorSelected &&
+  //     yearSelected
+  //   ) {
+  //     const filtered = carAd.filter(
+  //       (car) =>
+  //         car.brand == brandSelected &&
+  //         car.model == modelSelected &&
+  //         car.color == colorSelected &&
+  //         car.year == yearSelected
+  //     );
+  //     setFilteredCars(filtered);
+  //   } else if (modelSelected && colorSelected && yearSelected && fuelSelected) {
+  //     const filtered = carAd.filter(
+  //       (car) =>
+  //         car.model == modelSelected &&
+  //         car.color == colorSelected &&
+  //         car.year == yearSelected &&
+  //         car.fuel == fuelSelected
+  //     );
+  //     setFilteredCars(filtered);
+  //   }
+  // };
 
   //-------------------------------------------------------------------------------------------------------------------//
 
   const filterOptionsMenu = () => {
     const colorArr: string[] = [];
     const modelArr: string[] = [];
-    let yaersArr: string[] = [];
+    let yearsArr: string[] = [];
     const fuelArr: string[] = [];
     const brandArr: string[] = [];
 
+    // console.log("AA", filteredCars);
     if (filteredCars.length != 0 && isFilter) {
       filteredCars.forEach((car) => {
         if (!brandArr.includes(car.brand)) {
@@ -288,8 +392,8 @@ const HomePageContext = ({ children }: iProviderProps) => {
           modelArr.push(car.model);
         }
 
-        if (!yaersArr.includes(car.year)) {
-          yaersArr.push(car.year);
+        if (!yearsArr.includes(car.year)) {
+          yearsArr.push(car.year);
         }
 
         if (!fuelArr.includes(car.fuel)) {
@@ -310,8 +414,8 @@ const HomePageContext = ({ children }: iProviderProps) => {
           modelArr.push(car.model);
         }
 
-        if (!yaersArr.includes(car.year)) {
-          yaersArr.push(car.year);
+        if (!yearsArr.includes(car.year)) {
+          yearsArr.push(car.year);
         }
 
         if (!fuelArr.includes(car.fuel)) {
@@ -320,14 +424,14 @@ const HomePageContext = ({ children }: iProviderProps) => {
       });
     }
 
-    const arrOrdered = yaersArr.sort((a, b) => +b - +a);
-    yaersArr = arrOrdered;
+    const yearsArrOrdered = yearsArr.sort((a, b) => +b - +a);
+    yearsArr = yearsArrOrdered;
 
     setBrands(brandArr);
     setColors(colorArr);
     setFuels(fuelArr);
     setModels(modelArr);
-    setYears(yaersArr);
+    setYears(yearsArr);
   };
 
   const inputStatus = (value: string, inputField: string) => {
@@ -534,7 +638,7 @@ const HomePageContext = ({ children }: iProviderProps) => {
   const clearFilter = () => {
     setIsFilter(false);
     setIsInputFilter(false);
-    setFilteredCar([]);
+    setFilteredCars([]);
     setBrandSelected("");
     setModelSelected("");
     setYearSelected("");
@@ -544,6 +648,7 @@ const HomePageContext = ({ children }: iProviderProps) => {
     setMinKm("");
     setMinPrice("");
     setMaxPrice("");
+    setOptionFilterSelected({});
     GetCardsAd();
   };
 
@@ -589,7 +694,7 @@ const HomePageContext = ({ children }: iProviderProps) => {
         maxPrice,
         setMaxPrice,
         FilterInputs,
-        setFilteredCar,
+        setFilteredCars,
         selectedCar,
         setSelectedCar,
         clearFilter,
@@ -600,12 +705,12 @@ const HomePageContext = ({ children }: iProviderProps) => {
         isOnlyInputsFilter,
         setOnlyInputFilter,
         inputStatus,
-        filteredAlready,
-        setFilteredAlready,
         currentPage,
         currentPageFilter,
         setCurrentPage,
         setCurrentPageFilter,
+        optionFilterSelected,
+        setOptionFilterSelected,
       }}
     >
       {children}

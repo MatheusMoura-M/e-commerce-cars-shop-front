@@ -4,8 +4,6 @@ import { iCar } from "./car.interface";
 interface iButtonFilterMobile {
   isFilter: boolean;
   isOpen: boolean;
-  filteredAlready: boolean;
-  setFilteredAlready: Dispatch<SetStateAction<boolean>>;
   isInputFilter?: boolean;
   onClose: () => void;
   clearFilter: () => void;
@@ -25,6 +23,16 @@ interface iFilters {
   years?: string[];
   setFuelSelected?: Dispatch<SetStateAction<string>>;
   fuels?: string[];
+  setOptionFilterSelected?: Dispatch<SetStateAction<iOptionFilterSelected>>;
+  optionFilterSelected?: iOptionFilterSelected;
 }
 
-export type { iButtonFilterMobile, iFilters };
+interface iOptionFilterSelected {
+  brand?: string;
+  color?: string;
+  year?: string;
+  model?: string;
+  fuel?: string;
+}
+
+export type { iButtonFilterMobile, iFilters, iOptionFilterSelected };
