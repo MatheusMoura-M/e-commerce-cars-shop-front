@@ -17,7 +17,6 @@ import RegexInputs from "./context/regexInputs.context";
 
 import "react-toastify/dist/ReactToastify.css";
 
-
 function App() {
   return (
     <ChakraProvider theme={custonTheme}>

@@ -259,7 +259,7 @@ const FormEditCarsAd = ({
             w="48%"
             borderRadius="4px"
             fontSize="0.875rem"
-            _focus={{ backgroundColor: "brand.1" }}
+            _focus={{ bg: "brand.1" }}
             onClick={() => setIsActive(true)}
           >
             Sim
@@ -272,7 +272,7 @@ const FormEditCarsAd = ({
             w="48%"
             borderRadius="4px"
             fontSize="0.875rem"
-            _focus={{ backgroundColor: "brand.1" }}
+            _focus={{ bg: "brand.1" }}
             onClick={() => {
               setIsActive(false);
             }}

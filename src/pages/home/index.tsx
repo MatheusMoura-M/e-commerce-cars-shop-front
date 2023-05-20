@@ -121,7 +121,7 @@ export const Home = () => {
               }}
               borderRadius="5px"
               fontWeight="500"
-              _hover={{ background: "brand.2" }}
+              _hover={{ bg: "brand.2" }}
               onClick={() => {
                 onOpen();
               }}

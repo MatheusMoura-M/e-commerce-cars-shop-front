@@ -8,15 +8,15 @@ export const HomePanel = () => {
       alignItems={"center"}
       justifyContent={"center"}
       flexDir={"column"}
-      position={"relative"}
+      pos={"relative"}
       h={{ base: 590, smm: 620, md1: 400 }}
       bgImage={ImgPorsche}
       bgSize={{ base: "150%", smm: "130%", xsm3: "100%", md3: "1000px" }}
       bgRepeat={"no-repeat"}
-      bgPosition={"center"}
+      bgPos={"center"}
     >
       <Flex
-        position={"absolute"}
+        pos={"absolute"}
         flexDir={"column"}
         alignItems={"center"}
         justifyContent={{ md1: "center" }}

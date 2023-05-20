@@ -17,7 +17,7 @@ export const ButtonFilterMobile = ({
             w="250px"
             borderRadius="5px"
             fontWeight="600"
-            _hover={{ background: "brand.2" }}
+            _hover={{ bg: "brand.2" }}
             p="25px 0px 22px 0px"
             onClick={() => {
               onClose();
@@ -32,7 +32,7 @@ export const ButtonFilterMobile = ({
               w="250px"
               borderRadius="5px"
               fontWeight="600"
-              _hover={{ background: "brand.2" }}
+              _hover={{ bg: "brand.2" }}
               p="25px 0px 22px 0px"
               onClick={() => {
                 clearFilter();
@@ -57,7 +57,7 @@ export const ButtonFilter = ({ isFilter, isInputFilter, clearFilter }: any) => {
           w="250px"
           borderRadius="5px"
           fontWeight="600"
-          _hover={{ background: "brand.2" }}
+          _hover={{ bg: "brand.2" }}
           p="25px 0px 22px 0px"
           onClick={() => {
             clearFilter();

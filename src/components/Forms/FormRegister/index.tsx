@@ -206,9 +206,9 @@ const FormRegisterUser = () => {
               pt="15px"
               pb="15px"
               resize="none"
-              _hover={{ background: "grey.8", borderColor: "grey.8" }}
+              _hover={{ bg: "grey.8", borderColor: "grey.8" }}
               _focus={{
-                background: "grey.10",
+                bg: "grey.10",
                 border: "2px",
                 borderColor: "brand.2",
               }}
@@ -354,7 +354,7 @@ const FormRegisterUser = () => {
               w="48%"
               borderRadius="4px"
               fontSize="0.875rem"
-              _focus={{ backgroundColor: "brand.1" }}
+              _focus={{ bg: "brand.1" }}
               onClick={() => setIsSeller(false)}
             >
               Comprador
@@ -367,7 +367,7 @@ const FormRegisterUser = () => {
               w="48%"
               borderRadius="4px"
               fontSize="0.875rem"
-              _focus={{ backgroundColor: "brand.1" }}
+              _focus={{ bg: "brand.1" }}
               onClick={() => setIsSeller(true)}
             >
               Anuciante
@@ -421,7 +421,7 @@ const FormRegisterUser = () => {
               borderRadius="4px"
               color="grey.10"
               fontSize="0.9rem"
-              _hover={{ backgroundColor: "brand.2" }}
+              _hover={{ bg: "brand.2" }}
             >
               Finalizar cadastro
             </Button>

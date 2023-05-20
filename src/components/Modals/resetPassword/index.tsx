@@ -41,7 +41,7 @@ const ResetPassword = ({ isOpen, onClose }: any) => {
         <ModalBody>
           <Flex
             as={"form"}
-            backgroundColor={"grey.10"}
+            bg={"grey.10"}
             flexDir={"column"}
             gap={"2rem"}
             alignItems={"center"}

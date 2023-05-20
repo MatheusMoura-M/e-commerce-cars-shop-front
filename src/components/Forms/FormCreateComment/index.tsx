@@ -49,7 +49,7 @@ const FormCreateComment = () => {
       }}
       _focusWithin={{
         borderColor: { base: "transparent", xsm2: "brand.2" },
-        backgroundColor: "grey.10",
+        bg: "grey.10",
       }}
     >
       <Input
