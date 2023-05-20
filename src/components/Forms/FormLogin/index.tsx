@@ -33,7 +33,7 @@ const FormLogin = ({ onOpen }: any) => {
       as="form"
       flexDir={"column"}
       gap={"1rem"}
-      position={"relative"}
+      pos={"relative"}
       onSubmit={handleSubmit(Login)}
     >
       <Input
@@ -73,7 +73,7 @@ const FormLogin = ({ onOpen }: any) => {
         fontSize={"0.875rem"}
         fontWeight={500}
         color={"grey.2"}
-        position={"absolute"}
+        pos={"absolute"}
         right={"2px"}
         bottom={210}
         cursor={"pointer"}

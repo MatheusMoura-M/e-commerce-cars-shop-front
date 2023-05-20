@@ -54,7 +54,7 @@ const ResetPasswordPage = () => {
           as="form"
           flexDir={"column"}
           gap={"1rem"}
-          position={"relative"}
+          pos={"relative"}
           onSubmit={handleSubmit(ResetPass)}
         >
           <Input

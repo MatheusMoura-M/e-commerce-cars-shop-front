@@ -19,12 +19,12 @@ export const UlCardCars = ({ children }: iProviderProps) => {
           h: "12px",
         },
         "::-webkit-scrollbar-track": {
-          background: "grey.3",
+          bg: "grey.3",
           borderRadius: "10px",
           w: "10px",
         },
         "::-webkit-scrollbar-thumb": {
-          background: "grey.4",
+          bg: "grey.4",
           borderRadius: "24px",
         },
       }}

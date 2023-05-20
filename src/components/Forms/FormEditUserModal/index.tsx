@@ -192,9 +192,9 @@ const FormEditUser = ({ onClose }: iStatusModalOptional) => {
             pt="15px"
             pb="15px"
             resize="none"
-            _hover={{ background: "grey.8", borderColor: "grey.8" }}
+            _hover={{ bg: "grey.8", borderColor: "grey.8" }}
             _focus={{
-              background: "grey.10",
+              bg: "grey.10",
               border: "2px",
               borderColor: "brand.2",
             }}
@@ -224,7 +224,7 @@ const FormEditUser = ({ onClose }: iStatusModalOptional) => {
             bg={isSeller ? "grey.10" : "brand.1"}
             w="48%"
             fontSize="0.875rem"
-            _focus={{ backgroundColor: "brand.1" }}
+            _focus={{ bg: "brand.1" }}
             onClick={() => setIsSeller(false)}
           >
             Comprador
@@ -236,7 +236,7 @@ const FormEditUser = ({ onClose }: iStatusModalOptional) => {
             bg={!isSeller ? "grey.10" : "brand.1"}
             w="48%"
             fontSize="0.875rem"
-            _focus={{ backgroundColor: "brand.1" }}
+            _focus={{ bg: "brand.1" }}
             onClick={() => setIsSeller(true)}
           >
             Anuciante

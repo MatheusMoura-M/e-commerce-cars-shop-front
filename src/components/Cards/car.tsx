@@ -56,7 +56,7 @@ const CarCard = ({
       m={{ base: "0px 10px 0px 10px", lg2m: "0px 30px 20px 0px" }}
     >
       <Flex
-        position={"relative"}
+        pos={"relative"}
         bg={"grey.7"}
         justifyContent="center"
         borderTopRadius={"10px"}
@@ -71,10 +71,10 @@ const CarCard = ({
 
         {buttonStatus && (
           <Button
-            position={"absolute"}
+            pos={"absolute"}
             top="9px"
             left="15px"
-            backgroundColor={isPublished == true ? "brand.1" : "grey.4"}
+            bg={isPublished == true ? "brand.1" : "grey.4"}
             color="grey.10"
             fontSize="14px"
             fontWeight="500"
@@ -95,7 +95,7 @@ const CarCard = ({
           <Text
             as="span"
             display={"flex"}
-            position={"absolute"}
+            pos={"absolute"}
             top={0}
             right={0}
             alignItems={"center"}

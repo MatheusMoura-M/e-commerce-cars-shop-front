@@ -131,7 +131,7 @@ export const Input = ({
           maxH={{ base: 128, xsm2: 75 }}
           _focus={{
             borderColor: "brand.2",
-            backgroundColor: "grey.10",
+            bg: "grey.10",
           }}
           {...rest}
         />
