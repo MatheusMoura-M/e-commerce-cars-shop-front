@@ -93,7 +93,6 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
           <DrawerHeader px={"1.5rem"}>Marca</DrawerHeader>
           <Box ml={"35px"}>
             <Filters
-              setBrandSelected={setBrandSelected}
               brands={brands}
               setIsFilter={setIsFilter}
               filterOptionsMenu={filterOptionsMenu}
@@ -105,7 +104,6 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
           <DrawerHeader px={"1.5rem"}>Modelo</DrawerHeader>
           <Box ml={"35px"}>
             <Filters
-              setModelSelected={setModelSelected}
               models={models}
               setIsFilter={setIsFilter}
               filterOptionsMenu={filterOptionsMenu}
@@ -117,7 +115,6 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
           <DrawerHeader px={"1.5rem"}>Cor</DrawerHeader>
           <Box ml={"35px"}>
             <Filters
-              setColorSelected={setColorSelected}
               colors={colors}
               setIsFilter={setIsFilter}
               filterOptionsMenu={filterOptionsMenu}
@@ -129,7 +126,6 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
           <DrawerHeader px={"1.5rem"}>Ano</DrawerHeader>
           <Box ml={"35px"}>
             <Filters
-              setYearSelected={setYearSelected}
               years={years}
               setIsFilter={setIsFilter}
               filterOptionsMenu={filterOptionsMenu}
@@ -141,7 +137,6 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
           <DrawerHeader px={"1.5rem"}>Combustível</DrawerHeader>
           <Box ml={"35px"}>
             <Filters
-              setFuelSelected={setFuelSelected}
               fuels={fuels}
               setIsFilter={setIsFilter}
               filterOptionsMenu={filterOptionsMenu}

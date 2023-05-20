@@ -67,7 +67,6 @@ const FilterCars = () => {
 
         <Box m={"15px 0 15px 7px"}>
           <Filters
-            setBrandSelected={setBrandSelected}
             brands={brands}
             setIsFilter={setIsFilter}
             filterOptionsMenu={filterOptionsMenu}
@@ -81,7 +80,6 @@ const FilterCars = () => {
 
         <Box m={"15px 0 15px 7px"}>
           <Filters
-            setModelSelected={setModelSelected}
             models={models}
             setIsFilter={setIsFilter}
             filterOptionsMenu={filterOptionsMenu}
@@ -95,7 +93,6 @@ const FilterCars = () => {
 
         <Box m={"15px 0 15px 7px"}>
           <Filters
-            setColorSelected={setColorSelected}
             colors={colors}
             setIsFilter={setIsFilter}
             filterOptionsMenu={filterOptionsMenu}
@@ -109,7 +106,6 @@ const FilterCars = () => {
 
         <Box m={"15px 0 15px 7px"}>
           <Filters
-            setYearSelected={setYearSelected}
             years={years}
             setIsFilter={setIsFilter}
             filterOptionsMenu={filterOptionsMenu}
@@ -123,7 +119,6 @@ const FilterCars = () => {
 
         <Box m={"20px 0 15px 7px"}>
           <Filters
-            setFuelSelected={setFuelSelected}
             fuels={fuels}
             setIsFilter={setIsFilter}
             filterOptionsMenu={filterOptionsMenu}

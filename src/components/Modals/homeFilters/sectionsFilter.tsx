@@ -5,15 +5,10 @@ const Filters = ({
   filterOptionsMenu,
   setIsFilter,
   brands,
-  setBrandSelected,
   models,
-  setModelSelected,
   colors,
-  setColorSelected,
   years,
-  setYearSelected,
   fuels,
-  setFuelSelected,
   setOptionFilterSelected,
   optionFilterSelected,
 }: iFilters) => {
@@ -64,17 +59,6 @@ const Filters = ({
                     ...optionFilterSelected,
                     fuel: elem,
                   });
-              // {
-              //   setBrandSelected
-              //     ? setBrandSelected!(elem)
-              //     : setModelSelected
-              //     ? setModelSelected!(elem)
-              //     : setColorSelected
-              //     ? setColorSelected!(elem)
-              //     : setYearSelected
-              //     ? setYearSelected!(elem)
-              //     : setFuelSelected!(elem);
-              // }
             }}
             _hover={{ color: "grey.2", transition: "0.3s" }}
           >
