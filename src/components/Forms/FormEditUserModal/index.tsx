@@ -8,14 +8,14 @@ import {
   ModalFooter,
   Textarea,
 } from "@chakra-ui/react";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "../../Input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { iStatusModalOptional, iUpdateUser } from "../../../interface";
 import schemaUpdateUser from "../../../schemas/updateUser";
 import { useAuth } from "../../../context/webContext";
-import { contextRegexInputs } from "../../../context/regexInputs.context";
+import { useRegex } from "../../../context/regexInputs.context";
 
 const FormEditUser = ({ onClose }: iStatusModalOptional) => {
   const [name, setName] = useState<string>("");
@@ -42,7 +42,7 @@ const FormEditUser = ({ onClose }: iStatusModalOptional) => {
     birthdate,
     cpf,
     cellphoneNumber,
-  } = useContext(contextRegexInputs);
+  } = useRegex();
 
   const {
     register,
@@ -127,8 +127,8 @@ const FormEditUser = ({ onClose }: iStatusModalOptional) => {
           fontWeight="400"
           fontSize="0.875rem"
           register={register}
-          onChange={(event) => {
-            formattedCpf(event.target.value);
+          onChange={(e) => {
+            formattedCpf(e.target.value);
             setCpfBool(true);
           }}
           value={cpfBool ? cpf : userLogged.cpf}
@@ -142,8 +142,8 @@ const FormEditUser = ({ onClose }: iStatusModalOptional) => {
           fontWeight="400"
           fontSize="0.875rem"
           register={register}
-          onChange={(event) => {
-            formattedMobileNumber(event.target.value);
+          onChange={(e) => {
+            formattedMobileNumber(e.target.value);
             setTelephoneBool(true);
           }}
           value={telephoneBool ? cellphoneNumber : userLogged.telephone}
@@ -159,8 +159,8 @@ const FormEditUser = ({ onClose }: iStatusModalOptional) => {
           register={register}
           label="Data de nascimento"
           type="text"
-          onChange={(event) => {
-            formattedBirthdate(event.target.value);
+          onChange={(e) => {
+            formattedBirthdate(e.target.value);
             setBirthdateBool(true);
           }}
           value={birthdateBool ? birthdate : userLogged.birthdate}

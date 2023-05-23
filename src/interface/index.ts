@@ -35,6 +35,7 @@ import {
 } from "./reset.interface";
 import {
   iButtonFilterMobile,
+  iFilterFunction,
   iFilters,
   iOptionFilterSelected,
 } from "./filters.interface";
@@ -83,4 +84,5 @@ export type {
   iButtonFilterMobile,
   iFilters,
   iOptionFilterSelected,
+  iFilterFunction,
 };

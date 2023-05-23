@@ -1,8 +1,7 @@
 import { Box, Button, useDisclosure, Show, Hide, Flex } from "@chakra-ui/react";
 import Header from "../../components/NavBar";
 import { Footer } from "../../components/Footer";
-import { useState, useContext, useEffect } from "react";
-import { contextHomeProvider } from "../../context/homePage.context";
+import { useEffect } from "react";
 import CardCardList from "./cardCarSection";
 import { useAuth } from "../../context/webContext";
 import { HomePanel } from "../../components/HomePanel";
@@ -11,6 +10,8 @@ import {
   FilterCars,
   ModalFilterMobile,
 } from "../../components/Modals/homeFilters";
+import { useAuthHome } from "../../context/homePage.context";
+import { iCar } from "../../interface";
 
 export const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -25,15 +26,12 @@ export const Home = () => {
     isFilter,
     inputCarsFiltered,
     isInputFilter,
-    brandSelected,
-    modelSelected,
-    colorSelected,
-    yearSelected,
-    fuelSelected,
     currentPage,
     currentPageFilter,
     optionFilterSelected,
-  } = useContext(contextHomeProvider);
+    formatPrice,
+    filterInputs,
+  } = useAuthHome();
 
   const pageLimit =
     window.innerWidth == 1450 || window.innerWidth > 1450 ? 12 : 8;
@@ -47,17 +45,11 @@ export const Home = () => {
 
   useEffect(() => {
     GetCardsAd();
+    filterInputs();
     filterOptionsMenu();
     filterCarList();
     pageCard();
-  }, [
-    brandSelected,
-    modelSelected,
-    colorSelected,
-    yearSelected,
-    fuelSelected,
-    optionFilterSelected,
-  ]);
+  }, [optionFilterSelected]);
 
   useEffect(() => {
     pageCard();
@@ -69,11 +61,15 @@ export const Home = () => {
 
     if (filteredCars.length != 0 && isFilter && !isInputFilter) {
       cards = filteredCars.slice(startSliceAt, endSliceAt);
+      // console.log("filtered");
     } else if ((isInputFilter && !isFilter) || isFilter) {
       cards = inputCarsFiltered.slice(startSliceAt, endSliceAt);
+      // console.log("input");
     } else if (!isFilter && !isInputFilter) {
       cards = carAd.slice(startSliceAt, endSliceAt);
+      // console.log("cards");
     }
+    formatPrice(cards);
 
     return cards;
   };

@@ -10,11 +10,11 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
-import { useContext, useEffect } from "react";
-import { contextHomeProvider } from "../../../context/homePage.context";
+import { useEffect } from "react";
 import Filters from "./sectionsFilter";
 import { iStatusModal } from "../../../interface";
 import { ButtonFilterMobile } from "./buttonFilter";
+import { useAuthHome } from "../../../context/homePage.context";
 
 const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
   const {
@@ -23,16 +23,6 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
     fuels,
     models,
     years,
-    setFuelSelected,
-    setModelSelected,
-    setYearSelected,
-    setColorSelected,
-    setBrandSelected,
-    brandSelected,
-    modelSelected,
-    yearSelected,
-    colorSelected,
-    fuelSelected,
     filterCarList,
     isFilter,
     carAd,
@@ -49,25 +39,20 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
     clearFilter,
     isInputFilter,
     inputStatus,
-    FilterInputs,
     setOptionFilterSelected,
     optionFilterSelected,
-  } = useContext(contextHomeProvider);
+    filterInputs,
+  } = useAuthHome();
 
   useEffect(() => {
     filterCarList();
+    filterInputs();
     filterOptionsMenu();
-    FilterInputs();
   }, [
     isOpen,
     carAd,
     isFilter,
     isInputFilter,
-    brandSelected,
-    modelSelected,
-    yearSelected,
-    colorSelected,
-    fuelSelected,
     minKm,
     maxKm,
     minPrice,
@@ -160,9 +145,9 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
                 focusBorderColor="grey.5"
                 type="number"
                 value={minKm}
-                onChange={(event) => {
-                  setMinKm(event.target.value);
-                  inputStatus(event.target.value, minKm);
+                onChange={(e) => {
+                  setMinKm(e.target.value);
+                  inputStatus(e.target.value, minKm);
                 }}
               />
               <Input
@@ -176,9 +161,9 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
                 focusBorderColor="grey.5"
                 type="number"
                 value={maxKm}
-                onChange={(event) => {
-                  setMaxKm(event.target.value);
-                  inputStatus(event.target.value, maxKm);
+                onChange={(e) => {
+                  setMaxKm(e.target.value);
+                  inputStatus(e.target.value, maxKm);
                 }}
               />
             </Flex>
@@ -199,9 +184,9 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
                 focusBorderColor="grey.5"
                 type="number"
                 value={minPrice}
-                onChange={(event) => {
-                  setMinPrice(event.target.value);
-                  inputStatus(event.target.value, minPrice);
+                onChange={(e) => {
+                  setMinPrice(e.target.value);
+                  inputStatus(e.target.value, minPrice);
                 }}
               />
               <Input
@@ -215,9 +200,9 @@ const ModalFilterMobile = ({ isOpen, onClose }: iStatusModal) => {
                 focusBorderColor="grey.5"
                 type="number"
                 value={maxPrice}
-                onChange={(event) => {
-                  setMaxPrice(event.target.value);
-                  inputStatus(event.target.value, maxPrice);
+                onChange={(e) => {
+                  setMaxPrice(e.target.value);
+                  inputStatus(e.target.value, maxPrice);
                 }}
               />
             </Flex>

@@ -1,14 +1,14 @@
 import * as yup from "yup";
 import { Button, Flex, Text } from "@chakra-ui/react";
 import { Input } from "../../Input";
-import { useContext, useState } from "react";
-import { AuthContext } from "../../../context/webContext";
+import { useState } from "react";
+import { AuthContext, useAuth } from "../../../context/webContext";
 import { iLoginProps } from "../../../interface";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 const FormLogin = ({ onOpen }: any) => {
-  const { Login, navigate } = useContext(AuthContext);
+  const { Login, navigate } = useAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 

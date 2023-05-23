@@ -1,10 +1,10 @@
-import { useContext, useEffect } from "react";
-import { contextHomeProvider } from "../../context/homePage.context";
+import { useEffect } from "react";
 import CardSkeleton from "../../utils/skeletons/cardCar.skeleton";
 import CarCard from "../../components/Cards/car";
 import { Box, Text } from "@chakra-ui/react";
 import { iCarResponse } from "../../interface";
 import { UlCardCars } from "../../components/UlCardCars";
+import { useAuthHome } from "../../context/homePage.context";
 
 const CardCardList = ({ pageCard }: any) => {
   const arraySkelotons = new Array(12).fill("cards");
@@ -18,9 +18,11 @@ const CardCardList = ({ pageCard }: any) => {
     filterCarList,
     isInputFilter,
     inputCarsFiltered,
-  } = useContext(contextHomeProvider);
+    filterInputs,
+  } = useAuthHome();
 
   useEffect(() => {
+    filterInputs();
     filterOptionsMenu();
     filterCarList();
   }, []);

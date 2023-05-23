@@ -1,6 +1,5 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
-import { useContext } from "react";
-import { contextHomeProvider } from "../../context/homePage.context";
+import { useAuthHome } from "../../context/homePage.context";
 
 export const PageSwitch = () => {
   const {
@@ -10,7 +9,7 @@ export const PageSwitch = () => {
     setCurrentPage,
     currentPageFilter,
     setCurrentPageFilter,
-  } = useContext(contextHomeProvider);
+  } = useAuthHome();
 
   const pageLimit =
     window.innerWidth == 1450 || window.innerWidth > 1450 ? 12 : 8;

@@ -1,15 +1,15 @@
 import { Button, Flex, ModalFooter } from "@chakra-ui/react";
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "../../Input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { iStatusModalOptional, iUpdateAddress } from "../../../interface";
 import { useAuth } from "../../../context/webContext";
-import { contextRegexInputs } from "../../../context/regexInputs.context";
+import { useRegex } from "../../../context/regexInputs.context";
 import formSchemaUpdateAddress from "../../../schemas/updateAddress";
 
 const FormEditAddress = ({ onClose }: iStatusModalOptional) => {
-  const { formattedZipcode, cep } = useContext(contextRegexInputs);
+  const { formattedZipcode, cep } = useRegex();
   const { onUpdateAddress, addressData, onGetAddress } = useAuth();
 
   const [state, setState] = useState<string>("");

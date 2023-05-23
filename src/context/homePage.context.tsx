@@ -1,35 +1,37 @@
-import { Dispatch, SetStateAction, createContext, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { instance } from "../services/api";
-import { iCar, iCarResponse, iOptionFilterSelected } from "../interface";
+import {
+  iCar,
+  iCarResponse,
+  iFilterFunction,
+  iOptionFilterSelected,
+} from "../interface";
 import { iProviderProps } from "../@types";
 
 interface iHomeContext {
-  carAd: iCarResponse[];
-  setCarAd: Dispatch<SetStateAction<iCarResponse[]>>;
+  carAd: iCarResponse[] | iCar[];
+  setCarAd: Dispatch<SetStateAction<iCarResponse[] | iCar[]>>;
   filteredCars: iCar[];
   brands: string[];
   colors: string[];
   years: string[];
   models: string[];
   fuels: string[];
-  brandSelected: string;
-  setBrandSelected: Dispatch<SetStateAction<string>>;
-  colorSelected: string;
-  setColorSelected: Dispatch<SetStateAction<string>>;
-  yearSelected: string;
-  setYearSelected: Dispatch<SetStateAction<string>>;
-  modelSelected: string;
-  setModelSelected: Dispatch<SetStateAction<string>>;
-  fuelSelected: string;
-  setFuelSelected: Dispatch<SetStateAction<string>>;
-  GetCardsAd(): void;
+  GetCardsAd: () => void;
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   setColors: Dispatch<SetStateAction<string[]>>;
   setYears: Dispatch<SetStateAction<string[]>>;
   setModels: Dispatch<SetStateAction<string[]>>;
   setFuels: Dispatch<SetStateAction<string[]>>;
-  filterCarList(): void;
+  filterCarList: () => void;
   isFilter: boolean;
   setIsFilter: Dispatch<SetStateAction<boolean>>;
   setBrands: Dispatch<SetStateAction<string[]>>;
@@ -42,11 +44,11 @@ interface iHomeContext {
   setMinPrice: Dispatch<SetStateAction<string>>;
   maxPrice: string;
   setMaxPrice: Dispatch<SetStateAction<string>>;
-  FilterInputs(): void;
+  filterInputs: () => void;
   setFilteredCars: Dispatch<SetStateAction<iCar[]>>;
   selectedCar: iCarResponse;
   setSelectedCar(car: iCarResponse): void;
-  clearFilter(): void;
+  clearFilter: () => void;
   inputCarsFiltered: iCar[];
   setInputCarsFiltered: Dispatch<SetStateAction<iCar[]>>;
   isInputFilter: boolean;
@@ -60,12 +62,13 @@ interface iHomeContext {
   setCurrentPageFilter: Dispatch<SetStateAction<number>>;
   optionFilterSelected: iOptionFilterSelected;
   setOptionFilterSelected: Dispatch<SetStateAction<iOptionFilterSelected>>;
+  formatPrice: (arrayCars: iCar[]) => void;
 }
 
 export const contextHomeProvider = createContext({} as iHomeContext);
 
-const HomePageContext = ({ children }: iProviderProps) => {
-  const [carAd, setCarAd] = useState<iCarResponse[]>([]);
+export const HomePageContext = ({ children }: iProviderProps) => {
+  const [carAd, setCarAd] = useState<iCarResponse[] | iCar[]>([]);
   const [selectedCar, setSelectedCar] = useState<iCarResponse>(
     {} as iCarResponse
   );
@@ -82,12 +85,6 @@ const HomePageContext = ({ children }: iProviderProps) => {
   const [models, setModels] = useState<string[]>([]);
   const [fuels, setFuels] = useState<string[]>([]);
 
-  const [brandSelected, setBrandSelected] = useState<string>("");
-  const [colorSelected, setColorSelected] = useState<string>("");
-  const [yearSelected, setYearSelected] = useState<string>("");
-  const [modelSelected, setModelSelected] = useState<string>("");
-  const [fuelSelected, setFuelSelected] = useState<string>("");
-
   const [optionFilterSelected, setOptionFilterSelected] =
     useState<iOptionFilterSelected>({} as iOptionFilterSelected);
 
@@ -100,6 +97,23 @@ const HomePageContext = ({ children }: iProviderProps) => {
 
   const [currentPage, setCurrentPage] = useState(0);
   const [currentPageFilter, setCurrentPageFilter] = useState(0);
+
+  const formatPrice = (arrayCars: iCar[], data?: string) => {
+    const arrayAtt = arrayCars.map((car) => {
+      if (data === "OnlyReplace") {
+        car.price = parseFloat(car.price.replaceAll(".", "")).toString();
+      } else {
+        car.price = parseFloat(car.price.replaceAll(".", "")).toString();
+        car.price = Intl.NumberFormat("pt-BR", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }).format(+car.price);
+      }
+      return car;
+    });
+
+    return arrayAtt;
+  };
 
   const GetCardsAd = async () => {
     try {
@@ -272,6 +286,28 @@ const HomePageContext = ({ children }: iProviderProps) => {
     }
   };
 
+  const inputStatus = (value: string, inputField: string) => {
+    if (inputField == minKm) {
+      value && !isInputFilter && setIsInputFilter(true);
+      !maxKm && !minPrice && !maxPrice && !value && setIsInputFilter(false);
+    }
+
+    if (inputField == maxKm) {
+      value && !isInputFilter && setIsInputFilter(true);
+      !minKm && !minPrice && !maxPrice && !value && setIsInputFilter(false);
+    }
+
+    if (inputField == minPrice) {
+      value && !isInputFilter && setIsInputFilter(true);
+      !minKm && !maxKm && !maxPrice && !value && setIsInputFilter(false);
+    }
+
+    if (inputField == maxPrice) {
+      value && !isInputFilter && setIsInputFilter(true);
+      !minKm && !maxKm && !minPrice && !value && setIsInputFilter(false);
+    }
+  };
+
   const filterOptionsMenu = () => {
     const colorArr: string[] = [];
     const modelArr: string[] = [];
@@ -279,7 +315,16 @@ const HomePageContext = ({ children }: iProviderProps) => {
     const fuelArr: string[] = [];
     const brandArr: string[] = [];
 
-    if (filteredCars.length != 0 && isFilter) {
+    if (isInputFilter) {
+      console.log("BBB", inputCarsFiltered);
+      inputCarsFiltered.forEach((car) => {
+        !brandArr.includes(car.brand) && brandArr.push(car.brand);
+        !colorArr.includes(car.color) && colorArr.push(car.color);
+        !modelArr.includes(car.model) && modelArr.push(car.model);
+        !yearsArr.includes(car.year) && yearsArr.push(car.year);
+        !fuelArr.includes(car.fuel) && fuelArr.push(car.fuel);
+      });
+    } else if (filteredCars.length != 0 && isFilter) {
       filteredCars.forEach((car) => {
         !brandArr.includes(car.brand) && brandArr.push(car.brand);
         !colorArr.includes(car.color) && colorArr.push(car.color);
@@ -307,30 +352,10 @@ const HomePageContext = ({ children }: iProviderProps) => {
     setYears(yearsArr);
   };
 
-  const inputStatus = (value: string, inputField: string) => {
-    if (inputField == minKm) {
-      value && !isInputFilter && setIsInputFilter(true);
-      !maxKm && !minPrice && !maxPrice && !value && setIsInputFilter(false);
-    }
-
-    if (inputField == maxKm) {
-      value && !isInputFilter && setIsInputFilter(true);
-      !minKm && !minPrice && !maxPrice && !value && setIsInputFilter(false);
-    }
-
-    if (inputField == minPrice) {
-      value && !isInputFilter && setIsInputFilter(true);
-      !minKm && !maxKm && !maxPrice && !value && setIsInputFilter(false);
-    }
-
-    if (inputField == maxPrice) {
-      value && !isInputFilter && setIsInputFilter(true);
-      !minKm && !maxKm && !minPrice && !value && setIsInputFilter(false);
-    }
-  };
-
-  const FilterInputs = () => {
+  const filterInputs = () => {
     const filterArr = isFilter ? filteredCars : carAd;
+    formatPrice(filterArr, "OnlyReplace");
+
     //------------------------------------------------ KM INPUTS FILTER ------------------------------------------------//
     if (!minPrice && !maxPrice && minKm && !maxKm) {
       const filter = filterArr.filter((car) => +car.km >= +minKm);
@@ -435,11 +460,6 @@ const HomePageContext = ({ children }: iProviderProps) => {
     setIsFilter(false);
     setIsInputFilter(false);
     setFilteredCars([]);
-    setBrandSelected("");
-    setModelSelected("");
-    setYearSelected("");
-    setColorSelected("");
-    setFuelSelected("");
     setMaxKm("");
     setMinKm("");
     setMinPrice("");
@@ -459,16 +479,6 @@ const HomePageContext = ({ children }: iProviderProps) => {
         years,
         models,
         fuels,
-        brandSelected,
-        setBrandSelected,
-        colorSelected,
-        setColorSelected,
-        yearSelected,
-        setYearSelected,
-        modelSelected,
-        setModelSelected,
-        fuelSelected,
-        setFuelSelected,
         GetCardsAd,
         setIsLoading,
         isLoading,
@@ -489,7 +499,7 @@ const HomePageContext = ({ children }: iProviderProps) => {
         setMinPrice,
         maxPrice,
         setMaxPrice,
-        FilterInputs,
+        filterInputs,
         setFilteredCars,
         selectedCar,
         setSelectedCar,
@@ -507,6 +517,7 @@ const HomePageContext = ({ children }: iProviderProps) => {
         setCurrentPageFilter,
         optionFilterSelected,
         setOptionFilterSelected,
+        formatPrice,
       }}
     >
       {children}
@@ -514,4 +525,4 @@ const HomePageContext = ({ children }: iProviderProps) => {
   );
 };
 
-export default HomePageContext;
+export const useAuthHome = () => useContext(contextHomeProvider);

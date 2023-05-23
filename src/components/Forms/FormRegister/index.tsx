@@ -8,14 +8,14 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { contextRegexInputs } from "../../../context/regexInputs.context";
 import schemaRegister from "../../../schemas/register.schema";
 import { useForm } from "react-hook-form";
 import { Input } from "../../Input";
 import { useAuth } from "../../../context/webContext";
 import { iRegister } from "../../../interface";
+import { useRegex } from "../../../context/regexInputs.context";
 
 const FormRegisterUser = () => {
   const { onRegisterSubmit } = useAuth();
@@ -41,7 +41,7 @@ const FormRegisterUser = () => {
     cpf,
     cellphoneNumber,
     cep,
-  } = useContext(contextRegexInputs);
+  } = useRegex();
 
   const {
     register,
@@ -142,8 +142,8 @@ const FormRegisterUser = () => {
             borderColor="grey.6"
             borderRadius="4px"
             register={register}
-            onChange={(event) => {
-              formattedCpf(event.target.value);
+            onChange={(e) => {
+              formattedCpf(e.target.value);
             }}
             value={cpf}
             pt="15px"
@@ -162,8 +162,8 @@ const FormRegisterUser = () => {
             borderColor="grey.6"
             borderRadius="4px"
             register={register}
-            onChange={(event) => {
-              formattedMobileNumber(event.target.value);
+            onChange={(e) => {
+              formattedMobileNumber(e.target.value);
             }}
             value={cellphoneNumber}
             pt="15px"
@@ -186,7 +186,7 @@ const FormRegisterUser = () => {
             pb="15px"
             label="Data de nascimento"
             type="text"
-            onChange={(event) => formattedBirthdate(event.target.value)}
+            onChange={(e) => formattedBirthdate(e.target.value)}
             value={birthdate}
             marginTopForm="20px"
           />
@@ -201,7 +201,7 @@ const FormRegisterUser = () => {
               fontSize="0.875rem"
               borderColor="grey.6"
               borderRadius="4px"
-              onChange={(event) => setDescription(event.target.value)}
+              onChange={(e) => setDescription(e.target.value)}
               value={description}
               pt="15px"
               pb="15px"
@@ -235,7 +235,7 @@ const FormRegisterUser = () => {
             borderColor="grey.6"
             borderRadius="4px"
             register={register}
-            onChange={(event) => formattedZipcode(event.target.value)}
+            onChange={(e) => formattedZipcode(e.target.value)}
             value={cep}
             pt="15px"
             pb="15px"

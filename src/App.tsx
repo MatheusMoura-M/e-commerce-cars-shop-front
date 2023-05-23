@@ -7,13 +7,13 @@ import "@fontsource/lexend/600.css";
 
 import { ChakraProvider } from "@chakra-ui/react";
 import { AuthProvider } from "./context/webContext";
+import { RegexInputs } from "./context/regexInputs.context";
+import { HomePageContext } from "./context/homePage.context";
 
 import RoutesMain from "./routes";
 import custonTheme from "./styles/theme";
 
 import { ToastContainer } from "react-toastify";
-import HomePageContext from "./context/homePage.context";
-import RegexInputs from "./context/regexInputs.context";
 
 import "react-toastify/dist/ReactToastify.css";
 

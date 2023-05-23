@@ -30,4 +30,16 @@ interface iOptionFilterSelected {
   fuel?: string;
 }
 
-export type { iButtonFilterMobile, iFilters, iOptionFilterSelected };
+interface iFilterFunction {
+  minPrice?: string;
+  maxPrice?: string;
+  minKm?: string;
+  maxKm?: string;
+}
+
+export type {
+  iButtonFilterMobile,
+  iFilters,
+  iOptionFilterSelected,
+  iFilterFunction,
+};

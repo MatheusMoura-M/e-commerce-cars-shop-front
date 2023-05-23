@@ -1,6 +1,6 @@
 import { Box, Flex, Heading, Input } from "@chakra-ui/react";
-import { contextHomeProvider } from "../../../context/homePage.context";
-import { useContext, useEffect } from "react";
+import { useAuthHome } from "../../../context/homePage.context";
+import { useEffect } from "react";
 import Filters from "./sectionsFilter";
 import { ButtonFilter } from "./buttonFilter";
 
@@ -11,16 +11,6 @@ const FilterCars = () => {
     fuels,
     models,
     years,
-    setFuelSelected,
-    setModelSelected,
-    setYearSelected,
-    setColorSelected,
-    setBrandSelected,
-    brandSelected,
-    modelSelected,
-    yearSelected,
-    colorSelected,
-    fuelSelected,
     filterCarList,
     isFilter,
     carAd,
@@ -39,20 +29,17 @@ const FilterCars = () => {
     inputStatus,
     setOptionFilterSelected,
     optionFilterSelected,
-  } = useContext(contextHomeProvider);
+    filterInputs,
+  } = useAuthHome();
 
   useEffect(() => {
     filterCarList();
+    filterInputs();
     filterOptionsMenu();
   }, [
     carAd,
     isFilter,
     isInputFilter,
-    brandSelected,
-    modelSelected,
-    yearSelected,
-    colorSelected,
-    fuelSelected,
     minKm,
     maxKm,
     minPrice,
@@ -142,9 +129,9 @@ const FilterCars = () => {
             color="grey.1"
             focusBorderColor="grey.5"
             type="number"
-            onChange={(event) => {
-              setMinKm(event.target.value);
-              inputStatus(event.target.value, minKm);
+            onChange={(e) => {
+              inputStatus(e.target.value, minKm);
+              setMinKm(e.target.value);
             }}
           />
           <Input
@@ -157,9 +144,9 @@ const FilterCars = () => {
             color="grey.1"
             focusBorderColor="grey.5"
             type="number"
-            onChange={(event) => {
-              setMaxKm(event.target.value);
-              inputStatus(event.target.value, maxKm);
+            onChange={(e) => {
+              inputStatus(e.target.value, maxKm);
+              setMaxKm(e.target.value);
             }}
           />
         </Flex>
@@ -179,9 +166,9 @@ const FilterCars = () => {
             color="grey.1"
             focusBorderColor="grey.5"
             type="number"
-            onChange={(event) => {
-              setMinPrice(event.target.value);
-              inputStatus(event.target.value, minPrice);
+            onChange={(e) => {
+              inputStatus(e.target.value, minPrice);
+              setMinPrice(e.target.value);
             }}
           />
 
@@ -195,9 +182,9 @@ const FilterCars = () => {
             color="grey.1"
             focusBorderColor="grey.5"
             type="number"
-            onChange={(event) => {
-              setMaxPrice(event.target.value);
-              inputStatus(event.target.value, maxPrice);
+            onChange={(e) => {
+              inputStatus(e.target.value, maxPrice);
+              setMaxPrice(e.target.value);
             }}
           />
         </Flex>

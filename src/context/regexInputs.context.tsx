@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { iProviderProps } from "../@types";
 
 interface iRegexContextProvider {
@@ -6,17 +6,20 @@ interface iRegexContextProvider {
   formattedBirthdate(data: string): void;
   formattedZipcode(zipCode: string): void;
   formattedCpf(cpfUser: string): void;
+  formattedPrice(priceCar: string): void;
   cellphoneNumber: string;
   birthdate: string;
   cpf: string;
   cep: string;
+  price: string;
 }
 
 export const contextRegexInputs = createContext({} as iRegexContextProvider);
 
-const RegexInputs = ({ children }: iProviderProps) => {
+export const RegexInputs = ({ children }: iProviderProps) => {
   const [cellphoneNumber, setCellphoneNumber] = useState<string>("");
   const [birthdate, setBirthdate] = useState<string>("");
+  const [price, setPrice] = useState<string>("");
   const [cpf, setCpf] = useState<string>("");
   const [cep, setCep] = useState<string>("");
 
@@ -71,6 +74,40 @@ const RegexInputs = ({ children }: iProviderProps) => {
     setCep(zip);
   };
 
+  const formattedPrice = (priceCar: string) => {
+    let price = priceCar.replace(/\D/g, "");
+
+    if (price.length > 1 && price.length <= 3) {
+      price = price.replace(/^([0-9]\d{0,2})(\d{2})$/, "$1,$2");
+    } else if (price.length > 3 && price.length <= 5) {
+      if (price[0] == "0") {
+        price = price.substring(1);
+        price = price.replace(/^([0-9]\d{0,2})(\d{2})$/, "$1,$2");
+      }
+      price = price.replace(/^([0-9]\d{0,2})(\d{2})$/, "$1,$2");
+    } else if (price.length > 5 && price.length <= 8) {
+      price = price.replace(/^([1-9]\d{0,2})(\d{3})*(\d{2})$/, "$1.$2,$3");
+    } else if (price.length > 8 && price.length <= 11) {
+      price = price.replace(
+        /^([1-9]\d{0,2})(\d{3})(\d{3})*(\d{2})$/,
+        "$1.$2.$3,$4"
+      );
+    } else if (price.length > 11 && price.length <= 14) {
+      price = price.replace(
+        /^([1-9]\d{0,2})(\d{3})(\d{3})(\d{3})*(\d{2})$/,
+        "$1.$2.$3.$4,$5"
+      );
+    } else if (price.length > 14) {
+      price = price.substring(0, 14);
+      price = price.replace(
+        /^([1-9]\d{0,2})(\d{3})(\d{3})(\d{3})*(\d{2})$/,
+        "$1.$2.$3.$4,$5"
+      );
+    }
+
+    setPrice(price);
+  };
+
   const formattedCpf = (cpfUser: string) => {
     let cpf = cpfUser.replace(/\D/g, "");
 
@@ -92,10 +129,12 @@ const RegexInputs = ({ children }: iProviderProps) => {
         formattedBirthdate,
         formattedZipcode,
         formattedCpf,
+        formattedPrice,
         cellphoneNumber,
         birthdate,
         cpf,
         cep,
+        price,
       }}
     >
       {children}
@@ -103,4 +142,4 @@ const RegexInputs = ({ children }: iProviderProps) => {
   );
 };
 
-export default RegexInputs;
+export const useRegex = () => useContext(contextRegexInputs);
