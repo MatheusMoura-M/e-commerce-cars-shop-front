@@ -63,7 +63,6 @@ const FormCreateCarsAd = ({ onClose }: iStatusModalOptional) => {
       year: yearCreate,
       fipe: fipeCreate,
       published: true,
-      is_good_price: false,
     };
 
     onCreateCarAd(newData);
@@ -141,20 +140,21 @@ const FormCreateCarsAd = ({ onClose }: iStatusModalOptional) => {
           <Input
             id="year"
             errorMessage={errors.year?.message}
-            placeholder="2018"
+            placeholder={yearCreate ? yearCreate : "2018"}
             label="Ano"
             type="text"
             register={register}
-            value={yearCreate ? yearCreate : ""}
+            isDisabled={true}
           />
           <Input
             id="fuel"
             errorMessage={errors.fuel?.message}
-            placeholder="Gasolina / Etanol"
+            placeholder={fuelCreate ? fuelCreate : "Gasolina / Etanol"}
             label="Combustível"
             type="text"
             register={register}
-            value={fuelCreate ? fuelCreate : ""}
+            isDisabled={true}
+            defaultValue={fuelCreate ? fuelCreate : ""}
           />
         </Flex>
         <Flex gap={"14px"}>
@@ -188,7 +188,7 @@ const FormCreateCarsAd = ({ onClose }: iStatusModalOptional) => {
             type="number"
             register={register}
             isDisabled={true}
-            value={fipeCreate ? fipeCreate : 0}
+            defaultValue={fipeCreate ? fipeCreate : 0}
           />
           <Input
             id="price"
@@ -230,9 +230,9 @@ const FormCreateCarsAd = ({ onClose }: iStatusModalOptional) => {
               placeholder="https://image.com"
               label={`${index + 1}° Imagem da galeria`}
               type="text"
-              value={image}
               register={register}
               onChange={(e) => handleChangeImage(e.target.value, index)}
+              value={image}
             />
           ))}
         </Flex>

@@ -192,7 +192,7 @@ const FormEditCarsAd = ({
               setKm(e.target.value);
               setKmBool(true);
             }}
-            value={kmBool ? km : selectedCar ? selectedCar.km : ""}
+            value={kmBool ? km : selectedCar.km || ""}
           />
           <Input
             id="color"
@@ -205,7 +205,7 @@ const FormEditCarsAd = ({
               setColor(e.target.value);
               setColorBool(true);
             }}
-            value={colorBool ? color : selectedCar.color}
+            value={colorBool ? color : selectedCar.color || ""}
           />
         </Flex>
         <Flex gap={"14px"} alignItems={"flex-end"}>
@@ -217,7 +217,7 @@ const FormEditCarsAd = ({
             type="number"
             register={register}
             isDisabled={true}
-            value={selectedCar?.fipe}
+            value={selectedCar?.fipe || ""}
           />
           <Input
             id="price"
@@ -230,7 +230,7 @@ const FormEditCarsAd = ({
               formattedPrice(e.target.value);
               setPriceBool(true);
             }}
-            value={priceBool ? price : selectedCar.price}
+            value={priceBool ? price : selectedCar.price || ""}
           />
         </Flex>
         <Input
@@ -245,7 +245,7 @@ const FormEditCarsAd = ({
             setDescription(e.target.value);
             setDescriptionBool(true);
           }}
-          value={descriptionBool ? description : selectedCar.description}
+          value={descriptionBool ? description : selectedCar.description || ""}
         />
         <Box>
           <Heading as="h3" fontSize="1rem" fontWeight="500">
@@ -293,7 +293,7 @@ const FormEditCarsAd = ({
             setCoverImage(e.target.value);
             setCoverImageBool(true);
           }}
-          value={coverImageBool ? coverImage : selectedCar.cover_image}
+          value={coverImageBool ? coverImage : selectedCar.cover_image || ""}
         />
         <Flex flexDir={"column"} gap={"14px"}>
           {images.map((image, index) => (

@@ -39,24 +39,21 @@ const CardCardList = ({ pageCard }: any) => {
 
   if (
     (filteredCars.length == 0 && isFilter && !isLoading && !isInputFilter) ||
-    (inputCarsFiltered.length == 0 && isInputFilter)
+    (inputCarsFiltered.length == 0 && isInputFilter) ||
+    (carAd.length == 0 && !isFilter && !isInputFilter)
   ) {
     return (
       <UlCardCars>
         <Box mt="50px">
-          <Text as="h2" fontSize="1.3rem">
-            Nenhum carro encontrado &#128533;
-          </Text>
-        </Box>
-      </UlCardCars>
-    );
-  } else if (carAd.length == 0 && !isFilter && !isInputFilter) {
-    return (
-      <UlCardCars>
-        <Box mt="50px">
-          <Text as="h2" fontSize="1.3rem">
-            Nenhum carro cadastrado &#128533;
-          </Text>
+          {carAd.length != 0 ? (
+            <Text as="h2" fontSize="1.3rem">
+              Nenhum carro encontrado &#128533;
+            </Text>
+          ) : (
+            <Text as="h2" fontSize="1.3rem">
+              Nenhum carro cadastrado &#128533;
+            </Text>
+          )}
         </Box>
       </UlCardCars>
     );

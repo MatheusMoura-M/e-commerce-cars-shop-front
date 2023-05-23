@@ -74,21 +74,18 @@ export const HomePageContext = ({ children }: iProviderProps) => {
   );
   const [filteredCars, setFilteredCars] = useState<iCar[]>([]);
   const [inputCarsFiltered, setInputCarsFiltered] = useState<iCar[]>([]);
-
   const [isFilter, setIsFilter] = useState<boolean>(false);
   const [isInputFilter, setIsInputFilter] = useState<boolean>(false);
   const [isOnlyInputsFilter, setOnlyInputFilter] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [optionFilterSelected, setOptionFilterSelected] =
+    useState<iOptionFilterSelected>({} as iOptionFilterSelected);
 
   const [brands, setBrands] = useState<string[]>([]);
   const [colors, setColors] = useState<string[]>([]);
   const [years, setYears] = useState<string[]>([]);
   const [models, setModels] = useState<string[]>([]);
   const [fuels, setFuels] = useState<string[]>([]);
-
-  const [optionFilterSelected, setOptionFilterSelected] =
-    useState<iOptionFilterSelected>({} as iOptionFilterSelected);
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [minKm, setMinKm] = useState<string>("");
   const [maxKm, setMaxKm] = useState<string>("");
@@ -308,6 +305,101 @@ export const HomePageContext = ({ children }: iProviderProps) => {
     }
   };
 
+  const filterInputs = () => {
+    const filterArr = isFilter ? filteredCars : carAd;
+    formatPrice(filterArr, "OnlyReplace");
+
+    //------------------------------------------------ KM INPUTS FILTER ------------------------------------------------//
+    if (!minPrice && !maxPrice && minKm && !maxKm) {
+      const filter = filterArr.filter((car) => +car.km >= +minKm);
+
+      setInputCarsFiltered(filter);
+    } else if (!minPrice && !maxPrice && !minKm && maxKm) {
+      const filter = filterArr.filter((car) => +car.km <= +maxKm);
+      setInputCarsFiltered(filter);
+    } else if (!minPrice && !maxPrice && minKm && maxKm) {
+      const filter = filterArr.filter(
+        (car) => +car.km >= +minKm && +car.km <= +maxKm
+      );
+      setInputCarsFiltered(filter);
+    }
+    //----------------------------------------------- PRICE INPUTS FILTER ---------------------------------------------//
+    if (minPrice && !maxPrice && !minKm && !maxKm) {
+      const filter = filterArr.filter((car) => +car.price >= +minPrice);
+
+      setInputCarsFiltered(filter);
+    } else if (!minPrice && maxPrice && !minKm && !maxKm) {
+      const filter = filterArr.filter((car) => +car.price <= +maxPrice);
+
+      setInputCarsFiltered(filter);
+    } else if (minPrice && maxPrice && !minKm && !maxKm) {
+      const filter = filterArr.filter(
+        (car) => +car.price >= +minPrice && +car.price <= +maxPrice
+      );
+
+      setInputCarsFiltered(filter);
+    }
+    //------------------------------------------- PRICE AND KM INPUTS FILTER -----------------------------------------//
+    if (minPrice && !maxPrice && minKm && !maxKm) {
+      const filter = filterArr.filter(
+        (car) => +car.price >= +minPrice && +car.km >= +minKm
+      );
+      setInputCarsFiltered(filter);
+    } else if (!minPrice && maxPrice && !minKm && maxKm) {
+      const filter = filterArr.filter(
+        (car) => +car.price <= +maxPrice && +car.km <= +maxKm
+      );
+      setInputCarsFiltered(filter);
+    } else if (minPrice && !maxPrice && !minKm && maxKm) {
+      const filter = filterArr.filter(
+        (car) => +car.km <= +maxKm && +car.price >= +minPrice
+      );
+      setInputCarsFiltered(filter);
+    } else if (!minPrice && maxPrice && minKm && !maxKm) {
+      const filter = filterArr.filter(
+        (car) => +car.km >= +minKm && +car.price <= +maxPrice
+      );
+      setInputCarsFiltered(filter);
+    } else if (!minPrice && maxPrice && minKm && maxKm) {
+      const filter = filterArr.filter(
+        (car) =>
+          +car.km <= +maxKm && +car.km >= +minKm && +car.price <= +maxPrice
+      );
+      setInputCarsFiltered(filter);
+    } else if (minPrice && !maxPrice && minKm && maxKm) {
+      const filter = filterArr.filter(
+        (car) =>
+          +car.price >= +minPrice && +car.km <= +maxKm && +car.km >= +minKm
+      );
+      setInputCarsFiltered(filter);
+    } else if (minPrice && maxPrice && minKm && maxKm) {
+      const filter = filterArr.filter(
+        (car) =>
+          +car.price >= +minPrice &&
+          +car.price <= +maxPrice &&
+          +car.km <= +maxKm &&
+          +car.km >= +minKm
+      );
+      setInputCarsFiltered(filter);
+    } else if (minPrice && maxPrice && !minKm && maxKm) {
+      const filter = filterArr.filter(
+        (car) =>
+          +car.price >= +minPrice &&
+          +car.price <= +maxPrice &&
+          +car.km <= +maxKm
+      );
+      setInputCarsFiltered(filter);
+    } else if (minPrice && maxPrice && minKm && !maxKm) {
+      const filter = filterArr.filter(
+        (car) =>
+          +car.price >= +minPrice &&
+          +car.price <= +maxPrice &&
+          +car.km >= +minKm
+      );
+      setInputCarsFiltered(filter);
+    }
+  };
+
   const filterOptionsMenu = () => {
     const colorArr: string[] = [];
     const modelArr: string[] = [];
@@ -316,7 +408,6 @@ export const HomePageContext = ({ children }: iProviderProps) => {
     const brandArr: string[] = [];
 
     if (isInputFilter) {
-      console.log("BBB", inputCarsFiltered);
       inputCarsFiltered.forEach((car) => {
         !brandArr.includes(car.brand) && brandArr.push(car.brand);
         !colorArr.includes(car.color) && colorArr.push(car.color);
@@ -350,110 +441,6 @@ export const HomePageContext = ({ children }: iProviderProps) => {
     setFuels(fuelArr);
     setModels(modelArr);
     setYears(yearsArr);
-  };
-
-  const filterInputs = () => {
-    const filterArr = isFilter ? filteredCars : carAd;
-    formatPrice(filterArr, "OnlyReplace");
-
-    //------------------------------------------------ KM INPUTS FILTER ------------------------------------------------//
-    if (!minPrice && !maxPrice && minKm && !maxKm) {
-      const filter = filterArr.filter((car) => +car.km >= +minKm);
-
-      setInputCarsFiltered(filter);
-    } else if (!minPrice && !maxPrice && !minKm && maxKm) {
-      const filter = filterArr.filter((car) => +car.km <= +maxKm);
-
-      setInputCarsFiltered(filter);
-    } else if (!minPrice && !maxPrice && minKm && maxKm) {
-      const filter = filterArr.filter(
-        (car) => +car.km >= +minKm && +car.km <= +maxKm
-      );
-
-      setInputCarsFiltered(filter);
-    }
-    //----------------------------------------------- PRICE INPUTS FILTER ---------------------------------------------//
-    if (minPrice && !maxPrice && !minKm && !maxKm) {
-      const filter = filterArr.filter((car) => +car.price >= +minPrice);
-
-      setInputCarsFiltered(filter);
-    } else if (!minPrice && maxPrice && !minKm && !maxKm) {
-      const filter = filterArr.filter((car) => +car.price <= +maxPrice);
-
-      setInputCarsFiltered(filter);
-    } else if (minPrice && maxPrice && !minKm && !maxKm) {
-      const filter = filterArr.filter(
-        (car) => +car.price >= +minPrice && +car.price <= +maxPrice
-      );
-
-      setInputCarsFiltered(filter);
-    }
-    //------------------------------------------- PRICE AND KM INPUTS FILTER -----------------------------------------//
-    if (minPrice && !maxPrice && minKm && !maxKm) {
-      const filter = filterArr.filter(
-        (car) => +car.price >= +minPrice && +car.km >= +minKm
-      );
-
-      setInputCarsFiltered(filter);
-    } else if (!minPrice && maxPrice && !minKm && maxKm) {
-      const filter = filterArr.filter(
-        (car) => +car.price <= +maxPrice && +car.km <= +maxKm
-      );
-
-      setInputCarsFiltered(filter);
-    } else if (minPrice && !maxPrice && !minKm && maxKm) {
-      const filter = filterArr.filter(
-        (car) => +car.km <= +maxKm && +car.price >= +minPrice
-      );
-
-      setInputCarsFiltered(filter);
-    } else if (!minPrice && maxPrice && minKm && !maxKm) {
-      const filter = filterArr.filter(
-        (car) => +car.km >= +minKm && +car.price <= +maxPrice
-      );
-
-      setInputCarsFiltered(filter);
-    } else if (!minPrice && maxPrice && minKm && maxKm) {
-      const filter = filterArr.filter(
-        (car) =>
-          +car.km <= +maxKm && +car.km >= +minKm && +car.price <= +maxPrice
-      );
-
-      setInputCarsFiltered(filter);
-    } else if (minPrice && !maxPrice && minKm && maxKm) {
-      const filter = filterArr.filter(
-        (car) =>
-          +car.price >= +minPrice && +car.km <= +maxKm && +car.km >= +minKm
-      );
-
-      setInputCarsFiltered(filter);
-    } else if (minPrice && maxPrice && minKm && maxKm) {
-      const filter = filterArr.filter(
-        (car) =>
-          +car.price >= +minPrice &&
-          +car.price <= +maxPrice &&
-          +car.km <= +maxKm &&
-          +car.km >= +minKm
-      );
-
-      setInputCarsFiltered(filter);
-    } else if (minPrice && maxPrice && !minKm && maxKm) {
-      const filter = filterArr.filter(
-        (car) =>
-          +car.price >= +minPrice &&
-          +car.price <= +maxPrice &&
-          +car.km <= +maxKm
-      );
-      setInputCarsFiltered(filter);
-    } else if (minPrice && maxPrice && minKm && !maxKm) {
-      const filter = filterArr.filter(
-        (car) =>
-          +car.price >= +minPrice &&
-          +car.price <= +maxPrice &&
-          +car.km >= +minKm
-      );
-      setInputCarsFiltered(filter);
-    }
   };
 
   const clearFilter = () => {

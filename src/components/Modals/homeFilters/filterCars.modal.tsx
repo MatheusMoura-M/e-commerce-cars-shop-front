@@ -30,12 +30,13 @@ const FilterCars = () => {
     setOptionFilterSelected,
     optionFilterSelected,
     filterInputs,
+    inputCarsFiltered,
+    filteredCars,
   } = useAuthHome();
 
   useEffect(() => {
-    filterCarList();
     filterInputs();
-    filterOptionsMenu();
+    filterCarList();
   }, [
     carAd,
     isFilter,
@@ -46,6 +47,10 @@ const FilterCars = () => {
     maxPrice,
     optionFilterSelected,
   ]);
+
+  useEffect(() => {
+    filterOptionsMenu();
+  }, [inputCarsFiltered, filteredCars, carAd]);
 
   return (
     <Box as="section" mt="80px" ml="20px" w="370px">
@@ -102,7 +107,7 @@ const FilterCars = () => {
         </Box>
       </Flex>
       <Flex flexDir={"column"}>
-        <Heading fontSize="1  .4rem">Combustível</Heading>
+        <Heading fontSize="1.4rem">Combustível</Heading>
 
         <Box m={"20px 0 15px 7px"}>
           <Filters

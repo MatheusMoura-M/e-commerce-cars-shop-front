@@ -36,6 +36,7 @@ const CarCard = ({
     navigate,
     setSelectedCar,
     setIsBool,
+    onUpdateCarAd,
   } = useAuth();
   const {
     isOpen: isEditOpen,
@@ -46,14 +47,18 @@ const CarCard = ({
   return (
     <Box
       id={id}
+      display={"flex"}
+      flexDir={"column"}
+      gap={"5px"}
       as="li"
       bg={"grey.10"}
       minW={300}
       maxW={300}
-      h={{ base: "auto" }}
+      h={{ base: 400 }}
       minH={{ lg2m: 370 }}
       mb={{ lg2m: "10px" }}
-      m={{ base: "0px 10px 0px 10px", lg2m: "0px 30px 20px 0px" }}
+      m={{ base: "0px 10px 0px 10px", lg2m: "0px 0px 20px 20px" }}
+      borderRadius={"10px"}
     >
       <Flex
         pos={"relative"}
@@ -86,6 +91,7 @@ const CarCard = ({
             h="32px"
             w="70px"
             fontFamily={"'Inter', sans-serif"}
+            onClick={() => onUpdateCarAd({ published: !isPublished }, id)}
           >
             {isPublished ? "Ativo" : "Inativo"}
           </Button>
@@ -110,14 +116,14 @@ const CarCard = ({
           </Text>
         )}
       </Flex>
-      <Box as="section" minW={0}>
+      <Box as="section" minW={0} px={"5px"}>
         <Text
           as="h3"
           w={"97%"}
           overflow={"hidden"}
           textOverflow={"ellipsis"}
           whiteSpace={"nowrap"}
-          mt={"25px"}
+          mt={"10px"}
           cursor={"pointer"}
           fontSize={"1rem"}
           fontWeight={600}
@@ -137,7 +143,7 @@ const CarCard = ({
           minH={"48px"}
           maxH={"48px"}
           color={"grey.2"}
-          mt={"1rem"}
+          mt={"10px"}
           fontSize={"14px"}
           lineHeight={"24px"}
           fontWeight={400}
@@ -147,9 +153,16 @@ const CarCard = ({
           {description}
         </Text>
       </Box>
-      <Box as="section">
+      <Flex
+        as="section"
+        flexDir={"column"}
+        gap={"5px"}
+        minH={{ base: "30%", lg2m: 100 }}
+        justifyContent={"space-evenly"}
+        px={"5px"}
+      >
         {!buttonsSection && (
-          <Flex alignItems={"center"} pt={"16px"}>
+          <Flex alignItems={"center"}>
             <Image
               src={imageUrl}
               borderRadius={"full"}
@@ -182,7 +195,7 @@ const CarCard = ({
           </Flex>
         )}
         <Flex justifyContent="space-between" alignItems={"center"}>
-          <Box className="aboutKmYear-container" mt={"19px"}>
+          <Box className="aboutKmYear-container">
             <Text as="span" mr="5px">
               {km} KM
             </Text>
@@ -196,13 +209,12 @@ const CarCard = ({
             fontWeight="600"
             color="grey.2"
             mr="10px"
-            mt={"15px"}
           >
             R$ {price}
           </Text>
         </Flex>
         {buttonsSection && (
-          <Box bgColor={"grey.10"} pt="20px" pb="15px">
+          <Flex bgColor={"grey.10"} justifyContent={"space-around"}>
             <Button
               fontSize={"0.875rem"}
               borderRadius={"3px"}
@@ -242,9 +254,9 @@ const CarCard = ({
             >
               Ver detalhes
             </Button>
-          </Box>
+          </Flex>
         )}
-      </Box>
+      </Flex>
       <ModalEditCarAd isOpen={isEditOpen} onClose={onEditClose} />
     </Box>
   );

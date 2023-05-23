@@ -11,7 +11,6 @@ import {
   ModalFilterMobile,
 } from "../../components/Modals/homeFilters";
 import { useAuthHome } from "../../context/homePage.context";
-import { iCar } from "../../interface";
 
 export const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -61,16 +60,12 @@ export const Home = () => {
 
     if (filteredCars.length != 0 && isFilter && !isInputFilter) {
       cards = filteredCars.slice(startSliceAt, endSliceAt);
-      // console.log("filtered");
     } else if ((isInputFilter && !isFilter) || isFilter) {
       cards = inputCarsFiltered.slice(startSliceAt, endSliceAt);
-      // console.log("input");
     } else if (!isFilter && !isInputFilter) {
       cards = carAd.slice(startSliceAt, endSliceAt);
-      // console.log("cards");
     }
     formatPrice(cards);
-
     return cards;
   };
 
@@ -91,7 +86,7 @@ export const Home = () => {
         <Header />
         <HomePanel />
         <Flex>
-          <Show breakpoint="(min-width: 1110px)">
+          <Show above={"lg2m"}>
             <FilterCars />
           </Show>
           <CardCardList pageCard={pageCard()} />
@@ -104,7 +99,7 @@ export const Home = () => {
           alignItems="center"
           justifyContent="center"
         >
-          <Hide breakpoint="(min-width: 1110px)">
+          <Hide above={"lg2m"}>
             <Button
               bg={"brand.1"}
               color={"grey.10"}
