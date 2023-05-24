@@ -20,8 +20,6 @@ export const AnnouncerProfileCard = () => {
   const { onGetSellerCars, sellerData, userLogged, carsSeller } = useAuth();
   const [currentPage, setCurrentPage] = useState(0);
   const { id } = useParams();
-  const userId = userLogged.id;
-
   const {
     isOpen: isCreateOpen,
     onOpen: onCreateOpen,
@@ -29,26 +27,26 @@ export const AnnouncerProfileCard = () => {
   } = useDisclosure();
 
   let pageLimit = 0;
-
-  if (window.innerWidth >= 1450) {
-    pageLimit = 16;
-  } else {
-    pageLimit = 9;
-  }
-
+  window.innerWidth >= 1450 ? (pageLimit = 16) : (pageLimit = 9);
   const pages = Math.ceil(carsSeller.length / pageLimit);
-  const startSliceAt = currentPage * pageLimit;
-  const endSliceAt = startSliceAt + pageLimit;
-
-  useEffect(() => {
-    onGetSellerCars(id!);
-  }, [id]);
+  let startSliceAt = currentPage * pageLimit;
+  let endSliceAt = startSliceAt + pageLimit;
 
   const pageCard = () => {
     let cards: any = [];
     cards = carsSeller.slice(startSliceAt, endSliceAt);
     return cards;
   };
+
+  useEffect(() => {
+    if (pages * pageLimit != endSliceAt && currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  }, [carsSeller]);
+
+  useEffect(() => {
+    onGetSellerCars(id!);
+  }, [id]);
 
   return (
     <Container
@@ -78,7 +76,7 @@ export const AnnouncerProfileCard = () => {
               w="100%"
               borderRadius={4}
               flexDir={"column"}
-              p={{ base: "30px 28px", xl: "37px 44px" }}
+              p={{ base: "30px 28px", lg4: "37px 44px" }}
               gap={{ base: "25px", xl: "30px" }}
               mt={{ base: "65px", xl: "75px" }}
             >
@@ -132,7 +130,7 @@ export const AnnouncerProfileCard = () => {
               >
                 {sellerData.description}
               </Text>
-              {sellerData.id == userId && (
+              {sellerData.id == userLogged.id && (
                 <Button
                   w="140px"
                   fontSize="0.875rem"
@@ -162,6 +160,7 @@ export const AnnouncerProfileCard = () => {
             justifyContent={{ lg2m: "flex-start" }}
             alignItems={{ lg2m: "flex-start" }}
             gap={{ lg2m: "20px" }}
+            pb={"10px"}
             sx={{
               "::-webkit-scrollbar": {
                 w: "10px",
@@ -192,9 +191,9 @@ export const AnnouncerProfileCard = () => {
                   year={card.year}
                   id={card.id}
                   sellerName={sellerData.name}
-                  buttonsSection={userId == sellerData.id ? true : false}
+                  buttonsSection={userLogged.id == sellerData.id ? true : false}
                   isPublished={card.published ? true : false}
-                  buttonStatus={userId == sellerData.id ? false : true}
+                  buttonStatus={userLogged.id == sellerData.id ? true : false}
                   cardObj={card}
                 />
               );
@@ -202,69 +201,66 @@ export const AnnouncerProfileCard = () => {
           </Flex>
         </Flex>
         {/* PageSwitch */}
-        <Box>
-          <Flex
-            justifyContent={"center"}
-            alignItems={"center"}
-            flexDir={"row"}
-            mt={"40px"}
+        <Flex
+          justifyContent={"center"}
+          alignItems={"center"}
+          flexDir={"row"}
+          mt={"40px"}
+          mb={
+            (pages == currentPage + 1 && currentPage + 1 == 1) ||
+            carsSeller.length == 0
+              ? "40px"
+              : 0
+          }
+        >
+          <Text
+            as={"span"}
+            display={"block"}
+            fontWeight={600}
+            color={"grey.2"}
+            mr={"5px"}
+            fontSize={"1rem"}
           >
-            <Text
-              as={"span"}
-              display={"block"}
-              fontWeight={600}
-              color={"grey.2"}
-              mr={"5px"}
-              fontSize={"1rem"}
-            >
-              {currentPage + 1}
-            </Text>
-            <Text
-              as={"span"}
-              display={"block"}
-              fontWeight={600}
-              color={"grey.3"}
-            >
-              de {!carsSeller.length ? 1 : pages}
-            </Text>
-          </Flex>
-          <Flex justifyContent="center">
-            <Button
-              bg={"grey.10"}
-              color={"brand.2"}
-              fontWeight="600"
-              fontSize="1.10rem"
-              mb="30px"
-              hidden={currentPage + 1 == 1 ? true : false}
-              onClick={() =>
-                currentPage > 0
-                  ? setCurrentPage(currentPage - 1)
-                  : setCurrentPage(currentPage - 1)
-              }
-            >
-              &lt; Anterior
-            </Button>
-            <Button
-              bg={"grey.10"}
-              color={"brand.2"}
-              fontWeight="600"
-              fontSize="1.10rem"
-              mb="30px"
-              hidden={
-                pages == currentPage + 1 || carsSeller.length == 0
-                  ? true
-                  : false
-              }
-              onClick={() => {
-                currentPage < pages
-                  ? setCurrentPage(currentPage + 1)
-                  : setCurrentPage(pages);
-              }}
-            >
-              Seguinte &gt;
-            </Button>
-          </Flex>
-        </Box>
+            {currentPage + 1}
+          </Text>
+          <Text as={"span"} display={"block"} fontWeight={600} color={"grey.3"}>
+            de {!carsSeller.length ? 1 : pages}
+          </Text>
+        </Flex>
+        <Flex justifyContent="center">
+          <Button
+            bg={"grey.10"}
+            color={"brand.2"}
+            fontWeight="600"
+            fontSize="1.10rem"
+            mb="30px"
+            hidden={currentPage + 1 == 1 ? true : false}
+            onClick={() =>
+              currentPage > 0
+                ? setCurrentPage(currentPage - 1)
+                : setCurrentPage(currentPage - 1)
+            }
+          >
+            &lt; Anterior
+          </Button>
+          <Button
+            bg={"grey.10"}
+            color={"brand.2"}
+            fontWeight="600"
+            fontSize="1.10rem"
+            mb="30px"
+            hidden={
+              pages == currentPage + 1 || carsSeller.length == 0 ? true : false
+            }
+            onClick={() => {
+              currentPage < pages
+                ? setCurrentPage(currentPage + 1)
+                : setCurrentPage(pages);
+            }}
+          >
+            Seguinte &gt;
+          </Button>
+        </Flex>
       </Flex>
       <Footer />
       <ModalCreateCarAd isOpen={isCreateOpen} onClose={onCreateClose} />

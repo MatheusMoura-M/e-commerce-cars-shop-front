@@ -6,8 +6,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { iCreateCarAd, iStatusModalOptional } from "../../../interface";
 import { useAuth } from "../../../context/webContext";
 import formSchemaCarAd from "../../../schemas/annoucements";
+import { useRegex } from "../../../context/regexInputs.context";
 
 const FormCreateCarsAd = ({ onClose }: iStatusModalOptional) => {
+  const { formattedPrice, price } = useRegex();
+
   const {
     getCarsBrands,
     brands,
@@ -29,7 +32,6 @@ const FormCreateCarsAd = ({ onClose }: iStatusModalOptional) => {
   const [images, setImages] = useState<string[]>(["", ""]);
   const [coverImage, setCoverImage] = useState("");
   const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
   const [color, setColor] = useState("");
   const [km, setKm] = useState("");
 
@@ -61,7 +63,6 @@ const FormCreateCarsAd = ({ onClose }: iStatusModalOptional) => {
       year: yearCreate,
       fipe: fipeCreate,
       published: true,
-      is_good_price: false,
     };
 
     onCreateCarAd(newData);
@@ -89,10 +90,10 @@ const FormCreateCarsAd = ({ onClose }: iStatusModalOptional) => {
     <Flex as={"form"} onSubmit={handleSubmit(onSubmitCreateAd)}>
       <Flex gap={"24px"} flexDir={"column"}>
         <Input
+          id="brand"
           errorMessage={errors.brand?.message}
           label="Marca"
           type="text"
-          id="brand"
           placeholder="Mercedes Benz"
           register={register}
           variant="outline"
@@ -111,11 +112,11 @@ const FormCreateCarsAd = ({ onClose }: iStatusModalOptional) => {
           ))}
         </datalist>
         <Input
+          id="model"
           errorMessage={errors.model?.message}
           placeholder="A 200 CGI ADVANCE SEDAN"
           label="Modelo"
           type="text"
-          id="model"
           register={register}
           list="listModels"
           onChange={(e) => {
@@ -137,41 +138,42 @@ const FormCreateCarsAd = ({ onClose }: iStatusModalOptional) => {
         </datalist>
         <Flex gap={"14px"}>
           <Input
+            id="year"
             errorMessage={errors.year?.message}
-            placeholder="2018"
+            placeholder={yearCreate ? yearCreate : "2018"}
             label="Ano"
             type="text"
-            id="year"
             register={register}
-            value={yearCreate ? yearCreate : ""}
+            isDisabled={true}
           />
           <Input
+            id="fuel"
             errorMessage={errors.fuel?.message}
-            placeholder="Gasolina / Etanol"
+            placeholder={fuelCreate ? fuelCreate : "Gasolina / Etanol"}
             label="Combustível"
             type="text"
-            id="fuel"
             register={register}
-            value={fuelCreate ? fuelCreate : ""}
+            isDisabled={true}
+            defaultValue={fuelCreate ? fuelCreate : ""}
           />
         </Flex>
         <Flex gap={"14px"}>
           <Input
+            id="km"
             errorMessage={errors.km?.message}
             placeholder="30.000"
             label="Quilometragem"
             type="number"
-            id="km"
             register={register}
             onChange={(e) => setKm(e.target.value)}
             value={km}
           />
           <Input
+            id="color"
             errorMessage={errors.color?.message}
             placeholder="Branco"
             label="Cor"
             type="text"
-            id="color"
             register={register}
             onChange={(e) => setColor(e.target.value)}
             value={color}
@@ -179,43 +181,43 @@ const FormCreateCarsAd = ({ onClose }: iStatusModalOptional) => {
         </Flex>
         <Flex gap={"14px"} alignItems={"flex-end"}>
           <Input
+            id="fipe"
             errorMessage={errors.fipe?.message}
             placeholder="R$ 48.000,00"
             label="Preço Tabela FIPE"
             type="number"
-            id="fipe"
             register={register}
             isDisabled={true}
-            value={fipeCreate ? fipeCreate : 0}
+            defaultValue={fipeCreate ? fipeCreate : 0}
           />
           <Input
+            id="price"
             errorMessage={errors.price?.message}
             placeholder="R$ 50.000,00"
             label="Preço"
-            type="number"
-            id="price"
+            type="text"
             register={register}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={(e) => formattedPrice(e.target.value)}
             value={price}
           />
         </Flex>
         <Input
+          id="description"
           errorMessage={errors.description?.message}
           placeholder="Descreva detalhes do carro aqui..."
           h={"80px"}
           label="Descrição"
           type="text"
-          id="description"
           register={register}
           onChange={(e) => setDescription(e.target.value)}
           value={description}
         />
         <Input
+          id="cover_image"
           errorMessage={errors.cover_image?.message}
           placeholder="https://image.com"
           label="Imagem da Capa"
           type="text"
-          id="cover_image"
           register={register}
           onChange={(e) => setCoverImage(e.target.value)}
           value={coverImage}
@@ -223,14 +225,14 @@ const FormCreateCarsAd = ({ onClose }: iStatusModalOptional) => {
         <Flex flexDir={"column"} gap={"14px"}>
           {images.map((image, index) => (
             <Input
+              id={`images_${index + 1}`}
               key={index + 1}
               placeholder="https://image.com"
               label={`${index + 1}° Imagem da galeria`}
               type="text"
-              id={`images_${index + 1}`}
-              value={image}
               register={register}
               onChange={(e) => handleChangeImage(e.target.value, index)}
+              value={image}
             />
           ))}
         </Flex>

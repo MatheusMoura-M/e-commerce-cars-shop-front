@@ -1,10 +1,10 @@
-import { useContext, useEffect } from "react";
-import { contextHomeProvider } from "../../context/homePage.context";
+import { useEffect } from "react";
 import CardSkeleton from "../../utils/skeletons/cardCar.skeleton";
 import CarCard from "../../components/Cards/car";
 import { Box, Text } from "@chakra-ui/react";
 import { iCarResponse } from "../../interface";
 import { UlCardCars } from "../../components/UlCardCars";
+import { useAuthHome } from "../../context/homePage.context";
 
 const CardCardList = ({ pageCard }: any) => {
   const arraySkelotons = new Array(12).fill("cards");
@@ -18,9 +18,11 @@ const CardCardList = ({ pageCard }: any) => {
     filterCarList,
     isInputFilter,
     inputCarsFiltered,
-  } = useContext(contextHomeProvider);
+    filterInputs,
+  } = useAuthHome();
 
   useEffect(() => {
+    filterInputs();
     filterOptionsMenu();
     filterCarList();
   }, []);
@@ -37,24 +39,21 @@ const CardCardList = ({ pageCard }: any) => {
 
   if (
     (filteredCars.length == 0 && isFilter && !isLoading && !isInputFilter) ||
-    (inputCarsFiltered.length == 0 && isInputFilter)
+    (inputCarsFiltered.length == 0 && isInputFilter) ||
+    (carAd.length == 0 && !isFilter && !isInputFilter)
   ) {
     return (
       <UlCardCars>
         <Box mt="50px">
-          <Text as="h2" fontSize="1.3rem">
-            Nenhum carro encontrado &#128533;
-          </Text>
-        </Box>
-      </UlCardCars>
-    );
-  } else if (carAd.length == 0 && !isFilter && !isInputFilter) {
-    return (
-      <UlCardCars>
-        <Box mt="50px">
-          <Text as="h2" fontSize="1.3rem">
-            Nenhum carro cadastrado &#128533;
-          </Text>
+          {carAd.length != 0 ? (
+            <Text as="h2" fontSize="1.3rem">
+              Nenhum carro encontrado &#128533;
+            </Text>
+          ) : (
+            <Text as="h2" fontSize="1.3rem">
+              Nenhum carro cadastrado &#128533;
+            </Text>
+          )}
         </Box>
       </UlCardCars>
     );

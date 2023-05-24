@@ -6,12 +6,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { iCarUpdate, iStatusModalOptional } from "../../../interface";
 import { useAuth } from "../../../context/webContext";
 import formSchemaCarUpdateAd from "../../../schemas/annoucements/updateCar.schema";
+import { useRegex } from "../../../context/regexInputs.context";
 
 const FormEditCarsAd = ({
   onClose,
   isOpen,
   onDeleteOpen,
 }: iStatusModalOptional) => {
+  const { formattedPrice, price } = useRegex();
+
   const {
     getCarsBrands,
     brands,
@@ -33,7 +36,6 @@ const FormEditCarsAd = ({
   const [coverImageBool, setCoverImageBool] = useState(false);
   const [description, setDescription] = useState("");
   const [descriptionBool, setDescriptionBool] = useState(false);
-  const [price, setPrice] = useState("");
   const [priceBool, setPriceBool] = useState(false);
   const [color, setColor] = useState("");
   const [colorBool, setColorBool] = useState(false);
@@ -111,10 +113,10 @@ const FormEditCarsAd = ({
     <Flex as={"form"} onSubmit={handleSubmit(onSubmitEditAd)}>
       <Flex gap={"24px"} flexDir={"column"}>
         <Input
+          id="brand"
           errorMessage={errors.brand?.message}
           label="Marca"
           type="text"
-          id="brand"
           placeholder={selectedCar.brand}
           register={register}
           variant="outline"
@@ -133,11 +135,11 @@ const FormEditCarsAd = ({
           ))}
         </datalist>
         <Input
+          id="model"
           errorMessage={errors.model?.message}
           placeholder="A 200 CGI ADVANCE SEDAN"
           label="Modelo"
           type="text"
-          id="model"
           register={register}
           list="listModels"
           onChange={(e) => {
@@ -159,91 +161,91 @@ const FormEditCarsAd = ({
         </datalist>
         <Flex gap={"14px"}>
           <Input
+            id="year"
             errorMessage={errors.year?.message}
             placeholder="2018"
             label="Ano"
             type="text"
-            id="year"
             register={register}
             defaultValue={selectedCar.year}
           />
           <Input
+            id="fuel"
             errorMessage={errors.fuel?.message}
             placeholder="Gasolina / Etanol"
             label="Combustível"
             type="text"
-            id="fuel"
             register={register}
             defaultValue={selectedCar.fuel}
           />
         </Flex>
         <Flex gap={"14px"}>
           <Input
+            id="km"
             className="km_class"
             errorMessage={errors.km?.message}
             placeholder="30.000"
             label="Quilometragem"
             type="number"
-            id="km"
             register={register}
             onChange={(e) => {
               setKm(e.target.value);
               setKmBool(true);
             }}
-            value={kmBool ? km : selectedCar ? selectedCar.km : ""}
+            value={kmBool ? km : selectedCar.km || ""}
           />
           <Input
+            id="color"
             errorMessage={errors.color?.message}
             placeholder="Branco"
             label="Cor"
             type="text"
-            id="color"
             register={register}
             onChange={(e) => {
               setColor(e.target.value);
               setColorBool(true);
             }}
-            value={colorBool ? color : selectedCar.color}
+            value={colorBool ? color : selectedCar.color || ""}
           />
         </Flex>
         <Flex gap={"14px"} alignItems={"flex-end"}>
           <Input
+            id="fipe"
             errorMessage={errors.fipe?.message}
             placeholder="R$ 48.000,00"
             label="Preço Tabela FIPE"
             type="number"
-            id="fipe"
             register={register}
             isDisabled={true}
-            value={selectedCar?.fipe}
+            value={selectedCar?.fipe || ""}
           />
           <Input
+            id="price"
             errorMessage={errors.price?.message}
             placeholder="R$ 50.000,00"
             label="Preço"
-            type="number"
-            id="price"
+            type="text"
             register={register}
             onChange={(e) => {
-              setPrice(e.target.value);
+              formattedPrice(e.target.value);
               setPriceBool(true);
             }}
-            value={priceBool ? price : selectedCar.price}
+            value={priceBool ? price : selectedCar.price || ""}
           />
         </Flex>
         <Input
+          id="description"
           errorMessage={errors.description?.message}
           placeholder="Descreva detalhes do carro aqui..."
           h={"80px"}
           label="Descrição"
           type="text"
-          id="description"
           register={register}
           onChange={(e) => {
             setDescription(e.target.value);
             setDescriptionBool(true);
           }}
-          value={descriptionBool ? description : selectedCar.description}
+          value={descriptionBool ? description : selectedCar.description || ""}
         />
         <Box>
           <Heading as="h3" fontSize="1rem" fontWeight="500">
@@ -291,7 +293,7 @@ const FormEditCarsAd = ({
             setCoverImage(e.target.value);
             setCoverImageBool(true);
           }}
-          value={coverImageBool ? coverImage : selectedCar.cover_image}
+          value={coverImageBool ? coverImage : selectedCar.cover_image || ""}
         />
         <Flex flexDir={"column"} gap={"14px"}>
           {images.map((image, index) => (

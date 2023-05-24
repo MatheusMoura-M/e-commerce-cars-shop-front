@@ -1,8 +1,7 @@
 import { Box, Button, useDisclosure, Show, Hide, Flex } from "@chakra-ui/react";
 import Header from "../../components/NavBar";
 import { Footer } from "../../components/Footer";
-import { useState, useContext, useEffect } from "react";
-import { contextHomeProvider } from "../../context/homePage.context";
+import { useEffect } from "react";
 import CardCardList from "./cardCarSection";
 import { useAuth } from "../../context/webContext";
 import { HomePanel } from "../../components/HomePanel";
@@ -11,6 +10,7 @@ import {
   FilterCars,
   ModalFilterMobile,
 } from "../../components/Modals/homeFilters";
+import { useAuthHome } from "../../context/homePage.context";
 
 export const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -25,15 +25,12 @@ export const Home = () => {
     isFilter,
     inputCarsFiltered,
     isInputFilter,
-    brandSelected,
-    modelSelected,
-    colorSelected,
-    yearSelected,
-    fuelSelected,
     currentPage,
     currentPageFilter,
     optionFilterSelected,
-  } = useContext(contextHomeProvider);
+    formatPrice,
+    filterInputs,
+  } = useAuthHome();
 
   const pageLimit =
     window.innerWidth == 1450 || window.innerWidth > 1450 ? 12 : 8;
@@ -47,17 +44,11 @@ export const Home = () => {
 
   useEffect(() => {
     GetCardsAd();
+    filterInputs();
     filterOptionsMenu();
     filterCarList();
     pageCard();
-  }, [
-    brandSelected,
-    modelSelected,
-    colorSelected,
-    yearSelected,
-    fuelSelected,
-    optionFilterSelected,
-  ]);
+  }, [optionFilterSelected]);
 
   useEffect(() => {
     pageCard();
@@ -74,7 +65,7 @@ export const Home = () => {
     } else if (!isFilter && !isInputFilter) {
       cards = carAd.slice(startSliceAt, endSliceAt);
     }
-
+    formatPrice(cards);
     return cards;
   };
 
@@ -95,7 +86,7 @@ export const Home = () => {
         <Header />
         <HomePanel />
         <Flex>
-          <Show breakpoint="(min-width: 1110px)">
+          <Show above={"lg2m"}>
             <FilterCars />
           </Show>
           <CardCardList pageCard={pageCard()} />
@@ -108,7 +99,7 @@ export const Home = () => {
           alignItems="center"
           justifyContent="center"
         >
-          <Hide breakpoint="(min-width: 1110px)">
+          <Hide above={"lg2m"}>
             <Button
               bg={"brand.1"}
               color={"grey.10"}
