@@ -8,8 +8,10 @@ import { Button, Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { IresetPropsRequest } from "../../interface";
 import { useAuth } from "../../context/webContext";
+import { useParams } from "react-router-dom";
 
 const ResetPasswordPage = () => {
+  const { token } = useParams();
   const { ResetPass } = useAuth();
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -26,6 +28,10 @@ const ResetPasswordPage = () => {
   } = useForm<IresetPropsRequest>({
     resolver: yupResolver(formSchema),
   });
+
+  const handleResetFunction = (payload: IresetPropsRequest) => {
+    ResetPass(payload, token!);
+  };
 
   return (
     <Flex
@@ -55,7 +61,7 @@ const ResetPasswordPage = () => {
           flexDir={"column"}
           gap={"1rem"}
           pos={"relative"}
-          onSubmit={handleSubmit(ResetPass)}
+          onSubmit={handleSubmit(handleResetFunction)}
         >
           <Input
             id="password"
@@ -85,7 +91,7 @@ const ResetPasswordPage = () => {
               bg: "grey.8",
             }}
             p="1rem"
-            showPass
+            showConfirmPass
             onChange={(e) => setConfirmPassword(e.target.value)}
             value={confirmPassword}
           />

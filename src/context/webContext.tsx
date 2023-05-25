@@ -120,7 +120,7 @@ export interface iAuthProviderData {
   setFuelEdit: Dispatch<SetStateAction<string>>;
   fipeEdit: string;
   setFipeEdit: Dispatch<SetStateAction<string>>;
-  ResetPass: (password: IresetPropsRequest) => Promise<void>;
+  ResetPass: (payload: IresetPropsRequest, token: string) => Promise<void>;
   isError: boolean;
   setIsError: Dispatch<SetStateAction<boolean>>;
 }
@@ -727,16 +727,15 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     }
   };
 
-  const ResetPass = async (password: IresetPropsRequest): Promise<void> => {
-    const { token } = useParams();
+  const ResetPass = async (payload: IresetPropsRequest, token: string) => {
     try {
-      if (password.password !== password.confirm_password) {
+      if (payload.password !== payload.confirm_password) {
         throw new Error("As senhas não coincidem");
       }
 
       const { data } = await instance.patch<IresetPropsResponse>(
         `user/reset-password/${token}`,
-        password
+        payload
       );
 
       toast.success(data.message, {
