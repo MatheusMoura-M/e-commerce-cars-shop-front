@@ -121,6 +121,8 @@ export interface iAuthProviderData {
   fipeEdit: string;
   setFipeEdit: Dispatch<SetStateAction<string>>;
   ResetPass: (password: IresetPropsRequest) => Promise<void>;
+  isError: boolean;
+  setIsError: Dispatch<SetStateAction<boolean>>;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -188,6 +190,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const [yearEdit, setYearEdit] = useState<string>("");
   const [fuelEdit, setFuelEdit] = useState<string>("");
   const [fipeEdit, setFipeEdit] = useState<string>("");
+  const [isError, setIsError] = useState(false);
 
   const goToAnnouncerProfile = (id: string) => {
     navigate(`/announcer-profile/${id}`);
@@ -841,6 +844,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         setFuelEdit,
         setYearEdit,
         ResetPass,
+        isError,
+        setIsError,
       }}
     >
       {children}

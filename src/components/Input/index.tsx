@@ -38,6 +38,8 @@ export const Input = ({
     setShow,
     showConfirm,
     setShowConfirm,
+    isError,
+    setIsError,
   } = useAuth();
 
   const { onBlur, name, ref } = register!(id);
@@ -45,7 +47,6 @@ export const Input = ({
   const inputType = showPass ? passType : type;
   const inputTypeConfirmPass = showConfirmPass ? confirmPassType : type;
   const [isActiveError, setIsActiveError] = useState(false);
-  const [isError, setIsError] = useState(false);
 
   const showPassword = ({
     showPass,

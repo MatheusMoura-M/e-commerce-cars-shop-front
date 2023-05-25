@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 
 const FormCreateComment = () => {
   const { id } = useParams();
-  const { isLogged, onCreateComment, navigate } = useAuth();
+  const { isLogged, onCreateComment, navigate, setIsError } = useAuth();
   const [commentInput, setCommentInput] = useState<string>("");
 
   const {
@@ -27,6 +27,7 @@ const FormCreateComment = () => {
 
     onCreateComment(newData, id!);
     setCommentInput("");
+    setIsError(false);
   };
 
   return (
