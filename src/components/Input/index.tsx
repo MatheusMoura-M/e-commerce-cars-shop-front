@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { InputProps, iShowPass } from "../../@types";
 import { useAuth } from "../../context/webContext";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 export const Input = ({
@@ -39,10 +39,13 @@ export const Input = ({
     showConfirm,
     setShowConfirm,
   } = useAuth();
+
   const { onBlur, name, ref } = register!(id);
   // Validations
   const inputType = showPass ? passType : type;
   const inputTypeConfirmPass = showConfirmPass ? confirmPassType : type;
+  const [isActiveError, setIsActiveError] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const showPassword = ({
     showPass,
@@ -97,10 +100,15 @@ export const Input = ({
     }
   };
 
-  const isError = value === "";
+  useEffect(() => {
+    value !== "" && setIsActiveError(true);
+    if (isActiveError) {
+      value === "" ? setIsError(true) : setIsError(false);
+    }
+  }, [value]);
 
   return (
-    <FormControl mt={marginTopForm} width={formWidth}>
+    <FormControl mt={marginTopForm} width={formWidth} isInvalid={isError}>
       {!!label && <FormLabel fontSize="0.875rem">{label}</FormLabel>}
 
       <InputGroup flexDir={"column"}>
@@ -140,20 +148,21 @@ export const Input = ({
             {showPassword({ showPass, showConfirmPass })}
           </InputRightElement>
         ) : null}
-        {isError && (
-          <Text
-            color={"alert.1"}
-            mt={"5px"}
-            fontSize={"12px"}
-            ml={
-              errorMessage === "Comentário obrigatório"
-                ? { base: "unset", xsm2: "10px" }
-                : "unset"
-            }
-          >
-            {errorMessage}
-          </Text>
-        )}
+        {isError ||
+          (errorMessage && (
+            <Text
+              color={"alert.1"}
+              mt={"5px"}
+              fontSize={"12px"}
+              ml={
+                errorMessage === "Comentário obrigatório"
+                  ? { base: "unset", xsm2: "10px" }
+                  : "unset"
+              }
+            >
+              {errorMessage}
+            </Text>
+          ))}
       </InputGroup>
     </FormControl>
   );
