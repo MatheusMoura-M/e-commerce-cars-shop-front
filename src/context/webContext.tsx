@@ -203,13 +203,13 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       setIsSeller(resp.data.isSeller);
       setIsLogged(true);
     } catch (error) {
+      console.log(error);
       if (axios.isAxiosError(error)) {
         error.response?.data.error && localStorage.removeItem("@token");
         toast.error(error.response?.data.error, {
           autoClose: 1000,
         });
       }
-      console.log(error);
     }
   };
 
@@ -222,8 +222,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       });
       navigate("/login", { replace: true });
     } catch (error) {
+      console.log(error);
       if (axios.isAxiosError(error)) {
-        console.log(error);
         toast.error(error.response?.data.error, {
           autoClose: 1000,
         });
@@ -247,6 +247,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       setSellerData(sellerData);
     } catch (error) {
       console.log(error);
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.error, {
+          autoClose: 1000,
+        });
+      }
     }
   };
 
@@ -256,8 +261,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
       setCarsUser(resp.data);
     } catch (error) {
+      console.log(error);
       if (axios.isAxiosError(error)) {
-        console.log(error);
+        toast.error(error.response?.data.error, {
+          autoClose: 1000,
+        });
       }
     }
   };
@@ -270,8 +278,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
       setUserCarsProfile(resp.data);
     } catch (error) {
+      console.log(error);
       if (axios.isAxiosError(error)) {
-        console.log(error);
+        toast.error(error.response?.data.error, {
+          autoClose: 1000,
+        });
       }
     }
   };
@@ -289,9 +300,12 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       });
       navigate("/");
     } catch (error) {
-      toast.error("Algo deu errado", {
-        autoClose: 1000,
-      });
+      console.log(error);
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.error, {
+          autoClose: 1000,
+        });
+      }
     }
   };
 
@@ -304,6 +318,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         setCurrentBrand(response.data);
       } catch (error) {
         console.log(error);
+        if (axios.isAxiosError(error)) {
+          toast.error(error.response?.data.error, {
+            autoClose: 1000,
+          });
+        }
       }
     }
   };
@@ -316,6 +335,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       setBrands(brandsCars);
     } catch (error) {
       console.log(error);
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.error, {
+          autoClose: 1000,
+        });
+      }
     }
   };
 
@@ -329,8 +353,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         autoClose: 1000,
       });
     } catch (error) {
+      console.log(error);
       if (axios.isAxiosError(error)) {
-        console.log(error);
         toast.error(error.response?.data.error.errors[0], {
           autoClose: 1000,
         });
@@ -350,11 +374,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         autoClose: 1000,
       });
     } catch (error) {
+      console.log(error);
       if (axios.isAxiosError(error)) {
-        console.log(error);
-        // toast.error(error.response?.data.error.errors[0], {
-        //   autoClose: 1000,
-        // });
+        toast.error(error.response?.data.error, {
+          autoClose: 1000,
+        });
       }
     } finally {
       onGetCarsUserProfile();
@@ -372,8 +396,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         autoClose: 1000,
       });
     } catch (error) {
+      console.log(error);
       if (axios.isAxiosError(error)) {
-        console.log(error);
         toast.error(error.response?.data.error.errors[0], {
           autoClose: 1000,
         });
@@ -395,8 +419,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
         setAddressData(response.data);
       } catch (error) {
+        console.log(error);
         if (axios.isAxiosError(error)) {
-          console.log(error);
+          toast.error(error.response?.data.error, {
+            autoClose: 1000,
+          });
         }
       }
     }
@@ -412,6 +439,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         autoClose: 1000,
       });
     } catch (error) {
+      console.log(error);
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.error.errors[0], {
           autoClose: 1000,
@@ -430,6 +458,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         autoClose: 1000,
       });
     } catch (error) {
+      console.log(error);
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.error.errors[0], {
           autoClose: 1000,
@@ -565,8 +594,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         GetUserProfile();
       }
     } catch (error) {
+      console.log(error);
       if (axios.isAxiosError(error)) {
-        console.log(error);
+        toast.error(error.response?.data.error, {
+          autoClose: 1000,
+        });
         error.response?.data.error === "Car not found!" && navigate("/");
       }
     }
@@ -579,6 +611,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       setOwnerOfAdSelected(data);
     } catch (error) {
       console.log(error);
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.error, {
+          autoClose: 1000,
+        });
+      }
     }
   };
 
@@ -588,6 +625,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       setComments(commentsCar.data);
     } catch (error) {
       console.log(error);
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.error, {
+          autoClose: 1000,
+        });
+      }
     }
   };
 
@@ -598,6 +640,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       onListComment(data.cars.id);
     } catch (error) {
       console.log(error);
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.error, {
+          autoClose: 1000,
+        });
+      }
     }
   };
 
@@ -613,6 +660,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       });
     } catch (error) {
       console.log(error);
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.error, {
+          autoClose: 1000,
+        });
+      }
     }
   };
 
@@ -628,16 +680,26 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       });
     } catch (error) {
       console.log(error);
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.error, {
+          autoClose: 1000,
+        });
+      }
     }
   };
 
   const onCreateImageCar = async (formData: iImageCar, id: string) => {
     try {
-      const resp = await instance.post(`/car/image/${id}`, formData, {
+      await instance.post(`/car/image/${id}`, formData, {
         headers: { Authorization: `Bearer ${localStorage.getItem("@token")}` },
       });
     } catch (error) {
       console.log(error);
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.error, {
+          autoClose: 1000,
+        });
+      }
     }
   };
 
@@ -653,9 +715,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       });
     } catch (error) {
       console.log(error);
-      toast.error("Algo deu errado", {
-        autoClose: 1000,
-      });
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.error, {
+          autoClose: 1000,
+        });
+      }
     }
   };
 
@@ -676,8 +740,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       });
       navigate("/login");
     } catch (error) {
+      console.log(error);
       if (axios.isAxiosError(error)) {
-        console.log(error);
         toast.error(error.response?.data.error.errors[0], {
           autoClose: 1000,
         });
