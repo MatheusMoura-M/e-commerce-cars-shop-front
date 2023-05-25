@@ -94,7 +94,7 @@ const FormEditComment = ({ onClose }: iStatusModalOptional) => {
               onClose!();
             }}
           >
-            Excluir Comentário
+            Excluir
           </Button>
           <Button
             variant="brand6"
