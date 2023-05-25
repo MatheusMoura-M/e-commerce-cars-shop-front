@@ -183,12 +183,11 @@ const FormCreateCarsAd = ({ onClose }: iStatusModalOptional) => {
           <Input
             id="fipe"
             errorMessage={errors.fipe?.message}
-            placeholder="R$ 48.000,00"
+            placeholder={fipeCreate ? fipeCreate : "0"}
             label="Preço Tabela FIPE"
             type="number"
             register={register}
             isDisabled={true}
-            defaultValue={fipeCreate ? fipeCreate : 0}
           />
           <Input
             id="price"

@@ -284,11 +284,14 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       GetUserProfile();
       onGetCarsUserProfile();
       setIsLogged(true);
-      toast.success("Logado com sucesso");
+      toast.success("Usuário logado com sucesso", {
+        autoClose: 1000,
+      });
       navigate("/");
     } catch (error) {
-      console.log(error);
-      toast.error("Algo deu errado");
+      toast.error("Algo deu errado", {
+        autoClose: 1000,
+      });
     }
   };
 
