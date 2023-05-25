@@ -215,13 +215,16 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const onRegisterSubmit = async (dataRegister: iRegisterReq) => {
     try {
+      console.log("AAAAA");
       await instance.post("/user", dataRegister);
 
       toast.success("Usuário registrado com sucesso", {
         autoClose: 1000,
       });
 
+      console.log("BBBBBB");
       navigate("/login", { replace: true });
+      console.log("CCCC");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data, {
