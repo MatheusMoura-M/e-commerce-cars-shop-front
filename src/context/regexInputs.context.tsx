@@ -1,4 +1,10 @@
-import { createContext, useContext, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  createContext,
+  useContext,
+  useState,
+} from "react";
 import { iProviderProps } from "../@types";
 
 interface iRegexContextProvider {
@@ -12,6 +18,7 @@ interface iRegexContextProvider {
   cpf: string;
   cep: string;
   price: string;
+  setPrice: Dispatch<SetStateAction<string>>;
 }
 
 export const contextRegexInputs = createContext({} as iRegexContextProvider);
@@ -135,6 +142,7 @@ export const RegexInputs = ({ children }: iProviderProps) => {
         cpf,
         cep,
         price,
+        setPrice,
       }}
     >
       {children}

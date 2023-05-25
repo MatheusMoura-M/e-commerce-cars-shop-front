@@ -9,7 +9,7 @@ import formSchemaCarAd from "../../../schemas/annoucements";
 import { useRegex } from "../../../context/regexInputs.context";
 
 const FormCreateCarsAd = ({ onClose }: iStatusModalOptional) => {
-  const { formattedPrice, price } = useRegex();
+  const { formattedPrice, price, setPrice } = useRegex();
 
   const {
     getCarsBrands,
@@ -56,6 +56,22 @@ const FormCreateCarsAd = ({ onClose }: iStatusModalOptional) => {
     setBrandSelect(data);
   };
 
+  const clearInputs = () => {
+    onClose!();
+
+    setBrandSelect("");
+    setModelSelect("");
+    setYearCreate("");
+    setFuelCreate("");
+    setKm("");
+    setColor("");
+    setFipeCreate("");
+    setPrice("");
+    setDescription("");
+    setCoverImage("");
+    setImages(["", ""]);
+  };
+
   const onSubmitCreateAd = (data: iCreateCarAd) => {
     const newData = {
       ...data,
@@ -66,7 +82,7 @@ const FormCreateCarsAd = ({ onClose }: iStatusModalOptional) => {
     };
 
     onCreateCarAd(newData);
-    onClose!();
+    clearInputs();
   };
 
   useEffect(() => {
