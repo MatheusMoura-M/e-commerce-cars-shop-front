@@ -41,12 +41,15 @@ const Header = () => {
     GetUserProfile,
   } = useAuth();
 
+  const token = localStorage.getItem("@token");
   useEffect(() => {
-    if (localStorage.getItem("@token")) {
+    if (token) {
       GetUserProfile();
       setIsLogged(true);
+    } else {
+      setIsLogged(false);
     }
-  }, []);
+  }, [token]);
 
   return (
     <Box

@@ -449,6 +449,9 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       toast.success("Usuário deletado com sucesso", {
         autoClose: 1000,
       });
+
+      onCloseUpdateUser();
+      localStorage.removeItem("@token");
     } catch (error) {
       console.log(error);
       if (axios.isAxiosError(error)) {

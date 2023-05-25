@@ -65,6 +65,7 @@ export const Home = () => {
     } else if (!isFilter && !isInputFilter) {
       cards = carAd.slice(startSliceAt, endSliceAt);
     }
+
     formatPrice(cards);
     return cards;
   };
