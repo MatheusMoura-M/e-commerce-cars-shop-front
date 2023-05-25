@@ -5,7 +5,7 @@ import FormCreateComment from "../Forms/FormCreateComment";
 
 export const BoxComment = () => {
   const { id } = useParams();
-  const { isLogged, onCreateComment, userLogged } = useAuth();
+  const { isLogged, onCreateComment, userLogged, navigate } = useAuth();
 
   return (
     <Container
@@ -66,10 +66,12 @@ export const BoxComment = () => {
           <Button
             variant={"greyComments"}
             onClick={(e) =>
-              onCreateComment(
-                { comment: (e.target as HTMLButtonElement).innerText },
-                id!
-              )
+              isLogged
+                ? onCreateComment(
+                    { comment: (e.target as HTMLButtonElement).innerText },
+                    id!
+                  )
+                : navigate("/login")
             }
           >
             Gostei muito!
@@ -77,10 +79,12 @@ export const BoxComment = () => {
           <Button
             variant={"greyComments"}
             onClick={(e) =>
-              onCreateComment(
-                { comment: (e.target as HTMLButtonElement).innerText },
-                id!
-              )
+              isLogged
+                ? onCreateComment(
+                    { comment: (e.target as HTMLButtonElement).innerText },
+                    id!
+                  )
+                : navigate("/login")
             }
           >
             Incrível
@@ -88,10 +92,12 @@ export const BoxComment = () => {
           <Button
             variant={"greyComments"}
             onClick={(e) =>
-              onCreateComment(
-                { comment: (e.target as HTMLButtonElement).innerText },
-                id!
-              )
+              isLogged
+                ? onCreateComment(
+                    { comment: (e.target as HTMLButtonElement).innerText },
+                    id!
+                  )
+                : navigate("/login")
             }
             mt={{ base: "24px", xsm2: "unset" }}
             ml={{ base: "0px !important", xsm2: "8px !important" }}
