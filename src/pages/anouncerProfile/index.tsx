@@ -191,6 +191,7 @@ export const AnnouncerProfileCard = () => {
                   year={card.year}
                   id={card.id}
                   sellerName={sellerData.name}
+                  isGoodPrice={card.is_good_price}
                   buttonsSection={userLogged.id == sellerData.id ? true : false}
                   isPublished={card.published ? true : false}
                   buttonStatus={userLogged.id == sellerData.id ? true : false}
