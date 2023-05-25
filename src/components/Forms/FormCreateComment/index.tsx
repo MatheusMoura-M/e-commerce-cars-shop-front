@@ -27,7 +27,6 @@ const FormCreateComment = () => {
 
     onCreateComment(newData, id!);
     setCommentInput("");
-    setIsError(false);
   };
 
   return (

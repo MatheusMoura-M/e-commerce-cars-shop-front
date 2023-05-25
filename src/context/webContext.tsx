@@ -641,6 +641,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       const data = await createCommentResponse(formData, id);
 
       onListComment(data.cars.id);
+      setIsError(false);
     } catch (error) {
       console.log(error);
       if (axios.isAxiosError(error)) {
