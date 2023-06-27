@@ -2,7 +2,7 @@ import { createContext, useContext } from "react";
 import { iProviderProps } from "../@types";
 import { MenuItem, useDisclosure } from "@chakra-ui/react";
 import { useState, Dispatch, SetStateAction } from "react";
-import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { instance, instanceKenzieCars } from "../services/api";
